@@ -8,24 +8,32 @@
     "net8.0": []
   },
   "packageFolders": {
-    "/Users/pashavdw/.nuget/packages/": {}
+    "C:\\Users\\darlo\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/pashavdw/Projects/bumbo/bumbo/bumbo.csproj",
+      "projectUniqueName": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj",
       "projectName": "bumbo",
-      "projectPath": "/Users/pashavdw/Projects/bumbo/bumbo/bumbo.csproj",
-      "packagesPath": "/Users/pashavdw/.nuget/packages/",
-      "outputPath": "/Users/pashavdw/Projects/bumbo/bumbo/obj/",
+      "projectPath": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj",
+      "packagesPath": "C:\\Users\\darlo\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/pashavdw/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\darlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "c:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "c:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -38,6 +46,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -62,7 +75,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "c:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
