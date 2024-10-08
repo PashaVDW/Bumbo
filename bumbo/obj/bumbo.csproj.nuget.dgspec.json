@@ -1,25 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "/Users/pashavdw/Projects/bumbo/bumbo/bumbo.csproj": {}
+    "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj": {}
   },
   "projects": {
-    "/Users/pashavdw/Projects/bumbo/bumbo/bumbo.csproj": {
+    "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/pashavdw/Projects/bumbo/bumbo/bumbo.csproj",
+        "projectUniqueName": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj",
         "projectName": "bumbo",
-        "projectPath": "/Users/pashavdw/Projects/bumbo/bumbo/bumbo.csproj",
-        "packagesPath": "/Users/pashavdw/.nuget/packages/",
-        "outputPath": "/Users/pashavdw/Projects/bumbo/bumbo/obj/",
+        "projectPath": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj",
+        "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "/Users/pashavdw/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,11 +41,22 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -56,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
