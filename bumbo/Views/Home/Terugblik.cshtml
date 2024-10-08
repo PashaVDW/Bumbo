@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Terugblik - Weekoverzicht";
+    var weekNumber = 12; // Dynamisch aanpassen naar de juiste week
+    var month = "Februari";
+    var days = new List<string> { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" };
+    var weekDates = new List<int> { 8, 9, 10, 11, 12, 13, 14 }; // Dagen van de week
+    var coliData = new List<int> { 8, 8, 8, 8, 8, 8, 8 }; // Aantal coli per dag
+    var klantData = new List<int> { 1, 1, 1, 1, 1, 1, 1 }; // Aantal klanten per dag
+}
+
+<div class="container">
+    <h1>Terugblik</h1>
+    <h2>@month - Week @weekNumber</h2>
+
+    <div class="week-overview">
+        <button class="arrow-btn"><</button>
+        @for (int i = 0; i < days.Count; i++)
+        {
+            <div class="day-column">
+                <p>@weekDates[i] @days[i]</p>
+                <p>Aantal coli's</p>
+                <div class="data-box">@coliData[i]</div>
+                <p>Aantal klanten</p>
+                <div class="data-box">@klantData[i]</div>
+            </div>
+        }
+        <button class="arrow-btn">></button>
+    </div>
+</div>
+
+<style>
+    .container {
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .week-overview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .day-column {
+        margin: 0 10px;
+        text-align: center;
+    }
+
+    .data-box {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+        width: 50px;
+        margin: 5px auto;
+    }
+
+    .arrow-btn {
+        background-color: transparent;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+</style>
