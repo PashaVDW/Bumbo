@@ -1,0 +1,13 @@
+﻿<nav class="bg-gray-800 p-3 text-white">
+    <ul>
+        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li><a asp-controller="About" asp-action="Index">About</a></li>
+        <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
+
+        @if (ViewBag.IsAdmin)
+        {
+            <li><a asp-controller="Admin" asp-action="Dashboard">Admin Dashboard</a></li>
+            <li><span>Welcome, Admin!</span></li>  <!-- Display a message or link for the admin -->
+        }
+    </ul>
+</nav>

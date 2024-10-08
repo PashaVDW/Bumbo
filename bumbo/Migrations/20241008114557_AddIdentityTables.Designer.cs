@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -11,9 +12,11 @@ using bumbo.Data;
 namespace bumbo.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    partial class BumboDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241008114557_AddIdentityTables")]
+    partial class AddIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,7 +212,8 @@ namespace bumbo.Migrations
 
                     b.Property<string>("MiddleName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -265,7 +269,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "b532e987-3b02-460f-be83-1e23374c4290",
+                            ConcurrencyStamp = "fdddfbd9-369e-441a-a97f-7f0845cf3597",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -277,7 +281,7 @@ namespace bumbo.Migrations
                             MiddleName = "A.",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "f1120009-3176-4133-8b32-bdc6c3a4460b",
+                            SecurityStamp = "c8cfbb47-cf4d-4dea-b06d-09dd8ea29dd5",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -288,7 +292,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "8adb89b2-3e70-4078-bfdd-5e1ca70b6f3b",
+                            ConcurrencyStamp = "faf36436-05f9-4a4f-9612-556449c2a1bf",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -300,7 +304,7 @@ namespace bumbo.Migrations
                             MiddleName = "B.",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "e6c4ea14-2648-4179-ba02-dc013f17e98f",
+                            SecurityStamp = "0e7a0258-e852-448b-bdc3-b8634bd18205",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
