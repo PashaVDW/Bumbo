@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\darlo\Source\Repos\Bumbo\bumbo
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/darlo/Source/Repos/Bumbo/bumbo/Views/components/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY29tcG9uZW50c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/darlo/Source/Repos/Bumbo/bumbo/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
