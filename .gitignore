@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+bumbo/obj/bumbo.csproj.nuget.dgspec.json
