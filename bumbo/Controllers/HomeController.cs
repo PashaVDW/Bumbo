@@ -23,7 +23,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Delete_modal() 
+    public IActionResult Delete_modal()
     { 
         return View();
     }
