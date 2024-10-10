@@ -19,14 +19,12 @@ namespace bumbo.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Seed Countries
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },
                 new Country { Name = "Belgium" },
                 new Country { Name = "Germany" }
             );
 
-            // Seed Branches
             modelBuilder.Entity<Branch>().HasData(
                 new Branch
                 {
@@ -48,10 +46,8 @@ namespace bumbo.Data
                 }
             );
 
-            // Create a password hasher instance
             var passwordHasher = new PasswordHasher<Employee>();
 
-            // Seed Employees with properly hashed passwords
             var john = new Employee
             {
                 Id = "1",
@@ -65,7 +61,7 @@ namespace bumbo.Data
                 StartDate = new DateTime(2010, 1, 1),
                 FunctionName = "Manager",
                 IsSystemManager = true,
-                ManagerOfBranchId = 1,  // Assign John as manager of Branch 1
+                ManagerOfBranchId = 1,
                 UserName = "john.doe@example.com",
                 NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
                 Email = "john.doe@example.com",

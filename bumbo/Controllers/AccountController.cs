@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 public class AccountController : Controller
 {
     private readonly SignInManager<Employee> _signInManager;
+    private readonly UserManager<Employee> _userManager;
 
-    public AccountController(SignInManager<Employee> signInManager)
+    public AccountController(SignInManager<Employee> signInManager, UserManager<Employee> userManager)
     {
         _signInManager = signInManager;
+        _userManager = userManager;
     }
 
     [HttpGet]
@@ -23,15 +25,24 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-            if (result.Succeeded)
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
             {
-                return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("", "Dit e-mailadres bestaat niet.");
             }
+            else
+            {
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-            ModelState.AddModelError("", "Invalid login attempt.");
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Wachtwoord is onjuist.");
+                }
+            }
         }
 
         return View(model);
