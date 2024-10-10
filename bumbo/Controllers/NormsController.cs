@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using bumbo.Models;
@@ -41,3 +42,32 @@ public class NormsController : Controller
     }
 }
 
+=======
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using bumbo.Models;
+
+namespace bumbo.Controllers
+{
+    public class NormsController : Controller
+    {
+        private readonly UserManager<Employee> _userManager;
+
+        public NormsController(UserManager<Employee> userManager)
+        {
+            _userManager = userManager;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+            return View();
+        }
+    }
+}
+>>>>>>> 8e5722d6ee676189c31dc400999d4f2fe6df2b54

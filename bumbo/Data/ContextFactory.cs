@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace bumbo.Data
 {
-    public class ContextFactory : IDesignTimeDbContextFactory<BumboDbContext>
+    public class ContextFactory : IDesignTimeDbContextFactory<BumboDBContext>
     {
         public ContextFactory()
         {
@@ -14,12 +14,17 @@ namespace bumbo.Data
             .AddJsonFile("appsettings.json")
         .Build();
 
-        public BumboDbContext CreateDbContext(string[] args)
+        public BumboDBContext CreateDbContext(string[] args)
         {
+<<<<<<< HEAD
             var builder = new DbContextOptionsBuilder<BumboDbContext>();
             builder.UseSqlServer(Configuration.GetConnectionString("jules"));
+=======
+            var builder = new DbContextOptionsBuilder<BumboDBContext>();
+            builder.UseSqlServer(Configuration.GetConnectionString("anthony"));
+>>>>>>> 8e5722d6ee676189c31dc400999d4f2fe6df2b54
 
-            return new BumboDbContext(builder.Options);
+            return new BumboDBContext(builder.Options);
         }
     }
 }

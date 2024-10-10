@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -11,9 +12,11 @@ using bumbo.Data;
 namespace bumbo.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    partial class BumboDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241010091014_fullmigration")]
+    partial class fullmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -483,36 +486,6 @@ namespace bumbo.Migrations
             modelBuilder.Entity("bumbo.Models.Country", b =>
                 {
                     b.Navigation("Branches");
-                });
-
-            modelBuilder.Entity("bumbo.Models.Norm", b =>
-                {
-                    b.Property<int>("normId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("normId"));
-
-                    b.Property<string>("activity")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("branchId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("normInSeconds")
-                        .HasColumnType("int");
-
-                    b.Property<int>("week")
-                        .HasColumnType("int");
-
-                    b.Property<int>("year")
-                        .HasColumnType("int");
-
-                    b.HasKey("normId");
-
-                    b.ToTable("Norms");
                 });
 #pragma warning restore 612, 618
         }
