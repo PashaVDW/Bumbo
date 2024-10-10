@@ -51,6 +51,8 @@ input {
     margin-left: 20px;
 }
 
+/* Filiaal Read */
+
 .mini-nav{
     margin-left: 50px;
 }
@@ -206,6 +208,8 @@ input {
     margin: 0 auto;
     position: relative;
 }
+
+/* Filialen Overzicht */
 
 .branches-mini-nav{
     display: flex;

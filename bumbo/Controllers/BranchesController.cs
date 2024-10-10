@@ -13,7 +13,7 @@ namespace bumbo.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> BranchesView()
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -23,5 +23,25 @@ namespace bumbo.Controllers
             }
             return View();
         }
+
+        public IActionResult CreateBranchView()
+        {
+            return View();
+        }
+
+        public IActionResult UpdateBranchView()
+        {
+            return View();
+        }
+
+        public IActionResult ReadBranchView()
+        {
+            return View();
+        }
+
+        //public IActionResult BranchesView()
+        //{
+        //    return View();
+        //}
     }
 }

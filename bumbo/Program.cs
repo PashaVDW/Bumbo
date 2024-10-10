@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<BumboDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("anthony")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
@@ -68,7 +68,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "filialen",
     pattern: "filialen",
-    defaults: new { controller = "Branches", action = "Index" });
+    defaults: new { controller = "Branches", action = "BranchesView" });
 
 // Route for logging out
 app.MapControllerRoute(
