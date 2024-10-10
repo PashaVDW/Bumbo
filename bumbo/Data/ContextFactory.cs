@@ -17,7 +17,7 @@ namespace bumbo.Data
         public BumboDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<BumboDbContext>();
-            builder.UseSqlServer(Configuration.GetConnectionString("anthony"));
+            builder.UseSqlServer(Configuration.GetConnectionString("jules"));
 
             return new BumboDbContext(builder.Options);
         }

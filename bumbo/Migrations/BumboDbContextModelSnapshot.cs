@@ -91,6 +91,36 @@ namespace bumbo.Migrations
 
                     b.ToTable("Employees");
                 });
+
+            modelBuilder.Entity("bumbo.Models.Norm", b =>
+                {
+                    b.Property<int>("normId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("normId"));
+
+                    b.Property<string>("activity")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("branchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("normInSeconds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("week")
+                        .HasColumnType("int");
+
+                    b.Property<int>("year")
+                        .HasColumnType("int");
+
+                    b.HasKey("normId");
+
+                    b.ToTable("Norms");
+                });
 #pragma warning restore 612, 618
         }
     }

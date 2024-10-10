@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bumbo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+51a24290be1dddab515dbc0b7a2a1dca24554f1b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+449feb8fade1b78545ef315790a3e75055901f40")]
 [assembly: System.Reflection.AssemblyProductAttribute("bumbo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bumbo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

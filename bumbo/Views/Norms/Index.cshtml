@@ -1,0 +1,30 @@
+﻿@model IEnumerable<bumbo.Models.Norm>
+
+@{
+    ViewData["Title"] = "Normeringen";
+}
+
+<a href="#"><</a> <h1>Normering toevoegen</h1>
+<button type="button" href="#">Importeer normering van vorige week</button> 
+<form action="#">
+    <label for="week">Kies een week</label>
+    <select id="week" name="week">
+        @{
+            for (int i = 1; i < 53; i++)
+            {
+                <option value="@i">Week @i</option>
+            }
+        }
+    </select>
+    <label for="unloadColis">Coli uitladen in minuten</label>
+    <input id="unloadColis" type="number" value="0" />
+    <label for="fillShelves">Vakken vullen in minuten per coli</label>
+    <input id="fillShelves" type="number" value="0" />
+    <label for="cashier">Hoeveelheid kassiéres per 30 klanten per uur</label>
+    <input id="cashier" type="number" value="0" />
+    <label for="fresh">Hoeveelheid medewerkers per 100 klanten per uur</label>
+    <input id="fresh" type="number" value="0" />
+    <label for="fronting">Hoeveelheid seconden per meter spiegelen</label>
+    <input id="fronting" type="number" value="0" />
+    <input type="submit" value="Aanmaken">
+</form>
