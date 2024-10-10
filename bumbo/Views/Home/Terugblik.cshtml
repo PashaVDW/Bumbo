@@ -1,26 +1,23 @@
 ﻿@{
     ViewBag.Title = "Terugblik - Weekoverzicht";
-    var weekNumber = 12;
-    var month = "Februari";
-    var days = new List<string> { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" }; // verander niet, dit is de basis layout van het overzicht
-    var coliData = new List<int> { 8, 8, 8, 8, 8, 8, 8 }; // Aantal coli per dag
-    var klantData = new List<int> { 1, 1, 1, 1, 1, 1, 1 }; // Aantal klanten per dag
 }
+
+@model bumbo.Models.WeekOverview
 
 <div class="container">
     <h1>Terugblik</h1>
-    <h2>@month - Week @weekNumber</h2>
+    <h2>Week @Model.weekNumber</h2>
 
     <div class="week-overview">
         <button class="arrow-btn"><</button>
-        @for (int i = 0; i < days.Count; i++)
+        @foreach (var day in Model.days)
         {
             <div class="day-column">
-                <p>@days[i]</p>
+                <p>@day.dayName</p>
                 <p>Aantal klanten</p>
-                <div class="data-box">@klantData[i]</div>
+                <div class="data-box">@day.customerAmount</div>
                 <p>Aantal coli's</p>
-                <div class="data-box">@coliData[i]</div>
+                <div class="data-box">@day.packagesAmount</div>
             </div>
         }
         <button class="arrow-btn">></button>
