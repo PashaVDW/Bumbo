@@ -14,6 +14,9 @@ namespace bumbo.Data
 
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Days> Days { get; set; }
+        public DbSet<Prognosis> prognoses { get; set; }
+        public DbSet<Prognosis_has_days> Prognosis_Has_Days { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
