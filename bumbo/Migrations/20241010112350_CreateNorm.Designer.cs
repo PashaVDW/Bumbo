@@ -11,7 +11,7 @@ using bumbo.Data;
 
 namespace bumbo.Migrations
 {
-    [DbContext(typeof(BumboDbContext))]
+    [DbContext(typeof(BumboDBContext))]
     [Migration("20241010112350_CreateNorm")]
     partial class CreateNorm
     {

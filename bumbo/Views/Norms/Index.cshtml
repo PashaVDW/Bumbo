@@ -1,39 +1,44 @@
-<<<<<<< HEAD
 ﻿@model IEnumerable<bumbo.Models.Norm>
 
 @{
     ViewData["Title"] = "Normeringen";
 }
 
-<a href="#"><</a> <h1>Normering toevoegen</h1>
-<button type="button" href="#">Importeer normering van vorige week</button> 
-<form action="#">
-    <label for="week">Kies een week</label>
-    <select id="week" name="week">
-        @{
-            for (int i = 1; i < 53; i++)
-            {
-                <option value="@i">Week @i</option>
-            }
-        }
-    </select>
-    <label for="unloadColis">Coli uitladen in minuten</label>
-    <input id="unloadColis" type="number" value="0" />
-    <label for="fillShelves">Vakken vullen in minuten per coli</label>
-    <input id="fillShelves" type="number" value="0" />
-    <label for="cashier">Hoeveelheid kassiéres per 30 klanten per uur</label>
-    <input id="cashier" type="number" value="0" />
-    <label for="fresh">Hoeveelheid medewerkers per 100 klanten per uur</label>
-    <input id="fresh" type="number" value="0" />
-    <label for="fronting">Hoeveelheid seconden per meter spiegelen</label>
-    <input id="fronting" type="number" value="0" />
-    <input type="submit" value="Aanmaken">
-</form>
-=======
-﻿@{
-    ViewData["Title"] = "Normeringen";
-}
+<a href="#"><</a>
+<h1>Normeringen</h1>
 
-<h1>Normeringen Page</h1>
-<p>This is the Normeringen page.</p>
->>>>>>> 8e5722d6ee676189c31dc400999d4f2fe6df2b54
+<form asp-controller="Norms" asp-action="Update" method="post">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Norm ID</th>
+                <th>Branch ID</th>
+                <th>Week</th>
+                <th>Year</th>
+                <th>Activity</th>
+                <th>Norm (Seconds)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var norm in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="radio" name="selectedNormId" value="@norm.normId" />
+                    </td>
+                    <td>@norm.normId</td>
+                    <td>@norm.branchId</td>
+                    <td>@norm.week</td>
+                    <td>@norm.year</td>
+                    <td>@norm.activity</td>
+                    <td>@norm.normInSeconds</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success">Update Normering</button>
+</form>
+
+<a asp-controller="Norms" asp-action="Create" class="btn btn-primary">Nieuwe normering</a>

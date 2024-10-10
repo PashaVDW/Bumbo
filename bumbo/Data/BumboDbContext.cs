@@ -6,15 +6,12 @@ namespace bumbo.Data
 {
     public class BumboDBContext : IdentityDbContext<Employee>
     {
-        public BumboDBContext(DbContextOptions<BumboDBContext> options)
-            : base(options)
+        public BumboDBContext(DbContextOptions<BumboDBContext> options) : base(options)
         {
         }
 
-<<<<<<< HEAD
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Norm> Norms { get; set; }
-=======
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
 
@@ -97,6 +94,5 @@ namespace bumbo.Data
                 }
             );
         }
->>>>>>> 8e5722d6ee676189c31dc400999d4f2fe6df2b54
     }
 }
