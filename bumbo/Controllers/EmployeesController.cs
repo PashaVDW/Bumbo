@@ -4,11 +4,11 @@ using bumbo.Models;
 
 namespace bumbo.Controllers
 {
-    public class TemplatesController : Controller
+    public class EmployeesController : Controller
     {
         private readonly UserManager<Employee> _userManager;
 
-        public TemplatesController(UserManager<Employee> userManager)
+        public EmployeesController(UserManager<Employee> userManager)
         {
             _userManager = userManager;
         }
@@ -16,7 +16,7 @@ namespace bumbo.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-
+            
             if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");

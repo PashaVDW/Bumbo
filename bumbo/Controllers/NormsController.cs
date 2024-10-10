@@ -4,11 +4,11 @@ using bumbo.Models;
 
 namespace bumbo.Controllers
 {
-    public class TemplatesController : Controller
+    public class NormsController : Controller
     {
         private readonly UserManager<Employee> _userManager;
 
-        public TemplatesController(UserManager<Employee> userManager)
+        public NormsController(UserManager<Employee> userManager)
         {
             _userManager = userManager;
         }

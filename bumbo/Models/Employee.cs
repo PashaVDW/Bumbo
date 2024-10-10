@@ -1,47 +1,40 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using bumbo.Models;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace bumbo.Models
 {
-    public class Employee
+    public class Employee : IdentityUser
     {
-        [Key]
-        public int employeeId { get; set; }
-
-        [StringLength(36)]
         public string BID { get; set; }
 
         [Required, StringLength(50)]
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
 
-        [StringLength(50)]
-        public string middleName { get; set; }
+        public string MiddleName { get; set; }
 
         [Required, StringLength(50)]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
 
         [Required]
-        public DateTime birthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Required, StringLength(50)]
-        public string postalCode { get; set; }
+        public string PostalCode { get; set; }
 
-        public int houseNumber { get; set; }
+        public int HouseNumber { get; set; }
 
-        [Required]
-        public int phoneNumber { get; set; }
+        public DateTime StartDate { get; set; }
 
-        [Required, StringLength(50)]
-        public string email { get; set; }
+        public string FunctionName { get; set; }
 
-        public DateTime startDate { get; set; }
+        public bool IsSystemManager { get; set; }
 
-        [StringLength(50)]
-        public string functionName { get; set; }
+        // Nullable foreign key
+        public int? ManagerOfBranchId { get; set; } // Correct casing
 
-        public int managerOfBranchId { get; set; }
-
-        public string password { get; set; }
-
-        public bool isSystemManager { get; set; }
+        // Navigation property
+        public Branch ManagerOfBranch { get; set; }
     }
+
 }
