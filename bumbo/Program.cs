@@ -1,7 +1,12 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using bumbo.Interfaces;
+using bumbo.Services;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IWeekOverviewService, WeekOverviewService>();
 
 var app = builder.Build();
 
