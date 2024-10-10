@@ -18,17 +18,11 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.ShowNavbar = true;
         return View();
     }
 
-    public IActionResult Terugblik(int weekNummer = 12)
-    {
-        WeekOverview model = _weekOverviewService.GetWeekOverzicht(weekNummer);
-        return View(model);
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult AccessDenied()
     {
         return View();
     }
