@@ -1,15 +1,31 @@
-﻿<nav class="bg-gray-800 p-3 text-white">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/prognoses">Prognoses</a></li> <!-- Route in het Nederlands -->
-        <li><a href="/normeringen">Normeringen</a></li>
-        <li><a href="/medewerkers">Medewerkers</a></li>
-        <li><a href="/standaard-templates">Standaard templates</a></li>
-        <li><a href="/terugblikken">Terugblikken</a></li>
+﻿<nav class="bg-gray-100 p-4 flex justify-between items-center px-24">
+    <div class="flex items-center space-x-[100px]">
+        <!-- Logo with corrected max-width -->
+        <a href="/">
+            <div class="h-16 max-w-[80px] flex items-center justify-center">
+                <img src="/media/bumbo-logo.png" alt="Logo" class="max-w-[80px] h-auto" />
+            </div>
+        </a>
 
-        @if (ViewBag.IsAdmin)
-        {
-            <li><a href="/filialen">Filialen</a></li>
-        }
-    </ul>
+        <!-- Navigation Links -->
+        <div class="flex space-x-6">
+            <a href="/prognoses" class="hover:text-gray-600">Prognoses</a>
+            <a href="/normeringen" class="hover:text-gray-600">Normeringen</a>
+            <a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a>
+            <a href="/standaard-templates" class="hover:text-gray-600">Standaard templates</a>
+            <a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a>
+            <a href="/filialen" class="hover:text-gray-600">Filialen</a>
+        </div>
+    </div>
+
+    <!-- Right Section: Hardcoded User Info -->
+    <div class="flex items-center space-x-4">
+        <div class="text-right">
+            <div class="text-gray-700">Gebruiker</div>
+            <div class="text-gray-500 text-sm">gebruiker@gmail.com</div>
+        </div>
+        <div class="bg-gray-300 h-12 w-12 flex items-center justify-center rounded-full">
+            <!-- Placeholder for avatar or user icon -->
+        </div>
+    </div>
 </nav>
