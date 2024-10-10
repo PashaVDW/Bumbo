@@ -27,6 +27,6 @@ namespace bumbo.Models
 
         public string FunctionName { get; set; }
 
-        public bool IsSystemManager { get; set; }  // You can map this to a role later if needed
+        public bool IsSystemManager { get; set; }
     }
 }
