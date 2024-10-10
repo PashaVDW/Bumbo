@@ -30,12 +30,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Default route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Custom routes for specific pages (in Dutch)
+app.MapControllerRoute(
+    name: "test",
+    pattern: "{controller=Test}/{action=LoginAsJohnDoe}");
+
 app.MapControllerRoute(
     name: "prognoses",
     pattern: "prognoses",
@@ -65,44 +67,5 @@ app.MapControllerRoute(
     name: "filialen",
     pattern: "filialen",
     defaults: new { controller = "Branches", action = "Index" });
-
-// Seed roles and admin user on startup
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Employee>>();
-
-    // Seed "Admin" role if not exists
-    if (!await roleManager.RoleExistsAsync("Admin"))
-    {
-        await roleManager.CreateAsync(new IdentityRole("Admin"));
-    }
-
-    // Seed an admin user if not exists
-    var adminEmail = "admin@company.com";
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-
-    if (adminUser == null)
-    {
-        adminUser = new Employee
-        {
-            UserName = adminEmail,
-            Email = adminEmail,
-            FirstName = "Admin",
-            LastName = "User",
-            EmailConfirmed = true,
-            BID = "B001",
-            BirthDate = new DateTime(1980, 1, 1),
-            PostalCode = "12345",
-            HouseNumber = 1,
-            StartDate = DateTime.Now,
-            FunctionName = "Admin",
-            IsSystemManager = true
-        };
-
-        await userManager.CreateAsync(adminUser, "AdminPassword123!");
-        await userManager.AddToRoleAsync(adminUser, "Admin");
-    }
-}
 
 app.Run();

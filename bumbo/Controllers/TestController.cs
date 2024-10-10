@@ -15,19 +15,19 @@ namespace bumbo.Controllers
             _signInManager = signInManager;
         }
 
-        // Automatically logs in as the admin
-        public async Task<IActionResult> LoginAsAdmin()
+        // Automatically logs in as John Doe
+        public async Task<IActionResult> LoginAsJohnDoe()
         {
-            var adminEmail = "admin@company.com";
-            var adminUser = await _userManager.FindByEmailAsync(adminEmail);
+            var johnDoeEmail = "john.doe@example.com";
+            var johnDoeUser = await _userManager.FindByEmailAsync(johnDoeEmail);
 
-            if (adminUser != null)
+            if (johnDoeUser != null)
             {
-                await _signInManager.SignInAsync(adminUser, isPersistent: false);
+                await _signInManager.SignInAsync(johnDoeUser, isPersistent: false);
                 return RedirectToAction("Index", "Home");  // Redirect to Home after login
             }
 
-            return Content("Admin user not found.");
+            return Content("John Doe user not found.");
         }
     }
 }

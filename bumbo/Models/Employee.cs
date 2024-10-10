@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using bumbo.Models;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace bumbo.Models
@@ -28,5 +29,12 @@ namespace bumbo.Models
         public string FunctionName { get; set; }
 
         public bool IsSystemManager { get; set; }
+
+        // Nullable foreign key
+        public int? ManagerOfBranchId { get; set; } // Correct casing
+
+        // Navigation property
+        public Branch ManagerOfBranch { get; set; }
     }
+
 }

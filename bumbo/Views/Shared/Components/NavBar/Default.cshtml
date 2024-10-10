@@ -7,12 +7,18 @@
         </a>
 
         <div class="flex space-x-6">
-            <a href="/prognoses" class="hover:text-gray-600">Prognoses</a>
-            <a href="/normeringen" class="hover:text-gray-600">Normeringen</a>
-            <a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a>
-            <a href="/standaard-templates" class="hover:text-gray-600">Standaard templates</a>
-            <a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a>
-            <a href="/filialen" class="hover:text-gray-600">Filialen</a>
+            @if (Model.IsBranchManager)
+            {
+                <a href="/prognoses" class="hover:text-gray-600">Prognoses</a>
+                <a href="/normeringen" class="hover:text-gray-600">Normeringen</a>
+                <a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a>
+                <a href="/standaard-templates" class="hover:text-gray-600">Standaard templates</a>
+                <a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a>
+            }
+            @if (Model.IsSystemManager)
+            {
+                <a href="/filialen" class="hover:text-gray-600">Filialen</a>
+            }
         </div>
     </div>
 

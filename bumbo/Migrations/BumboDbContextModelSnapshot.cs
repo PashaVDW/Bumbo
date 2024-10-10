@@ -155,6 +155,91 @@ namespace bumbo.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("bumbo.Models.Branch", b =>
+                {
+                    b.Property<int>("BranchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BranchId"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("HouseNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("BranchId");
+
+                    b.HasIndex("CountryName");
+
+                    b.ToTable("Branches");
+
+                    b.HasData(
+                        new
+                        {
+                            BranchId = 1,
+                            CountryName = "Netherlands",
+                            HouseNumber = "10",
+                            Name = "Amsterdam Branch",
+                            PostalCode = "12345",
+                            Street = "Damrak"
+                        },
+                        new
+                        {
+                            BranchId = 2,
+                            CountryName = "Belgium",
+                            HouseNumber = "20",
+                            Name = "Brussels Branch",
+                            PostalCode = "67890",
+                            Street = "Grand Place"
+                        });
+                });
+
+            modelBuilder.Entity("bumbo.Models.Country", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Name = "Netherlands"
+                        },
+                        new
+                        {
+                            Name = "Belgium"
+                        },
+                        new
+                        {
+                            Name = "Germany"
+                        });
+                });
+
             modelBuilder.Entity("bumbo.Models.Employee", b =>
                 {
                     b.Property<string>("Id")
@@ -207,6 +292,9 @@ namespace bumbo.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("ManagerOfBranchId")
+                        .HasColumnType("int");
+
                     b.Property<string>("MiddleName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -248,6 +336,8 @@ namespace bumbo.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ManagerOfBranchId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -265,7 +355,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "b532e987-3b02-460f-be83-1e23374c4290",
+                            ConcurrencyStamp = "b4640636-837a-4c75-b856-f9e67cd34c93",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -274,10 +364,14 @@ namespace bumbo.Migrations
                             IsSystemManager = true,
                             LastName = "Doe",
                             LockoutEnabled = false,
+                            ManagerOfBranchId = 1,
                             MiddleName = "A.",
+                            NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
+                            NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
+                            PasswordHash = "hashedpassword123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "f1120009-3176-4133-8b32-bdc6c3a4460b",
+                            SecurityStamp = "2ac06510-440d-43ca-9491-289aef99f2f2",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -288,7 +382,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "8adb89b2-3e70-4078-bfdd-5e1ca70b6f3b",
+                            ConcurrencyStamp = "1beecca1-b991-409c-b2af-27dcc6611a14",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -298,9 +392,12 @@ namespace bumbo.Migrations
                             LastName = "Smith",
                             LockoutEnabled = false,
                             MiddleName = "B.",
+                            NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
+                            NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
+                            PasswordHash = "hashedpassword456",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "e6c4ea14-2648-4179-ba02-dc013f17e98f",
+                            SecurityStamp = "c3a715f6-86dc-41df-b13a-ef5d49c52328",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -356,6 +453,36 @@ namespace bumbo.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("bumbo.Models.Branch", b =>
+                {
+                    b.HasOne("bumbo.Models.Country", "Country")
+                        .WithMany("Branches")
+                        .HasForeignKey("CountryName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Employee", b =>
+                {
+                    b.HasOne("bumbo.Models.Branch", "ManagerOfBranch")
+                        .WithMany("Employees")
+                        .HasForeignKey("ManagerOfBranchId");
+
+                    b.Navigation("ManagerOfBranch");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Branch", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Country", b =>
+                {
+                    b.Navigation("Branches");
                 });
 #pragma warning restore 612, 618
         }

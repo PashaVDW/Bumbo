@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using bumbo.Models;
 
 namespace bumbo.ViewComponents
@@ -16,23 +15,38 @@ namespace bumbo.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var model = new NavBarViewModel();
 
-            var model = new NavBarViewModel
+            if (User.Identity.IsAuthenticated)
             {
-                FirstName = user?.FirstName,
-                Email = user?.Email,
-                IsAuthenticated = user != null
-            };
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+
+                if (user != null)
+                {
+                    model.FirstName = user.FirstName;
+                    model.Email = user.Email;
+                    model.IsSystemManager = user.IsSystemManager;
+                    model.IsAuthenticated = true;
+                    model.IsBranchManager = user.ManagerOfBranchId != null;
+                }
+            }
+            else
+            {
+                model.IsAuthenticated = false;
+            }
 
             return View(model);
         }
     }
+}
 
-    public class NavBarViewModel
-    {
+
+public class NavBarViewModel
+{
         public string FirstName { get; set; }
         public string Email { get; set; }
         public bool IsAuthenticated { get; set; }
-    }
+        public bool IsSystemManager { get; set; }
+        public bool IsBranchManager { get; set; }
+
 }
