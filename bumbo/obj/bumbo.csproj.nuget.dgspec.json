@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\bumbo.csproj": {}
+    "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\bumbo.csproj": {
+    "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\bumbo.csproj",
+        "projectUniqueName": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj",
         "projectName": "bumbo",
-        "projectPath": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\bumbo.csproj",
-        "packagesPath": "C:\\Users\\agros\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\obj\\",
+        "projectPath": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj",
+        "packagesPath": "C:\\Users\\darlo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\agros\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\darlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -25,8 +25,8 @@
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
+          "c:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "c:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -56,21 +56,17 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore.Relational": {
-              "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.10, )"
             }
           },
           "imports": [
@@ -92,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "c:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
