@@ -2,7 +2,7 @@
     ViewData["Title"] = "Filiaal bewerken";
 }
 
-<link href="~/css/BranchCSS.css" rel="stylesheet" />
+<!--<link href="~/css/BranchCSS.css" rel="stylesheet" />
 
 <div class="title">
     <h1><strong><a class="arrow-back" asp-area="" asp-controller="Branches" asp-action="ReadBranchView"> < </a>Filiaal bewerken</strong></h1>
@@ -52,4 +52,57 @@
 <div class="update-buttons">
     <button>Verwijderen</button>
     <button>Bewerken</button>
+</div>
+-->
+
+<div class="ml-48">
+    <div>
+        <h1 class="text-4xl"><strong><a class="arrow-back" asp-area="" asp-controller="Branches" asp-action="ReadBranchesView"> < </a>Filiaal toevoegen</strong></h1>
+    </div>
+
+    <div class="mt-6 mb-6 ml-8 flex">
+        <div class="mr-5 flex w-1/12 flex-col">
+            <label for="number">Filiaal nummer</label>
+            <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="number" name="number" type="text" />
+        </div>
+        <div class="mr-5 flex w-2/12 flex-col">
+            <label for="name">Naam</label>
+            <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="name" name="name" type="text" />
+        </div>
+    </div>
+    <div class="mt-6 mb-6 ml-8 flex">
+        <div class="mr-5 flex w-2/12 flex-col">
+            <label for="city">Stad of dorp</label>
+            <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="city" name="city" type="text" />
+        </div>
+        <div class="mr-5 flex w-1/12 flex-col">
+            <label class="w-48" for="amount-of-workers">Aantal medewerkers</label>
+            <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="amount-of-workers" name="amount-of-workers" type="text" />
+        </div>
+    </div>
+    <div class="mt-6 mb-6 ml-8 flex">
+        <div class="mr-5 flex w-1/12 flex-col">
+            <label for="postal-code">Postcode</label>
+            <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="postal-code" name="postal-code" type="text" />
+        </div>
+        <div class="mr-5 flex w-2/12 flex-col">
+            <label for="street-name">Straatnaam</label>
+            <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="street-name" name="street-name" type="text" />
+        </div>
+    </div>
+    <div class="mt-6 mb-6 ml-8 flex">
+        <div class="mr-5 flex w-2/12 flex-col">
+            <label for="country">Land</label>
+            <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="country" name="country" type="text" />
+        </div>
+        <div class="mr-5 flex w-1/12 flex-col">
+            <label for="phone-number">Telefoonnummer</label>
+            <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="phone-number" name="phone-number" type="text" />
+        </div>
+    </div>
+
+    <div class="ml-64 mt-4">
+        <default-button button-text="Verwijderen" button-type="secondary"></default-button>
+        <default-button button-text="Bewerken" button-type="primary"></default-button>
+    </div>
 </div>
