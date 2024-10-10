@@ -5,7 +5,7 @@ namespace bumbo.Services
 {
     public class WeekOverviewService : IWeekOverviewService
     {
-        public WeekOverview GetWeekOverzicht(int weekNummer)
+        public WeekOverview GetWeekOverview(int weekNummer)
         {
             List<DayOverview> days = new List<DayOverview>
             {

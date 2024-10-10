@@ -18,6 +18,7 @@ builder.Services.AddIdentity<Employee, IdentityRole>()
 
 builder.Services.AddControllersWithViews();
 
+//services test Douwe
 builder.Services.AddScoped<IWeekOverviewService, WeekOverviewService>();
 
 var app = builder.Build();
