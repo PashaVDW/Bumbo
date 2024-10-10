@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\bumbo\\bumbo.csproj": {}
+    "C:\\Users\\douwe\\Documents\\huiswerk\\Avans\\VisualStudio Workspace\\Bumbo project\\bumbo\\bumbo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\bumbo\\bumbo.csproj": {
+    "C:\\Users\\douwe\\Documents\\huiswerk\\Avans\\VisualStudio Workspace\\Bumbo project\\bumbo\\bumbo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\bumbo\\bumbo.csproj",
+        "projectUniqueName": "C:\\Users\\douwe\\Documents\\huiswerk\\Avans\\VisualStudio Workspace\\Bumbo project\\bumbo\\bumbo.csproj",
         "projectName": "bumbo",
-        "projectPath": "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\bumbo\\bumbo.csproj",
-        "packagesPath": "C:\\Users\\Servaas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\bumbo\\obj\\",
+        "projectPath": "C:\\Users\\douwe\\Documents\\huiswerk\\Avans\\VisualStudio Workspace\\Bumbo project\\bumbo\\bumbo.csproj",
+        "packagesPath": "C:\\Users\\douwe\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\douwe\\Documents\\huiswerk\\Avans\\VisualStudio Workspace\\Bumbo project\\bumbo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\ontwikkel\\vs2019\\shared\\NuGetPackages",
+          "D:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Servaas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\douwe\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"

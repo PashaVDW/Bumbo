@@ -1,9 +1,8 @@
 ﻿@{
     ViewBag.Title = "Terugblik - Weekoverzicht";
-    var weekNumber = 12; // Dynamisch aanpassen naar de juiste week
+    var weekNumber = 12;
     var month = "Februari";
-    var days = new List<string> { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" };
-    var weekDates = new List<int> { 8, 9, 10, 11, 12, 13, 14 }; // Dagen van de week
+    var days = new List<string> { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" }; // verander niet, dit is de basis layout van het overzicht
     var coliData = new List<int> { 8, 8, 8, 8, 8, 8, 8 }; // Aantal coli per dag
     var klantData = new List<int> { 1, 1, 1, 1, 1, 1, 1 }; // Aantal klanten per dag
 }
@@ -17,11 +16,11 @@
         @for (int i = 0; i < days.Count; i++)
         {
             <div class="day-column">
-                <p>@weekDates[i] @days[i]</p>
-                <p>Aantal coli's</p>
-                <div class="data-box">@coliData[i]</div>
+                <p>@days[i]</p>
                 <p>Aantal klanten</p>
                 <div class="data-box">@klantData[i]</div>
+                <p>Aantal coli's</p>
+                <div class="data-box">@coliData[i]</div>
             </div>
         }
         <button class="arrow-btn">></button>
