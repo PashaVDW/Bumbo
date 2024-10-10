@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Filialen";
+}
+
+<!-- Navbar moet hier -->
+
+<link href="~/css/BranchCSS.css" rel="stylesheet" />
+
+<div class="branches-mini-nav">
+    <h2>Filialen</h2>
+    <div class="search-items">
+        <input type="text" name="name" value="" placeholder="Zoek naar filialen" />
+        <button>Zoeken</button>
+    </div>
+    <a class="button" asp-area="" asp-controller="Branches" asp-action="CreateBranchView">Nieuwe</a>
+</div>
+
+<!-- Temp -->
+<div class="branches-list">
+    <div class="branches-list-titles">
+        <p>Filiaal naam</p>
+        <p>Filiaal nummer</p>
+        <p>Aantal medewerkers</p>
+        <p>Straatnaam + huisnummer</p>
+        <p>Stad of dorp</p>
+    </div>
+    <div class="branches-list-items-foreach">
+        @for(int i = 0; i < 3; i++){
+            <div class="branches-list-item">
+                <p>(Filiaal naam)</p>
+                <p>111111</p>
+                <p>1111</p>
+                <p>(Hofvijver 2)</p>
+                <p>('s-Hertogenbosch)</p>
+                <a asp-area="" asp-controller="Branches" asp-action="ReadBranchView">--></a>
+            </div>
+        }
+    </div>
+</div>

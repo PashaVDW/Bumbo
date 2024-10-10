@@ -1,0 +1,265 @@
+﻿body {
+
+}
+
+.arrow-back, .arrow-back:hover {
+    text-decoration: none;
+    color: #000000;
+}
+
+.text-fields-row {
+    margin-bottom: 25px;
+    margin-top: 30px;
+    display: flex;
+}
+
+input {
+    background-color: #FFFFFF;
+    border: 2px solid #D6D9DC;
+    border-radius: 3px;
+    padding: 7px;
+    font-size: 14px;
+}
+
+.size1 {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    width: 20%;
+}
+
+.size2 {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    width: 10%;
+}
+
+.size2 label{
+    width: 150%;
+}
+
+.update-buttons{
+    margin-left: 180px;
+}
+
+.create-button{
+    margin-left: 317px;
+}
+
+.update-buttons button{
+    margin-left: 20px;
+}
+
+.mini-nav{
+    margin-left: 50px;
+}
+
+.branch-data {
+    width: 30%;
+    margin-left: 80px;
+    margin-top: 40px;
+}
+
+.branch-data > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.branch-data p {
+    font-weight: bold;
+}
+
+.location-branch{
+    width: 480px;
+    height: 480px;
+    border-radius: 30px;
+    border: 2px solid black;
+    position: relative;
+    top: -70px;
+}
+
+.location-branch > figure > img {
+    border: 1px solid black;
+    width: 480px;
+    height: 480px;
+    border-radius: 30px;
+}
+
+.branch-data-and-location {
+    display: flex;
+    justify-content: space-between;
+    height: 320px;
+}
+
+.update-button-branchoverview {
+    margin-left: 80px;
+}
+
+.button, .button:hover{ 
+    display: block; 
+    text-decoration: none; 
+
+    color: #FFF; 
+    background-color: dimgray;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid #5D6063;
+    width: 125px;
+    margin: 0px 0px 40px 80px;
+}
+
+#branchmanagers-title{
+    font-weight: bold;
+    margin-left: 60px;
+}
+
+.branchmanagers-list{
+    display: flex;
+    margin: 30px 0px 0px 60px;
+}
+
+.boxes-and-crosses {
+    display: flex;
+    flex-direction: row;
+}
+
+.branchmanagers-box, .add-branchmanager {
+    border: 1px solid #F0F0F0;
+    border-radius: 16px;
+    margin-right: 10px;
+}
+
+.add-branchmanager {
+    height: 140px;
+    width: 160px;
+    margin-top: 7px;
+    align-content: center;
+}
+
+.plus-horizontal {
+    width: 31px;
+    height: 5px;
+    top: 18px;
+}
+
+.plus-vertical {
+    width: 5px;
+    height: 31px;
+}
+
+.plus-horizontal, .plus-vertical {
+    background-color: #D9D9D9;
+    position: relative;
+    border-radius: 3px;
+    margin: 0 auto;
+}
+
+.branchmanagers-box {
+    height: 154px;
+    width: 180px;
+    display: flex;
+    justify-content: center; 
+    flex-direction: column;
+    align-items: center;
+}
+
+.branchmanagers-box-text {
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    top: 10px;
+}
+
+.branchmanagers-box > figure {
+    width: 64px;
+    height: 64px;
+    border: 1px solid black;
+}
+
+.delete-branchmanager {
+    width: 23px;
+    height: 23px;
+    background-color: #D9D9D9;
+    border-radius: 90px;
+    align-content: center;
+    position: relative;
+    right: 22px;
+    bottom: 8px;
+}
+
+.cross-line1 {
+    transform: rotate(45deg);
+}
+
+.cross-line2 {
+    transform: rotate(135deg);
+    bottom: 1px;
+}
+
+.cross-line1, .cross-line2 {
+    width: 9px;
+    height: 1px;
+    background-color: black;
+    margin: 0 auto;
+    position: relative;
+}
+
+.branches-mini-nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.search-items > input {
+    margin-right: 20px;
+    text-align: center;
+}
+
+.branches-list-item {
+    border-bottom: 1px solid #D1D1D1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: bold;
+    padding: 10px 30px 0px 30px;
+}
+
+.branches-list-item > a {
+    text-decoration: none;
+    color: black;
+}
+
+.branches-list-item:first-child {
+    padding-top: 0px;
+}
+
+.branches-list-items-foreach :hover {
+    background-color: #D1D1D1;
+}
+
+.branches-list-titles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 13px;
+    padding-left: 30px;
+    width: 78%;
+}
+
+.branches-list-titles > p:nth-child(3n) {
+    position: relative;
+    left: 70px;
+}
+
+.branches-list-titles > p:nth-child(4n + 2) {
+    position: relative;
+    left: 65px;
+}
+
+.branches-list-titles > p:nth-child(4n + 4) {
+    position: relative;
+    left: 25px;
+}
+

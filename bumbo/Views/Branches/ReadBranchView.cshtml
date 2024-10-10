@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "(Filiaal naam)";
+}
+
+<link href="~/css/BranchCSS.css" rel="stylesheet" />
+
+<div class="title">
+    <h1><strong><a class="arrow-back" asp-area="" asp-controller="Branches" asp-action="BranchesView"> < </a>(Filiaal naam)</strong></h1>
+    <p class="mini-nav">Bumbo > (Filiaal naam)</p>
+</div>
+
+<div class="branch-data-and-location">
+    <div class="branch-data">
+        <div>
+            <p>Filaal nummer:</p>
+            <p>111111</p>
+        </div>
+        <div>
+            <p>Aantal medewerkers:</p>
+            <p>1111</p>
+        </div>
+        <div>
+            <p>Telefoonnummer:</p>
+            <p>+31 6 11111111</p>
+        </div>
+        <div>
+            <p>Stad:</p>
+            <p>('s-Hertogenbosch)</p>
+        </div>
+        <div>
+            <p>Postcode:</p>
+            <p>1111 AA</p>
+        </div>
+        <div>
+            <p>Straatnaam + huisnummer:</p>
+            <p>(Hofvijver 2)</p>
+        </div>
+        <div>
+            <p>Land:</p>
+            <p>(Nederland)</p>
+        </div>
+    </div>
+
+    <div class="location-branch">
+        <figure>
+            <img src="#" alt="" width="480" height="480" />
+        </figure>
+    </div>
+</div>
+
+
+<a class="button" asp-area="" asp-controller="Branches" asp-action="UpdateBranchView">Bewerken</a>
+
+<div>
+    <h1 id="branchmanagers-title">Filiaal managers</h1>
+</div>
+
+<div class="branchmanagers-list">
+    @for (int i = 0; i < 5; i++)
+    {
+        <div class="boxes-and-crosses">
+            <div class="branchmanagers-box">
+                <figure>
+                    <img src="#" alt="" width="64" height="64" />
+                </figure>
+                <p class="branchmanagers-box-text">Filiaalmanager</p>
+            </div>
+            <a class="delete-branchmanager" href="#">
+                <div class="cross-line1"></div>
+                <div class="cross-line2"></div>
+            </a>
+        </div>
+    }
+    <a class="add-branchmanager" href="#">
+        <div class="plus-horizontal"></div>
+        <div class="plus-vertical"></div>
+    </a>
+</div>
