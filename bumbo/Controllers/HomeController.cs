@@ -18,5 +18,10 @@ public class HomeController : Controller
         ViewBag.ShowNavbar = true;
         return View();
     }
+
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
 }
 

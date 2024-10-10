@@ -30,10 +30,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Routing for the default pages
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Custom routes for specific pages
 app.MapControllerRoute(
     name: "test",
     pattern: "{controller=Test}/{action=LoginAsJohnDoe}");
@@ -67,5 +69,11 @@ app.MapControllerRoute(
     name: "filialen",
     pattern: "filialen",
     defaults: new { controller = "Branches", action = "Index" });
+
+// Route for logging out
+app.MapControllerRoute(
+    name: "logout",
+    pattern: "uitloggen",
+    defaults: new { controller = "Logout", action = "Logout" });
 
 app.Run();
