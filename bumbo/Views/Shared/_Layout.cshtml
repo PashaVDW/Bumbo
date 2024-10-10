@@ -10,23 +10,27 @@
 </head>
 <body>
 
-      @if (ViewBag.ShowNavbar == null || ViewBag.ShowNavbar == true)
-        {
-            @await Component.InvokeAsync("NavBar")
-        }
+      
+    @if (ViewData["HideLayoutElements"] == null || !(bool)ViewData["HideLayoutElements"])
+    {
+        @await Component.InvokeAsync("NavBar")
+    }
 
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    
+    <main role="main">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - bumbo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    @if (ViewData["HideLayoutElements"] == null || !(bool)ViewData["HideLayoutElements"])
+    {
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2024 - bumbo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    }
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
