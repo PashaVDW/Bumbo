@@ -1,20 +1,23 @@
-﻿@{
+﻿@model UpdateNormInputViewModel
+
+@{
     ViewData["Title"] = "Normering aanmaken";
+    var ViewModel = (UpdateNormInputViewModel)ViewData["ViewModel"];
 }
 
-<a href="#"><</a>
+<a href="/normeringen"><</a>
 <h1>Normering updaten</h1>
-<form asp-action="Insert" method="post">
+<form asp-action="InsertUpdate" method="post">
+    <input type="hidden" name="@nameof(UpdateNormViewModel.FirstNormId)" value="@ViewModel.FirstNormId" />
     <label for="unloadColis">Coli uitladen in minuten</label>
-    <input id="unloadColis" type="number" />
+    <input value="@ViewModel.UnloadColis" id="unloadColis" type="number" name="@nameof(UpdateNormViewModel.UnloadColis)" />
     <label for="fillShelves">Vakken vullen in minuten per coli</label>
-    <input id="fillShelves" type="number" />
+    <input value="@ViewModel.FillShelves" id="fillShelves" type="number" name="@nameof(UpdateNormViewModel.FillShelves)" />
     <label for="cashier">Hoeveelheid kassiéres per 30 klanten per uur</label>
-    <input id="cashier" type="number" />
+    <input value="@ViewModel.Cashier" id="cashier" type="number" name="@nameof(UpdateNormViewModel.Cashier)" />
     <label for="fresh">Hoeveelheid medewerkers per 100 klanten per uur</label>
-    <input id="fresh" type="number" />
+    <input value="@ViewModel.Fresh" id="fresh" type="number" name="@nameof(UpdateNormViewModel.Fresh)" />
     <label for="fronting">Hoeveelheid seconden per meter spiegelen</label>
-    <input id="fronting" type="number" />
+    <input value="@ViewModel.Fronting" id="fronting" type="number" name="@nameof(UpdateNormViewModel.Fronting)" /> />
     <input type="submit" value="Bewerken">
 </form>
-1 + 4 * ((i - 1) / 4)

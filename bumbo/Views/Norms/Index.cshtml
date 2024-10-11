@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Normeringen";
+    int j = 28;
+    int number = 1 + 5 * ((j - 1) / 5);
 }
 
-<a href="#"><</a>
 <h1>Normeringen</h1>
 
 <form asp-controller="Norms" asp-action="Update" method="post">
@@ -38,7 +39,9 @@
         </tbody>
     </table>
 
-    <button type="submit" class="btn btn-success">Update Normering</button>
+    <button type="submit" class="btn btn-success">Update </button>
 </form>
 
-<a asp-controller="Norms" asp-action="Create" class="btn btn-primary">Nieuwe normering</a>
+<a asp-controller="Norms" asp-action="Create" asp-route-lastWeek="false" class="btn btn-primary">Nieuwe normering</a>
+
+<p>@number</p>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -11,9 +12,11 @@ using bumbo.Data;
 namespace bumbo.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    partial class BumboDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241010194323_CreateNorms")]
+    partial class CreateNorms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -355,7 +358,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "b4640636-837a-4c75-b856-f9e67cd34c93",
+                            ConcurrencyStamp = "f3855289-4aa5-4706-b20c-9a3a5b6b2d50",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -371,7 +374,7 @@ namespace bumbo.Migrations
                             PasswordHash = "hashedpassword123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "2ac06510-440d-43ca-9491-289aef99f2f2",
+                            SecurityStamp = "c7764f5f-72c5-4a92-ad2e-e9c83076f5cb",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -382,7 +385,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "1beecca1-b991-409c-b2af-27dcc6611a14",
+                            ConcurrencyStamp = "fd7478cc-1c40-47e2-bbc8-72e7a397657c",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -397,11 +400,41 @@ namespace bumbo.Migrations
                             PasswordHash = "hashedpassword456",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "c3a715f6-86dc-41df-b13a-ef5d49c52328",
+                            SecurityStamp = "0e21d1a0-1b33-45f6-9086-a53810abb0fd",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
                         });
+                });
+
+            modelBuilder.Entity("bumbo.Models.Norm", b =>
+                {
+                    b.Property<int>("normId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("normId"));
+
+                    b.Property<string>("activity")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("branchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("normInSeconds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("week")
+                        .HasColumnType("int");
+
+                    b.Property<int>("year")
+                        .HasColumnType("int");
+
+                    b.HasKey("normId");
+
+                    b.ToTable("Norms");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -483,36 +516,6 @@ namespace bumbo.Migrations
             modelBuilder.Entity("bumbo.Models.Country", b =>
                 {
                     b.Navigation("Branches");
-                });
-
-            modelBuilder.Entity("bumbo.Models.Norm", b =>
-                {
-                    b.Property<int>("normId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("normId"));
-
-                    b.Property<string>("activity")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("branchId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("normInSeconds")
-                        .HasColumnType("int");
-
-                    b.Property<int>("week")
-                        .HasColumnType("int");
-
-                    b.Property<int>("year")
-                        .HasColumnType("int");
-
-                    b.HasKey("normId");
-
-                    b.ToTable("Norms");
                 });
 #pragma warning restore 612, 618
         }
