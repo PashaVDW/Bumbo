@@ -9,75 +9,79 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = bumbo
 build_property.RootNamespace = bumbo
-build_property.ProjectDir = C:\Users\thoma\OneDrive\Documenten\HBO Informatica\leerjaar 2\blok 5\Project\Code\Bumbo\bumbo\
+build_property.ProjectDir = C:\Users\thoma\Documents\Git\Bumbo\bumbo\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\thoma\OneDrive\Documenten\HBO Informatica\leerjaar 2\blok 5\Project\Code\Bumbo\bumbo
+build_property.MSBuildProjectDirectory = C:\Users\thoma\Documents\Git\Bumbo\bumbo
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Branches/Index.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Branches/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnJhbmNoZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/components/Index.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/components/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcY29tcG9uZW50c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Employees/Index.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Employees/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Forecasts/Index.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Forecasts/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9yZWNhc3RzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Home/AccessDenied.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Home/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Home/Index.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Norms/Index.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Norms/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm9ybXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Reviews/Index.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Reviews/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3c1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Shared/Components/NavBar/Default.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Shared/Components/NavBar/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTmF2QmFyXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Templates/Create.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Templates/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVtcGxhdGVzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Templates/Index.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Templates/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVtcGxhdGVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Templates/Update.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Templates/Update.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVtcGxhdGVzXFVwZGF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/_ViewImports.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/_ViewStart.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/OneDrive/Documenten/HBO Informatica/leerjaar 2/blok 5/Project/Code/Bumbo/bumbo/Views/Shared/_Layout.cshtml]
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-7i1ytcwz87

@@ -14,10 +14,16 @@ namespace bumbo.Data
 
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Template> Templates { get; set; }
+        public DbSet<Template_has_days> Template_Has_Days { get; set; }
+        public DbSet<Days> Days { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Template_has_days>()
+               .HasKey(t => new { t.Templates_id, t.Days_name });
 
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },
@@ -94,6 +100,121 @@ namespace bumbo.Data
 
             // Add employees to the model
             modelBuilder.Entity<Employee>().HasData(john, jane);
+
+            modelBuilder.Entity<Template>().HasData(
+                new Template
+                {
+
+                }    
+            );
+            
+            modelBuilder.Entity<Days>().HasData(
+                new Days()
+                {
+                    Name = "Monday"
+                },
+                new Days()
+                {
+                    Name = "Tuesday"
+                },
+                new Days()
+                {
+                    Name = "Wednesday"
+                },
+                new Days()
+                {
+                    Name = "Thursday"
+                },
+                new Days()
+                {
+                    Name = "Friday"
+                },
+                new Days()
+                {
+                    Name = "Saturday"
+                },
+                new Days()
+                {
+                    Name = "Sunday"
+                }
+            );
+
+            modelBuilder.Entity<Template>().HasData(
+                new Template {
+                    Id = 1,
+                    Name = "Basic Package",
+                    Branch_branchId = 1
+                },
+                new Template {
+                    Id = 2,
+                    Name = "Standard Package",
+                    Branch_branchId = 1
+                },
+                new Template {
+                    Id = 3,
+                    Name = "Premium Package",
+                    Branch_branchId = 2
+                },
+                new Template {
+                    Id = 4,
+                    Name = "Family Package",
+                    Branch_branchId = 2
+                },
+                new Template {
+                    Id = 5,
+                    Name = "Weekly Special",
+                    Branch_branchId = 1
+                }
+            );
+
+            // Seed data for Template_has_days
+            modelBuilder.Entity<Template_has_days>().HasData(
+                new Template_has_days {
+                    Templates_id = 1,
+                    Days_name = "Monday",
+                    CustomerAmount = 10,
+                    ContainerAmount = 5
+                },
+                new Template_has_days { Templates_id = 1, Days_name = "Tuesday", CustomerAmount = 12, ContainerAmount = 6 },
+                new Template_has_days { Templates_id = 1, Days_name = "Wednesday", CustomerAmount = 14, ContainerAmount = 7 },
+                new Template_has_days { Templates_id = 1, Days_name = "Thursday", CustomerAmount = 11, ContainerAmount = 4 },
+                new Template_has_days { Templates_id = 1, Days_name = "Friday", CustomerAmount = 13, ContainerAmount = 5 },
+                new Template_has_days { Templates_id = 1, Days_name = "Saturday", CustomerAmount = 15, ContainerAmount = 8 },
+                new Template_has_days { Templates_id = 1, Days_name = "Sunday", CustomerAmount = 9, ContainerAmount = 3 },
+
+                new Template_has_days { Templates_id = 2, Days_name = "Monday", CustomerAmount = 20, ContainerAmount = 10 },
+                new Template_has_days { Templates_id = 2, Days_name = "Tuesday", CustomerAmount = 18, ContainerAmount = 9 },
+                new Template_has_days { Templates_id = 2, Days_name = "Wednesday", CustomerAmount = 22, ContainerAmount = 12 },
+                new Template_has_days { Templates_id = 2, Days_name = "Thursday", CustomerAmount = 19, ContainerAmount = 8 },
+                new Template_has_days { Templates_id = 2, Days_name = "Friday", CustomerAmount = 21, ContainerAmount = 11 },
+                new Template_has_days { Templates_id = 2, Days_name = "Saturday", CustomerAmount = 17, ContainerAmount = 7 },
+                new Template_has_days { Templates_id = 2, Days_name = "Sunday", CustomerAmount = 15, ContainerAmount = 6 },
+
+                new Template_has_days { Templates_id = 3, Days_name = "Monday", CustomerAmount = 30, ContainerAmount = 15 },
+                new Template_has_days { Templates_id = 3, Days_name = "Tuesday", CustomerAmount = 25, ContainerAmount = 12 },
+                new Template_has_days { Templates_id = 3, Days_name = "Wednesday", CustomerAmount = 28, ContainerAmount = 14 },
+                new Template_has_days { Templates_id = 3, Days_name = "Thursday", CustomerAmount = 26, ContainerAmount = 13 },
+                new Template_has_days { Templates_id = 3, Days_name = "Friday", CustomerAmount = 27, ContainerAmount = 12 },
+                new Template_has_days { Templates_id = 3, Days_name = "Saturday", CustomerAmount = 24, ContainerAmount = 11 },
+                new Template_has_days { Templates_id = 3, Days_name = "Sunday", CustomerAmount = 23, ContainerAmount = 10 },
+
+                new Template_has_days { Templates_id = 4, Days_name = "Monday", CustomerAmount = 15, ContainerAmount = 7 },
+                new Template_has_days { Templates_id = 4, Days_name = "Tuesday", CustomerAmount = 12, ContainerAmount = 5 },
+                new Template_has_days { Templates_id = 4, Days_name = "Wednesday", CustomerAmount = 14, ContainerAmount = 6 },
+                new Template_has_days { Templates_id = 4, Days_name = "Thursday", CustomerAmount = 13, ContainerAmount = 5 },
+                new Template_has_days { Templates_id = 4, Days_name = "Friday", CustomerAmount = 11, ContainerAmount = 4 },
+                new Template_has_days { Templates_id = 4, Days_name = "Saturday", CustomerAmount = 10, ContainerAmount = 3 },
+                new Template_has_days { Templates_id = 4, Days_name = "Sunday", CustomerAmount = 9, ContainerAmount = 2 },
+
+                new Template_has_days { Templates_id = 5, Days_name = "Monday", CustomerAmount = 5, ContainerAmount = 3 },
+                new Template_has_days { Templates_id = 5, Days_name = "Tuesday", CustomerAmount = 6, ContainerAmount = 2 },
+                new Template_has_days { Templates_id = 5, Days_name = "Wednesday", CustomerAmount = 7, ContainerAmount = 4 },
+                new Template_has_days { Templates_id = 5, Days_name = "Thursday", CustomerAmount = 8, ContainerAmount = 5 },
+                new Template_has_days { Templates_id = 5, Days_name = "Friday", CustomerAmount = 10, ContainerAmount = 6 },
+                new Template_has_days { Templates_id = 5, Days_name = "Saturday", CustomerAmount = 9, ContainerAmount = 5 },
+                new Template_has_days { Templates_id = 5, Days_name = "Sunday", CustomerAmount = 8, ContainerAmount = 4 }
+            );
+
         }
     }
 }
