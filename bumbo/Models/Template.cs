@@ -7,6 +7,7 @@ namespace bumbo.Models
     public class Template
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
