@@ -10,14 +10,15 @@
 </head>
 <body>  
 
-      @if (ViewBag.ShowNavbar == null || ViewBag.ShowNavbar == true)
-        {
-            @await Component.InvokeAsync("NavBar")
-        }
-
+      
+    @if (ViewData["HideLayoutElements"] == null || !(bool)ViewData["HideLayoutElements"])
+    {
+        @await Component.InvokeAsync("NavBar")
+    }
         <main role="main">
             @RenderBody()
         </main>
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
