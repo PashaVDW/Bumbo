@@ -53,6 +53,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Employees", action = "Index" });
 
 app.MapControllerRoute(
+    name: "createEmployee",
+    pattern: "medewerkers/aanmaken",
+    defaults: new { controller = "Employees", action = "Create" });
+
+app.MapControllerRoute(
     name: "templates",
     pattern: "standaard-templates",
     defaults: new { controller = "Templates", action = "Index" });

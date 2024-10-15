@@ -1,0 +1,91 @@
+﻿Employees/Create
+
+
+@model bumbo.ViewModels.CreateEmployeeViewModel
+
+@{
+    ViewData["Title"] = "Medewerker aanmaken";
+    Layout = "_Layout";
+    ViewData["HideLayoutElements"] = true;
+}
+
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-semibold mb-6">Medewerker aanmaken</h1>
+
+    <form asp-action="Create" method="post" class="space-y-6">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="FirstName" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="FirstName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="FirstName" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="MiddleName" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="MiddleName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="MiddleName" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="LastName" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="LastName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="LastName" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="BirthDate" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="BirthDate" type="date" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="BirthDate" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="PostalCode" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="PostalCode" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="PostalCode" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="HouseNumber" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="HouseNumber" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="HouseNumber" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="Email" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="Email" type="email" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="Email" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="FunctionName" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="FunctionName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="FunctionName" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="BID" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="BID" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="BID" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="flex justify-end">
+            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Aanmaken
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
