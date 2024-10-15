@@ -2,46 +2,10 @@
 
 @{
     ViewData["Title"] = "Normeringen";
-    int j = 28;
-    int number = 1 + 5 * ((j - 1) / 5);
 }
 
-<h1>Normeringen</h1>
-
-<form asp-controller="Norms" asp-action="Update" method="post">
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Select</th>
-                <th>Norm ID</th>
-                <th>Branch ID</th>
-                <th>Week</th>
-                <th>Year</th>
-                <th>Activity</th>
-                <th>Norm (Seconds)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var norm in Model)
-            {
-                <tr>
-                    <td>
-                        <input type="radio" name="selectedNormId" value="@norm.normId" />
-                    </td>
-                    <td>@norm.normId</td>
-                    <td>@norm.branchId</td>
-                    <td>@norm.week</td>
-                    <td>@norm.year</td>
-                    <td>@norm.activity</td>
-                    <td>@norm.normInSeconds</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <button type="submit" class="btn btn-success">Update </button>
-</form>
+<div>
+    @Html.Raw(ViewBag.HtmlTable)
+</div>
 
 <a asp-controller="Norms" asp-action="Create" asp-route-lastWeek="false" class="btn btn-primary">Nieuwe normering</a>
-
-<p>@number</p>
