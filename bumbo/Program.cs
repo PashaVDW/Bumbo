@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
 using bumbo.Models;  // Ensure the namespace matches your Employee model
+using DataLayer;
 
 using bumbo.Interfaces;
 using bumbo.Services;
