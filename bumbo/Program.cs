@@ -4,9 +4,6 @@ using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
 using bumbo.Models;  // Ensure the namespace matches your Employee model
 using DataLayer;
 
-using bumbo.Interfaces;
-using bumbo.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,9 +15,6 @@ builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
-
-//services test Douwe
-builder.Services.AddScoped<IWeekOverviewService, WeekOverviewService>();
 
 var app = builder.Build();
 
