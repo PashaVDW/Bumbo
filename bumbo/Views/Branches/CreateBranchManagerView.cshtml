@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Filiaalmanager toevoegen";
+}
+
+@model Branch
+
+<div class="mx-48 mt-12">
+    <div><h1 class="text-4xl"><strong><a asp-area="" asp-controller="Branches"
+                asp-action="ReadBranchView" asp-route-branchId="@Model.BranchId"> < </a>Filiaalmanager toevoegen</strong></h1>
+    </div>
+    @if(Model.Employees.Count == 0)
+    {
+        <p>Geen Medewerkers in dit Filaal</p>
+    }
+    <div class="mt-8">
+        @Html.Raw(ViewBag.HtmlTable)
+    </div>
+</div>
+

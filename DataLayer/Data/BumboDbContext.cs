@@ -12,6 +12,7 @@ namespace bumbo.Data
         {
         }
 
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
 

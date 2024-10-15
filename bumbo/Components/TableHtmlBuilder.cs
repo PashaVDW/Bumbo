@@ -5,7 +5,7 @@
 
     public class TableHtmlBuilder<TItem>
     {
-        public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, string editLink, Func<TItem, string> rowTemplate, string searchTerm = null, int currentPage = 1, int pageSize = 10)
+        public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, Func<TItem, string> rowTemplate, string searchTerm = null, int currentPage = 1, int pageSize = 10)
         {
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
@@ -54,11 +54,6 @@
             {
                 htmlBuilder.AppendLine("<tr class='border-b hover:bg-gray-50'>");
                 htmlBuilder.AppendLine(rowTemplate(item));
-                htmlBuilder.AppendLine(
-                    "<td class='py-2 px-4'>" +
-                    "<button onclick=\"window.location.href='" + editLink + "';\">✏️</button>" +
-                    "</td>"
-                );
                 htmlBuilder.AppendLine("</tr>");
             }
             htmlBuilder.AppendLine("</tbody>");
