@@ -4240,24 +4240,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Servaas\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Jules Verbruggen\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\bumbo\\bumbo.csproj",
+      "projectUniqueName": "C:\\Users\\Jules Verbruggen\\Documents\\Avans\\Leerjaar2\\Periode1\\Project\\GitHub\\bumbo\\bumbo.csproj",
       "projectName": "bumbo",
-      "projectPath": "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\bumbo\\bumbo.csproj",
-      "packagesPath": "C:\\Users\\Servaas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\bumbo\\obj\\",
+      "projectPath": "C:\\Users\\Jules Verbruggen\\Documents\\Avans\\Leerjaar2\\Periode1\\Project\\GitHub\\bumbo\\bumbo.csproj",
+      "packagesPath": "C:\\Users\\Jules Verbruggen\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Jules Verbruggen\\Documents\\Avans\\Leerjaar2\\Periode1\\Project\\GitHub\\bumbo\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Servaas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Jules Verbruggen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4272,8 +4267,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\DataLayer\\DataLayer.csproj": {
-              "projectPath": "C:\\Users\\Servaas\\Documents\\avans\\Jaar 2\\Groep werk\\Git Repo Bumbo\\DataLayer\\DataLayer.csproj"
+            "C:\\Users\\Jules Verbruggen\\Documents\\Avans\\Leerjaar2\\Periode1\\Project\\GitHub\\DataLayer\\DataLayer.csproj": {
+              "projectPath": "C:\\Users\\Jules Verbruggen\\Documents\\Avans\\Leerjaar2\\Periode1\\Project\\GitHub\\DataLayer\\DataLayer.csproj"
             }
           }
         }
