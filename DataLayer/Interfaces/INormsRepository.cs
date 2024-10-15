@@ -2,6 +2,6 @@
 {
     public interface INormsRepository
     {
-        List<ReadNormViewModel> readNorms();
+        
     }
 }
