@@ -1,6 +1,18 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
+using bumbo.Models;  // Ensure the namespace matches your Employee model
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<BumboDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
+
+builder.Services.AddIdentity<Employee, IdentityRole>()
+    .AddEntityFrameworkStores<BumboDBContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -9,20 +21,59 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
+// Routing for the default pages
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+// Custom routes for specific pages
+app.MapControllerRoute(
+    name: "forecasts",
+    pattern: "prognoses",
+    defaults: new { controller = "Forecasts", action = "Index" });
 
+app.MapControllerRoute(
+    name: "norms",
+    pattern: "normeringen",
+    defaults: new { controller = "Norms", action = "Index" });
+
+app.MapControllerRoute(
+    name: "employees",
+    pattern: "medewerkers",
+    defaults: new { controller = "Employees", action = "Index" });
+
+app.MapControllerRoute(
+    name: "templates",
+    pattern: "standaard-templates",
+    defaults: new { controller = "Templates", action = "Index" });
+
+app.MapControllerRoute(
+    name: "reviews",
+    pattern: "terugblikken",
+    defaults: new { controller = "Reviews", action = "Index" });
+
+app.MapControllerRoute(
+    name: "branches",
+    pattern: "filialen",
+    defaults: new { controller = "Branches", action = "Index" });
+
+app.MapControllerRoute(
+    name: "logout",
+    pattern: "uitloggen",
+    defaults: new { controller = "Account", action = "Logout" });
+
+app.MapControllerRoute(
+    name: "login",
+    pattern: "inloggen",
+    defaults: new { controller = "Account", action = "Login" });
+
+app.Run();
