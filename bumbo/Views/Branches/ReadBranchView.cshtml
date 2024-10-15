@@ -1,9 +1,9 @@
-﻿@{
+﻿@using bumbo.ViewModels
+@{
     ViewData["Title"] = Model.Name;
-    List<Employee> managers = Model.Employees.Where(e => e.ManagerOfBranchId == 1).ToList();
 }
 
-@model Branch
+@model ReadFilialenViewModel
 
 <div class="ml-32 mt-16">
     <div>
@@ -72,7 +72,7 @@
             </div>
         }
 
-        @foreach (var employee in managers)
+        @foreach (var employee in Model.Managers)
         {
             <div class="flex flex-row">
                 <div class="mr-3 border-slate-100 w-44 h-40 flex flex-col items-center justify-center rounded-3xl border-2">

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using bumbo.Components;
 using static bumbo.Controllers.NormeringController;
+using bumbo.ViewModels;
 
 namespace bumbo.Controllers
 {
@@ -61,19 +62,19 @@ namespace bumbo.Controllers
 
         public IActionResult UpdateBranchView(int branchId)
         {
-            Console.WriteLine("In Update");
-            Console.WriteLine(branchId);
             var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
             return View(branch);
         }
 
         public IActionResult ReadBranchView(int branchId)
         {
-            Console.WriteLine("In Read");
-            Console.WriteLine(branchId);
             var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
-            branch.Employees = GetManagersOfBranch(branch);
-            return View(branch);
+            var viewModel = new ReadFilialenViewModel() { BranchId = branchId, 
+                CountryName = branch.CountryName, HouseNumber = branch.HouseNumber, 
+                Name = branch.Name, PostalCode = branch.PostalCode, Street = branch.Street, 
+                Employees = GetEmployees(branch), Managers = GetManagersOfBranch(branch)};
+            
+            return View(viewModel);
         }
 
         public IActionResult CreateBranchManagerView(string searchTerm, int page = 1)
@@ -137,23 +138,27 @@ namespace bumbo.Controllers
 
         private List<Employee> GetManagersOfBranch(Branch branch)
         {
-            List<Employee> employees = _context.Employees.Where(e => e.ManagerOfBranchId == branch.BranchId).ToList();
-            //employees.Add(GetEmployee());
+            List<Employee> employees = _context
+                .Employees
+                .Where(e => e.ManagerOfBranchId == branch.BranchId)
+                .ToList();
             return employees;
         }
 
         private List<Employee> GetEmployees(Branch branch)
         {
-            List<Employee> employees = _context.Employees.ToList();
-            employees.Add(GetEmployee());
-            employees.Add(GetEmployee());
-            employees.Add(GetEmployee());
-            employees.Add(GetEmployee());
-            employees.Add(GetEmployee());
+            List<Employee> employees = _context
+                .Employees
+                .ToList();
+            employees.Add(GetTestEmployee());
+            employees.Add(GetTestEmployee());
+            employees.Add(GetTestEmployee());
+            employees.Add(GetTestEmployee());
+            employees.Add(GetTestEmployee());
             return employees;
         }
 
-        public Employee GetEmployee()
+        public Employee GetTestEmployee()
         {
             Employee emp = new Employee
             {
