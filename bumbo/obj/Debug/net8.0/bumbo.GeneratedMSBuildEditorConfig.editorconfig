@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Jules Verbruggen\Documents\Avans\Leerjaar2\Periode1\Project\GitHub\bumbo
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Jules Verbruggen/Documents/Avans/Leerjaar2/Periode1/Project/GitHub/bumbo/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Jules Verbruggen/Documents/Avans/Leerjaar2/Periode1/Project/GitHub/bumbo/Views/Branches/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnJhbmNoZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -40,6 +44,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Jules Verbruggen/Documents/Avans/Leerjaar2/Periode1/Project/GitHub/bumbo/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Jules Verbruggen/Documents/Avans/Leerjaar2/Periode1/Project/GitHub/bumbo/Views/Normering/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm9ybWVyaW5nXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Jules Verbruggen/Documents/Avans/Leerjaar2/Periode1/Project/GitHub/bumbo/Views/Norms/Create.cshtml]
