@@ -8,28 +8,17 @@
     <link rel="stylesheet" href="~/bumbo.styles.css" asp-append-version="true" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body>  
 
       
     @if (ViewData["HideLayoutElements"] == null || !(bool)ViewData["HideLayoutElements"])
     {
         @await Component.InvokeAsync("NavBar")
     }
+        <main role="main">
+            @RenderBody()
+        </main>
 
-
-    
-    <main role="main">
-        @RenderBody()
-    </main>
-
-    @if (ViewData["HideLayoutElements"] == null || !(bool)ViewData["HideLayoutElements"])
-    {
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2024 - bumbo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
