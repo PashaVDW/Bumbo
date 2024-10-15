@@ -38,8 +38,8 @@ namespace bumbo.Controllers
             }
         }
 
-        // GET: PrognosisController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: PrognosisController/Edit/5 PARAMETER INT ID MUST BE ADDED
+        public ActionResult Edit()
         {
             return View();
         }
