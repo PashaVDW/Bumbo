@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
 using bumbo.Models;  // Ensure the namespace matches your Employee model
-using DataLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<BumboDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("anthony")));
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
@@ -38,43 +37,43 @@ app.MapControllerRoute(
 
 // Custom routes for specific pages
 app.MapControllerRoute(
-    name: "forecasts",
+    name: "test",
+    pattern: "{controller=Test}/{action=LoginAsJohnDoe}");
+
+app.MapControllerRoute(
+    name: "prognoses",
     pattern: "prognoses",
     defaults: new { controller = "Forecasts", action = "Index" });
 
 app.MapControllerRoute(
-    name: "norms",
+    name: "normeringen",
     pattern: "normeringen",
     defaults: new { controller = "Norms", action = "Index" });
 
 app.MapControllerRoute(
-    name: "employees",
+    name: "medewerkers",
     pattern: "medewerkers",
     defaults: new { controller = "Employees", action = "Index" });
 
 app.MapControllerRoute(
-    name: "templates",
+    name: "standaard-templates",
     pattern: "standaard-templates",
     defaults: new { controller = "Templates", action = "Index" });
 
 app.MapControllerRoute(
-    name: "reviews",
+    name: "terugblikken",
     pattern: "terugblikken",
     defaults: new { controller = "Reviews", action = "Index" });
 
 app.MapControllerRoute(
-    name: "branches",
+    name: "filialen",
     pattern: "filialen",
     defaults: new { controller = "Branches", action = "Index" });
 
+// Route for logging out
 app.MapControllerRoute(
     name: "logout",
     pattern: "uitloggen",
-    defaults: new { controller = "Account", action = "Logout" });
-
-app.MapControllerRoute(
-    name: "login",
-    pattern: "inloggen",
-    defaults: new { controller = "Account", action = "Login" });
+    defaults: new { controller = "Logout", action = "Logout" });
 
 app.Run();
