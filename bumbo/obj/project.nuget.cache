@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RQpHLvYxbEA=",
+  "dgSpecHash": "s6lLU0nPKwg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\bumbo.csproj",
+  "projectFilePath": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thoma\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\thoma\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
@@ -81,12 +81,5 @@
     "C:\\Users\\thoma\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\thoma\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  "logs": []
 }

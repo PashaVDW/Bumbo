@@ -1,0 +1,40 @@
+﻿
+    <div class="bg-gray-100 p-4 flex justify-between items-center px-24">
+        <div class="flex items-center space-x-[100px]">
+            <a href="/">
+                <div class="h-16 max-w-[80px] flex items-center justify-center">
+                    <img src="/media/bumbo-logo.png" alt="Logo" class="max-w-[80px] h-auto" />
+                </div>
+            </a>
+
+            <div class="flex space-x-6">
+                @if (Model.IsBranchManager)
+                {
+                    <a href="/prognoses" class="hover:text-gray-600">Prognoses</a>
+                    <a href="/normeringen" class="hover:text-gray-600">Normeringen</a>
+                    <a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a>
+                    <a href="/standaard-templates" class="hover:text-gray-600">Standaard templates</a>
+                    <a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a>
+                }
+                @if (Model.IsSystemManager)
+                {
+                    <a href="/filialen" class="hover:text-gray-600">Filialen</a>
+                }
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            @if (Model.IsAuthenticated)
+            {
+                <div class="text-right">
+                    <div class="text-gray-700">@Model.FirstName</div>
+                    <div class="text-gray-500 text-sm">@Model.Email</div>
+                </div>
+                <a href="/uitloggen" class="hover:text-gray-600 text-sm">Uitloggen</a>
+            }
+            else
+            {
+                <a href="/inloggen" class="hover:text-gray-600 text-sm">Inloggen</a>
+            }
+        </div>
+    </div>
