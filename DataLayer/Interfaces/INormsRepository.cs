@@ -1,3 +1,4 @@
+
 ﻿using bumbo.Models;
 
 namespace DataLayer.Interfaces
