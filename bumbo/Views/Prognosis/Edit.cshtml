@@ -11,17 +11,37 @@
 </div>
 
 <div class="mt-4 mx-auto max-w-screen-lg">
-    <div class="flex space-x-2">
-        <div class="flex flex-col">
-            <label class="block text-sm font-medium text-gray-700">Week</label>
-            <input type="text" value="12" class="mt-1 p-2 border border-gray-300 rounded" disabled />
+    <!-- Tweede rij met Weeknummer en knop boven de andere invoervelden -->
+    <div class="flex items-center space-x-4 mb-4">
+        <div class="flex flex-col flex-grow">
+            <label class="block text-sm font-medium text-gray-700">Weeknummer</label>
+            <input type="text" class="mt-1 p-2 border border-gray-300 rounded w-full" placeholder="Voer weeknummer in" />
         </div>
         <div class="flex flex-col">
+            <button class="mt-6 p-2 bg-green-600 text-white rounded hover:bg-green-700">
+                Importeer Standaard Template
+            </button>
+        </div>
+    </div>
+
+    <!-- Eerste rij met Week en Jaar -->
+    <div class="flex items-center space-x-4">
+        <div class="flex flex-col flex-grow">
+            <label class="block text-sm font-medium text-gray-700">Week</label>
+            <input type="text" value="12" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
+        </div>
+        <div class="flex flex-col flex-grow">
             <label class="block text-sm font-medium text-gray-700">Jaar</label>
-            <input type="text" value="2024" class="mt-1 p-2 border border-gray-300 rounded" disabled />
+            <input type="text" value="2024" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
+        </div>
+        <div class="flex flex-col">
+            <button class="mt-6 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Importeer Vorige Week
+            </button>
         </div>
     </div>
 </div>
+
 
 <div class="mt-4 mx-auto max-w-screen-lg">
     <div class="grid grid-cols-3 gap-2">
