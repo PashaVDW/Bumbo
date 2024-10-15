@@ -1,0 +1,41 @@
+@model AddNormViewModel
+
+@{
+    ViewData["Title"] = "Normering aanmaken";
+    var ViewModel = (AddNormViewModel)ViewData["ViewModel"];
+}
+
+<a href="/normeringen"><</a> 
+<h1>Normering toevoegen</h1>
+<a asp-controller="Norms" asp-action="Create" asp-route-lastWeek="true" class="btn btn-primary">Importeer normering van vorige week</a>
+<form asp-action="Insert" method="post">
+    <label for="year">Kies een jaar</label>
+    <select id="year" name="@nameof(AddNormViewModel.Year)">
+        @{
+            for (int i = DateTime.Now.Year; i > DateTime.Now.Year-100; i--)
+            {
+                <option value="@i">@i</option>
+            }
+        }
+    </select>
+    <label for="week">Kies een week</label>
+    <select id="week" name="@nameof(AddNormViewModel.Week)">
+        @{
+            for (int i = 1; i < 53; i++)
+            {
+                <option value="@i">Week @i</option>
+            }
+        }
+    </select>
+    <label for="unloadColis">Coli uitladen in minuten</label>
+    <input value="@ViewModel.UnloadColis" id="unloadColis" type="number" name="@nameof(AddNormViewModel.UnloadColis)" />
+    <label for="fillShelves">Vakken vullen in minuten per coli</label>
+    <input value="@ViewModel.FillShelves" id="fillShelves" type="number" name="@nameof(AddNormViewModel.FillShelves)" />
+    <label for="cashier">Hoeveelheid kassiéres per 30 klanten per uur</label>
+    <input value="@ViewModel.Cashier" id="cashier" type="number" name="@nameof(AddNormViewModel.Cashier)" />
+    <label for="fresh">Hoeveelheid medewerkers per 100 klanten per uur</label>
+    <input value="@ViewModel.Fresh" id="fresh" type="number" name="@nameof(AddNormViewModel.Fresh)" />
+    <label for="fronting">Hoeveelheid seconden per meter spiegelen</label>
+    <input value="@ViewModel.Fronting" id="fronting" type="number" name="@nameof(AddNormViewModel.Fronting)" />
+    <input type="submit" value="Aanmaken">
+</form>
