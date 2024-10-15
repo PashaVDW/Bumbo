@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using bumbo.Models;
 
 namespace bumbo.Controllers
 {

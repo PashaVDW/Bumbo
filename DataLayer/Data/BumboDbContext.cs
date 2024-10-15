@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using bumbo.Models;
+using DataLayer.Models;
 
 namespace bumbo.Data
 {
@@ -14,17 +15,21 @@ namespace bumbo.Data
 
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }  // Updated plural name
+        public DbSet<Function> Functions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // Seeding Countries
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },
                 new Country { Name = "Belgium" },
                 new Country { Name = "Germany" }
             );
 
+            // Seeding Branches
             modelBuilder.Entity<Branch>().HasData(
                 new Branch
                 {
@@ -46,8 +51,17 @@ namespace bumbo.Data
                 }
             );
 
+            // Seeding Functions
+            modelBuilder.Entity<Function>().HasData(
+                new Function { FunctionName = "Cashier" },
+                new Function { FunctionName = "Stocker" },
+                new Function { FunctionName = "Manager" }
+            );
+
+            // Password hasher for seeding employees
             var passwordHasher = new PasswordHasher<Employee>();
 
+            // Seeding Employees
             var john = new Employee
             {
                 Id = "1",
@@ -83,7 +97,7 @@ namespace bumbo.Data
                 StartDate = new DateTime(2012, 4, 1),
                 FunctionName = "Cashier",
                 IsSystemManager = false,
-                ManagerOfBranchId = null,  // Jane is not a manager of any branch
+                ManagerOfBranchId = null,
                 UserName = "jane.smith@example.com",
                 NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
                 Email = "jane.smith@example.com",
@@ -92,8 +106,22 @@ namespace bumbo.Data
             };
             jane.PasswordHash = passwordHasher.HashPassword(jane, "PassJane");
 
-            // Add employees to the model
             modelBuilder.Entity<Employee>().HasData(john, jane);
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Branch)
+                .WithMany(b => b.BranchHasEmployees)
+                .HasForeignKey(bhw => bhw.BranchId);
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Employee)
+                .WithMany(e => e.BranchEmployees)
+                .HasForeignKey(bhw => bhw.EmployeeId);
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Function)
+                .WithMany()
+                .HasForeignKey(bhw => bhw.FunctionName);
         }
     }
 }
