@@ -1,26 +1,30 @@
-﻿@{
-    ViewBag.Title = "Terugblik - Weekoverzicht";
-}
-
-@model bumbo.Models.WeekOverview
+﻿@model bumbo.ViewModels.WeekOverviewViewModel
 
 <div class="container">
     <h1>Terugblik</h1>
-    <h2>Week @Model.weekNumber</h2>
+    <h2>Week @Model.WeekNr - @Model.Year</h2>
 
     <div class="week-overview">
-        <button class="arrow-btn"><</button>
-        @foreach (var day in Model.days)
+        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr - 1, year = Model.Year })">Vorige week    </a>
+
+        @if (ViewBag.Message != null)
         {
-            <div class="day-column">
-                <p>@day.dayName</p>
-                <p>Aantal klanten</p>
-                <div class="data-box">@day.customerAmount</div>
-                <p>Aantal coli's</p>
-                <div class="data-box">@day.packagesAmount</div>
-            </div>
+            <div class ="message">@ViewBag.Message</div>
         }
-        <button class="arrow-btn">></button>
+        else
+        {
+            @foreach (var day in Model.Days)
+            {
+                <div class="day-column">
+                    <p>@day.DayName</p>
+                    <p>Aantal klanten</p>
+                    <div class="data-box">@day.CustomerAmount</div>
+                    <p>Aantal coli's</p>
+                    <div class="data-box">@day.PackagesAmount</div>
+                </div>
+            }
+        }
+        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr + 1, year = Model.Year })">   Volgende week</a>
     </div>
 </div>
 
@@ -54,5 +58,10 @@
         border: none;
         font-size: 24px;
         cursor: pointer;
+    }
+
+    .message{
+        margin-left: 50px;
+        margin-right: 50px;
     }
 </style>

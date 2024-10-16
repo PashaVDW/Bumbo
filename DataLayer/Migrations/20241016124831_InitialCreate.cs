@@ -198,7 +198,7 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "prognoses",
+                name: "Prognoses",
                 columns: table => new
                 {
                     PrognosisId = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
@@ -208,9 +208,9 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_prognoses", x => x.PrognosisId);
+                    table.PrimaryKey("PK_Prognoses", x => x.PrognosisId);
                     table.ForeignKey(
-                        name: "FK_prognoses_Branches_BranchId",
+                        name: "FK_Prognoses_Branches_BranchId",
                         column: x => x.BranchId,
                         principalTable: "Branches",
                         principalColumn: "BranchId",
@@ -236,9 +236,9 @@ namespace DataLayer.Migrations
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Prognosis_Has_Days_prognoses_PrognosisId",
+                        name: "FK_Prognosis_Has_Days_Prognoses_PrognosisId",
                         column: x => x.PrognosisId,
-                        principalTable: "prognoses",
+                        principalTable: "Prognoses",
                         principalColumn: "PrognosisId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -246,7 +246,7 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "823df3e6-5a48-4ba2-92e0-db797e0e1dc4", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEEmDkPtXMyd0MpLs+sTmuL4HofErcbIOded5sEPpe9mQNz/yuolp3bu33WaZjvUSXQ==", null, false, "54321", "b3d0210f-75e2-4f8d-8d5c-a9bbb87c4ff0", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
+                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "8d2161d5-a897-40d3-9a5d-739383ad87cd", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEKp5Etg805v1niPVdE0w6c1WDOPRJtgk5QqU82RL5O4nq/5d8Cy+q5NrK9bxUWZDjw==", null, false, "54321", "08383bf2-107b-4a6b-ba31-958a1d63b7d3", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -256,6 +256,20 @@ namespace DataLayer.Migrations
                     "Belgium",
                     "Germany",
                     "Netherlands"
+                });
+
+            migrationBuilder.InsertData(
+                table: "Days",
+                column: "Name",
+                values: new object[]
+                {
+                    "Dinsdag",
+                    "Donderdag",
+                    "Maandag",
+                    "Vrijdag",
+                    "Woensdag",
+                    "Zaterdag",
+                    "Zondag"
                 });
 
             migrationBuilder.InsertData(
@@ -270,7 +284,26 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "d425769e-cd56-4acf-b59a-f1f0707c5b7b", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEF17m2qhulLj84oGZe4e+6oyEg+57TBAT+rYFz6QRxEY+sA/lsUOsC9iKpdeKcSIXw==", null, false, "12345", "23e65766-67c2-4943-ab2b-df270d3711c9", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "e3de93e7-5ebb-42e8-91a2-d51185dfcb05", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEFTzpnpyFEL4p1zRhv3wUH3dkDHBHj/6OwipJUmOjp3ZEoLaXfhROimfonPMM8RVWQ==", null, false, "12345", "c36dab6b-8160-4475-b30c-38cfc0ba02d1", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+
+            migrationBuilder.InsertData(
+                table: "Prognoses",
+                columns: new[] { "PrognosisId", "BranchId", "WeekNr", "Year" },
+                values: new object[] { "1", 1, 40, 2024 });
+
+            migrationBuilder.InsertData(
+                table: "Prognosis_Has_Days",
+                columns: new[] { "Days_name", "PrognosisId", "CustomerAmount", "PackagesAmount" },
+                values: new object[,]
+                {
+                    { "Dinsdag", "1", 120, 60 },
+                    { "Donderdag", "1", 110, 45 },
+                    { "Maandag", "1", 100, 50 },
+                    { "Vrijdag", "1", 150, 70 },
+                    { "Woensdag", "1", 130, 55 },
+                    { "Zaterdag", "1", 160, 80 },
+                    { "Zondag", "1", 140, 65 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -327,8 +360,8 @@ namespace DataLayer.Migrations
                 column: "PrognosisId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_prognoses_BranchId",
-                table: "prognoses",
+                name: "IX_Prognoses_BranchId",
+                table: "Prognoses",
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
@@ -368,10 +401,10 @@ namespace DataLayer.Migrations
                 principalColumn: "BranchId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Branches_prognoses_PrognosisId",
+                name: "FK_Branches_Prognoses_PrognosisId",
                 table: "Branches",
                 column: "PrognosisId",
-                principalTable: "prognoses",
+                principalTable: "Prognoses",
                 principalColumn: "PrognosisId");
         }
 
@@ -379,8 +412,8 @@ namespace DataLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_prognoses_Branches_BranchId",
-                table: "prognoses");
+                name: "FK_Prognoses_Branches_BranchId",
+                table: "Prognoses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -416,7 +449,7 @@ namespace DataLayer.Migrations
                 name: "Countries");
 
             migrationBuilder.DropTable(
-                name: "prognoses");
+                name: "Prognoses");
         }
     }
 }

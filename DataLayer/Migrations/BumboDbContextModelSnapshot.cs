@@ -254,6 +254,36 @@ namespace DataLayer.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("Days");
+
+                    b.HasData(
+                        new
+                        {
+                            Name = "Maandag"
+                        },
+                        new
+                        {
+                            Name = "Dinsdag"
+                        },
+                        new
+                        {
+                            Name = "Woensdag"
+                        },
+                        new
+                        {
+                            Name = "Donderdag"
+                        },
+                        new
+                        {
+                            Name = "Vrijdag"
+                        },
+                        new
+                        {
+                            Name = "Zaterdag"
+                        },
+                        new
+                        {
+                            Name = "Zondag"
+                        });
                 });
 
             modelBuilder.Entity("bumbo.Models.Employee", b =>
@@ -371,7 +401,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "d425769e-cd56-4acf-b59a-f1f0707c5b7b",
+                            ConcurrencyStamp = "e3de93e7-5ebb-42e8-91a2-d51185dfcb05",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -384,10 +414,10 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF17m2qhulLj84oGZe4e+6oyEg+57TBAT+rYFz6QRxEY+sA/lsUOsC9iKpdeKcSIXw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFTzpnpyFEL4p1zRhv3wUH3dkDHBHj/6OwipJUmOjp3ZEoLaXfhROimfonPMM8RVWQ==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "23e65766-67c2-4943-ab2b-df270d3711c9",
+                            SecurityStamp = "c36dab6b-8160-4475-b30c-38cfc0ba02d1",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -398,7 +428,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "823df3e6-5a48-4ba2-92e0-db797e0e1dc4",
+                            ConcurrencyStamp = "8d2161d5-a897-40d3-9a5d-739383ad87cd",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -410,10 +440,10 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEmDkPtXMyd0MpLs+sTmuL4HofErcbIOded5sEPpe9mQNz/yuolp3bu33WaZjvUSXQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKp5Etg805v1niPVdE0w6c1WDOPRJtgk5QqU82RL5O4nq/5d8Cy+q5NrK9bxUWZDjw==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "b3d0210f-75e2-4f8d-8d5c-a9bbb87c4ff0",
+                            SecurityStamp = "08383bf2-107b-4a6b-ba31-958a1d63b7d3",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -439,7 +469,16 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("prognoses");
+                    b.ToTable("Prognoses");
+
+                    b.HasData(
+                        new
+                        {
+                            PrognosisId = "1",
+                            BranchId = 1,
+                            WeekNr = 40,
+                            Year = 2024
+                        });
                 });
 
             modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
@@ -463,6 +502,57 @@ namespace DataLayer.Migrations
                     b.HasIndex("PrognosisId");
 
                     b.ToTable("Prognosis_Has_Days");
+
+                    b.HasData(
+                        new
+                        {
+                            Days_name = "Maandag",
+                            PrognosisId = "1",
+                            CustomerAmount = 100,
+                            PackagesAmount = 50
+                        },
+                        new
+                        {
+                            Days_name = "Dinsdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 120,
+                            PackagesAmount = 60
+                        },
+                        new
+                        {
+                            Days_name = "Woensdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 130,
+                            PackagesAmount = 55
+                        },
+                        new
+                        {
+                            Days_name = "Donderdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 110,
+                            PackagesAmount = 45
+                        },
+                        new
+                        {
+                            Days_name = "Vrijdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 150,
+                            PackagesAmount = 70
+                        },
+                        new
+                        {
+                            Days_name = "Zaterdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 160,
+                            PackagesAmount = 80
+                        },
+                        new
+                        {
+                            Days_name = "Zondag",
+                            PrognosisId = "1",
+                            CustomerAmount = 140,
+                            PackagesAmount = 65
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

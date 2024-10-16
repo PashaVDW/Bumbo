@@ -21,11 +21,27 @@ namespace DataLayer.Repositories
 
         public Prognosis GetLatestPrognosis()
         {
-            return _context.Prognoses
+            List<Prognosis> prognosis = _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
                 .OrderByDescending(p => p.Year)
                 .ThenByDescending(p => p.WeekNr)
-                .FirstOrDefault();
+                .ToList<Prognosis>();
+            return prognosis.First();
+        }
+
+        public Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year)
+        {
+            List<Prognosis> prognosis = _context.Prognoses
+                .Include(p => p.Prognosis_Has_Days)
+                .Where(p => p.WeekNr == weekNumber && p.Year == year)
+                .ToList<Prognosis>();
+
+            if (!prognosis.Any())
+            {
+                return null;
+            }
+
+            return prognosis.First();
         }
     }
 }
