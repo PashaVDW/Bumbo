@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace bumbo.ViewModels
 {
-    public class ReadFilialenViewModel
+    public class ReadBranchViewModel
     {
 
         public int BranchId { get; set; }
