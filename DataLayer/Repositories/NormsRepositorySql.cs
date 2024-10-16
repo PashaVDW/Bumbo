@@ -7,6 +7,12 @@ namespace DataLayer.Repositories
     public class NormsRepositorySql : INormsRepository
     {
         readonly BumboDBContext _context;
+
+        public NormsRepositorySql(BumboDBContext context)
+        {
+            _context = context;
+        }
+
         public List<Norm> GetNorms()
         {
             return _context.Norms.ToList();
