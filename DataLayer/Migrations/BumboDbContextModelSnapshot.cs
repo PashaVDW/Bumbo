@@ -8,7 +8,7 @@ using bumbo.Data;
 
 #nullable disable
 
-namespace bumbo.Migrations
+namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
     partial class BumboDBContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace bumbo.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -396,7 +396,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "bbcff31b-ae52-4f0a-8f74-7bef08f86871",
+                            ConcurrencyStamp = "9a06164c-7311-4625-bf1f-1df67e783cee",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -409,10 +409,10 @@ namespace bumbo.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIYeRpcEk0C1LSFoQgdiL2Ev/W/0kzuEPom6/Zpx2uTPBbBNri978CfSo7RopHlang==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFGtD5zymh655w3bAHIPs8i9csqvgngsXkTdHt7xJl0VpMs44xd0X6DqzPUj01ZY1A==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "b695df79-e2e0-4eb1-9c7b-5304039ef7d6",
+                            SecurityStamp = "71843d89-5b71-424e-bfc3-24d14f52496f",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -423,7 +423,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "88e9e2a6-f4f2-4482-a31b-46f50db87746",
+                            ConcurrencyStamp = "092b2c77-f5d4-44ca-8350-ba9e6e4ca1c9",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -435,10 +435,10 @@ namespace bumbo.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMsZ5smgzTq5UrtVHdpJQsKILEzjOqdHeABJpZ1Ms0iQ9LV+DdYlQC3bk4oOdsohVg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA/Cnynl3DpCsbs7fGApcVzwjycITV8LQor7V+s80bkppBQ+UiOX3ZDJ9XkwLwbhPg==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "44d276fe-1da9-46e8-9c58-5d64f6b20f57",
+                            SecurityStamp = "8a073d6c-c3a5-4d63-b715-4a82ba5c7a75",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -500,7 +500,7 @@ namespace bumbo.Migrations
                         });
                 });
 
-            modelBuilder.Entity("bumbo.Models.Template_has_days", b =>
+            modelBuilder.Entity("bumbo.Models.TemplateHasDays", b =>
                 {
                     b.Property<int>("Templates_id")
                         .HasColumnType("int");
@@ -519,7 +519,7 @@ namespace bumbo.Migrations
 
                     b.HasIndex("Days_name");
 
-                    b.ToTable("Template_Has_Days");
+                    b.ToTable("TemplateHasDays");
 
                     b.HasData(
                         new
@@ -851,7 +851,7 @@ namespace bumbo.Migrations
                     b.Navigation("Branch");
                 });
 
-            modelBuilder.Entity("bumbo.Models.Template_has_days", b =>
+            modelBuilder.Entity("bumbo.Models.TemplateHasDays", b =>
                 {
                     b.HasOne("bumbo.Models.Days", "Days")
                         .WithMany("TemplateHasDays")

@@ -3,12 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
 using bumbo.Models;  // Ensure the namespace matches your Employee model
 using DataLayer;
+using DataLayer.Interfaces;
+using DataLayer.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<BumboDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
+
+builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
+builder.Services.AddScoped<ITemplateHasDaysRepository,  TemplateHasDaysRepositorySql>();
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()

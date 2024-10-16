@@ -15,14 +15,14 @@ namespace bumbo.Data
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Template> Templates { get; set; }
-        public DbSet<Template_has_days> Template_Has_Days { get; set; }
+        public DbSet<TemplateHasDays> TemplateHasDays { get; set; }
         public DbSet<Days> Days { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Template_has_days>()
+            modelBuilder.Entity<TemplateHasDays>()
                .HasKey(t => new { t.Templates_id, t.Days_name });
 
             modelBuilder.Entity<Country>().HasData(
@@ -161,46 +161,46 @@ namespace bumbo.Data
             );
 
             // Seed data for Template_has_days
-            modelBuilder.Entity<Template_has_days>().HasData(
-                new Template_has_days { Templates_id = 1, Days_name = "Monday", CustomerAmount = 989, ContainerAmount = 41 },
-                new Template_has_days { Templates_id = 1, Days_name = "Tuesday", CustomerAmount = 825, ContainerAmount = 52 },
-                new Template_has_days { Templates_id = 1, Days_name = "Wednesday", CustomerAmount = 902, ContainerAmount = 38 },
-                new Template_has_days { Templates_id = 1, Days_name = "Thursday", CustomerAmount = 990, ContainerAmount = 52 },
-                new Template_has_days { Templates_id = 1, Days_name = "Friday", CustomerAmount = 1040, ContainerAmount = 39 },
-                new Template_has_days { Templates_id = 1, Days_name = "Saturday", CustomerAmount = 953, ContainerAmount = 43 },
-                new Template_has_days { Templates_id = 1, Days_name = "Sunday", CustomerAmount = 872, ContainerAmount = 32 },
+            modelBuilder.Entity<TemplateHasDays>().HasData(
+                new TemplateHasDays { Templates_id = 1, Days_name = "Monday", CustomerAmount = 989, ContainerAmount = 41 },
+                new TemplateHasDays { Templates_id = 1, Days_name = "Tuesday", CustomerAmount = 825, ContainerAmount = 52 },
+                new TemplateHasDays { Templates_id = 1, Days_name = "Wednesday", CustomerAmount = 902, ContainerAmount = 38 },
+                new TemplateHasDays { Templates_id = 1, Days_name = "Thursday", CustomerAmount = 990, ContainerAmount = 52 },
+                new TemplateHasDays { Templates_id = 1, Days_name = "Friday", CustomerAmount = 1040, ContainerAmount = 39 },
+                new TemplateHasDays { Templates_id = 1, Days_name = "Saturday", CustomerAmount = 953, ContainerAmount = 43 },
+                new TemplateHasDays { Templates_id = 1, Days_name = "Sunday", CustomerAmount = 872, ContainerAmount = 32 },
 
-                new Template_has_days { Templates_id = 2, Days_name = "Monday", CustomerAmount = 916, ContainerAmount = 42 },
-                new Template_has_days { Templates_id = 2, Days_name = "Tuesday", CustomerAmount = 912, ContainerAmount = 38 },
-                new Template_has_days { Templates_id = 2, Days_name = "Wednesday", CustomerAmount = 902, ContainerAmount = 32 },
-                new Template_has_days { Templates_id = 2, Days_name = "Thursday", CustomerAmount = 940, ContainerAmount = 45 },
-                new Template_has_days { Templates_id = 2, Days_name = "Friday", CustomerAmount = 816, ContainerAmount = 47 },
-                new Template_has_days { Templates_id = 2, Days_name = "Saturday", CustomerAmount = 842, ContainerAmount = 38 },
-                new Template_has_days { Templates_id = 2, Days_name = "Sunday", CustomerAmount = 885, ContainerAmount = 45 },
+                new TemplateHasDays { Templates_id = 2, Days_name = "Monday", CustomerAmount = 916, ContainerAmount = 42 },
+                new TemplateHasDays { Templates_id = 2, Days_name = "Tuesday", CustomerAmount = 912, ContainerAmount = 38 },
+                new TemplateHasDays { Templates_id = 2, Days_name = "Wednesday", CustomerAmount = 902, ContainerAmount = 32 },
+                new TemplateHasDays { Templates_id = 2, Days_name = "Thursday", CustomerAmount = 940, ContainerAmount = 45 },
+                new TemplateHasDays { Templates_id = 2, Days_name = "Friday", CustomerAmount = 816, ContainerAmount = 47 },
+                new TemplateHasDays { Templates_id = 2, Days_name = "Saturday", CustomerAmount = 842, ContainerAmount = 38 },
+                new TemplateHasDays { Templates_id = 2, Days_name = "Sunday", CustomerAmount = 885, ContainerAmount = 45 },
 
-                new Template_has_days { Templates_id = 3, Days_name = "Monday", CustomerAmount = 872, ContainerAmount = 53 },
-                new Template_has_days { Templates_id = 3, Days_name = "Tuesday", CustomerAmount = 989, ContainerAmount = 41 },
-                new Template_has_days { Templates_id = 3, Days_name = "Wednesday", CustomerAmount = 916, ContainerAmount = 42 },
-                new Template_has_days { Templates_id = 3, Days_name = "Thursday", CustomerAmount = 875, ContainerAmount = 36 },
-                new Template_has_days { Templates_id = 3, Days_name = "Friday", CustomerAmount = 877, ContainerAmount = 29 },
-                new Template_has_days { Templates_id = 3, Days_name = "Saturday", CustomerAmount = 945, ContainerAmount = 53 },
-                new Template_has_days { Templates_id = 3, Days_name = "Sunday", CustomerAmount = 880, ContainerAmount = 52 },
+                new TemplateHasDays { Templates_id = 3, Days_name = "Monday", CustomerAmount = 872, ContainerAmount = 53 },
+                new TemplateHasDays { Templates_id = 3, Days_name = "Tuesday", CustomerAmount = 989, ContainerAmount = 41 },
+                new TemplateHasDays { Templates_id = 3, Days_name = "Wednesday", CustomerAmount = 916, ContainerAmount = 42 },
+                new TemplateHasDays { Templates_id = 3, Days_name = "Thursday", CustomerAmount = 875, ContainerAmount = 36 },
+                new TemplateHasDays { Templates_id = 3, Days_name = "Friday", CustomerAmount = 877, ContainerAmount = 29 },
+                new TemplateHasDays { Templates_id = 3, Days_name = "Saturday", CustomerAmount = 945, ContainerAmount = 53 },
+                new TemplateHasDays { Templates_id = 3, Days_name = "Sunday", CustomerAmount = 880, ContainerAmount = 52 },
 
-                new Template_has_days { Templates_id = 4, Days_name = "Monday", CustomerAmount = 900, ContainerAmount = 49 },
-                new Template_has_days { Templates_id = 4, Days_name = "Tuesday", CustomerAmount = 903, ContainerAmount = 38 },
-                new Template_has_days { Templates_id = 4, Days_name = "Wednesday", CustomerAmount = 930, ContainerAmount = 45 },
-                new Template_has_days { Templates_id = 4, Days_name = "Thursday", CustomerAmount = 985, ContainerAmount = 42 },
-                new Template_has_days { Templates_id = 4, Days_name = "Friday", CustomerAmount = 865, ContainerAmount = 36 },
-                new Template_has_days { Templates_id = 4, Days_name = "Saturday", CustomerAmount = 950, ContainerAmount = 43 },
-                new Template_has_days { Templates_id = 4, Days_name = "Sunday", CustomerAmount = 950, ContainerAmount = 38 },
+                new TemplateHasDays { Templates_id = 4, Days_name = "Monday", CustomerAmount = 900, ContainerAmount = 49 },
+                new TemplateHasDays { Templates_id = 4, Days_name = "Tuesday", CustomerAmount = 903, ContainerAmount = 38 },
+                new TemplateHasDays { Templates_id = 4, Days_name = "Wednesday", CustomerAmount = 930, ContainerAmount = 45 },
+                new TemplateHasDays { Templates_id = 4, Days_name = "Thursday", CustomerAmount = 985, ContainerAmount = 42 },
+                new TemplateHasDays { Templates_id = 4, Days_name = "Friday", CustomerAmount = 865, ContainerAmount = 36 },
+                new TemplateHasDays { Templates_id = 4, Days_name = "Saturday", CustomerAmount = 950, ContainerAmount = 43 },
+                new TemplateHasDays { Templates_id = 4, Days_name = "Sunday", CustomerAmount = 950, ContainerAmount = 38 },
 
-                new Template_has_days { Templates_id = 5, Days_name = "Monday", CustomerAmount = 832, ContainerAmount = 52 },
-                new Template_has_days { Templates_id = 5, Days_name = "Tuesday", CustomerAmount = 935, ContainerAmount = 49 },
-                new Template_has_days { Templates_id = 5, Days_name = "Wednesday", CustomerAmount = 877, ContainerAmount = 29 },
-                new Template_has_days { Templates_id = 5, Days_name = "Thursday", CustomerAmount = 989, ContainerAmount = 41 },
-                new Template_has_days { Templates_id = 5, Days_name = "Friday", CustomerAmount = 872, ContainerAmount = 32 },
-                new Template_has_days { Templates_id = 5, Days_name = "Saturday", CustomerAmount = 771, ContainerAmount = 36 },
-                new Template_has_days { Templates_id = 5, Days_name = "Sunday", CustomerAmount = 885, ContainerAmount = 52 }
+                new TemplateHasDays { Templates_id = 5, Days_name = "Monday", CustomerAmount = 832, ContainerAmount = 52 },
+                new TemplateHasDays { Templates_id = 5, Days_name = "Tuesday", CustomerAmount = 935, ContainerAmount = 49 },
+                new TemplateHasDays { Templates_id = 5, Days_name = "Wednesday", CustomerAmount = 877, ContainerAmount = 29 },
+                new TemplateHasDays { Templates_id = 5, Days_name = "Thursday", CustomerAmount = 989, ContainerAmount = 41 },
+                new TemplateHasDays { Templates_id = 5, Days_name = "Friday", CustomerAmount = 872, ContainerAmount = 32 },
+                new TemplateHasDays { Templates_id = 5, Days_name = "Saturday", CustomerAmount = 771, ContainerAmount = 36 },
+                new TemplateHasDays { Templates_id = 5, Days_name = "Sunday", CustomerAmount = 885, ContainerAmount = 52 }
             );
         }
     }

@@ -4,49 +4,54 @@ using bumbo.Models;
 using bumbo.Components;
 using static bumbo.Controllers.NormeringController;
 using bumbo.ViewModels;
+using DataLayer.Interfaces;
 
 namespace bumbo.Controllers
 {
     public class TemplatesController : Controller
     {
         private readonly UserManager<Employee> _userManager;
+        readonly ITemplatesRepository _templatesRepository;
+        readonly ITemplateHasDaysRepository _templatesHasDaysRepository;
 
-        public List<TemplatesViewModel> templates = new List<TemplatesViewModel>()
-            {
-                new TemplatesViewModel {
-                    Name = "test",
-                    TemplateId = 3,
-                    HasDays = new List<TemplateHasDaysViewModel>() {
-                        new TemplateHasDaysViewModel { DayName = "Monday", CustmerAmount = 500, ContainerAmount = 42 },
-                        new TemplateHasDaysViewModel { DayName = "Tuesday", CustmerAmount = 500, ContainerAmount = 42 },
-                        new TemplateHasDaysViewModel { DayName = "Monday", CustmerAmount = 500, ContainerAmount = 42 },
-                        new TemplateHasDaysViewModel { DayName = "Monday", CustmerAmount = 500, ContainerAmount = 42 },
-                        new TemplateHasDaysViewModel { DayName = "Monday", CustmerAmount = 500, ContainerAmount = 42 },
-                        new TemplateHasDaysViewModel { DayName = "Monday", CustmerAmount = 500, ContainerAmount = 42 },
-                        new TemplateHasDaysViewModel { DayName = "Monday", CustmerAmount = 500, ContainerAmount = 42 }
-                    }
-                }
-            };
-
-        public TemplatesController(UserManager<Employee> userManager)
+        public TemplatesController(UserManager<Employee> userManager, ITemplatesRepository templatesRepository, ITemplateHasDaysRepository templateHasDaysRepository)
         {
             _userManager = userManager;
+            _templatesRepository = templatesRepository;
+            _templatesHasDaysRepository = templateHasDaysRepository;
         }
 
-        public IActionResult Index(string searchTerm, int page = 1)
+        public async Task<IActionResult> Index(string searchTerm, int page = 1)
         {
-            //var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
 
-            //if (user == null || user.ManagerOfBranchId == null)
-            //{
-            //    return RedirectToAction("AccessDenied", "Home");
-            //}
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
             var headers = new List<string> { "Naam" };
             var tableBuilder = new TableHtmlBuilder<TemplatesViewModel>();
 
-            
-            var htmlTable = tableBuilder.GenerateTable("Templates", headers, templates, "../#add", "../#edit", item =>
+            List<TemplateHasDays> templateHasDays = _templatesHasDaysRepository.GetAllTemplateHasDays();
+            List<Template> templates = _templatesRepository.GetAllTemplates();
+
+            List<TemplatesViewModel> templateViewModel = templates.Select(template => new TemplatesViewModel
+            {
+                TemplateId = template.Id,
+                Name = template.Name,
+                HasDays = templateHasDays
+            .Where(thd => thd.Templates_id == template.Id)
+            .Select(thd => new TemplateHasDaysViewModel
+                {
+                    DayName = thd.Days_name,
+                    CustomerAmount = thd.CustomerAmount,
+                    ContainerAmount = thd.ContainerAmount
+                })
+            .ToList()
+            }).ToList();
+
+            var htmlTable = tableBuilder.GenerateTable("Templates", headers, templateViewModel, "../#add", "../#edit", item =>
             {
                 return $@"
                     <td class='py-2 px-4'>{item.Name}</td>
@@ -64,10 +69,35 @@ namespace bumbo.Controllers
             return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> Update(int templateId)
         {
-            ViewBag.Template = templates.Find(t => t.TemplateId == templateId);
+            List<TemplateHasDays> templateHasDays = _templatesHasDaysRepository.GetAllTemplateHasDays();
+            List<Template> templates = _templatesRepository.GetAllTemplates();
+
+            List<TemplatesViewModel> templateViewModel = templates.Select(template => new TemplatesViewModel
+            {
+                TemplateId = template.Id,
+                Name = template.Name,
+                HasDays = templateHasDays
+            .Where(thd => thd.Templates_id == template.Id)
+            .Select(thd => new TemplateHasDaysViewModel
+                {
+                    DayName = thd.Days_name,
+                    CustomerAmount = thd.CustomerAmount,
+                    ContainerAmount = thd.ContainerAmount
+                })
+            .ToList()
+            }).ToList();
+
+            ViewBag.Template = templateViewModel.Find(t => t.TemplateId == templateId);
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(int templateId, TemplateHasDays templateHasDays)
+        {
+            return View(templateHasDays);
         }
     }
 }
