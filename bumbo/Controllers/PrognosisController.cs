@@ -20,6 +20,7 @@ namespace bumbo.Controllers
         // GET: PrognosisController/Create
         public ActionResult Create()
         {
+
             return View();
         }
 
