@@ -10,10 +10,11 @@
             <h1 class="text-3xl font-semibold">Standaard template bewerken</h1>
         </div>
         <div>
-            <form>
+            <form asp-action="Update" method="post" id="updateForm">
+                <input type="hidden" name="templateId" value="@ViewBag.Template.TemplateId" />
                 <div class="mb-10">
-                    <label for="Naam">Naam:</label><br />
-                    <input type="text" id="Naam" name="Naam" value="@ViewBag.Template.Name" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
+                    <label for="Name">Naam:</label><br />
+                    <input type="text" id="Name" name="Name" value="@ViewBag.Template.Name" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
                 </div>
                 <div class="py-2 border-b">
                     <div class="gap-4 grid grid-cols-3">
@@ -27,15 +28,15 @@
                     <div class="py-2 border-b">
                         <div class="gap-4 grid grid-cols-3">
                             <label><b>@day.DayName</b></label>
-                            <input type="number" name="@day.DayName-Customers" value="@day.CustomerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                            <input type="number" name="@day.DayName-Containers" value="@day.ContainerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                            <input type="number" name="customerData[@day.DayName]" value="@day.CustomerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                            <input type="number" name="containerData[@day.DayName]" value="@day.ContainerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                         </div>
                     </div>
                 }
                 
                 <div class="mt-5">
                     <default-button button-text="Delete" button-type="secondary"></default-button>
-                    <default-button button-text="Update" button-type="primary"></default-button>
+                    <default-button button-text="Update" button-type="primary" on-click="document.getElementById('updateForm').submit();"></default-button>
                 </div>
             </form>
         </div>

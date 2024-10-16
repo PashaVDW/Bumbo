@@ -19,5 +19,14 @@ namespace DataLayer.Repositories
             return _context.Templates.ToList();
         }
 
+        public void Update(Template template)
+        {
+            _context.Templates.Update(template);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

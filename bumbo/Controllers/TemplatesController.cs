@@ -75,6 +75,8 @@ namespace bumbo.Controllers
             List<TemplateHasDays> templateHasDays = _templatesHasDaysRepository.GetAllTemplateHasDays();
             List<Template> templates = _templatesRepository.GetAllTemplates();
 
+            var dayOrder = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
             List<TemplatesViewModel> templateViewModel = templates.Select(template => new TemplatesViewModel
             {
                 TemplateId = template.Id,
@@ -87,6 +89,7 @@ namespace bumbo.Controllers
                     CustomerAmount = thd.CustomerAmount,
                     ContainerAmount = thd.ContainerAmount
                 })
+            .OrderBy(thd => Array.IndexOf(dayOrder, thd.DayName))
             .ToList()
             }).ToList();
 
@@ -95,9 +98,57 @@ namespace bumbo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int templateId, TemplateHasDays templateHasDays)
+        public async Task<IActionResult> Update(int templateId, string Name, Dictionary<string, int> customerData, Dictionary<string, int> containerData)
         {
-            return View(templateHasDays);
+            var template = _templatesRepository.GetAllTemplates().FirstOrDefault(t => t.Id == templateId);
+
+            if(template == null)
+            {
+                Console.WriteLine("whoops, something went wrong");
+
+                var templateViewModel = new TemplatesViewModel
+                {
+                    TemplateId = templateId,
+                    Name = Name,
+                    HasDays = customerData.Select((customer, index) => new TemplateHasDaysViewModel
+                    {
+                        DayName = customer.Key,
+                        CustomerAmount = customer.Value,
+                        ContainerAmount = containerData.ContainsKey(customer.Key) ? containerData[customer.Key] : 0
+                    }).ToList()
+                };
+
+                ViewBag.Template = templateViewModel;
+
+                return View();
+            }
+
+            template.Name = Name;
+
+            var templateHasDays = _templatesHasDaysRepository.GetAllTemplateHasDays()
+                .Where(thd => thd.Templates_id == templateId)
+                .ToList();
+
+            foreach (var thd in templateHasDays)
+            {
+                if (customerData.TryGetValue(thd.Days_name, out int customerAmount))
+                {
+                    thd.CustomerAmount = customerAmount;
+                }
+
+                if (containerData.TryGetValue(thd.Days_name, out int containerAmount))
+                {
+                    thd.ContainerAmount = containerAmount;
+                }
+
+                _templatesHasDaysRepository.Update(thd);
+            }
+
+            _templatesRepository.Update(template);
+            await _templatesRepository.SaveChangesAsync();
+            await _templatesHasDaysRepository.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
