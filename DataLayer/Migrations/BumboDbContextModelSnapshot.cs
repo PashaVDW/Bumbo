@@ -484,6 +484,101 @@ namespace bumbo.Migrations
                 {
                     b.Navigation("Branches");
                 });
+
+            //modelBuilder.Entity("bumbo.Models.Employee", b =>
+            //{
+            //    b.Property<string>("employeeId")
+            //        .HasColumnType("int");
+
+            //    b.Property<string>("BID")
+            //        .IsRequired()
+            //        .HasColumnType("nvarchar(max)");
+
+            //    b.Property<DateTime>("BirthDate")
+            //        .HasColumnType("datetime2");
+
+            //    b.Property<string>("Email")
+            //        .HasMaxLength(256)
+            //        .HasColumnType("nvarchar(256)");
+
+            //    b.Property<string>("FirstName")
+            //        .IsRequired()
+            //        .HasMaxLength(50)
+            //        .HasColumnType("nvarchar(50)");
+
+            //    b.Property<string>("FunctionName")
+            //        .IsRequired()
+            //        .HasColumnType("nvarchar(max)");
+
+            //    b.Property<int>("HouseNumber")
+            //        .HasColumnType("int");
+
+            //    b.Property<bool>("IsSystemManager")
+            //        .HasColumnType("bit");
+
+            //    b.Property<string>("LastName")
+            //        .IsRequired()
+            //        .HasMaxLength(50)
+            //        .HasColumnType("nvarchar(50)");
+
+            //    b.Property<int?>("ManagerOfBranchId")
+            //        .HasColumnType("int");
+
+            //    b.Property<string>("MiddleName")
+            //        .IsRequired()
+            //        .HasColumnType("nvarchar(max)");
+
+            //    b.Property<string>("PhoneNumber")
+            //        .HasColumnType("nvarchar(max)");
+
+            //    b.Property<string>("PostalCode")
+            //        .IsRequired()
+            //        .HasMaxLength(50)
+            //        .HasColumnType("nvarchar(50)");
+
+            //    b.Property<DateTime>("StartDate")
+            //        .HasColumnType("datetime2");
+
+            //    b.HasKey("Id");
+
+            //    b.HasIndex("ManagerOfBranchId");
+
+            //    b.ToTable("Employee", (string)null);
+
+            //    b.HasData(
+            //        new
+            //        {
+            //            Id = "3",
+            //            BID = "B001",
+            //            BirthDate = new DateTime(1989, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+            //            Email = "kees.vanderspek@gmail.com",
+            //            FirstName = "Kees",
+            //            FunctionName = "Manager",
+            //            HouseNumber = 10,
+            //            IsSystemManager = true,
+            //            LastName = "van der Spek",
+            //            ManagerOfBranchId = 1,
+            //            MiddleName = "A.",
+            //            PostalCode = "12345",
+            //            StartDate = new DateTime(2005, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+            //        },
+            //        new
+            //        {
+            //            Id = "4",
+            //            BID = "B002",
+            //            BirthDate = new DateTime(1987, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+            //            Email = "jane.smith@example.com",
+            //            FirstName = "Frank",
+            //            FunctionName = "Cashier",
+            //            HouseNumber = 22,
+            //            IsSystemManager = false,
+            //            LastName = "de Vries",
+            //            MiddleName = "B.",
+            //            PostalCode = "54321",
+            //            StartDate = new DateTime(2014, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+            //        });
+            //});
+
 #pragma warning restore 612, 618
         }
     }
