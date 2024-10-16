@@ -7,11 +7,12 @@ namespace bumbo.Data
 {
     public class BumboDBContext : IdentityDbContext<Employee>
     {
-        public BumboDBContext(DbContextOptions<BumboDBContext> options)
-            : base(options)
+        public BumboDBContext(DbContextOptions<BumboDBContext> options) : base(options)
         {
         }
 
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Norm> Norms { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
 
