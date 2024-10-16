@@ -8,7 +8,7 @@ using bumbo.Data;
 
 #nullable disable
 
-namespace bumbo.Migrations
+namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
     partial class BumboDBContextModelSnapshot : ModelSnapshot
@@ -371,7 +371,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "7f9ae8f9-1535-4c87-b7b9-f6040167bf4e",
+                            ConcurrencyStamp = "d425769e-cd56-4acf-b59a-f1f0707c5b7b",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -384,10 +384,10 @@ namespace bumbo.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOy0f5XBBMizh9ABEGJHK9tx95rDDifxffhuFhPpAklOj1miQu4BiG7mljEyN7XVUg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF17m2qhulLj84oGZe4e+6oyEg+57TBAT+rYFz6QRxEY+sA/lsUOsC9iKpdeKcSIXw==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "a6867300-4109-4eb8-bd0c-fdcfec38bbbb",
+                            SecurityStamp = "23e65766-67c2-4943-ab2b-df270d3711c9",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -398,7 +398,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "b7ec6d38-3fde-4bb5-8695-b02db3100906",
+                            ConcurrencyStamp = "823df3e6-5a48-4ba2-92e0-db797e0e1dc4",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -410,10 +410,10 @@ namespace bumbo.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFxcInkVFtWyr38O4fDtG/Y22+itD62hyhROt88BXjnegiJDhj3QA/E07500JpPcmg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEmDkPtXMyd0MpLs+sTmuL4HofErcbIOded5sEPpe9mQNz/yuolp3bu33WaZjvUSXQ==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "5d555813-9337-4969-9116-1473b685871d",
+                            SecurityStamp = "b3d0210f-75e2-4f8d-8d5c-a9bbb87c4ff0",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"

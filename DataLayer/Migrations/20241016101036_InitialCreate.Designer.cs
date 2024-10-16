@@ -9,10 +9,10 @@ using bumbo.Data;
 
 #nullable disable
 
-namespace bumbo.Migrations
+namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241010133852_InitialCreate")]
+    [Migration("20241016101036_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace bumbo.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -186,6 +186,9 @@ namespace bumbo.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("PrognosisId")
+                        .HasColumnType("nvarchar(45)");
+
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -194,6 +197,8 @@ namespace bumbo.Migrations
                     b.HasKey("BranchId");
 
                     b.HasIndex("CountryName");
+
+                    b.HasIndex("PrognosisId");
 
                     b.ToTable("Branches");
 
@@ -241,6 +246,17 @@ namespace bumbo.Migrations
                         {
                             Name = "Germany"
                         });
+                });
+
+            modelBuilder.Entity("bumbo.Models.Days", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Days");
                 });
 
             modelBuilder.Entity("bumbo.Models.Employee", b =>
@@ -358,7 +374,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "be6a2682-1629-4f8d-987a-0203f23feef7",
+                            ConcurrencyStamp = "d425769e-cd56-4acf-b59a-f1f0707c5b7b",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -371,10 +387,10 @@ namespace bumbo.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH6HHdaFZ8sVzr8GuuBrxjE4JRob17hWTQqu0mI3e+l2lgylFZh21s13gqbnc3xcbA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF17m2qhulLj84oGZe4e+6oyEg+57TBAT+rYFz6QRxEY+sA/lsUOsC9iKpdeKcSIXw==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "43168cf4-d8bd-49d1-a721-b050ba06e528",
+                            SecurityStamp = "23e65766-67c2-4943-ab2b-df270d3711c9",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -385,7 +401,7 @@ namespace bumbo.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "4b0728b2-6d24-43de-afb3-cb4f87b034e7",
+                            ConcurrencyStamp = "823df3e6-5a48-4ba2-92e0-db797e0e1dc4",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -397,14 +413,59 @@ namespace bumbo.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEN8ZXBXrog3LfEWkE/z+yW69XOPnd323IDUMV9ET8mTHj7GpaXjzPCiq9Gc9dmgV9A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEmDkPtXMyd0MpLs+sTmuL4HofErcbIOded5sEPpe9mQNz/yuolp3bu33WaZjvUSXQ==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "f706b431-d6d3-4476-ae19-4a0120d62d34",
+                            SecurityStamp = "b3d0210f-75e2-4f8d-8d5c-a9bbb87c4ff0",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
                         });
+                });
+
+            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
+                {
+                    b.Property<string>("PrognosisId")
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WeekNr")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("PrognosisId");
+
+                    b.HasIndex("BranchId");
+
+                    b.ToTable("prognoses");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
+                {
+                    b.Property<string>("Days_name")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("PrognosisId")
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<int>("CustomerAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PackagesAmount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Days_name", "PrognosisId");
+
+                    b.HasIndex("PrognosisId");
+
+                    b.ToTable("Prognosis_Has_Days");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -466,6 +527,10 @@ namespace bumbo.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("bumbo.Models.Prognosis", null)
+                        .WithMany("Branches")
+                        .HasForeignKey("PrognosisId");
+
                     b.Navigation("Country");
                 });
 
@@ -478,6 +543,36 @@ namespace bumbo.Migrations
                     b.Navigation("ManagerOfBranch");
                 });
 
+            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
+                {
+                    b.HasOne("bumbo.Models.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
+                {
+                    b.HasOne("bumbo.Models.Days", "Days")
+                        .WithMany("Prognosis_Has_Days")
+                        .HasForeignKey("Days_name")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bumbo.Models.Prognosis", "Prognosis")
+                        .WithMany("Prognosis_Has_Days")
+                        .HasForeignKey("PrognosisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Days");
+
+                    b.Navigation("Prognosis");
+                });
+
             modelBuilder.Entity("bumbo.Models.Branch", b =>
                 {
                     b.Navigation("Employees");
@@ -486,6 +581,18 @@ namespace bumbo.Migrations
             modelBuilder.Entity("bumbo.Models.Country", b =>
                 {
                     b.Navigation("Branches");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Days", b =>
+                {
+                    b.Navigation("Prognosis_Has_Days");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
+                {
+                    b.Navigation("Branches");
+
+                    b.Navigation("Prognosis_Has_Days");
                 });
 #pragma warning restore 612, 618
         }
