@@ -3,6 +3,8 @@
     ViewData["Title"] = "Create";
 }
 
+@model LeagueStore.Models.
+
 <div class="grid grid-cols-3 gap-4 mt-20 mx-auto max-w-screen-lg">
     <div class="flex items-center space-x-2" name="prognoses_title">
         <button class="text-2xl">&#10094;</button>
@@ -42,6 +44,18 @@
     </div>
 </div>
 
+@using (Html.BeginForm("Create", "Bundle"))
+{
+    <fieldset>
+
+        @Html.EditorFor(m => m.)
+        <!-- bijna het zelfde als -->
+        <input name="Name" />
+
+        <input type="submit" value="Save" />
+
+    </fieldset>
+}
 
 <div class="mt-4 mx-auto max-w-screen-lg">
     <div class="grid grid-cols-3 gap-2">
