@@ -243,8 +243,11 @@ namespace bumbo.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete()
+        [HttpGet]
+        public async Task<IActionResult> Delete(int templateId)
         {
+            
+
             return RedirectToAction(nameof(Index));
         }
     }
