@@ -39,5 +39,15 @@ namespace DataLayer.Repositories
             _context.Users.Update(employee);
             _context.SaveChanges();
         }
+
+        public void DeleteEmployee(string employeeId)
+        {
+            var employee = _context.Users.FirstOrDefault(e => e.Id == employeeId);
+            if (employee != null)
+            {
+                _context.Users.Remove(employee);
+                _context.SaveChanges();
+            }
+        }
     }
 }

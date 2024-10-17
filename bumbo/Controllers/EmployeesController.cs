@@ -255,5 +255,33 @@ namespace bumbo.Controllers
             TempData["SuccessMessage"] = "De toewijzing is succesvol verwijderd.";
             return RedirectToAction("Update", new { medewerkerId = EmployeeId });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteEmployee(string employeeId)
+        {
+            var employee = _employeeRepository.GetEmployeeById(employeeId);
+
+            if (employee == null)
+            {
+                TempData["ErrorMessage"] = "De medewerker die u wilt verwijderen, bestaat niet.";
+                return RedirectToAction("Index");
+            }
+
+            try
+            {
+                _employeeRepository.DeleteEmployee(employeeId);
+
+                TempData["SuccessMessage"] = "De medewerker is succesvol verwijderd.";
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Er is een fout opgetreden bij het verwijderen van de medewerker: {ex.Message}";
+                return RedirectToAction("Update", new { medewerkerId = employeeId });
+            }
+        }
+
     }
 }

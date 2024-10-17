@@ -113,12 +113,14 @@ namespace bumbo.Data
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasOne(bhw => bhw.Branch)
                 .WithMany(b => b.BranchHasEmployees)
-                .HasForeignKey(bhw => bhw.BranchId);
+                .HasForeignKey(bhw => bhw.BranchId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasOne(bhw => bhw.Employee)
                 .WithMany(e => e.BranchEmployees)
-                .HasForeignKey(bhw => bhw.EmployeeId);
+                .HasForeignKey(bhw => bhw.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasOne(bhw => bhw.Function)
@@ -126,6 +128,7 @@ namespace bumbo.Data
                 .HasForeignKey(bhw => bhw.FunctionName)
                 .HasPrincipalKey(f => f.FunctionName)
                 .IsRequired(false);
+
 
 
         }

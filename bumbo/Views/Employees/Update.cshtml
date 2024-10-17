@@ -106,6 +106,13 @@
         </div>
     </form>
 
+    <form asp-action="DeleteEmployee" method="post" class="mt-2" style="margin-top: -30px;">
+        <input type="hidden" name="EmployeeId" value="@Model.Id" />
+        <button type="submit" class="text-sm text-red-500 underline hover:text-red-700" style="background: none; border: none; padding: 0; cursor: pointer;">
+            Medewerker verwijderen
+        </button>
+    </form>
+
     <h2 class="text-xl font-semibold mt-12 mb-4">Tijwijzingen filialen</h2>
     @if (Model.BranchAssignments != null && Model.BranchAssignments.Count > 0)
     {

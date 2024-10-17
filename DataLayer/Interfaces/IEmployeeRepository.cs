@@ -8,5 +8,6 @@ namespace DataLayer.Interfaces
         List<Employee> SearchEmployees(string searchTerm);
         Employee GetEmployeeById(string employeeId);
         void UpdateEmployee(Employee employee);
+        void DeleteEmployee(string employeeId);
     }
 }
