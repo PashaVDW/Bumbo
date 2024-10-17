@@ -55,22 +55,6 @@
     </div>
 
     <div class="mt-8 ml-16 flex">
-         <!-- @for (int i = 0; i < 4; i++)
-         {
-             <div class="flex flex-row">
-                 <div class="mr-3 border-slate-100 w-44 h-40 flex flex-col items-center justify-center rounded-3xl border-2">
-                     <figure class="w-16 h-16">
-                         <img src="https://imageplaceholder.net/64x64/" alt="" class="w-16 h-16" />
-                     </figure>
-                     <p class="top-3 relative text-center font-bold">Filiaalmanager</p>
-                 </div>
-                 <a class="w-6 h-6 bg-gray-200 right-7 bottom-1 relative rotate-45 content-center rounded-3xl" href="#">
-                     <div class="w-2 bg-black h-px m-auto rotate-90"></div>
-                     <div class="w-2 bottom-px bg-black h-px relative m-auto"></div>
-                 </a> 
-             </div>
-         } -->
-
         @foreach (var employee in Model.Managers)
         {
             <div class="flex flex-row">
@@ -81,12 +65,18 @@
                     <p class="top-3 relative text-center font-bold">@employee.FirstName @employee.LastName</p>
                 </div>
 
-                <a asp-action="DeleteBranchManager" asp-controller="Branches"
-                   asp-route-branchId="@Model.BranchId" asp-route-employeeId="@employee.Id"
-                    class="w-6 h-6 bg-gray-200 right-7 bottom-1 relative rotate-45 content-center rounded-3xl" >
+                <custom-modal modal-id="deletebranchmanager" body-text="Weet je zeker dat je deze filiaalmanager wilt verwijderen?">
+                    <a asp-action="DeleteBranchManager" asp-controller="Branches"
+                       asp-route-branchId="@Model.BranchId" asp-route-employeeId="@employee.Id"
+                       class="bg-red-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-500">Verwijderen</a>
+                    <default-button button-text="Annuleren" button-type="secondary" on-click="document.getElementById('deletebranchmanager').classList.add('hidden')"></default-button>
+                </custom-modal>
+
+                <button class="w-6 h-6 bg-gray-200 right-7 bottom-1 relative rotate-45 content-center rounded-3xl"
+                        onclick="document.getElementById('deletebranchmanager').classList.remove('hidden')">
                     <div class="w-2 bg-black h-px m-auto rotate-90"></div>
                     <div class="w-2 bottom-px bg-black h-px relative m-auto"></div>
-                </a>
+                </button>
             </div>
         }
         <form method="post" asp-action="CreateBranchManagerView" asp-controller="Branches">
@@ -96,7 +86,6 @@
                 <div class="bg-gray-200 w-1 h-8 bottom-0.5 relative m-auto rounded"></div>
             </button>
         </form>
-        
     </div>
 </div>
 
