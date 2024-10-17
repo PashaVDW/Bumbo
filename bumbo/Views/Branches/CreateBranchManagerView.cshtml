@@ -1,0 +1,20 @@
+﻿@using bumbo.ViewModels
+@{
+    ViewData["Title"] = "Filiaalmanager toevoegen";
+}
+
+@model CreateBranchManagerViewModel
+
+<div class="mx-40 mt-12">
+    <div><h1 class="text-4xl"><strong><a asp-area="" asp-controller="Branches"
+                asp-action="ReadBranchView" asp-route-branchId="@Model.BranchId"> < </a>Filiaalmanager toevoegen</strong></h1>
+    </div>
+    <div class="mt-8">
+        @Html.Raw(ViewBag.HtmlTable)
+    </div>
+    @if (Model.Employees.Count == 0)
+    {
+        <p class="text-center font-bold">Geen Medewerkers in dit Filaal</p>
+    }
+</div>
+

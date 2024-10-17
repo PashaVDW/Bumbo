@@ -5,7 +5,7 @@
 
     public class TableHtmlBuilder<TItem>
     {
-        public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, string editLink, Func<TItem, string> rowTemplate, string searchTerm = null, int currentPage = 1, int pageSize = 10)
+        public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, Func<TItem, string> rowTemplate, string searchTerm = null, int currentPage = 1, int pageSize = 10)
         {
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {

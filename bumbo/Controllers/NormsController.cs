@@ -91,7 +91,7 @@ public class NormsController : Controller
 
         var headers = new List<string> { "Week", "Coli uitladen", "Vakken vullen", "Kassa", "Vers", "Spiegelen" };
         var tableBuilder = new TableHtmlBuilder<ReadNormViewModel>();
-        var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, list, "../#add", "../#edit", item =>
+        var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, list, "../#add", item =>
         {
             return $@"
                     <td class='py-2 px-4'>{item.Week}</td>
