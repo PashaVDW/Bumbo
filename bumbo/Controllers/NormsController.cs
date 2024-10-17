@@ -80,8 +80,8 @@ public class NormsController : Controller
             var item = new ReadNormViewModel();
 
             item.Week = norm.Week;
-            item.UnloadColis = norm.ColiNorm/60;
-            item.FillShelves = norm.ShelveNorm/60;
+            item.UnloadColis = norm.ColiNorm / 60;
+            item.FillShelves = norm.ShelveNorm / 60;
             item.Cashier = norm.CashierNorm;
             item.Fresh = norm.FreshNorm;
             item.Fronting = norm.FrontNorm;
@@ -133,7 +133,7 @@ public class NormsController : Controller
         CalendarWeekRule calendarWeekRule = CultureInfo.CurrentCulture.DateTimeFormat.CalendarWeekRule;
         DayOfWeek firstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
 
-        int week= calendar.GetWeekOfYear(currentDate, calendarWeekRule, firstDayOfWeek)-1;
+        int week = calendar.GetWeekOfYear(currentDate, calendarWeekRule, firstDayOfWeek) - 1;
         int year = DateAndTime.Now.Year;
 
         if (week == 0)
@@ -149,11 +149,11 @@ public class NormsController : Controller
 
         AddNormViewModel viewModel = new AddNormViewModel();
 
-        viewModel.UnloadColis = norms.ToList()[0].normInSeconds/60;
-        viewModel.FillShelves = norms.ToList()[1].normInSeconds/60;
-        viewModel.Cashier = norms.ToList()[2].normInSeconds/3600;
-        viewModel.Fresh = norms.ToList()[3].normInSeconds/3600;
-        viewModel.Fronting = norms.ToList()[4].normInSeconds/3600;
+        viewModel.UnloadColis = norms.ToList()[0].normInSeconds / 60;
+        viewModel.FillShelves = norms.ToList()[1].normInSeconds / 60;
+        viewModel.Cashier = norms.ToList()[2].normInSeconds / 3600;
+        viewModel.Fresh = norms.ToList()[3].normInSeconds / 3600;
+        viewModel.Fronting = norms.ToList()[4].normInSeconds / 3600;
 
         return viewModel;
     }
@@ -170,10 +170,10 @@ public class NormsController : Controller
         viewModel.BranchId = user.ManagerOfBranchId.Value;
         viewModel.Week = selectedNorms[0].week;
         viewModel.Year = selectedNorms[0].year;
-        viewModel.UnloadColis = selectedNorms[0].normInSeconds/60;
-        viewModel.FillShelves = selectedNorms[1].normInSeconds/60;
-        viewModel.Cashier = selectedNorms[2].normInSeconds/3600;
-        viewModel.Fresh = selectedNorms[3].normInSeconds/3600;
+        viewModel.UnloadColis = selectedNorms[0].normInSeconds / 60;
+        viewModel.FillShelves = selectedNorms[1].normInSeconds / 60;
+        viewModel.Cashier = selectedNorms[2].normInSeconds / 3600;
+        viewModel.Fresh = selectedNorms[3].normInSeconds / 3600;
         viewModel.Fronting = selectedNorms[4].normInSeconds;
 
         ViewData["ViewModel"] = viewModel;

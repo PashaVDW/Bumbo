@@ -2,10 +2,11 @@
 {
     using System.Text;
     using System.Linq;
+    using bumbo.Models;
 
     public class TableHtmlBuilder<TItem>
     {
-        public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, string editLink, Func<TItem, string> rowTemplate, string searchTerm = null, int currentPage = 1, int pageSize = 10)
+        public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, string editLink, Func<TItem, string> rowTemplate, string searchTerm = null, int currentPage = 1, int pageSize = 10, int? branchId = 0)
         {
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
@@ -33,20 +34,22 @@
                                    "<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>" +
                                    "</form>"
                                    );
+            if (branchId != 0)
+            {
+                htmlBuilder.AppendLine("<label class='relative inline-flex items-center cursor-pointer'>");
+                htmlBuilder.AppendLine("<input type='checkbox' id='branchSwitch' class='sr-only peer' " +
+                                       (branchId != 0 ? "checked" : "") + " onchange='toggleBranchFilter(this.checked);' />");
+                htmlBuilder.AppendLine("<div class='w-24 h-8 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-gray-400 transition-all duration-300'>");
+                htmlBuilder.AppendLine("<div class='peer-checked:translate-x-16 w-12 h-8 bg-black rounded-full transform transition-all duration-300'></div>");
+                htmlBuilder.AppendLine("</div>");
+                htmlBuilder.AppendLine("<span class='ml-3 text-gray-500 text-lg'>Dit Filiaal</span>");
+                htmlBuilder.AppendLine("</label>");
 
-            //if (branchId != 0)
-            //{
-            //    htmlBuilder.AppendLine();
+                // Filter de items op basis van het filiaal
+                var filteredItems = items.Where(item => (int)item.GetType().GetProperty("BranchId").GetValue(item) == branchId).ToList();
+                items = filteredItems;
+            }
 
-            //    items = items.Where(item => (int)item.GetType().GetProperty("BranchId").GetValue(item) == branchId).ToList();
-
-            //    // Toggle switch voor branchId
-            //    htmlBuilder.AppendLine("<label class='switch'>" +
-            //                           "<input type='checkbox' " + (branchId != 0 ? "checked" : "") + " onchange='updateBranch(this.checked);'>" +
-            //                           "<span class='slider round'></span>" +
-            //                           "</label>" +
-            //                           "<span class='ml-2'>Toon alleen items van de geselecteerde branch</span>");
-            //}
             if (!string.IsNullOrWhiteSpace(addPageLink))
             {
                 htmlBuilder.AppendLine("<button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>");
