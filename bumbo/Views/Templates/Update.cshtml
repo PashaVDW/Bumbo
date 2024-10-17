@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Update";
+}
+
+<div class="p-8 container mx-auto max-w-6xl">
+    <div class="p-8">
+        <!-- Main section title -->
+        <div class="mb-6 flex items-center">
+            <default-button button-text="Terug" button-type="secondary" on-click="window.location.href='../standaard-templates'"></default-button>
+            <h1 class="text-3xl font-semibold">Standaard template bewerken</h1>
+        </div>
+        <div>
+            <form>
+                <div class="mb-10">
+                    <label for="Naam">Naam:</label><br />
+                    <input type="text" id="Naam" name="Naam" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
+                </div>
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>Dag</b></label>
+                        <label>Aantal verwachte klanten</label>
+                        <label>Aantal verwachte coli</label>
+                    </div>
+                </div>
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>Ma</b></label>
+                        <input type="number" id="Monday_Customers" name="Monday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" id="Monday_Containers" name="Monday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                    </div>
+                </div>
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>Di</b></label>
+                        <input type="number" id="Teusday_Customers" name="Tuesday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" id="Teusday_Containers" name="Tuesday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                    </div>
+                </div>
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>Wo</b></label>
+                        <input type="number" id="Wednesday_Customers" name="Wednesday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" id="Wednesday_Containers" name="Wednesday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                    </div>
+                </div>
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>Do</b></label>
+                        <input type="number" id="Thursday_Customers" name="Thursday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" id="Thursday_Containers" name="Thursday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                    </div>
+                </div>
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>Vr</b></label>
+                        <input type="number" id="Friday_Customers" name="Friday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" id="Friday_Containers" name="Friday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                    </div>
+                </div>
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>Za</b></label>
+                        <input type="number" id="Saturday_Customers" name="Saturday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" id="Saturday_Containers" name="Saturday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                    </div>
+                </div>
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>Zo</b></label>
+                        <input type="number" id="Sunday_Customers" name="Sunday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" id="Sunday_Containers" name="Sunday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <default-button button-text="Delete" button-type="secondary"></default-button>
+                    <default-button button-text="Update" button-type="primary"></default-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
