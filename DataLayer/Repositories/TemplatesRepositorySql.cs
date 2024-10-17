@@ -1,6 +1,7 @@
 ﻿using bumbo.Data;
 using bumbo.Models;
 using DataLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories
 {
@@ -17,6 +18,12 @@ namespace DataLayer.Repositories
         public List<Template> GetAllTemplates()
         { 
             return _context.Templates.ToList();
+        }
+
+        public async Task<Template> GetByNameAsync(string name)
+        {
+            return await _context.Templates
+                .FirstOrDefaultAsync(t => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public void Update(Template template)

@@ -6,6 +6,8 @@ namespace DataLayer.Interfaces
     {
         List<Template> GetAllTemplates();
 
+        Task<Template> GetByNameAsync(string name);
+
         void Update(Template template);
 
         Task SaveChangesAsync();
