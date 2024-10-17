@@ -8,5 +8,6 @@ namespace bumbo.Models
         public string Name { get; set; }
 
         public ICollection<Template_has_days> TemplateHasDays { get; set; }
+        public ICollection<Prognosis_has_days> Prognosis_Has_Days { get; set; }
     }
 }

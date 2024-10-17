@@ -1,6 +1,32 @@
-﻿@{
-    ViewData["Title"] = "Terugblikken";
-}
+﻿@model bumbo.ViewModels.WeekOverviewViewModel
 
-<h1>Terugblikken Page</h1>
-<p>This is the Terugblikken page.</p>
+<div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
+    <h1 class="review">Terugblik</h1>
+    <p>Maand: @ViewBag.MonthName</p>
+    <p>Week loopt van @ViewBag.FirstDayOfWeek.ToString("dd MMMM yyyy") tot @ViewBag.LastDayOfWeek.ToString("dd MMMM yyyy")</p>
+    <h2 class="weeknr">Week @Model.WeekNr - @Model.Year</h2>
+
+    <div class="flex w-full items-center justify-between">
+        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = -1 })" class="bg-transparent text-lg hover:text-blue-700">Vorige week</a>
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="text-red-500">@ViewBag.Message</div>
+        }
+
+        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })" class="bg-transparent text-lg hover:text-blue-700">Volgende week</a>
+    </div>
+
+    <div class="gap-4 mt-6 grid grid-cols-7">
+        @foreach (var day in Model.Days)
+        {
+            <div class="day-column text-center">
+                <p class="font-medium">@day.DayName</p>
+                <p>Aantal klanten</p>
+                <div class="data-box border-gray-300 p-2 w-20 mx-auto rounded-md border">@day.CustomerAmount</div>
+                <p>Aantal coli's</p>
+                <div class="data-box border-gray-300 p-2 w-20 mx-auto rounded-md border">@day.PackagesAmount</div>
+            </div>
+        }
+    </div>
+</div>

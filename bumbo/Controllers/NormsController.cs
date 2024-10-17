@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using bumbo.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +12,7 @@ using Microsoft.VisualBasic;
 using System.Globalization;
 using bumbo.Components;
 using static bumbo.Controllers.NormeringController;
+using bumbo.Models;
 
 namespace bumbo.Controllers;
 
