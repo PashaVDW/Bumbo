@@ -12,8 +12,8 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241015095007_FirstCreate")]
-    partial class FirstCreate
+    [Migration("20241017191952_ConstraintAdded")]
+    partial class ConstraintAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -358,7 +358,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "ebb87ae2-1238-4301-9dd7-b264e5403419",
+                            ConcurrencyStamp = "1b5eb9eb-10ac-4235-851c-7cf273b6e7c7",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -371,10 +371,10 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOWnjsFZvntptYDkSys8lUwygcxzSZqIaCzF83J6Dctj6fOexYECMZUxzBGH/dnmHg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMuBYvcVu5TcCJRjZE+lG6Oj75xrG6z00LfG/YrlwrfDsRXlsYdEiogyr9QlzbhkDg==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "74762b9c-4097-49c6-b90a-90c8c3136804",
+                            SecurityStamp = "c803a282-1beb-489a-8c20-f2ffe2c96261",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -385,7 +385,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "5e86f65e-ce47-4695-a197-1a1cc57589dd",
+                            ConcurrencyStamp = "72b1804b-6cbd-4614-816f-733c9c77acb6",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -397,10 +397,10 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECFTVGYOb0Vs46tGHL/lUhMp08aqk10FRkHy89EtF1DDrpYzTLt8FKLyW6vefa2GZg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKDOlI6zFowqOTqOXi8jKKJID38JlHmOlPpWaNia5nRyqeLA8paxsc50sxw5vzqtbg==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "dafd6170-068f-43de-a78a-e4ebe726bfce",
+                            SecurityStamp = "039015ab-9e82-4a80-8f0a-ac58ebf8081e",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -433,6 +433,9 @@ namespace DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("normId");
+
+                    b.HasIndex("branchId", "year", "week", "activity")
+                        .IsUnique();
 
                     b.ToTable("Norms");
                 });

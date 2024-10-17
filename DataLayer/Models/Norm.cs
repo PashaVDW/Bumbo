@@ -12,6 +12,7 @@ namespace bumbo.Models
 
         [Required]
         public int week { get; set; }
+
         [Required]
         public int year { get; set; }
 

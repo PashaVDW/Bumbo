@@ -20,8 +20,13 @@
                 <label for="year">Kies een jaar</label>
                 <select class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="year" name="@nameof(AddNormViewModel.Year)">
                     @{
-                        for (int i = DateTime.Now.Year; i > DateTime.Now.Year-100; i--)
+                        for (int i = DateTime.Now.Year+1; i > DateTime.Now.Year-99; i--)
                         {
+                            if (i == DateTime.Now.Year)
+                            {
+                                <option selected value="@i">@i</option>
+                                continue;
+                            }
                             <option value="@i">@i</option>
                         }
                     }
