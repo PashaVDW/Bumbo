@@ -3,85 +3,96 @@
     using System.Text;
     using System.Linq;
     using bumbo.Models;
+    using bumbo.Controllers;
 
     public class TableHtmlBuilder<TItem>
     {
-        public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, string editLink, Func<TItem, string> rowTemplate, string searchTerm = null, int currentPage = 1, int pageSize = 10, int? branchId = 0)
+        public string GenerateTable(
+            string title,
+            List<string> headers,
+            List<TItem> items,
+            string addPageLink,
+            string editLink,
+            Func<TItem, string> rowTemplate,
+            string searchTerm = null,
+            int currentPage = 1,
+            int pageSize = 10,
+            int? branchId = null)
         {
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
                 items = items.Where(item =>
                 {
                     var properties = typeof(TItem).GetProperties();
-                    return properties.Any(prop => prop.GetValue(item)?.ToString()?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true);
+                    return properties.Any(prop =>
+                        prop.GetValue(item)?.ToString()?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true);
                 }).ToList();
             }
+
             var totalItems = items.Count;
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
             currentPage = Math.Max(1, Math.Min(currentPage, totalPages));
-
             var pagedItems = items.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
 
             var htmlBuilder = new StringBuilder();
             htmlBuilder.AppendLine("<div class='container mx-auto p-10'>" +
-                                   "<div class='flex justify-between items-center mb-4'>");
+                "<div class='flex justify-between items-center mb-4'>");
+
             if (!string.IsNullOrWhiteSpace(title))
             {
-                htmlBuilder.AppendLine("<h2 class='mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900'>" + title + "</h2>");
+                htmlBuilder.AppendLine("<h2 class='mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900'>" +
+                    branchId + title + "</h2>");
             }
-            htmlBuilder.AppendLine("<form method='get' class='flex items-center space-x-4'>" +
-                                   "<input type='text' name='searchTerm' value='" + searchTerm + "' placeholder='Zoek naar " + title.ToLower() + "' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />" +
-                                   "<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>" +
-                                   "</form>"
-                                   );
-            if (branchId != 0)
-            {
-                htmlBuilder.AppendLine("<label class='relative inline-flex items-center cursor-pointer'>");
-                htmlBuilder.AppendLine("<input type='checkbox' id='branchSwitch' class='sr-only peer' " +
-                                       (branchId != 0 ? "checked" : "") + " onchange='toggleBranchFilter(this.checked);' />");
-                htmlBuilder.AppendLine("<div class='w-24 h-8 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-gray-400 transition-all duration-300'>");
-                htmlBuilder.AppendLine("<div class='peer-checked:translate-x-16 w-12 h-8 bg-black rounded-full transform transition-all duration-300'></div>");
-                htmlBuilder.AppendLine("</div>");
-                htmlBuilder.AppendLine("<span class='ml-3 text-gray-500 text-lg'>Dit Filiaal</span>");
-                htmlBuilder.AppendLine("</label>");
 
-                // Filter de items op basis van het filiaal
-                var filteredItems = items.Where(item => (int)item.GetType().GetProperty("BranchId").GetValue(item) == branchId).ToList();
-                items = filteredItems;
+            htmlBuilder.AppendLine("<form method='get' class='flex items-center space-x-4'>" +
+                "<input type='text' name='searchTerm' value='" + searchTerm +
+                "' placeholder='Zoek naar " + title.ToLower() +
+                "' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />" +
+                "<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>" +
+                "</form>");
+
+            if (branchId.HasValue)
+            {
+                htmlBuilder.AppendLine("<div class='flex space-x-4'>");
+                htmlBuilder.AppendLine("<button onclick='filterByBranch(" + branchId +
+                    ")' class='bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600'>Filter op Filiaal</button>");
+                htmlBuilder.AppendLine("<button onclick='resetFilter()' class='bg-gray-500 text-white py-2 px-6 rounded-full hover:bg-gray-600'>Toon alle items</button>");
+                htmlBuilder.AppendLine("</div>");
             }
+
 
             if (!string.IsNullOrWhiteSpace(addPageLink))
             {
-                htmlBuilder.AppendLine("<button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>");
+                htmlBuilder.AppendLine("<button onclick = \"window.location.href='" + addPageLink +
+                    "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>");
             }
+
             htmlBuilder.AppendLine("</div>");
             htmlBuilder.AppendLine("<div class='w-full p-6'>");
             htmlBuilder.AppendLine("<div class='overflow-x-auto w-full'>");
             htmlBuilder.AppendLine("<table class='min-w-full table-auto border-collapse'>");
+            htmlBuilder.AppendLine("<thead>" +
+                "<tr class='text-left text-gray-600 font-bold'>");
 
-            htmlBuilder.AppendLine(
-                "<thead>" +
-                "<tr class='text-left text-gray-600 font-bold'>"
-            );
             foreach (var header in headers)
             {
                 htmlBuilder.AppendLine($"<th class='py-2 px-4'>{header}</th>");
             }
-            htmlBuilder.AppendLine(
-                "</tr>" +
-                "</thead>"
-            );
+
+            htmlBuilder.AppendLine("</tr>" +
+                "</thead>");
             htmlBuilder.AppendLine("<tbody>");
+
             foreach (var item in pagedItems)
             {
                 htmlBuilder.AppendLine("<tr class='border-b hover:bg-gray-50'>");
                 htmlBuilder.AppendLine(rowTemplate(item));
                 htmlBuilder.AppendLine("</tr>");
             }
+
             htmlBuilder.AppendLine("</tbody>");
             htmlBuilder.AppendLine("</table>");
             htmlBuilder.AppendLine("</div>");
-
             htmlBuilder.AppendLine("<div class='flex justify-center items-center mt-4 space-x-2'>");
 
             if (currentPage > 1)
@@ -104,6 +115,7 @@
                     htmlBuilder.AppendLine($"<a href='?page={i}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300'>{i}</a>");
                 }
             }
+
             if (currentPage < totalPages)
             {
                 htmlBuilder.AppendLine($"<a href='?page={currentPage + 1}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300'>Volgende</a>");
@@ -112,13 +124,39 @@
             {
                 htmlBuilder.AppendLine("<span class='py-2 px-4 bg-gray-100 text-gray-400 rounded-lg'>Volgende</span>");
             }
-            htmlBuilder.AppendLine("</div>");
 
             htmlBuilder.AppendLine("</div>");
+            htmlBuilder.AppendLine("</div>");
+
+            if (branchId.HasValue)
+            {
+                htmlBuilder.AppendLine(@"
+                <script>
+                    function filterByBranch(branchId) {
+                        const rows = document.querySelectorAll('tbody tr');
+                        rows.forEach(row => {
+                            const branchCell = row.querySelector('td:nth-child(3)');
+                            if (branchCell) {
+                                const cellText = branchCell.textContent || branchCell.innerText;
+                                if (cellText.includes(branchId)) {
+                                    row.style.display = '';
+                                } else {
+                                    row.style.display = 'none';
+                                }
+                            }
+                        });
+                    }
+
+                    function resetFilter() {
+                        const rows = document.querySelectorAll('tbody tr');
+                        rows.forEach(row => {
+                            row.style.display = '';
+                        });
+                    }
+                </script>");
+            }
 
             return htmlBuilder.ToString();
         }
-
-
     }
 }
