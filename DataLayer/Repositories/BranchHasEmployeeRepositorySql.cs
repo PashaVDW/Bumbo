@@ -27,5 +27,18 @@ namespace DataLayer.Repositories
                            .Where(bhe => bhe.EmployeeId == employeeId)
                            .ToList();
         }
+
+        public BranchHasEmployee GetBranchAssignment(string employeeId, int branchId)
+        {
+            return _context.BranchHasEmployees
+                           .FirstOrDefault(bhe => bhe.EmployeeId == employeeId && bhe.BranchId == branchId);
+        }
+
+        public void RemoveBranchAssignment(BranchHasEmployee branchAssignment)
+        {
+            _context.BranchHasEmployees.Remove(branchAssignment);
+            _context.SaveChanges();
+        }
+
     }
 }

@@ -148,8 +148,15 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update(string medewerkerId)
+        public async Task<IActionResult> UpdateAsync(string medewerkerId)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || (user.ManagerOfBranchId == null && !user.IsSystemManager))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             var employee = _employeeRepository.GetEmployeeById(medewerkerId);
             if (employee == null)
             {
@@ -168,7 +175,8 @@ namespace bumbo.Controllers
                 HouseNumber = employee.HouseNumber,
                 PhoneNumber = employee.PhoneNumber,
                 Email = employee.Email,
-                IsSystemManager = employee.IsSystemManager
+                IsSystemManager = employee.IsSystemManager,
+                UserManagerOfBranchId = user.ManagerOfBranchId ?? 0
             };
 
             var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(employee.Id);
@@ -182,6 +190,70 @@ namespace bumbo.Controllers
 
             // Pass the model to the view
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAsync(UpdateEmployeeViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || (user.ManagerOfBranchId == null && !user.IsSystemManager))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                // If the model is invalid, return the view with validation errors.
+                return View(model);
+            }
+
+            // Fetch the employee from the repository using the ID
+            var employee = _employeeRepository.GetEmployeeById(model.Id);
+            if (employee == null)
+            {
+                TempData["ErrorMessage"] = "De medewerker die u wilt bewerken, bestaat niet.";
+                return RedirectToAction("Index");
+            }
+
+            // Update the employee's details
+            employee.FirstName = model.FirstName;
+            employee.MiddleName = model.MiddleName;
+            employee.LastName = model.LastName;
+            employee.BirthDate = model.BirthDate;
+            employee.PostalCode = model.PostalCode;
+            employee.HouseNumber = model.HouseNumber;
+            employee.PhoneNumber = model.PhoneNumber;
+            employee.Email = model.Email;
+            employee.IsSystemManager = model.IsSystemManager;
+
+            // Update the employee in the repository
+            _employeeRepository.UpdateEmployee(employee);
+
+            TempData["SuccessMessage"] = "De medewerker is succesvol bijgewerkt.";
+
+            // Redirect back to the employee overview page
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveBranchAssignment(string EmployeeId, int BranchId)
+        {
+            var branchAssignment = _branchHasEmployeeRepository.GetBranchAssignment(EmployeeId, BranchId);
+
+            if (branchAssignment == null)
+            {
+                TempData["ErrorMessage"] = "De toewijzing kon niet worden gevonden.";
+                return RedirectToAction("Update", new { medewerkerId = EmployeeId });
+            }
+
+            // Verwijder de branch-employee relatie
+            _branchHasEmployeeRepository.RemoveBranchAssignment(branchAssignment);
+
+            TempData["SuccessMessage"] = "De toewijzing is succesvol verwijderd.";
+            return RedirectToAction("Update", new { medewerkerId = EmployeeId });
         }
     }
 }

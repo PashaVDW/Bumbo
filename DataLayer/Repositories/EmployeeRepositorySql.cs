@@ -33,5 +33,11 @@ namespace DataLayer.Repositories
             return _context.Users
                            .FirstOrDefault(e => e.Id == employeeId);
         }
+
+        public void UpdateEmployee(Employee employee)
+        {
+            _context.Users.Update(employee);
+            _context.SaveChanges();
+        }
     }
 }
