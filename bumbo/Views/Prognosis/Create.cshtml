@@ -49,30 +49,42 @@
                 <div class="font-bold max-w-xs">Aantal Verwachte Klanten</div>
                 <div class="font-bold max-w-xs">Aantal Verwachte Collies</div>
 
-                @for (int i = 0; i < 7; i++)
+                @if (ViewBag.days != null)
                 {
-                    <div class="max-w-xs">@ViewBag.days[i]</div>
-
-                    // Voeg een verborgen invoerveld toe voor de naam van de dag
-                    <input name="prognosisCreateDaysList[@i].Name" type="hidden" value="@ViewBag.days[i]" />
-
-                    @if (ViewBag.daysList != null && ViewBag.daysList.DaysList.Count > i)
+                    int count = 0;
+                    foreach (var day in ViewBag.days)
                     {
-                        <div>
-                            <input name="prognosisCreateDaysList[@i].CustomerAmount" type="number" value="@ViewBag.daysList.DaysList[i].CustomerAmount" class="border rounded p-1 w-full">
-                        </div>
-                        <div>
-                            <input name="prognosisCreateDaysList[@i].Packages" type="number" value="@ViewBag.daysList.DaysList[i].Packages" class="border rounded p-1 w-full">
-                        </div>
-                    }
-                    else
-                    {
-                        <div>
-                            <input name="prognosisCreateDaysList[@i].CustomerAmount" type="number" class="border rounded p-1 w-full">
-                        </div>
-                        <div>
-                            <input name="prognosisCreateDaysList[@i].Packages" type="number" class="border rounded p-1 w-full">
-                        </div>
+                        @if (ViewBag.daysList != null)
+                        {
+                            <input name="weeknr" value="@ViewBag.CurrentWeek" type="hidden" />
+                            <input name="year" value="@ViewBag.CurrentYear" type="hidden" />
+
+                            <input name="prognosisCreateDaysList[@count].Name" type="hidden" value="@day.Name" />
+                            <div class="max-w-xs">@day.Name</div>
+
+                            <div>
+                                <!-- value="with this ViewBag.daysList.DaysList[count].CustomerAmount" -->
+                                <input name="CustomerAmount[@count]" type="number" class="border rounded p-1 w-full">
+                            </div>
+                            <div>
+                                <!-- value="ViewBag.daysList.DaysList[count].Packages" -->
+                                <input name="PackagesAmount[@count]" type="number" class="border rounded p-1 w-full">
+                            </div>
+                        }
+                        else
+                        {
+                            <input name="weeknr" value="@ViewBag.CurrentWeek" type="hidden" />
+                            <input name="year" value="@ViewBag.CurrentYear" type="hidden" />
+                            <input name="prognosisCreateDaysList[@count].Name" type="hidden" value="@day.Name" />
+                            <div class="max-w-xs">@day.Name</div>
+                            <div>
+                                <input name="CustomerAmount[@count]" type="number" class="border rounded p-1 w-full">
+                            </div>
+                            <div>
+                                <input name="PackagesAmount[@count]" type="number" class="border rounded p-1 w-full">
+                            </div>
+                        }
+                        count++;
                     }
                 }
             </div>
@@ -82,5 +94,7 @@
         </div>
     </fieldset>
 </form>
+
+
 
 

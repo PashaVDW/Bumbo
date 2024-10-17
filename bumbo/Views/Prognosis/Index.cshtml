@@ -7,16 +7,32 @@
     var dates = Enumerable.Range(0, 7).Select(d => startOfWeek.AddDays(d)).ToList();
 }
 
-@if (ViewBag.PrognoseLijst != null)
+@if (ViewBag.prognoseLijst != null)
 {
-    @foreach (var day in ViewBag.PrognoseLijst)
-    {
-        <input type="number" value="@day.Name" class="border rounded p-1 w-full">
-        <input type="number" value="@day.CustomerAmount" class="border rounded p-1 w-full">
-        <input type="number" value="@day.Packages" class="border rounded p-1 w-full">
-    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Dag</th>
+                <th>Aantal Verwachte Klanten</th>
+                <th>Aantal Verwachte Collies</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < ViewBag.prognoseLijst.Count; i++)
+            {
+                <tr>
+                    <td>@ViewBag.prognoseLijst[i].Name</td>
+                    <td>@ViewBag.prognoseLijst[i].CustomerAmount</td>
+                    <td>@ViewBag.prognoseLijst[i].Packages</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-
+else
+{
+    <p>No data available.</p>
+}
 <div class="grid grid-cols-3 gap-4 mt-20 mx-auto max-w-screen-lg">
     <div class="space-y-1" name="prognoses_title">
         <h1 class="font-bold">Prognose</h1>
