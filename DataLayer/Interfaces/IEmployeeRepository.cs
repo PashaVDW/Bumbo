@@ -6,5 +6,6 @@ namespace DataLayer.Interfaces
     {
         List<Employee> GetAllEmployees();
         List<Employee> SearchEmployees(string searchTerm);
+        Employee GetEmployeeById(string employeeId);
     }
 }

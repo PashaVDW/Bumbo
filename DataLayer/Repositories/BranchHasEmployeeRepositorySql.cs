@@ -1,6 +1,7 @@
 ﻿using bumbo.Data;
 using bumbo.Models;
 using DataLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories
 {
@@ -17,6 +18,14 @@ namespace DataLayer.Repositories
         {
             _context.BranchHasEmployees.Add(branchHasEmployee);
             await _context.SaveChangesAsync();
+        }
+
+        public List<BranchHasEmployee> GetBranchesForEmployee(string employeeId)
+        {
+            return _context.BranchHasEmployees
+                           .Include(bhe => bhe.Branch)
+                           .Where(bhe => bhe.EmployeeId == employeeId)
+                           .ToList();
         }
     }
 }

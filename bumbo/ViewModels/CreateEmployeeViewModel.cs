@@ -21,6 +21,9 @@ namespace bumbo.ViewModels
         [DataType(DataType.Date, ErrorMessage = "Voer een geldige datum in.")]
         public DateTime BirthDate { get; set; }
 
+        [Required(ErrorMessage = "Telefoonnummer is verplicht.")]
+        public string PhoneNumber { get; set; }
+
         [Required(ErrorMessage = "Postcode is verplicht.")]
         [StringLength(50, ErrorMessage = "Postcode mag niet langer zijn dan 50 tekens.")]
         public string PostalCode { get; set; }

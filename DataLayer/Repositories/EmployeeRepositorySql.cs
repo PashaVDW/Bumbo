@@ -1,6 +1,7 @@
 ﻿using bumbo.Data;
 using bumbo.Models;
 using DataLayer.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories
 {
@@ -25,6 +26,12 @@ namespace DataLayer.Repositories
                             e.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
                             e.Email.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
                 .ToList();
+        }
+
+        public Employee GetEmployeeById(string employeeId)
+        {
+            return _context.Users
+                           .FirstOrDefault(e => e.Id == employeeId);
         }
     }
 }

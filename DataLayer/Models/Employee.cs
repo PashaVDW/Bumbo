@@ -17,6 +17,9 @@ public class Employee : IdentityUser
     [Required]
     public DateTime BirthDate { get; set; }
 
+    [Required]
+    public string PhoneNumber { get; set; }
+
     [Required, StringLength(50)]
     public string PostalCode { get; set; }
 

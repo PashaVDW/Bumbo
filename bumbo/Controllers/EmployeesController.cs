@@ -34,7 +34,7 @@ namespace bumbo.Controllers
                     <td class='py-2 px-4'>{item.LastName}</td>
                     <td class='py-2 px-4'>{item.Email}</td>
                     <td class='py-2 px-4'>{item.PhoneNumber}</td>
-                    <td class='py-2 px-4'><a href='/medewerkers/bewerken?medewerkerId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
+                    <td class='py-2 px-4'><a href='/medewerkers/bewerken?medewerkerId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Bewerken</a><td>";
             }, searchTerm, page);
 
             ViewBag.HtmlTable = htmlTable;
@@ -93,6 +93,7 @@ namespace bumbo.Controllers
                     HouseNumber = model.HouseNumber,
                     StartDate = model.StartDate,
                     Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
                     UserName = model.Email,
                     IsSystemManager = model.IsSystemManager,
                     ManagerOfBranchId = model.ManagerOfBranchId
@@ -114,6 +115,8 @@ namespace bumbo.Controllers
 
                         await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchHasEmployee);
                     }
+
+                    TempData["SuccessEmployeeAddedMessage"] = "Medewerker succesvol toegevoegd!";
 
                     return RedirectToAction("Index");
                 }
@@ -144,9 +147,41 @@ namespace bumbo.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Update(string medewerkerId)
+        {
+            var employee = _employeeRepository.GetEmployeeById(medewerkerId);
+            if (employee == null)
+            {
+                TempData["ErrorMessage"] = "De medewerker die u wilt bewerken, bestaat niet." + medewerkerId + "ads";
+                return RedirectToAction("Index");
+            }
 
+            var model = new UpdateEmployeeViewModel
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                MiddleName = employee.MiddleName,
+                LastName = employee.LastName,
+                BirthDate = employee.BirthDate,
+                PostalCode = employee.PostalCode,
+                HouseNumber = employee.HouseNumber,
+                PhoneNumber = employee.PhoneNumber,
+                Email = employee.Email,
+                IsSystemManager = employee.IsSystemManager
+            };
 
+            var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(employee.Id);
+            model.BranchAssignments = branchAssignments.Select(bhe => new BranchAssignmentViewModel
+            {
+                BranchId = bhe.BranchId,
+                BranchName = bhe.Branch.Name,
+                FunctionName = bhe.FunctionName,
+                StartDate = bhe.StartDate
+            }).ToList();
 
-
+            // Pass the model to the view
+            return View(model);
+        }
     }
 }
