@@ -9,6 +9,7 @@ using static bumbo.Controllers.NormeringController;
 using bumbo.ViewModels;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace bumbo.Controllers
 {
@@ -84,7 +85,6 @@ namespace bumbo.Controllers
 
             var newBranch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
             newBranch.Employees = GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
-            //newBranch.Employees = GetEmployeesFromBranch(newBranch).ToList();
 
             var viewModel = new CreateBranchManagerViewModel() { 
                 BranchId = branchId, Employees = newBranch.Employees.ToList() 
@@ -92,13 +92,14 @@ namespace bumbo.Controllers
 
             var employees = newBranch.Employees.ToList();
 
-            var headers = new List<string> { "Naam", "Functie", "Filiaal nummer" };
+            var branchHasEmployees = _context.BranchHasEmployees.Where(e => e.BranchId == branchId).ToList();
+
+            var headers = new List<string> { "Naam", "Filiaal nummer" };
             var tableBuilder = new TableHtmlBuilder<Employee>();
             var htmlTable = tableBuilder.GenerateTable("", headers, employees, "", item =>
             {
             return $@"
                  <td class='py-2 px-4'>{item.FirstName + " " + item.LastName}</td>
-                
                  <td class='py-2 px-4'>{newBranch.BranchId}</td>
                  <td class='py-2 px-4'><a href='/Branches/AddBranchManager?branchId={newBranch.BranchId}&amp;employeeId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
             }, searchTerm, page);
@@ -143,42 +144,31 @@ namespace bumbo.Controllers
             return RedirectToAction("BranchesView");
         }
 
-        public IActionResult AddBranchManager(int employeeId, int branchId)
+        public IActionResult AddBranchManager(string employeeId, int branchId)
         {
 
             var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
 
-            // TODO doen wanneer er medewerkers in de database staan
-            //var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
-            //employee.ManagerOfBranch = branch;
-            //employee.ManagerOfBranchId = branchId;
-            //_context.SaveChanges();
-
-            // TODO verwijderen wanneer er medewerkers in de database staan
-            branch.Employees = GetManagersOfBranch(branch);
-            var employee = branch.Employees.SingleOrDefault(e => int.Parse(e.Id) == employeeId);
+            var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
             employee.ManagerOfBranch = branch;
             employee.ManagerOfBranchId = branchId;
-            Console.WriteLine(employee.FirstName);
-            Console.WriteLine(employee.ManagerOfBranchId);
-            // Tot hier
+            _context.SaveChanges();
 
             var viewModel = GetReadBranchViewModel(branch);
 
             return View("ReadBranchView", viewModel);
         }
 
-        public IActionResult DeleteBranchManager(int employeeId, int branchId)
+        public IActionResult DeleteBranchManager(string employeeId, int branchId)
         {
 
-            Console.WriteLine("Delete ---");
-            Console.WriteLine(employeeId + " is in branch " + branchId);
-            Console.WriteLine(employeeId + " is in branch " + branchId);
-            Console.WriteLine(employeeId + " is in branch " + branchId);
-            Console.WriteLine(employeeId + " is in branch " + branchId);
-            Console.WriteLine(employeeId + " is in branch " + branchId);
-
             var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+
+            var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
+            employee.ManagerOfBranch = null;
+            employee.ManagerOfBranchId = null;
+            _context.SaveChanges();
+
             var viewModel = GetReadBranchViewModel(branch);
 
             return View("ReadBranchView", viewModel);
