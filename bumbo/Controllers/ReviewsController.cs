@@ -45,6 +45,22 @@ namespace bumbo.Controllers
             if (prognosis == null)
             {
                 ViewBag.Message = "Geen prognose gevonden.";
+
+                // Bereken de vorige of volgende week, en het jaar indien nodig
+                if (weekNumber.HasValue)
+                {
+                    if (weekNumber > 52) // Bij het overschrijden van het jaar
+                    {
+                        weekNumber = 1;
+                        year = (year ?? DateTime.Now.Year) + 1;
+                    }
+                    else if (weekNumber < 1) // Bij het overschrijden naar het vorige jaar
+                    {
+                        weekNumber = 52; // Dit kan ook anders worden ingericht afhankelijk van het jaar
+                        year = (year ?? DateTime.Now.Year) - 1;
+                    }
+                }
+
                 var emptyModel = new WeekOverviewViewModel
                 {
                     Year = year ?? DateTime.Now.Year,
@@ -80,13 +96,5 @@ namespace bumbo.Controllers
 
             return View(viewModel);
         }
-
-        public int GetWeeksInYear(int year)
-        {
-            DateTime lastDayOfYear = new DateTime(year, 12, 31);
-            GregorianCalendar gc = new GregorianCalendar();
-            return gc.GetWeekOfYear(lastDayOfYear, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-        }
-
     }
 }
