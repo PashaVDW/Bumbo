@@ -2,6 +2,7 @@
 using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using static bumbo.Controllers.NormeringController;
 
 namespace bumbo.Controllers
@@ -20,6 +21,22 @@ namespace bumbo.Controllers
     }
     public class PrognosisController : Controller
     {
+        private readonly int _currentYear;
+        private readonly int _currentWeek;
+
+        public PrognosisController()
+        {
+            DateTime currentDate = DateTime.Now;
+            _currentYear = currentDate.Year;
+
+            CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+            _currentWeek = cultureInfo.Calendar.GetWeekOfYear(
+                currentDate,
+                CalendarWeekRule.FirstDay,
+                DayOfWeek.Monday
+            );
+        }
+
         List<Template> templates = new List<Template>
         {
             new Template
@@ -68,10 +85,35 @@ namespace bumbo.Controllers
                 }
             }
         };
-        // GET: PrognosisController
         public ActionResult Index()
         {
+            ViewBag.CurrentWeek = _currentWeek;
+            ViewBag.CurrentYear = _currentYear;
+
+            DateTime firstDayOfWeek = FirstDateOfWeekISO8601(_currentYear, _currentWeek);
+            List<DateTime> weekDates = Enumerable.Range(0, 7).Select(i => firstDayOfWeek.AddDays(i)).ToList();
+
+            ViewBag.WeekDates = weekDates;
+
             return View();
+        }
+
+        private DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            DateTime firstWeekStart = firstThursday.AddDays(-3);
+            if (firstWeek <= 1)
+            {
+                firstWeekStart = jan1;
+            }
+
+            return firstWeekStart.AddDays((weekOfYear - 1) * 7);
         }
 
         // GET: PrognosisController/Details/5
@@ -81,6 +123,7 @@ namespace bumbo.Controllers
         }
 
         // GET: PrognosisController/Create
+        [HttpGet]
         public ActionResult Create(int? id)
         {
             var template = templates.Find(t => t.TemplateId == id);
@@ -97,27 +140,26 @@ namespace bumbo.Controllers
             }
 
             ViewBag.days = new string[] { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" };
+            ViewBag.CurrentWeek = _currentWeek; 
+            ViewBag.CurrentYear = _currentYear;
             return View();
         }
 
-        // POST: PrognosisController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+        public ActionResult CreatePrognosis(List<Days> prognosisCreateDaysList)
+        {        
+            ViewBag.PrognoseLijst = prognosisCreateDaysList;
+
+            return View("Index");
         }
+
 
         // GET: PrognosisController/Edit/5 PARAMETER INT ID MUST BE ADDED
         public ActionResult Edit()
         {
+            ViewBag.CurrentWeek = _currentWeek;
+            ViewBag.CurrentYear = _currentYear;
             return View();
         }
 

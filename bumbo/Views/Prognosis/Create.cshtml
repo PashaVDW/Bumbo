@@ -25,11 +25,11 @@
     <div class="flex items-center space-x-4">
         <div class="flex flex-col flex-grow">
             <label class="block text-sm font-medium text-gray-700">Week</label>
-            <input type="text" value="12" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
+            <input type="text" value="@ViewBag.CurrentWeek" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
         </div>
         <div class="flex flex-col flex-grow">
             <label class="block text-sm font-medium text-gray-700">Jaar</label>
-            <input type="text" value="2024" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
+            <input type="text" value="@ViewBag.CurrentYear" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
         </div>
         <div class="flex flex-col">
             <button class="mt-6 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">
@@ -37,10 +37,11 @@
             </button>
         </div>
     </div>
+
 </div>
 
-@using (Html.BeginForm("Create", "Prognosis"))
-{
+<form method="post" action="/Prognosis/CreatePrognosis">
+    @Html.AntiForgeryToken()
     <fieldset>
         <div class="mt-4 mx-auto max-w-screen-lg">
             <div class="grid grid-cols-3 gap-2">
@@ -51,35 +52,35 @@
                 @for (int i = 0; i < 7; i++)
                 {
                     <div class="max-w-xs">@ViewBag.days[i]</div>
-                        @if (ViewBag.daysList != null && ViewBag.daysList.DaysList.Count > i)
-                        {
-                            <div>
-                                <input type="number" value="@ViewBag.daysList.DaysList[i].CustomerAmount" class="border rounded p-1 w-full">
-                            </div>
-                            <div>
-                            <input type="number" value="@ViewBag.daysList.DaysList[i].Packages" class="border rounded p-1 w-full">
-                            </div>
-                        }
-                        else
-                        {
-                            <div>
-                                <input type="number" class="border rounded p-1 w-full">
-                            </div>
-                            <div>
-                                <input type="number" class="border rounded p-1 w-full">
-                            </div>
-                        }
-                }
 
-                 
+                    // Voeg een verborgen invoerveld toe voor de naam van de dag
+                    <input name="prognosisCreateDaysList[@i].Name" type="hidden" value="@ViewBag.days[i]" />
+
+                    @if (ViewBag.daysList != null && ViewBag.daysList.DaysList.Count > i)
+                    {
+                        <div>
+                            <input name="prognosisCreateDaysList[@i].CustomerAmount" type="number" value="@ViewBag.daysList.DaysList[i].CustomerAmount" class="border rounded p-1 w-full">
+                        </div>
+                        <div>
+                            <input name="prognosisCreateDaysList[@i].Packages" type="number" value="@ViewBag.daysList.DaysList[i].Packages" class="border rounded p-1 w-full">
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <input name="prognosisCreateDaysList[@i].CustomerAmount" type="number" class="border rounded p-1 w-full">
+                        </div>
+                        <div>
+                            <input name="prognosisCreateDaysList[@i].Packages" type="number" class="border rounded p-1 w-full">
+                        </div>
+                    }
+                }
             </div>
             <div class="mt-4 flex justify-end space-x-2">
-                <button class="bg-blue-500 text-white border border-blue-700 rounded p-2 hover:bg-blue-600 transition">Aanmaken</button>
+                <button type="submit" class="bg-blue-500 text-white border border-blue-700 rounded p-2 hover:bg-blue-600 transition">Aanmaken</button>
             </div>
-
         </div>
-
     </fieldset>
-}
+</form>
 
 
