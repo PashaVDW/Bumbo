@@ -12,7 +12,7 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241016124831_InitialCreate")]
+    [Migration("20241017072314_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -404,7 +404,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "e3de93e7-5ebb-42e8-91a2-d51185dfcb05",
+                            ConcurrencyStamp = "f9c1b164-81c5-4043-95ee-2a1cc97967c6",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -417,10 +417,10 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFTzpnpyFEL4p1zRhv3wUH3dkDHBHj/6OwipJUmOjp3ZEoLaXfhROimfonPMM8RVWQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELIhqIImwRqkQ3/+2a8guCS8oHCtfZozKRZrth3zkh/RqXzzMMzgyC553I89FbNanw==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "c36dab6b-8160-4475-b30c-38cfc0ba02d1",
+                            SecurityStamp = "3236456e-0ab2-4c34-ba63-b99d25643cfc",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -431,7 +431,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "8d2161d5-a897-40d3-9a5d-739383ad87cd",
+                            ConcurrencyStamp = "a3d283d5-24f7-4f2c-bd0d-7099e4941952",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -443,14 +443,44 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKp5Etg805v1niPVdE0w6c1WDOPRJtgk5QqU82RL5O4nq/5d8Cy+q5NrK9bxUWZDjw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMmAgA/ob8qs0tPZUXabkj1MryCeBWEoKQ/QN8vC+1/A09AQOJA6DxUeHbu3iQkuwQ==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "08383bf2-107b-4a6b-ba31-958a1d63b7d3",
+                            SecurityStamp = "b1bd607f-f09e-4711-bfd0-416dfb715503",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
                         });
+                });
+
+            modelBuilder.Entity("bumbo.Models.Norm", b =>
+                {
+                    b.Property<int>("normId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("normId"));
+
+                    b.Property<string>("activity")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("branchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("normInSeconds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("week")
+                        .HasColumnType("int");
+
+                    b.Property<int>("year")
+                        .HasColumnType("int");
+
+                    b.HasKey("normId");
+
+                    b.ToTable("Norms");
                 });
 
             modelBuilder.Entity("bumbo.Models.Prognosis", b =>
