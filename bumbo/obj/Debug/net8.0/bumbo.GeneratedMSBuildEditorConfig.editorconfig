@@ -18,6 +18,30 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\thoma\Documents\Git\Bumbo\bumbo
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,12 +70,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Normering/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm9ybWVyaW5nXEluZGV4LmNzaHRtbA==
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Norms/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm9ybXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Norms/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm9ybXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Norms/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm9ybXNcVXBkYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Reviews/Index.cshtml]
@@ -60,6 +92,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Shared/Components/NavBar/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcTmF2QmFyXERlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Shared/_ValidationScriptsPartial.cshtml]
@@ -85,6 +121,10 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/Documents/Git/Bumbo/bumbo/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-wuq7ocqpxa
 
 [C:/Users/thoma/Documents/Git/Bumbo/bumbo/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s

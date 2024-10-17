@@ -14,6 +14,7 @@ builder.Services.AddDbContext<BumboDBContext>(options =>
 
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository,  TemplateHasDaysRepositorySql>();
+builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
