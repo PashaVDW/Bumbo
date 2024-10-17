@@ -14,7 +14,7 @@
     <!-- Tweede rij met Weeknummer en knop boven de andere invoervelden -->
     <div class="flex items-center space-x-4 mb-4">
         <div class="flex flex-row flex-grow">
-            <input disabled type="text" class="mt-1 p-2 border border-gray-300 rounded w-full" placeholder="Er is nog geen standaard template geimporteerd" />
+            <input disabled type="text" class="mt-1 p-2 border border-gray-300 rounded w-full" placeholder="@ViewBag.templatename" />
             <button onclick="window.location.href='../prognosis/AddTemplate'" class="mt-6 p-2 bg-green-600 text-white rounded hover:bg-green-700">
                 Importeer Standaard Template
             </button>
@@ -45,8 +45,8 @@
         <div class="mt-4 mx-auto max-w-screen-lg">
             <div class="grid grid-cols-3 gap-2">
                 <div class="font-bold max-w-xs">Dag</div>
-                <div class="font-bold max-w-xs">Aantal Benodigde Uren</div>
-                <div class="font-bold max-w-xs">Aantal Benodigde Medewerkers</div>
+                <div class="font-bold max-w-xs">Aantal Verwachte Klanten</div>
+                <div class="font-bold max-w-xs">Aantal Verwachte Collies</div>
 
                 @for (int i = 0; i < 7; i++)
                 {
@@ -74,8 +74,7 @@
                  
             </div>
             <div class="mt-4 flex justify-end space-x-2">
-                <button  type="submit" bg-red-500 text-white border border-red-700 rounded p-2 hover:bg-red-600 transition">Verwijderen</button>
-                <button class="bg-blue-500 text-white border border-blue-700 rounded p-2 hover:bg-blue-600 transition">Bewerken</button>
+                <button class="bg-blue-500 text-white border border-blue-700 rounded p-2 hover:bg-blue-600 transition">Aanmaken</button>
             </div>
 
         </div>

@@ -83,7 +83,18 @@ namespace bumbo.Controllers
         // GET: PrognosisController/Create
         public ActionResult Create(int? id)
         {
-            ViewBag.daysList = templates.Find(t => t.TemplateId == id);
+            var template = templates.Find(t => t.TemplateId == id);
+
+            if (template != null)
+            {
+                ViewBag.daysList = template;
+                ViewBag.templateName = template.TemplateName;
+            }
+            else
+            {
+                ViewBag.daysList = null;
+                ViewBag.templateName = "Er is geen template geimporteerd";
+            }
 
             ViewBag.days = new string[] { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" };
             return View();
