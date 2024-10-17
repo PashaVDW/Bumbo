@@ -5,7 +5,10 @@
 <div class="p-8 container mx-auto max-w-6xl">
     <div class="p-8">
 
-        <custom-modal modal-id="deleteTemplate" ></custom-modal>
+        <custom-modal modal-id="deleteTemplate" body-text="Are you sure you want to delete this template?">
+            <default-button button-text="Delete" button-type="delete" on-click="window.location.href='/Templates/Delete'"></default-button>
+            <default-button button-text="Cancel" button-type="secondary" on-click="document.getElementById('naamvanmodel').classList.add('hidden')"></default-button>
+        </custom-modal>
 
         <!-- Main section title -->
         <div class="mb-6 flex items-center">
@@ -38,7 +41,7 @@
                 }
                 
                 <div class="mt-5">
-                    <default-button button-text="Delete" button-type="secondary" on-click="document.getElementById('deleteTemplate').classList.remove('hidden')"></default-button>
+                    <default-button button-text="Delete" button-type="delete" on-click="document.getElementById('deleteTemplate').classList.remove('hidden')"></default-button>
                     <default-button button-text="Update" button-type="primary" on-click="document.getElementById('updateForm').submit();"></default-button>
                 </div>
             </form>
