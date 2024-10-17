@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using bumbo.Models;
 using bumbo.ViewModels;
-using System.Threading.Tasks;
 using DataLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using bumbo.Components;
 
 namespace bumbo.Controllers
 {
@@ -13,24 +13,36 @@ namespace bumbo.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IFunctionRepository _functionRepository;
         private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeesController(UserManager<Employee> userManager, IFunctionRepository functionRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository)
+        public EmployeesController(UserManager<Employee> userManager, IFunctionRepository functionRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, IEmployeeRepository employeeRepository)
         {
             _userManager = userManager;
             _functionRepository = functionRepository;
             _branchHasEmployeeRepository = branchHasEmployeeRepository;
+            _employeeRepository = employeeRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm, int page = 1, int pageSize = 25)
         {
-            var user = await _userManager.GetUserAsync(User);
-
-            if (user == null || (user.ManagerOfBranchId == null && !user.IsSystemManager))
+            var headers = new List<string> { "Naam", "Achternaam", "Email", "Telefoonnummer",  };
+            var tableBuilder = new TableHtmlBuilder<Employee>();
+            var htmlTable = tableBuilder.GenerateTable("", headers, _employeeRepository.GetAllEmployees(), "/medewerkers/aanmaken", item =>
             {
-                return RedirectToAction("AccessDenied", "Home");
-            }
+                return $@"
+                    <td class='py-2 px-4'>{item.FirstName}</td>
+                    <td class='py-2 px-4'>{item.LastName}</td>
+                    <td class='py-2 px-4'>{item.Email}</td>
+                    <td class='py-2 px-4'>{item.PhoneNumber}</td>
+                    <td class='py-2 px-4'><a href='/medewerkers/bewerken?medewerkerId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
+            }, searchTerm, page);
+
+            ViewBag.HtmlTable = htmlTable;
+
             return View();
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> Create()

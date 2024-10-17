@@ -1,6 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Medewerkers";
+    ViewData["Title"] = "Medewerker Overzicht";
 }
 
-<h1>Medewerkers Page</h1>
-<p>This is the Medewerkers page.</p>
+<!-- Display the generated table -->
+<div class="mt-8">
+    @Html.Raw(ViewBag.HtmlTable)
+</div>
