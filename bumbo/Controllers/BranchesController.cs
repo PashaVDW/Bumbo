@@ -79,9 +79,20 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult CreateBranchManagerView(string searchTerm, int page = 1)
+        public IActionResult CreateBranchManagerView(int branchId, string searchTerm, int page = 1)
         {
-            int branchId = int.Parse(HttpContext.Request.Query["branchId"]);
+
+            if(branchId == 0)
+            {
+                
+            }
+
+            Console.WriteLine("branchId");
+            Console.WriteLine(branchId);
+            Console.WriteLine(branchId);
+            Console.WriteLine(branchId);
+            Console.WriteLine(branchId);
+            Console.WriteLine(branchId);
 
             var newBranch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
             newBranch.Employees = GetEmployees(newBranch).Where(e => e.ManagerOfBranchId == 0).ToList();
