@@ -18,9 +18,6 @@ namespace bumbo.Controllers
         private readonly UserManager<Employee> _userManager;
         private BumboDBContext _context;
 
-        //TODO Verwijderen
-        private List<Employee> _testEmployees;
-
         public BranchesController(UserManager<Employee> userManager, BumboDBContext context)
         {
             _userManager = userManager;
