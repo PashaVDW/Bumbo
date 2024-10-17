@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace bumbo.Migrations
+namespace DataLayer.Migrations
 {
     /// <inheritdoc />
     public partial class Templates : Migration
@@ -44,7 +44,7 @@ namespace bumbo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Template_Has_Days",
+                name: "TemplateHasDays",
                 columns: table => new
                 {
                     Templates_id = table.Column<int>(type: "int", nullable: false),
@@ -54,15 +54,15 @@ namespace bumbo.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Template_Has_Days", x => new { x.Templates_id, x.Days_name });
+                    table.PrimaryKey("PK_TemplateHasDays", x => new { x.Templates_id, x.Days_name });
                     table.ForeignKey(
-                        name: "FK_Template_Has_Days_Days_Days_name",
+                        name: "FK_TemplateHasDays_Days_Days_name",
                         column: x => x.Days_name,
                         principalTable: "Days",
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Template_Has_Days_Templates_Templates_id",
+                        name: "FK_TemplateHasDays_Templates_Templates_id",
                         column: x => x.Templates_id,
                         principalTable: "Templates",
                         principalColumn: "Id",
@@ -74,27 +74,27 @@ namespace bumbo.Migrations
                 keyColumn: "Id",
                 keyValue: "1",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "bbcff31b-ae52-4f0a-8f74-7bef08f86871", "AQAAAAIAAYagAAAAEIYeRpcEk0C1LSFoQgdiL2Ev/W/0kzuEPom6/Zpx2uTPBbBNri978CfSo7RopHlang==", "b695df79-e2e0-4eb1-9c7b-5304039ef7d6" });
+                values: new object[] { "c8f29085-3d9d-4d56-9f54-f3e497c5a445", "AQAAAAIAAYagAAAAEByYx39efqatyRpDw8IxC3Q1PfpCLQGXJ0StxfAq36ftP9/Fzjgmeu92vn1id6g7NQ==", "94e71fe1-2900-438b-a070-6882e2c1016c" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "2",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "88e9e2a6-f4f2-4482-a31b-46f50db87746", "AQAAAAIAAYagAAAAEMsZ5smgzTq5UrtVHdpJQsKILEzjOqdHeABJpZ1Ms0iQ9LV+DdYlQC3bk4oOdsohVg==", "44d276fe-1da9-46e8-9c58-5d64f6b20f57" });
+                values: new object[] { "68810466-4ad1-43b8-abd9-65a0a619c5f5", "AQAAAAIAAYagAAAAEFjWUFoogXaeqA5zCqNfrZHiRNh9mBRXROJ0l6VscteJamikIIDQuF+hl3+3mNWmpA==", "f3b16672-ff0a-4a64-a739-3f20218a7d72" });
 
             migrationBuilder.InsertData(
                 table: "Days",
                 column: "Name",
                 values: new object[]
                 {
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
                     "Friday",
+                    "Monday",
                     "Saturday",
-                    "Sunday"
+                    "Sunday",
+                    "Thursday",
+                    "Tuesday",
+                    "Wednesday"
                 });
 
             migrationBuilder.InsertData(
@@ -110,55 +110,50 @@ namespace bumbo.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Template_Has_Days",
-                columns: new[] { "Templates_id", "Days_name", "ContainerAmount", "CustomerAmount" },
+                table: "TemplateHasDays",
+                columns: new[] { "Days_name", "Templates_id", "ContainerAmount", "CustomerAmount" },
                 values: new object[,]
                 {
-                    { 1, "Monday", 41, 989 },
-                    { 1, "Tuesday", 52, 825 },
-                    { 1, "Wednesday", 38, 902 },
-                    { 1, "Thursday", 52, 990 },
-                    { 1, "Friday", 39, 1040 },
-                    { 1, "Saturday", 43, 953 },
-                    { 1, "Sunday", 32, 872 },
-
-                    { 2, "Monday", 42, 916 },
-                    { 2, "Tuesday", 38, 912 },
-                    { 2, "Wednesday", 32, 902 },
-                    { 2, "Thursday", 45, 940 },
-                    { 2, "Friday", 47, 816 },
-                    { 2, "Saturday", 38, 842 },
-                    { 2, "Sunday", 45, 885 },
-
-                    { 3, "Monday", 53, 872 },
-                    { 3, "Tuesday", 41, 989 },
-                    { 3, "Wednesday", 42, 916 },
-                    { 3, "Thursday", 36, 875 },
-                    { 3, "Friday", 29, 877 },
-                    { 3, "Saturday", 53, 945 },
-                    { 3, "Sunday", 52, 880 },
-
-                    { 4, "Monday", 49, 900 },
-                    { 4, "Tuesday", 38, 903 },
-                    { 4, "Wednesday", 45, 930 },
-                    { 4, "Thursday", 42, 985 },
-                    { 4, "Friday", 36, 865 },
-                    { 4, "Saturday", 43, 950 },
-                    { 4, "Sunday", 38, 950 },
-
-                    { 5, "Monday", 52, 832 },
-                    { 5, "Tuesday", 49, 935 },
-                    { 5, "Wednesday", 29, 877 },
-                    { 5, "Thursday", 41, 989 },
-                    { 5, "Friday", 32, 872 },
-                    { 5, "Saturday", 36, 771 },
-                    { 5, "Sunday", 52, 885 }
+                    { "Friday", 1, 39, 1040 },
+                    { "Monday", 1, 41, 989 },
+                    { "Saturday", 1, 43, 953 },
+                    { "Sunday", 1, 32, 872 },
+                    { "Thursday", 1, 52, 990 },
+                    { "Tuesday", 1, 52, 825 },
+                    { "Wednesday", 1, 38, 902 },
+                    { "Friday", 2, 47, 816 },
+                    { "Monday", 2, 42, 916 },
+                    { "Saturday", 2, 38, 842 },
+                    { "Sunday", 2, 45, 885 },
+                    { "Thursday", 2, 45, 940 },
+                    { "Tuesday", 2, 38, 912 },
+                    { "Wednesday", 2, 32, 902 },
+                    { "Friday", 3, 29, 877 },
+                    { "Monday", 3, 53, 872 },
+                    { "Saturday", 3, 53, 945 },
+                    { "Sunday", 3, 52, 880 },
+                    { "Thursday", 3, 36, 875 },
+                    { "Tuesday", 3, 41, 989 },
+                    { "Wednesday", 3, 42, 916 },
+                    { "Friday", 4, 36, 865 },
+                    { "Monday", 4, 49, 900 },
+                    { "Saturday", 4, 43, 950 },
+                    { "Sunday", 4, 38, 950 },
+                    { "Thursday", 4, 42, 985 },
+                    { "Tuesday", 4, 38, 903 },
+                    { "Wednesday", 4, 45, 930 },
+                    { "Friday", 5, 32, 872 },
+                    { "Monday", 5, 52, 832 },
+                    { "Saturday", 5, 36, 771 },
+                    { "Sunday", 5, 52, 885 },
+                    { "Thursday", 5, 41, 989 },
+                    { "Tuesday", 5, 49, 935 },
+                    { "Wednesday", 5, 29, 877 }
                 });
 
-
             migrationBuilder.CreateIndex(
-                name: "IX_Template_Has_Days_Days_name",
-                table: "Template_Has_Days",
+                name: "IX_TemplateHasDays_Days_name",
+                table: "TemplateHasDays",
                 column: "Days_name");
 
             migrationBuilder.CreateIndex(
@@ -171,7 +166,7 @@ namespace bumbo.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Template_Has_Days");
+                name: "TemplateHasDays");
 
             migrationBuilder.DropTable(
                 name: "Days");
@@ -184,14 +179,14 @@ namespace bumbo.Migrations
                 keyColumn: "Id",
                 keyValue: "1",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "be6a2682-1629-4f8d-987a-0203f23feef7", "AQAAAAIAAYagAAAAEH6HHdaFZ8sVzr8GuuBrxjE4JRob17hWTQqu0mI3e+l2lgylFZh21s13gqbnc3xcbA==", "43168cf4-d8bd-49d1-a721-b050ba06e528" });
+                values: new object[] { "ebb87ae2-1238-4301-9dd7-b264e5403419", "AQAAAAIAAYagAAAAEOWnjsFZvntptYDkSys8lUwygcxzSZqIaCzF83J6Dctj6fOexYECMZUxzBGH/dnmHg==", "74762b9c-4097-49c6-b90a-90c8c3136804" });
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "2",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "4b0728b2-6d24-43de-afb3-cb4f87b034e7", "AQAAAAIAAYagAAAAEN8ZXBXrog3LfEWkE/z+yW69XOPnd323IDUMV9ET8mTHj7GpaXjzPCiq9Gc9dmgV9A==", "f706b431-d6d3-4476-ae19-4a0120d62d34" });
+                values: new object[] { "5e86f65e-ce47-4695-a197-1a1cc57589dd", "AQAAAAIAAYagAAAAECFTVGYOb0Vs46tGHL/lUhMp08aqk10FRkHy89EtF1DDrpYzTLt8FKLyW6vefa2GZg==", "dafd6170-068f-43de-a78a-e4ebe726bfce" });
         }
     }
 }
