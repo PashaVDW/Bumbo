@@ -48,7 +48,9 @@ namespace bumbo.Controllers
                 {
                     Value = f.FunctionName,
                     Text = f.FunctionName
-                }).ToList()
+                }).ToList(),
+
+                IsSystemManager = user.IsSystemManager
             };
 
             return View(model);

@@ -68,19 +68,28 @@
             </div>
 
             <div>
+                <label asp-for="BID" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="BID" placeholder="123456789" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="BID" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            @if (Model.IsSystemManager)
+            {
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div>
+                        <label asp-for="IsSystemManager" class="block text-sm font-medium text-gray-700">Systeembeheerder</label>
+                        <input asp-for="IsSystemManager" type="checkbox" class="mt-1 block shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                        <span asp-validation-for="IsSystemManager" class="text-sm text-red-600"></span>
+                    </div>
+                </div>
+            }
+            <div>
                 <label asp-for="SelectedFunction" class="block text-sm font-medium text-gray-700">Functie</label>
                 <select asp-for="SelectedFunction" asp-items="Model.Functions" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     <option value="">None</option>
                 </select>
                 <span asp-validation-for="SelectedFunction" class="text-sm text-red-600"></span>
-            </div>
-
-        </div>
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-                <label asp-for="BID" class="block text-sm font-medium text-gray-700"></label>
-                <input asp-for="BID" placeholder="123456789" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="BID" class="text-sm text-red-600"></span>
             </div>
         </div>
 
