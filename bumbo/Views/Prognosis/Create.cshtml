@@ -15,7 +15,7 @@
     <div class="flex items-center space-x-4 mb-4">
         <div class="flex flex-row flex-grow">
             <input disabled type="text" class="mt-1 p-2 border border-gray-300 rounded w-full" placeholder="Er is nog geen standaard template geimporteerd" />
-            <button class="mt-6 p-2 bg-green-600 text-white rounded hover:bg-green-700">
+            <button onclick="window.location.href='../prognosis/AddTemplate'" class="mt-6 p-2 bg-green-600 text-white rounded hover:bg-green-700">
                 Importeer Standaard Template
             </button>
         </div>
@@ -48,61 +48,30 @@
                 <div class="font-bold max-w-xs">Aantal Benodigde Uren</div>
                 <div class="font-bold max-w-xs">Aantal Benodigde Medewerkers</div>
 
-                <div class="max-w-xs">Ma</div>
-                <div>
-                    <input type="number" value="8" disabled class="border rounded p-1 w-full">
-                </div>
-                <div>
-                    <input type="number" value="2" disabled class="border rounded p-1 w-full">
-                </div>
+                @for (int i = 0; i < 7; i++)
+                {
+                    <div class="max-w-xs">@ViewBag.days[i]</div>
+                        @if (ViewBag.daysList != null && ViewBag.daysList.DaysList.Count > i)
+                        {
+                            <div>
+                                <input type="number" value="@ViewBag.daysList.DaysList[i].CustomerAmount" class="border rounded p-1 w-full">
+                            </div>
+                            <div>
+                            <input type="number" value="@ViewBag.daysList.DaysList[i].Packages" class="border rounded p-1 w-full">
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <input type="number" class="border rounded p-1 w-full">
+                            </div>
+                            <div>
+                                <input type="number" class="border rounded p-1 w-full">
+                            </div>
+                        }
+                }
 
-                <div class="max-w-xs">Di</div>
-                <div>
-                    <input type="number" value="6" disabled class="border rounded p-1 w-full">
-                </div>
-                <div>
-                    <input type="number" value="1" disabled class="border rounded p-1 w-full">
-                </div>
-
-                <div class="max-w-xs">Wo</div>
-                <div>
-                    <input type="number" value="7" disabled class="border rounded p-1 w-full">
-                </div>
-                <div>
-                    <input type="number" value="2" disabled class="border rounded p-1 w-full">
-                </div>
-
-                <div class="max-w-xs">Do</div>
-                <div>
-                    <input type="number" value="5" disabled class="border rounded p-1 w-full">
-                </div>
-                <div>
-                    <input type="number" value="1" disabled class="border rounded p-1 w-full">
-                </div>
-
-                <div class="max-w-xs">Fri</div>
-                <div>
-                    <input type="number" value="9" disabled class="border rounded p-1 w-full">
-                </div>
-                <div>
-                    <input type="number" value="3" disabled class="border rounded p-1 w-full">
-                </div>
-
-                <div class="max-w-xs">Za</div>
-                <div>
-                    <input type="number" value="4" disabled class="border rounded p-1 w-full">
-                </div>
-                <div>
-                    <input type="number" value="1" disabled class="border rounded p-1 w-full">
-                </div>
-
-                <div class="max-w-xs">Zo</div>
-                <div>
-                    <input type="number" value="3" disabled class="border rounded p-1 w-full">
-                </div>
-                <div>
-                    <input type="number" value="1" disabled class="border rounded p-1 w-full">
-                </div>
+                 
             </div>
             <div class="mt-4 flex justify-end space-x-2">
                 <button  type="submit" bg-red-500 text-white border border-red-700 rounded p-2 hover:bg-red-600 transition">Verwijderen</button>

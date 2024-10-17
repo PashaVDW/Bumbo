@@ -1,10 +1,73 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using bumbo.Components;
+using Humanizer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static bumbo.Controllers.NormeringController;
 
 namespace bumbo.Controllers
 {
+    public class Template
+    {
+        public int TemplateId { get; set; }
+        public string TemplateName { get; set; } 
+        public List<Days> DaysList { get; set; }
+    }
+    public class Days
+    {
+        public string Name { get; set; }
+        public int CustomerAmount { get; set; }
+        public int Packages {  get; set; }
+    }
     public class PrognosisController : Controller
     {
+        List<Template> templates = new List<Template>
+        {
+            new Template
+            {
+                TemplateName = "week1",
+                TemplateId = 1,
+                DaysList = new List<Days>
+                {
+                    new Days { Name = "Ma", CustomerAmount = 5, Packages = 2 },  // Maandag
+                    new Days { Name = "Di", CustomerAmount = 3, Packages = 1 },  // Dinsdag
+                    new Days { Name = "Wo", CustomerAmount = 4, Packages = 3 },  // Woensdag
+                    new Days { Name = "Do", CustomerAmount = 2, Packages = 2 },  // Donderdag
+                    new Days { Name = "Vr", CustomerAmount = 6, Packages = 1 },  // Vrijdag
+                    new Days { Name = "Za", CustomerAmount = 1, Packages = 4 },  // Zaterdag
+                    new Days { Name = "Zo", CustomerAmount = 7, Packages = 2 }   // Zondag
+                }
+            },
+            new Template
+            {
+                TemplateName = "week2",
+                TemplateId = 2,
+                DaysList = new List<Days>
+                {
+                    new Days { Name = "Ma", CustomerAmount = 4, Packages = 2 },  // Maandag
+                    new Days { Name = "Di", CustomerAmount = 5, Packages = 1 },  // Dinsdag
+                    new Days { Name = "Wo", CustomerAmount = 3, Packages = 3 },  // Woensdag
+                    new Days { Name = "Do", CustomerAmount = 4, Packages = 2 },  // Donderdag
+                    new Days { Name = "Vr", CustomerAmount = 5, Packages = 2 },  // Vrijdag
+                    new Days { Name = "Za", CustomerAmount = 2, Packages = 1 },  // Zaterdag
+                    new Days { Name = "Zo", CustomerAmount = 6, Packages = 3 }   // Zondag
+                }
+            },
+            new Template
+            {
+                TemplateName = "week3",
+                TemplateId = 3,
+                DaysList = new List<Days>
+                {
+                    new Days { Name = "Ma", CustomerAmount = 3, Packages = 1 },  // Maandag
+                    new Days { Name = "Di", CustomerAmount = 6, Packages = 2 },  // Dinsdag
+                    new Days { Name = "Wo", CustomerAmount = 2, Packages = 4 },  // Woensdag
+                    new Days { Name = "Do", CustomerAmount = 7, Packages = 3 },  // Donderdag
+                    new Days { Name = "Vr", CustomerAmount = 1, Packages = 2 },  // Vrijdag
+                    new Days { Name = "Za", CustomerAmount = 4, Packages = 1 },  // Zaterdag
+                    new Days { Name = "Zo", CustomerAmount = 5, Packages = 4 }   // Zondag
+                }
+            }
+        };
         // GET: PrognosisController
         public ActionResult Index()
         {
@@ -18,9 +81,11 @@ namespace bumbo.Controllers
         }
 
         // GET: PrognosisController/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
+            ViewBag.daysList = templates.Find(t => t.TemplateId == id);
 
+            ViewBag.days = new string[] { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" };
             return View();
         }
 
@@ -79,6 +144,27 @@ namespace bumbo.Controllers
             {
                 return View();
             }
+        }
+        public ActionResult AddTemplate (string searchTerm, int page = 1)
+        {
+            var headers = new List<string> { "Naam" };
+
+
+            var tableBuilder = new TableHtmlBuilder<Template>();
+            var htmlTable = tableBuilder.GenerateTable("", headers, templates, "", "", item =>
+            {
+                return $@"
+        <td class='py-2 px-4'>{item.TemplateName}</td>
+        <td class='py-2 px-4 text-right'>
+            <button class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl' 
+                    onclick=""window.location.href='../prognosis/Create?id={item.TemplateId}'"">
+                Kies
+            </button>
+        </td>";
+            }, searchTerm, page);
+
+            ViewBag.HtmlTable = htmlTable;
+            return View();
         }
     }
 }
