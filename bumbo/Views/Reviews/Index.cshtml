@@ -1,69 +1,32 @@
 ﻿@model bumbo.ViewModels.WeekOverviewViewModel
 
-<div class="container">
-    <h1>Terugblik</h1>
+<div class="flex flex-col items-center max-w-4xl mx-auto px-2">
+    <h1 class="review">Terugblik</h1>
     <p>Maand: @ViewBag.MonthName</p>
     <p>Week loopt van @ViewBag.FirstDayOfWeek.ToString("dd MMMM yyyy") tot @ViewBag.LastDayOfWeek.ToString("dd MMMM yyyy")</p>
-    <h2>Week @Model.WeekNr - @Model.Year</h2>
+    <h2 class="weeknr">Week @Model.WeekNr - @Model.Year</h2>
 
-    <div class="week-overview">
-        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr - 1, year = Model.Year })">Vorige week    </a>
+    <div class="flex justify-between items-center w-full">
+        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr - 1, year = Model.Year })" class="bg-transparent text-lg hover:text-blue-700">Vorige week</a>
 
         @if (ViewBag.Message != null)
         {
-            <div class ="message">@ViewBag.Message</div>
+            <div class="text-red-500">@ViewBag.Message</div>
         }
-        else
+
+        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr + 1, year = Model.Year })" class="bg-transparent text-lg hover:text-blue-700">Volgende week</a>
+    </div>
+
+    <div class="grid grid-cols-7 gap-4 mt-6">
+        @foreach (var day in Model.Days)
         {
-            @foreach (var day in Model.Days)
-            {
-                <div class="day-column">
-                    <p>@day.DayName</p>
-                    <p>Aantal klanten</p>
-                    <div class="data-box">@day.CustomerAmount</div>
-                    <p>Aantal coli's</p>
-                    <div class="data-box">@day.PackagesAmount</div>
-                </div>
-            }
+            <div class="day-column text-center">
+                <p class="font-medium">@day.DayName</p>
+                <p>Aantal klanten</p>
+                <div class="data-box border border-gray-300 p-2 rounded-md w-20 mx-auto">@day.CustomerAmount</div>
+                <p>Aantal coli's</p>
+                <div class="data-box border border-gray-300 p-2 rounded-md w-20 mx-auto">@day.PackagesAmount</div>
+            </div>
         }
-        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr + 1, year = Model.Year })">   Volgende week</a>
     </div>
 </div>
-
-<style>
-    .container {
-        text-align: center;
-        font-family: Arial, sans-serif;
-    }
-
-    .week-overview {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .day-column {
-        margin: 0 10px;
-        text-align: center;
-    }
-
-    .data-box {
-        border: 1px solid #ddd;
-        padding: 10px;
-        border-radius: 5px;
-        width: 50px;
-        margin: 5px auto;
-    }
-
-    .arrow-btn {
-        background-color: transparent;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-    }
-
-    .message{
-        margin-left: 50px;
-        margin-right: 50px;
-    }
-</style>
