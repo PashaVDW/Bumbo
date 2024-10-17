@@ -8,11 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataLayer.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:DataLayer/Migrations/20241016132554_FirstCreate.cs
     public partial class FirstCreate : Migration
-========
-    public partial class fullmigration : Migration
->>>>>>>> development:DataLayer/Migrations/20241010091014_fullmigration.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -272,11 +268,7 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-<<<<<<<< HEAD:DataLayer/Migrations/20241016132554_FirstCreate.cs
                 values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "092b2c77-f5d4-44ca-8350-ba9e6e4ca1c9", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEA/Cnynl3DpCsbs7fGApcVzwjycITV8LQor7V+s80bkppBQ+UiOX3ZDJ9XkwLwbhPg==", null, false, "54321", "8a073d6c-c3a5-4d63-b715-4a82ba5c7a75", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
-========
-                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "1beecca1-b991-409c-b2af-27dcc6611a14", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "hashedpassword456", null, false, "54321", "c3a715f6-86dc-41df-b13a-ef5d49c52328", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
->>>>>>>> development:DataLayer/Migrations/20241010091014_fullmigration.cs
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -314,7 +306,6 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-<<<<<<<< HEAD:DataLayer/Migrations/20241016132554_FirstCreate.cs
                 values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "9a06164c-7311-4625-bf1f-1df67e783cee", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEFGtD5zymh655w3bAHIPs8i9csqvgngsXkTdHt7xJl0VpMs44xd0X6DqzPUj01ZY1A==", null, false, "12345", "71843d89-5b71-424e-bfc3-24d14f52496f", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
 
             migrationBuilder.InsertData(
@@ -370,9 +361,6 @@ namespace DataLayer.Migrations
                     { "Tuesday", 5, 49, 935 },
                     { "Wednesday", 5, 29, 877 }
                 });
-========
-                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "b4640636-837a-4c75-b856-f9e67cd34c93", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "hashedpassword123", null, false, "12345", "2ac06510-440d-43ca-9491-289aef99f2f2", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
->>>>>>>> development:DataLayer/Migrations/20241010091014_fullmigration.cs
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
