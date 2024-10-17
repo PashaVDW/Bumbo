@@ -8,6 +8,8 @@ namespace DataLayer.Interfaces
 
         void Update(TemplateHasDays templateHasDays);
 
+        void DeleteByTemplateId(int templateId);
+
         Task SaveChangesAsync();
     }
 }

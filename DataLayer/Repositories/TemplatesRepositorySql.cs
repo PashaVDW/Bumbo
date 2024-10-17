@@ -27,6 +27,13 @@ namespace DataLayer.Repositories
                     && t.Branch_branchId == branchId);
         }
 
+        public async Task<Template> GetByIdAsync(int templateId)
+        {
+            return await _context.Templates
+                .Include(t => t.TemplateHasDays)
+                .FirstOrDefaultAsync(t => t.Id == templateId);
+        }
+
         public async Task Add(Template template)
         {
             await _context.Templates.AddAsync(template);
@@ -35,6 +42,12 @@ namespace DataLayer.Repositories
         public void Update(Template template)
         {
             _context.Templates.Update(template);
+        }
+
+        public async Task DeleteAsync(Template template)
+        {
+            _context.Templates.Remove(template);
+            await _context.SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()

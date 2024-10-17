@@ -23,6 +23,16 @@ namespace DataLayer.Repositories
             _context.TemplateHasDays.Update(templateHasDays);
         }
 
+        public void DeleteByTemplateId(int templateId)
+        {
+            var entries = _context.TemplateHasDays
+                .Where(thd => thd.Templates_id == templateId)
+                .ToList();
+
+            _context.TemplateHasDays.RemoveRange(entries);
+            _context.SaveChanges();
+        }
+
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

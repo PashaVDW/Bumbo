@@ -246,7 +246,17 @@ namespace bumbo.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int templateId)
         {
-            
+            var template = await _templatesRepository.GetByIdAsync(templateId);
+
+            if (template == null)
+            {
+                return NotFound();
+            }
+
+            _templatesHasDaysRepository.DeleteByTemplateId(templateId);
+
+            await _templatesRepository.DeleteAsync(template);
+
 
             return RedirectToAction(nameof(Index));
         }

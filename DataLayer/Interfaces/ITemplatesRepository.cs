@@ -9,9 +9,13 @@ namespace DataLayer.Interfaces
 
         Task<Template> GetByNameAndBranchAsync(string name, int branchId);
 
+        Task<Template> GetByIdAsync(int templateId);
+
         Task Add(Template template);
 
         void Update(Template template);
+
+        Task DeleteAsync(Template template);
 
         Task SaveChangesAsync();
     }
