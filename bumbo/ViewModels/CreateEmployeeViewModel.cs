@@ -7,33 +7,33 @@ namespace bumbo.ViewModels
 {
     public class CreateEmployeeViewModel
     {
-        [Required(ErrorMessage = "First name is required.")]
-        [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
+        [Required(ErrorMessage = "Voornaam is verplicht.")]
+        [StringLength(50, ErrorMessage = "Voornaam mag niet langer zijn dan 50 tekens.")]
         public string FirstName { get; set; }
 
         public string? MiddleName { get; set; }
 
-        [Required(ErrorMessage = "Last name is required.")]
-        [StringLength(50, ErrorMessage = "Last name cannot be longer than 50 characters.")]
+        [Required(ErrorMessage = "Achternaam is verplicht.")]
+        [StringLength(50, ErrorMessage = "Achternaam mag niet langer zijn dan 50 tekens.")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Birth date is required.")]
-        [DataType(DataType.Date, ErrorMessage = "Please enter a valid date.")]
+        [Required(ErrorMessage = "Geboortedatum is verplicht.")]
+        [DataType(DataType.Date, ErrorMessage = "Voer een geldige datum in.")]
         public DateTime BirthDate { get; set; }
 
-        [Required(ErrorMessage = "Postal code is required.")]
-        [StringLength(50, ErrorMessage = "Postal code cannot be longer than 50 characters.")]
+        [Required(ErrorMessage = "Postcode is verplicht.")]
+        [StringLength(50, ErrorMessage = "Postcode mag niet langer zijn dan 50 tekens.")]
         public string PostalCode { get; set; }
 
-        [Required(ErrorMessage = "House number is required.")]
+        [Required(ErrorMessage = "Huisnummer is verplicht.")]
         public int HouseNumber { get; set; }
 
-        [Required(ErrorMessage = "Start date is required.")]
+        [Required(ErrorMessage = "Startdatum is verplicht.")]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; } = DateTime.Today;
 
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [Required(ErrorMessage = "E-mailadres is verplicht.")]
+        [EmailAddress(ErrorMessage = "Voer een geldig e-mailadres in.")]
         public string Email { get; set; }
 
         public string? BID { get; set; }
