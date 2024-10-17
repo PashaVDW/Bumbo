@@ -30,19 +30,6 @@ public class NormsController : Controller
         _context = context;
     }
 
-    //public async Task<IActionResult> Index()
-    //{
-    //    var norms = _context.Norms.ToList();
-
-    //    var user = await _userManager.GetUserAsync(User);
-
-    //    if (user == null || user.ManagerOfBranchId == null)
-    //    {
-    //        return RedirectToAction("AccessDenied", "Home");
-    //    }
-    //    return View(norms);
-    //}
-
     public IActionResult Index(string searchTerm, int page = 1)
     {
         var query = _context.Norms
@@ -64,6 +51,7 @@ public class NormsController : Controller
                   front => new { front.branchId, front.year, front.week },
                   (result, front) => new
                   {
+                      NormId = result.coli.normId,
                       Week = result.coli.week,
                       ColiNorm = result.coli.normInSeconds,
                       ShelveNorm = result.shelve.normInSeconds,
@@ -79,6 +67,7 @@ public class NormsController : Controller
         {
             var item = new ReadNormViewModel();
 
+            item.NormId = norm.NormId;
             item.Week = norm.Week;
             item.UnloadColis = norm.ColiNorm/60;
             item.FillShelves = norm.ShelveNorm/60;
@@ -91,16 +80,20 @@ public class NormsController : Controller
 
         var headers = new List<string> { "Week", "Coli uitladen", "Vakken vullen", "Kassa", "Vers", "Spiegelen" };
         var tableBuilder = new TableHtmlBuilder<ReadNormViewModel>();
-        var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, list, "../#add", "../#edit", item =>
-        {
+        var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, list, "/Norms/Create/", "/Norms/Update/1", item =>
+{
             return $@"
                     <td class='py-2 px-4'>{item.Week}</td>
                     <td class='py-2 px-4'>{item.UnloadColis} minuten</td>
                     <td class='py-2 px-4'>{item.FillShelves} minuten per coli</td>
-                    <td class='py-2 px-4'>{item.Cashier}</td>
-                    <td class='py-2 px-4'>{item.Fresh}</td>
-                    <td class='py-2 px-4'>{item.Fronting} seconden per meter</td>";
+                    <td class='py-2 px-4'>{item.Cashier} kassières</td>
+                    <td class='py-2 px-4'>{item.Fresh} medewerkers</td>
+                    <td class='py-2 px-4'>{item.Fronting} seconden per meter</td>
+                    <td class='py-2 px-4 text-right'>
+                    <button onclick = ""window.location.href='../Norms/Update?NormId={item.NormId}'"">✏️</button> 
+                    </td>";
         }, searchTerm, page);
+
 
         ViewBag.HtmlTable = htmlTable;
 
@@ -151,9 +144,9 @@ public class NormsController : Controller
 
         viewModel.UnloadColis = norms.ToList()[0].normInSeconds/60;
         viewModel.FillShelves = norms.ToList()[1].normInSeconds/60;
-        viewModel.Cashier = norms.ToList()[2].normInSeconds/3600;
-        viewModel.Fresh = norms.ToList()[3].normInSeconds/3600;
-        viewModel.Fronting = norms.ToList()[4].normInSeconds/3600;
+        viewModel.Cashier = norms.ToList()[2].normInSeconds;
+        viewModel.Fresh = norms.ToList()[3].normInSeconds;
+        viewModel.Fronting = norms.ToList()[4].normInSeconds;
 
         return viewModel;
     }
@@ -172,8 +165,8 @@ public class NormsController : Controller
         viewModel.Year = selectedNorms[0].year;
         viewModel.UnloadColis = selectedNorms[0].normInSeconds/60;
         viewModel.FillShelves = selectedNorms[1].normInSeconds/60;
-        viewModel.Cashier = selectedNorms[2].normInSeconds/3600;
-        viewModel.Fresh = selectedNorms[3].normInSeconds/3600;
+        viewModel.Cashier = selectedNorms[2].normInSeconds;
+        viewModel.Fresh = selectedNorms[3].normInSeconds;
         viewModel.Fronting = selectedNorms[4].normInSeconds;
 
         ViewData["ViewModel"] = viewModel;
@@ -224,7 +217,7 @@ public class NormsController : Controller
             Cashregister.week = viewModel.Week;
             Cashregister.year = viewModel.Year;
             Cashregister.activity = "Kassa";
-            Cashregister.normInSeconds = (viewModel.Cashier * 3600);
+            Cashregister.normInSeconds = (viewModel.Cashier);
 
             _context.Norms.Add(Cashregister);
 
@@ -233,7 +226,7 @@ public class NormsController : Controller
             Fresh.week = viewModel.Week;
             Fresh.year = viewModel.Year;
             Fresh.activity = "Vers";
-            Fresh.normInSeconds = (viewModel.Fresh * 3600);
+            Fresh.normInSeconds = (viewModel.Fresh);
 
             _context.Norms.Add(Fresh);
 
@@ -275,13 +268,13 @@ public class NormsController : Controller
             var cashier = await _context.Norms.FirstOrDefaultAsync(n => n.normId == viewModel.FirstNormId + 2);
             if (cashier != null)
             {
-                cashier.normInSeconds = viewModel.Cashier * 3600;
+                cashier.normInSeconds = viewModel.Cashier;
             }
 
             var fresh = await _context.Norms.FirstOrDefaultAsync(n => n.normId == viewModel.FirstNormId + 3);
             if (fresh != null)
             {
-                fresh.normInSeconds = viewModel.Fresh * 3600;
+                fresh.normInSeconds = viewModel.Fresh;
             }
 
             var fronting = await _context.Norms.FirstOrDefaultAsync(n => n.normId == viewModel.FirstNormId + 4);

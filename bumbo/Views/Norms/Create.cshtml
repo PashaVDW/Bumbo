@@ -5,37 +5,70 @@
     var ViewModel = (AddNormViewModel)ViewData["ViewModel"];
 }
 
-<a href="/normeringen"><</a> 
-<h1>Normering toevoegen</h1>
-<a asp-controller="Norms" asp-action="Create" asp-route-lastWeek="true" class="btn btn-primary">Importeer normering van vorige week</a>
-<form asp-action="Insert" method="post">
-    <label for="year">Kies een jaar</label>
-    <select id="year" name="@nameof(AddNormViewModel.Year)">
-        @{
-            for (int i = DateTime.Now.Year; i > DateTime.Now.Year-100; i--)
-            {
-                <option value="@i">@i</option>
-            }
-        }
-    </select>
-    <label for="week">Kies een week</label>
-    <select id="week" name="@nameof(AddNormViewModel.Week)">
-        @{
-            for (int i = 1; i < 53; i++)
-            {
-                <option value="@i">Week @i</option>
-            }
-        }
-    </select>
-    <label for="unloadColis">Coli uitladen in minuten</label>
-    <input value="@ViewModel.UnloadColis" id="unloadColis" type="number" name="@nameof(AddNormViewModel.UnloadColis)" />
-    <label for="fillShelves">Vakken vullen in minuten per coli</label>
-    <input value="@ViewModel.FillShelves" id="fillShelves" type="number" name="@nameof(AddNormViewModel.FillShelves)" />
-    <label for="cashier">Hoeveelheid kassiéres per 30 klanten per uur</label>
-    <input value="@ViewModel.Cashier" id="cashier" type="number" name="@nameof(AddNormViewModel.Cashier)" />
-    <label for="fresh">Hoeveelheid medewerkers per 100 klanten per uur</label>
-    <input value="@ViewModel.Fresh" id="fresh" type="number" name="@nameof(AddNormViewModel.Fresh)" />
-    <label for="fronting">Hoeveelheid seconden per meter spiegelen</label>
-    <input value="@ViewModel.Fronting" id="fronting" type="number" name="@nameof(AddNormViewModel.Fronting)" />
-    <input type="submit" value="Aanmaken">
-</form>
+<div class="ml-60 mt-12">
+    <div>
+        <h1 class="text-4xl"><strong><a asp-controller="Norms" asp-action="Index"> < </a>Normering toevoegen</strong></h1>
+    </div>
+    <div class="mt-6 mb-6 ml-6 flex">
+        <div class="mr-5 w-96 flex flex-col">
+            <default-button button-text="Importeer normering van vorige week" button-type="secondary" on-click="window.location.href='/Norms/Create?lastWeek=true'"></default-button>
+        </div>
+    </div>
+    <form asp-action="Insert" method="post">
+        <div class="mt-6 ml-6 flex">
+            <div class="mr-2 w-48 flex flex-col">
+                <label for="year">Kies een jaar</label>
+                <select class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="year" name="@nameof(AddNormViewModel.Year)">
+                    @{
+                        for (int i = DateTime.Now.Year; i > DateTime.Now.Year-100; i--)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="mr-2 w-48 flex flex-col">
+                <label for="week">Kies een week</label>
+                <select class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="week" name="@nameof(AddNormViewModel.Week)">
+                    @{
+                        for (int i = 1; i < 53; i++)
+                        {
+                            <option value="@i">Week @i</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="mt-6 ml-6 flex">
+            <div class="mr-2 w-48 flex flex-col">
+                <label for="unloadColis">Coli uitladen (min)</label>
+                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" value="@ViewModel.UnloadColis" id="unloadColis" type="number" name="@nameof(AddNormViewModel.UnloadColis)" />
+            </div>
+            <div class="mr-2 w-48 flex flex-col">
+                <label for="fillShelves">Vakken vullen (min/coli)</label>
+                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" value="@ViewModel.FillShelves" id="fillShelves" type="number" name="@nameof(AddNormViewModel.FillShelves)" />
+            </div>
+        </div>
+        <div class="mt-6 mb-6 ml-6 flex">
+            <div class="mr-5 w-96 flex flex-col">
+                <label for="cashier">Hoeveelheid kassiéres per 30 klanten per uur</label>
+                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" value="@ViewModel.Cashier" id="cashier" type="number" name="@nameof(AddNormViewModel.Cashier)" />
+            </div>
+        </div>
+        <div class="mt-6 mb-6 ml-6 flex">
+            <div class="mr-5 w-96 flex flex-col">
+                <label for="fresh">Hoeveelheid medewerkers per 100 klanten per uur</label>
+                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" value="@ViewModel.Fresh" id="fresh" type="number" name="@nameof(AddNormViewModel.Fresh)" />
+            </div>
+        </div>
+        <div class="mt-6 mb-6 ml-6 flex">
+            <div class="mr-5 w-96 flex flex-col">
+                <label for="fronting">Hoeveelheid seconden per meter spiegelen</label>
+                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" value="@ViewModel.Fronting" id="fronting" type="number" name="@nameof(AddNormViewModel.Fronting)" />
+            </div>
+        </div>
+        <div class="d-flex justify-content-end ml-72 mt-4">
+            <default-button button-text="Aanmaken" button-type="primary" on-click=""></default-button>
+        </div>
+    </form>
+</div>

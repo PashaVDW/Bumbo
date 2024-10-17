@@ -2,6 +2,7 @@
 {
     public class ReadNormViewModel
     {
+        public int NormId { get; set; }
         public int Week { get; set; }
         public int UnloadColis { get; set; }
         public int FillShelves { get; set; }
