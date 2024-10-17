@@ -4240,23 +4240,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\darlo\\.nuget\\packages\\": {},
+    "C:\\Users\\thoma\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj",
+      "projectUniqueName": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\bumbo.csproj",
       "projectName": "bumbo",
-      "projectPath": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj",
-      "packagesPath": "C:\\Users\\darlo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\darlo\\source\\repos\\Bumbo\\bumbo\\obj\\",
+      "projectPath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\bumbo.csproj",
+      "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\darlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4264,16 +4264,16 @@
         "net8.0"
       ],
       "sources": {
-        "c:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "c:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\DataLayer\\DataLayer.csproj": {
-              "projectPath": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\DataLayer\\DataLayer.csproj"
+            "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\DataLayer\\DataLayer.csproj": {
+              "projectPath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\DataLayer\\DataLayer.csproj"
             }
           }
         }
@@ -4335,7 +4335,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "c:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
