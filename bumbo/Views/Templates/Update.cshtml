@@ -4,6 +4,9 @@
 
 <div class="p-8 container mx-auto max-w-6xl">
     <div class="p-8">
+
+        <custom-modal modal-id="deleteTemplate" ></custom-modal>
+
         <!-- Main section title -->
         <div class="mb-6 flex items-center">
             <default-button button-text="Terug" button-type="secondary" on-click="window.location.href='../standaard-templates'"></default-button>
@@ -35,7 +38,7 @@
                 }
                 
                 <div class="mt-5">
-                    <default-button button-text="Delete" button-type="secondary"></default-button>
+                    <default-button button-text="Delete" button-type="secondary" on-click="document.getElementById('deleteTemplate').classList.remove('hidden')"></default-button>
                     <default-button button-text="Update" button-type="primary" on-click="document.getElementById('updateForm').submit();"></default-button>
                 </div>
             </form>
