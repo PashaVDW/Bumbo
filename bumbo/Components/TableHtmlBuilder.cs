@@ -54,11 +54,6 @@
             {
                 htmlBuilder.AppendLine("<tr class='border-b hover:bg-gray-50'>");
                 htmlBuilder.AppendLine(rowTemplate(item));
-                htmlBuilder.AppendLine(
-                    "<td class='py-2 px-4'>" +
-                    "<button onclick=\"window.location.href='" + editLink + "';\">✏️</button>" +
-                    "</td>"
-                );
                 htmlBuilder.AppendLine("</tr>");
             }
             htmlBuilder.AppendLine("</tbody>");
