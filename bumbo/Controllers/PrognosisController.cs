@@ -143,13 +143,13 @@ namespace bumbo.Controllers
 
             ViewBag.days = new List<Days>
             {
-                new Days { Name = "Monday" },
-                new Days { Name = "Tuesday" },
-                new Days { Name = "Wednesday" },
-                new Days { Name = "Thursday" },
-                new Days { Name = "Friday" },
-                new Days { Name = "Saturday" },
-                new Days { Name = "Sunday" },
+                new Days { Name = "Maandag" },
+                new Days { Name = "Dinsdag" },
+                new Days { Name = "Woensdag" },
+                new Days { Name = "Donderdag" },
+                new Days { Name = "Vrijdag" },
+                new Days { Name = "Zaterdag" },
+                new Days { Name = "Zondag" },
             };
 
             ViewBag.CurrentWeek = _currentWeek; 

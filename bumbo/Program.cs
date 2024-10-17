@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
-using bumbo.Models;  // Ensure the namespace matches your Employee model
+using bumbo.Models;
+using DataLayer.Interfaces;
+using DataLayer.Repositories;  // Ensure the namespace matches your Employee model
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
 
 // Add services to the container.
 builder.Services.AddDbContext<BumboDBContext>(options =>
