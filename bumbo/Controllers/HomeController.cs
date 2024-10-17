@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using bumbo.Models;
+using bumbo.Components;
 
 namespace bumbo.Controllers;
 
@@ -16,11 +17,6 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         ViewBag.ShowNavbar = true;
-        return View();
-    }
-
-    public IActionResult Delete_modal()
-    { 
         return View();
     }
 

@@ -3,11 +3,28 @@
 }
 
 
+<custom-modal modal-id="delete-modal" body-text="Weet je zeker dat je ... wilt verwijderen?">
+    <default-button button-text="Ja, verwijder" button-type="delete" on-click="window.location.href='/deleteLink'"></default-button>
+    <default-button button-text="Nee, anuleer" button-type="secondary" on-click="document.getElementById('delete-modal').classList.add('hidden')"></default-button>
+</custom-modal>
+
+<custom-modal modal-id="popup-modal" body-text="~Weet je zeker dat je deze aanpassing wilt maken?">
+    <default-button button-text="Ja" button-type="primary" on-click="window.location.href='/Link'"></default-button>
+    <default-button button-text="Nee" button-type="light" on-click="document.getElementById('popup-modal').classList.add('hidden')"></default-button>
+</custom-modal>
+
+
 <div class="text-center">
     <h1 class="display-4">Hoi</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Coree</a>.</p>
-    <default-button button-text="Inloggen" button-type="primary"></default-button>
-    <default-button button-type="secondary"> </default-button>
-</div>
+    <default-button button-text="Verwijderen modal" on-click="document.getElementById('delete-modal').classList.remove('hidden')" button-type="delete"></default-button>
+    <default-button button-text="Andere modal" on-click="document.getElementById('popup-modal').classList.remove('hidden')" button-type="secondary"></default-button>
 
+    <default-button button-text="Succesvol toast (met Auto Hide)" on-click="showToast('toast-success', 'yes', 3000);" button-type="succes"></default-button>
+    <toast-message toast-id="toast-success" message="Succesvol iets gedaan" message-type="success"></toast-message>
+
+    <default-button button-text="Error toast (zonder Auto Hide)" on-click="showToast('toast-error', 'no', 0);" button-type="delete"></default-button>
+    <toast-message toast-id="toast-error" message="Er is een fout opgetreden!" message-type="error"></toast-message>
+
+</div>
 
