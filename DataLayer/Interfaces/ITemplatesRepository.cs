@@ -1,4 +1,5 @@
 ﻿using bumbo.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Interfaces
 {
@@ -6,7 +7,9 @@ namespace DataLayer.Interfaces
     {
         List<Template> GetAllTemplates();
 
-        Task<Template> GetByNameAsync(string name);
+        Task<Template> GetByNameAndBranchAsync(string name, int branchId);
+
+        Task Add(Template template);
 
         void Update(Template template);
 

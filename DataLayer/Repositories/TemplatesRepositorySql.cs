@@ -20,10 +20,16 @@ namespace DataLayer.Repositories
             return _context.Templates.ToList();
         }
 
-        public async Task<Template> GetByNameAsync(string name)
+        public async Task<Template> GetByNameAndBranchAsync(string name, int branchId)
         {
             return await _context.Templates
-                .FirstOrDefaultAsync(t => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefaultAsync(t => t.Name.ToLower() == name.ToLower()
+                    && t.Branch_branchId == branchId);
+        }
+
+        public async Task Add(Template template)
+        {
+            await _context.Templates.AddAsync(template);
         }
 
         public void Update(Template template)
