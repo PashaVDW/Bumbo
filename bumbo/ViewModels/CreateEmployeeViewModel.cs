@@ -42,8 +42,7 @@ namespace bumbo.ViewModels
 
         public bool IsSystemManager { get; set; } = false;
 
-        [Required(ErrorMessage = "Please select a function.")]
-        public string SelectedFunction { get; set; }
+        public string? SelectedFunction { get; set; }
 
         public List<SelectListItem>? Functions { get; set; }
 

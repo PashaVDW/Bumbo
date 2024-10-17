@@ -12,8 +12,8 @@ namespace bumbo.Models
         public string EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
-        public string FunctionName { get; set; }
-        public Function Function { get; set; }
+        public string? FunctionName { get; set; }
+        public Function? Function { get; set; }
 
         [Required]
         [DataType(DataType.Date)]

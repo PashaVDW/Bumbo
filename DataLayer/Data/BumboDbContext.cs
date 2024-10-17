@@ -104,8 +104,9 @@ namespace bumbo.Data
             modelBuilder.Entity<Employee>().HasData(john, jane);
 
             //Relations
+            // Relations
             modelBuilder.Entity<BranchHasEmployee>()
-                .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId, bhw.FunctionName });
+                .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
 
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasOne(bhw => bhw.Branch)
@@ -121,7 +122,9 @@ namespace bumbo.Data
                 .HasOne(bhw => bhw.Function)
                 .WithMany()
                 .HasForeignKey(bhw => bhw.FunctionName)
-                .HasPrincipalKey(f => f.FunctionName);
+                .HasPrincipalKey(f => f.FunctionName)
+                .IsRequired(false);
+
 
         }
     }

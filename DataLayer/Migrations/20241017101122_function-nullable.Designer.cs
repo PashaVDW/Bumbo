@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -11,9 +12,11 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    partial class BumboDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241017101122_function-nullable")]
+    partial class functionnullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,7 +219,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "2d567907-c4f9-4888-962a-aab1a3c27db7",
+                            ConcurrencyStamp = "3c9eda95-c1e7-4206-9d69-aa324e4dcf70",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -228,10 +231,10 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECEQ6mASoItow59+vn1An3Zy4x/biMPMSKcovmxxu53vZUjpWkq7xBcBIAWMPaR/EA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMWQQvfsizUQMr00JbSn+0WLTiUxdGY8fE4Or9NX77zw/GDbo5+CJ9/JEbYzx6QJEw==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "4ace8e33-7cb8-4e09-a0c9-af7459147b6a",
+                            SecurityStamp = "c9478f89-bf84-41b1-aa73-d90c5d414856",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -242,7 +245,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "f8c432a5-2a4d-4868-8eaf-c81001346895",
+                            ConcurrencyStamp = "8e908211-7e75-47d5-b3ab-e40af579c807",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -253,10 +256,10 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAED1PRHaN6+Q3xxaCehJcAYSUZLu8kHSWdsXnoA49CDPNqODQooe0B8KqxOAH4i4CMg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBGrgnH/se2iMhtycxGWZ6QhwugO1omvG1X6XkxoSDete3tr9yTPoxJaPndgUeV91g==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "47c6e445-9e2e-4f11-bf18-414133870383",
+                            SecurityStamp = "5fc99fc9-5702-40b0-8de0-fdf6e1a761db",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -410,7 +413,7 @@ namespace DataLayer.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("BranchId", "EmployeeId");
+                    b.HasKey("BranchId", "EmployeeId", "FunctionName");
 
                     b.HasIndex("EmployeeId");
 
@@ -561,7 +564,9 @@ namespace DataLayer.Migrations
 
                     b.HasOne("DataLayer.Models.Function", "Function")
                         .WithMany()
-                        .HasForeignKey("FunctionName");
+                        .HasForeignKey("FunctionName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Branch");
 

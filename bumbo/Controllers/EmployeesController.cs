@@ -94,7 +94,7 @@ namespace bumbo.Controllers
                         {
                             EmployeeId = employee.Id,
                             BranchId = user.ManagerOfBranchId.Value,
-                            FunctionName = model.SelectedFunction,
+                            FunctionName = string.IsNullOrEmpty(model.SelectedFunction) ? null : model.SelectedFunction,
                             StartDate = DateTime.Now
                         };
 
