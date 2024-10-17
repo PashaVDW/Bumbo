@@ -20,9 +20,11 @@ namespace bumbo.Controllers
             _prognosisHasDaysRepository = prognosisHasDaysRepository;
         }
 
-        public async Task<IActionResult> Index(int? weekNumber, int? year)
+        public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
         {
             var user = await _userManager.GetUserAsync(User);
+            DateTime firstDayOfWeek;
+            DateTime lastDayOfWeek;
 
             if (user == null || user.ManagerOfBranchId == null)
             {
@@ -50,12 +52,64 @@ namespace bumbo.Controllers
             }
             else
             {
+                if (weekInc.HasValue)
+                {
+                    weekNumber += weekInc.Value;
+
+                    DateTime jan1;
+
+                    if (weekNumber.Value == 53)
+                    {
+                        jan1 = new DateTime(year.Value + 1, 1, 1);
+                    }
+                    else
+                    {
+                        jan1 = new DateTime(year.Value, 1, 1);
+                    }
+                    CultureInfo cultureInfo = CultureInfo.InvariantCulture;
+                    Calendar calendar = cultureInfo.Calendar;
+                    CalendarWeekRule weekrule = CalendarWeekRule.FirstFourDayWeek;
+                    int weekOfJan1 = calendar.GetWeekOfYear(jan1, weekrule, DayOfWeek.Monday);
+                    DateTime firstWeekStart = jan1.AddDays(-(int)jan1.DayOfWeek + (int)DayOfWeek.Monday);
+
+                    if (weekOfJan1 != 1)
+                    {
+                        firstWeekStart = firstWeekStart.AddDays(7);
+                    }
+
+                    if (weekNumber.Value == 53)
+                    {
+                        lastDayOfWeek = LastDateOfWeek(year.Value, weekNumber.Value);
+                        if (lastDayOfWeek.CompareTo(firstWeekStart) >= 0) 
+                        {
+                            weekNumber = 1;
+                            year = (year ?? DateTime.Now.Year) + 1;
+                        }
+                    }
+                    else if (weekNumber.Value > 53)
+                    {
+                        weekNumber = 1;
+                        year = (year ?? DateTime.Now.Year) + 1;
+                    }
+                    else if (weekNumber.Value < 1)
+                    {
+                        weekNumber = weekOfJan1;
+                        if (weekOfJan1 == 1)
+                        {
+                            weekNumber = 52;
+                        }
+
+                        year = (year ?? DateTime.Now.Year) - 1;
+                    }
+                }
+
+
                 prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value);
             }
 
             // Bereken de eerste en laatste dag van de week
-            DateTime firstDayOfWeek = FirstDateOfWeek(year.Value, weekNumber.Value);
-            DateTime lastDayOfWeek = LastDateOfWeek(year.Value, weekNumber.Value);
+            firstDayOfWeek = FirstDateOfWeek(year.Value, weekNumber.Value);
+            lastDayOfWeek = LastDateOfWeek(year.Value, weekNumber.Value);
 
             ViewBag.FirstDayOfWeek = firstDayOfWeek;
             ViewBag.LastDayOfWeek = lastDayOfWeek;
@@ -97,21 +151,6 @@ namespace bumbo.Controllers
             {
                 ViewBag.Message = "Geen prognose gevonden.";
 
-                // Bereken de vorige of volgende week, en het jaar indien nodig
-                if (weekNumber.HasValue)
-                {
-                    if (weekNumber > 52) // Bij het overschrijden van het jaar
-                    {
-                        weekNumber = 1;
-                        year = (year ?? DateTime.Now.Year) + 1;
-                    }
-                    else if (weekNumber < 1) // Bij het overschrijden naar het vorige jaar
-                    {
-                        weekNumber = 52; // Dit kan ook anders worden ingericht afhankelijk van het jaar
-                        year = (year ?? DateTime.Now.Year) - 1;
-                    }
-                }
-
                 // Maak een leeg model
                 var emptyModel = new WeekOverviewViewModel
                 {
@@ -135,7 +174,15 @@ namespace bumbo.Controllers
         public static DateTime FirstDateOfWeek(int year, int weekOfYear)
         {
             DateTime jan1 = new DateTime(year, 1, 1);
-            DateTime firstWeekStart = jan1.AddDays((weekOfYear - 1) * 7 - (int)jan1.DayOfWeek + (int)DayOfWeek.Monday);
+            int jan1num = (int)jan1.DayOfWeek;
+            int mondaynum = (int)DayOfWeek.Monday;
+            int weeksubtract = 1;
+            if (jan1num > 4)
+            {
+                weeksubtract = 0;
+            }
+            int adddays = (weekOfYear - weeksubtract) * 7 - jan1num + mondaynum;
+            DateTime firstWeekStart = jan1.AddDays(adddays);
 
             return firstWeekStart;
         }

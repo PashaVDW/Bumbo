@@ -235,6 +235,26 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Template",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Branch_branchId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Template", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Template_Branches_Branch_branchId",
+                        column: x => x.Branch_branchId,
+                        principalTable: "Branches",
+                        principalColumn: "BranchId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Prognosis_Has_Days",
                 columns: table => new
                 {
@@ -260,10 +280,36 @@ namespace DataLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Template_has_days",
+                columns: table => new
+                {
+                    Templates_id = table.Column<int>(type: "int", nullable: false),
+                    Days_name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    CustomerAmount = table.Column<int>(type: "int", nullable: false),
+                    ContainerAmount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Template_has_days", x => x.Templates_id);
+                    table.ForeignKey(
+                        name: "FK_Template_has_days_Days_Days_name",
+                        column: x => x.Days_name,
+                        principalTable: "Days",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Template_has_days_Template_Templates_id",
+                        column: x => x.Templates_id,
+                        principalTable: "Template",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "a3d283d5-24f7-4f2c-bd0d-7099e4941952", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEMmAgA/ob8qs0tPZUXabkj1MryCeBWEoKQ/QN8vC+1/A09AQOJA6DxUeHbu3iQkuwQ==", null, false, "54321", "b1bd607f-f09e-4711-bfd0-416dfb715503", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
+                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "46d0f9f9-d6fd-49db-b27c-f29582673856", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEFV0gf36MZA3CmGYXck1e2bQBmR1VCTNfL8PPNL727Hf0u+i+G6XupEDz1LXRzTl5w==", null, false, "54321", "7369429f-c5c4-4f4b-aaf1-e703e625dc4a", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -301,7 +347,7 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "f9c1b164-81c5-4043-95ee-2a1cc97967c6", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAELIhqIImwRqkQ3/+2a8guCS8oHCtfZozKRZrth3zkh/RqXzzMMzgyC553I89FbNanw==", null, false, "12345", "3236456e-0ab2-4c34-ba63-b99d25643cfc", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "2db56fd9-b9be-45e3-b76e-3db0bc071945", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEI6FoF3DBDSRB4fQxZrI3lz1f/s2WPr0+LsXvU54S+W7l4y/I4SHYcZLI7dxHEBFew==", null, false, "12345", "b4280be1-2935-4dd2-af1f-4fbf9d259702", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
 
             migrationBuilder.InsertData(
                 table: "Prognoses",
@@ -386,6 +432,16 @@ namespace DataLayer.Migrations
                 table: "Prognosis_Has_Days",
                 column: "PrognosisId");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Template_Branch_branchId",
+                table: "Template",
+                column: "Branch_branchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Template_has_days_Days_name",
+                table: "Template_has_days",
+                column: "Days_name");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                 table: "AspNetUserClaims",
@@ -454,6 +510,9 @@ namespace DataLayer.Migrations
                 name: "Prognosis_Has_Days");
 
             migrationBuilder.DropTable(
+                name: "Template_has_days");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -461,6 +520,9 @@ namespace DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Days");
+
+            migrationBuilder.DropTable(
+                name: "Template");
 
             migrationBuilder.DropTable(
                 name: "Branches");
