@@ -55,7 +55,7 @@ namespace bumbo.Controllers
 
             ViewBag.HtmlTable = htmlTable;
 
-            return View(branches);
+            return View();
         }
 
         public IActionResult CreateBranchView()
