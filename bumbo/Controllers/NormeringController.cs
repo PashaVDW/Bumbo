@@ -51,7 +51,7 @@ namespace bumbo.Controllers
 
             var headers = new List<string> { "Week", "Coli uitladen", "Vakken vullen", "Kassa", "Vers", "Spiegelen" };
             var tableBuilder = new TableHtmlBuilder<Normering>();
-            var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, normeringen, "../#add", "../#edit", item =>
+            var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, normeringen, "", "../#edit", item =>
             {
                 return $@"
                     <td class='py-2 px-4'>{item.Week}</td>
