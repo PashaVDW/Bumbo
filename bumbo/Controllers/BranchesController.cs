@@ -32,7 +32,7 @@ namespace bumbo.Controllers
             var branches = _context.Branches.ToList();
             foreach (var branch in branches)
             {
-                branch.Employees = GetEmployees(branch);
+                branch.Employees = GetEmployeesFromBranch(branch);
             }
 
             if (user == null || !user.IsSystemManager)
@@ -82,20 +82,9 @@ namespace bumbo.Controllers
         public IActionResult CreateBranchManagerView(int branchId, string searchTerm, int page = 1)
         {
 
-            if(branchId == 0)
-            {
-                
-            }
-
-            Console.WriteLine("branchId");
-            Console.WriteLine(branchId);
-            Console.WriteLine(branchId);
-            Console.WriteLine(branchId);
-            Console.WriteLine(branchId);
-            Console.WriteLine(branchId);
-
             var newBranch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
-            newBranch.Employees = GetEmployees(newBranch).Where(e => e.ManagerOfBranchId == 0).ToList();
+            newBranch.Employees = GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
+            //newBranch.Employees = GetEmployeesFromBranch(newBranch).ToList();
 
             var viewModel = new CreateBranchManagerViewModel() { 
                 BranchId = branchId, Employees = newBranch.Employees.ToList() 
@@ -109,7 +98,7 @@ namespace bumbo.Controllers
             {
             return $@"
                  <td class='py-2 px-4'>{item.FirstName + " " + item.LastName}</td>
-                 <td class='py-2 px-4'>{item.FunctionName}</td>
+                
                  <td class='py-2 px-4'>{newBranch.BranchId}</td>
                  <td class='py-2 px-4'><a href='/Branches/AddBranchManager?branchId={newBranch.BranchId}&amp;employeeId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
             }, searchTerm, page);
@@ -205,7 +194,7 @@ namespace bumbo.Controllers
                 Name = branch.Name,
                 PostalCode = branch.PostalCode,
                 Street = branch.Street,
-                Employees = GetEmployees(branch),
+                Employees = GetEmployeesFromBranch(branch),
                 Managers = GetManagersOfBranch(branch)
             };
             return viewModel;
@@ -217,83 +206,35 @@ namespace bumbo.Controllers
                 .Employees
                 .Where(e => e.ManagerOfBranchId == branch.BranchId)
                 .ToList();
-
-            //TODO verwijderen
-            if (_testEmployees == null)
-            {
-                _testEmployees = new List<Employee>();
-                _testEmployees.Add(GetTestEmployee(3, "Cane"));
-                _testEmployees.Add(GetTestEmployee(4, "Mike"));
-                _testEmployees.Add(GetTestEmployee(5, "Frank"));
-                _testEmployees.Add(GetTestEmployee(6, "Jack"));
-                _testEmployees.Add(GetTestEmployee(7, "Harry"));
-
-                foreach (var emp in _testEmployees)
-                {
-                    employees.Add(emp);
-                }
-            }
-            var testManagers = _testEmployees.Where(e => e.ManagerOfBranchId == branch.BranchId);
-            foreach (var emp in testManagers)
-            {
-                employees.Add(emp);
-            }
-            // Tot hier
-
             return employees;
         }
 
-        private List<Employee> GetEmployees(Branch branch)
+        private List<Employee> GetEmployeesFromBranch(Branch branch)
         {
-            List<Employee> employees = _context
+            List<BranchHasEmployee> branchHasEmployees = _context
+                .BranchHasEmployees
+                .Where(e => e.BranchId == branch.BranchId)
+                .ToList();
+
+
+            List<Employee> employeesInDatabase = _context
                 .Employees
                 .ToList();
 
-            // TODO Verwijderen
-            if(_testEmployees == null)
-            {
-                _testEmployees = new List<Employee>();
-                _testEmployees.Add(GetTestEmployee(3, "Cane"));
-                _testEmployees.Add(GetTestEmployee(4, "Mike"));
-                _testEmployees.Add(GetTestEmployee(5, "Frank"));
-                _testEmployees.Add(GetTestEmployee(6, "Jack"));
-                _testEmployees.Add(GetTestEmployee(7, "Harry"));
+            List<Employee> employeesInBranch = new List<Employee>();
 
-                foreach (var emp in _testEmployees)
+            foreach (var emp in employeesInDatabase)
+            {
+                foreach (var branchEmp in branchHasEmployees) 
                 {
-                    employees.Add(emp);
+                    if (branchEmp.EmployeeId == emp.Id)
+                    {
+                        employeesInBranch.Add(emp);
+                    }
                 }
             }
-            // Tot hier
 
-            return employees;
-        }
-
-        //TODO Verwijderen
-        public Employee GetTestEmployee(int id, string FirstName)
-        {
-            Employee emp = new Employee
-            {
-                Id = "" + id,
-                BID = "B003",
-                FirstName = FirstName,
-                MiddleName = "A.",
-                LastName = "Peterson",
-                BirthDate = new DateTime(1985, 2, 20),
-                PostalCode = "7812 CD",
-                HouseNumber = 18,
-                StartDate = new DateTime(2009, 1, 1),
-                FunctionName = "Vakkenvuller",
-                IsSystemManager = false,
-                ManagerOfBranchId = 0,
-                UserName = FirstName.ToLower() + ".peterson@hotmail.com",
-                NormalizedUserName = FirstName.ToUpper() + ".PETERSON@HOTMAIL.COM",
-                Email = FirstName.ToLower() + ".peterson@example.com",
-                NormalizedEmail = FirstName.ToUpper() + ".PETERSON@HOTMAIL.COM",
-                EmailConfirmed = true,
-                PasswordHash = "hashedpassword123"
-            };
-            return emp;
+            return employeesInBranch;
         }
     }
 }
