@@ -219,6 +219,10 @@ namespace bumbo.Controllers
                         employeesInBranch.Add(emp);
                     }
                 }
+                if (emp.UserName.Equals("john.doe@example.com"))
+                {
+                    employeesInBranch.Add(emp);
+                }
             }
 
             return employeesInBranch;
