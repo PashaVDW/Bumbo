@@ -24,6 +24,10 @@ namespace bumbo.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Norm>()
+                .HasIndex(norm => new { norm.branchId, norm.year, norm.week, norm.activity })
+                .IsUnique();
+
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },
                 new Country { Name = "Belgium" },
