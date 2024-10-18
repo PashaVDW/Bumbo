@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using bumbo.Models;
+using DataLayer.Models;
 
 namespace bumbo.Data
 {
@@ -11,13 +12,14 @@ namespace bumbo.Data
         {
         }
 
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Norm> Norms { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Days> Days { get; set; }
         public DbSet<Prognosis> Prognoses { get; set; }
         public DbSet<Prognosis_has_days> Prognosis_Has_Days { get; set; }
+        public DbSet<Norm> Norms { get; set; }
+        public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
+        public DbSet<Function> Functions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,6 +76,11 @@ namespace bumbo.Data
                 new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 }
             );
 
+            modelBuilder.Entity<Function>().HasData(
+                new Function { FunctionName = "Cashier" },
+                new Function { FunctionName = "Stocker" },
+                new Function { FunctionName = "Manager" });
+
             var passwordHasher = new PasswordHasher<Employee>();
 
             var john = new Employee
@@ -87,9 +94,9 @@ namespace bumbo.Data
                 PostalCode = "12345",
                 HouseNumber = 10,
                 StartDate = new DateTime(2010, 1, 1),
-                FunctionName = "Manager",
                 IsSystemManager = true,
                 ManagerOfBranchId = 1,
+                PhoneNumber = "06-9876543",
                 UserName = "john.doe@example.com",
                 NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
                 Email = "john.doe@example.com",
@@ -109,9 +116,9 @@ namespace bumbo.Data
                 PostalCode = "54321",
                 HouseNumber = 22,
                 StartDate = new DateTime(2012, 4, 1),
-                FunctionName = "Cashier",
                 IsSystemManager = false,
-                ManagerOfBranchId = null,  // Jane is not a manager of any branch
+                ManagerOfBranchId = null,
+                PhoneNumber = "06-12345678",
                 UserName = "jane.smith@example.com",
                 NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
                 Email = "jane.smith@example.com",
@@ -122,6 +129,33 @@ namespace bumbo.Data
 
             // Add employees to the model
             modelBuilder.Entity<Employee>().HasData(john, jane);
+
+            //Relations
+            // Relations
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Branch)
+                .WithMany(b => b.BranchHasEmployees)
+                .HasForeignKey(bhw => bhw.BranchId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Employee)
+                .WithMany(e => e.BranchEmployees)
+                .HasForeignKey(bhw => bhw.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Function)
+                .WithMany()
+                .HasForeignKey(bhw => bhw.FunctionName)
+                .HasPrincipalKey(f => f.FunctionName)
+                .IsRequired(false);
+
+
+
         }
     }
 }
