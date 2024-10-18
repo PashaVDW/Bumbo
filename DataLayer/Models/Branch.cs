@@ -26,4 +26,7 @@ public class Branch
     public Country Country { get; set; }
 
     public ICollection<BranchHasEmployee> BranchHasEmployees { get; set; }
+
+    public ICollection<Employee> Employees { get; set; }
+
 }

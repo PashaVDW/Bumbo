@@ -82,7 +82,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "branches",
     pattern: "filialen",
-    defaults: new { controller = "Branches", action = "Index" });
+    defaults: new { controller = "Branches", action = "BranchesView" });
 
 app.MapControllerRoute(
     name: "logout",
