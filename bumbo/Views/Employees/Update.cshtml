@@ -1,0 +1,195 @@
+﻿@model bumbo.ViewModels.UpdateEmployeeViewModel
+
+@{
+    ViewData["Title"] = "Medewerker bewerken";
+    Layout = "_Layout";
+    ViewData["HideLayoutElements"] = true;
+}
+
+<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
+    <div class="absolute top-9 -left-24">
+        <a href="/medewerkers">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+    </div>
+
+    <h1 class="text-3xl font-semibold mb-6">Medewerker bewerken</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
+                <p>@TempData["SuccessMessage"]</p>
+            </div>
+    }
+
+    <form asp-action="Update" method="post" class="space-y-6">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="FirstName" class="block text-sm font-medium text-gray-700">Voornaam</label>
+                <input asp-for="FirstName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="FirstName" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="MiddleName" class="block text-sm font-medium text-gray-700">Tussenvoegsel</label>
+                <input asp-for="MiddleName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="MiddleName" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="LastName" class="block text-sm font-medium text-gray-700">Achternaam</label>
+                <input asp-for="LastName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="LastName" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="BirthDate" class="block text-sm font-medium text-gray-700">Geboorte datum</label>
+                <input asp-for="BirthDate" type="date" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="BirthDate" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="PostalCode" class="block text-sm font-medium text-gray-700">Postcode</label>
+                <input asp-for="PostalCode" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="PostalCode" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="HouseNumber" class="block text-sm font-medium text-gray-700">Huisnummer</label>
+                <input asp-for="HouseNumber" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="HouseNumber" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="Email" class="block text-sm font-medium text-gray-700">E-mailadres</label>
+                <input asp-for="Email" type="email" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="Email" class="text-sm text-red-600"></span>
+            </div>
+
+            <div>
+                <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700">Telefoonnummer</label>
+                <input asp-for="PhoneNumber" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="PhoneNumber" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+                <label asp-for="BID" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="BID" placeholder="123456789" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                <span asp-validation-for="BID" class="text-sm text-red-600"></span>
+            </div>
+            @if (Model.UserManagerOfBranchId != null && Model.BranchAssignments.Any(b => b.BranchId == Model.UserManagerOfBranchId))
+            {
+                <div>
+                    <label asp-for="SelectedFunction" class="block text-sm font-medium text-gray-700">Functie</label>
+                    <select asp-for="SelectedFunction" asp-items="Model.Functions" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <option value="">None</option>
+                    </select>
+                    <span asp-validation-for="SelectedFunction" class="text-sm text-red-600"></span>
+                </div>
+            }
+
+        </div>
+
+        @if (Model.IsSystemManager)
+        {
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                    <label asp-for="IsSystemManager" class="block text-sm font-medium text-gray-700">Systeembeheerder</label>
+                    <input asp-for="IsSystemManager" type="checkbox" class="mt-1 block shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                    <span asp-validation-for="IsSystemManager" class="text-sm text-red-600"></span>
+                </div>
+            </div>
+        }
+
+        <div class="flex justify-end mt-6">
+            <default-button button-text="Opslaan" button-type="primary" typeof="submit"></default-button>
+        </div>
+    </form>
+
+    <form asp-action="DeleteEmployee" method="post" class="mt-2" style="margin-top: -30px;">
+        <input type="hidden" name="EmployeeId" value="@Model.Id" />
+        <button type="submit" class="text-sm text-red-500 underline hover:text-red-700" style="background: none; border: none; padding: 0; cursor: pointer;">
+            Medewerker verwijderen
+        </button>
+    </form>
+
+    <h2 class="text-xl font-semibold mt-12 mb-4">Tijwijzingen filialen</h2>
+    @if (Model.BranchAssignments != null && Model.BranchAssignments.Count > 0)
+    {
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border-collapse">
+                <thead>
+                    <tr class="text-left text-gray-600 font-bold">
+                        <th class="py-2 px-4">Filiaal</th>
+                        <th class="py-2 px-4">Functie</th>
+                        <th class="py-2 px-4">Startdatum</th>
+                        <th class="py-2 px-4"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var assignment in Model.BranchAssignments)
+                    {
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-2 px-4">@assignment.BranchName</td>
+                            <td class="py-2 px-4">
+                                @if (string.IsNullOrEmpty(assignment.FunctionName))
+                                {
+                                    <span>Geen</span>
+                                }
+                                else
+                                {
+                                    @assignment.FunctionName
+                                }
+                            </td>
+                            <td class="py-2 px-4">@assignment.StartDate.ToString("dd-MM-yyyy")</td>
+                            <td class="py-2 px-4">
+                                @if (Model.UserManagerOfBranchId == assignment.BranchId)
+                                {
+                                    <form asp-action="RemoveBranchAssignment" method="post">
+                                        <input type="hidden" name="EmployeeId" value="@Model.Id" />
+                                        <input type="hidden" name="BranchId" value="@assignment.BranchId" />
+                                        <button type="submit" class="text-red-500 hover:text-red-700">Verwijderen</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="text-gray-500">Geen filiaaltoewijzingen gevonden voor deze medewerker.</p>
+    }
+
+    @if (Model.UserManagerOfBranchId != null && !Model.BranchAssignments.Any(b => b.BranchId == Model.UserManagerOfBranchId))
+    {
+        <form asp-action="AssignBranchToEmployee" method="post" class="mt-6">
+            <input type="hidden" name="EmployeeId" value="@Model.Id" />
+            <input type="hidden" name="BranchId" value="@Model.UserManagerOfBranchId" />
+            <default-button button-text="Voeg filiaal toe" button-type="secondary" typeof="submit"></default-button>
+        </form>
+    }
+
+
+</div>
