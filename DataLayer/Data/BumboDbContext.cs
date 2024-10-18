@@ -21,6 +21,8 @@ namespace bumbo.Data
         public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
         public DbSet<Function> Functions { get; set; }
 
+        public DbSet<Employee> Employees { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -826,7 +826,7 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("Employee", b =>
                 {
                     b.HasOne("Branch", "ManagerOfBranch")
-                        .WithMany()
+                        .WithMany("Employees")
                         .HasForeignKey("ManagerOfBranchId");
 
                     b.Navigation("ManagerOfBranch");
@@ -941,6 +941,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("Branch", b =>
                 {
                     b.Navigation("BranchHasEmployees");
+
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Employee", b =>
