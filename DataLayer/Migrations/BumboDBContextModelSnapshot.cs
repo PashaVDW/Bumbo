@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -12,11 +11,9 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241018103242_FirstCreate")]
-    partial class FirstCreate
+    partial class BumboDBContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +50,9 @@ namespace DataLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("PrognosisId")
+                        .HasColumnType("nvarchar(45)");
+
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -61,6 +61,8 @@ namespace DataLayer.Migrations
                     b.HasKey("BranchId");
 
                     b.HasIndex("CountryName");
+
+                    b.HasIndex("PrognosisId");
 
                     b.ToTable("Branches");
 
@@ -220,7 +222,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "12af7bbb-e477-4a9e-85a8-b948555d5bbf",
+                            ConcurrencyStamp = "7e7f204b-8521-45e4-a840-b52e5a3bfaff",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -232,11 +234,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPhttr8hGXK/8Z4icTxRXGaIo9gQWli07Tnk3i1S8KtJy8kJ9s5DFUYKHMiYx1kelg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH3xRce/zGfoZvWElh3JcfKziJWQE1VzhusVJPvelSbd08FVA5JBtr58n7pBEUFpVg==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "8c4b65c5-78d8-4276-a720-01bcb8cc426b",
+                            SecurityStamp = "ec796368-9438-43fb-9532-73d57d5ee5a2",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -247,7 +249,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "81639f89-5c85-483f-9a29-fdc2d2664582",
+                            ConcurrencyStamp = "cb46ece3-0b38-4128-83ad-db06d7de272c",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -258,11 +260,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMMxWF94b1bAB86m1mvdL8RuZohnGc0aSSo0jFT8f1KlHSQRrQCdha3OGfoFZjUJSA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDdWLA/CkMSKCrz2priiZEX2Y4BHsBuw/NYV0Lq5nlOXGMSoHlJsfsjKCv4LeSrkLA==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "98f470a7-2001-4559-8b5a-0ef1faccef1c",
+                            SecurityStamp = "22af53a2-f91b-4f4e-9f18-ee87669d8a04",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -463,6 +465,34 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
+                            Name = "Maandag"
+                        },
+                        new
+                        {
+                            Name = "Dinsdag"
+                        },
+                        new
+                        {
+                            Name = "Woensdag"
+                        },
+                        new
+                        {
+                            Name = "Donderdag"
+                        },
+                        new
+                        {
+                            Name = "Vrijdag"
+                        },
+                        new
+                        {
+                            Name = "Zaterdag"
+                        },
+                        new
+                        {
+                            Name = "Zondag"
+                        },
+                        new
+                        {
                             Name = "Monday"
                         },
                         new
@@ -488,6 +518,144 @@ namespace DataLayer.Migrations
                         new
                         {
                             Name = "Sunday"
+                        });
+                });
+
+            modelBuilder.Entity("bumbo.Models.Norm", b =>
+                {
+                    b.Property<int>("normId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("normId"));
+
+                    b.Property<string>("activity")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("branchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("normInSeconds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("week")
+                        .HasColumnType("int");
+
+                    b.Property<int>("year")
+                        .HasColumnType("int");
+
+                    b.HasKey("normId");
+
+                    b.HasIndex("branchId", "year", "week", "activity")
+                        .IsUnique();
+
+                    b.ToTable("Norms");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
+                {
+                    b.Property<string>("PrognosisId")
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WeekNr")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("PrognosisId");
+
+                    b.HasIndex("BranchId");
+
+                    b.ToTable("Prognoses");
+
+                    b.HasData(
+                        new
+                        {
+                            PrognosisId = "1",
+                            BranchId = 1,
+                            WeekNr = 40,
+                            Year = 2024
+                        });
+                });
+
+            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
+                {
+                    b.Property<string>("Days_name")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("PrognosisId")
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<int>("CustomerAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PackagesAmount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Days_name", "PrognosisId");
+
+                    b.HasIndex("PrognosisId");
+
+                    b.ToTable("Prognosis_Has_Days");
+
+                    b.HasData(
+                        new
+                        {
+                            Days_name = "Maandag",
+                            PrognosisId = "1",
+                            CustomerAmount = 100,
+                            PackagesAmount = 50
+                        },
+                        new
+                        {
+                            Days_name = "Dinsdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 120,
+                            PackagesAmount = 60
+                        },
+                        new
+                        {
+                            Days_name = "Woensdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 130,
+                            PackagesAmount = 55
+                        },
+                        new
+                        {
+                            Days_name = "Donderdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 110,
+                            PackagesAmount = 45
+                        },
+                        new
+                        {
+                            Days_name = "Vrijdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 150,
+                            PackagesAmount = 70
+                        },
+                        new
+                        {
+                            Days_name = "Zaterdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 160,
+                            PackagesAmount = 80
+                        },
+                        new
+                        {
+                            Days_name = "Zondag",
+                            PrognosisId = "1",
+                            CustomerAmount = 140,
+                            PackagesAmount = 65
                         });
                 });
 
@@ -823,6 +991,10 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("bumbo.Models.Prognosis", null)
+                        .WithMany("Branches")
+                        .HasForeignKey("PrognosisId");
+
                     b.Navigation("Country");
                 });
 
@@ -911,6 +1083,36 @@ namespace DataLayer.Migrations
                     b.Navigation("Function");
                 });
 
+            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
+                {
+                    b.HasOne("Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
+                {
+                    b.HasOne("bumbo.Models.Days", "Days")
+                        .WithMany("Prognosis_Has_Days")
+                        .HasForeignKey("Days_name")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bumbo.Models.Prognosis", "Prognosis")
+                        .WithMany("Prognosis_Has_Days")
+                        .HasForeignKey("PrognosisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Days");
+
+                    b.Navigation("Prognosis");
+                });
+
             modelBuilder.Entity("bumbo.Models.Template", b =>
                 {
                     b.HasOne("Branch", "Branch")
@@ -960,7 +1162,16 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("bumbo.Models.Days", b =>
                 {
+                    b.Navigation("Prognosis_Has_Days");
+
                     b.Navigation("TemplateHasDays");
+                });
+
+            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
+                {
+                    b.Navigation("Branches");
+
+                    b.Navigation("Prognosis_Has_Days");
                 });
 
             modelBuilder.Entity("bumbo.Models.Template", b =>
