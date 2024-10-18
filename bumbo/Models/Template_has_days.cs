@@ -5,7 +5,7 @@ namespace bumbo.Models
 {
     public class Template_has_days
     {
-        [Required]
+        [Key, Required]
         public int Templates_id { get; set; }
 
         [ForeignKey("Templates_id")]

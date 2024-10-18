@@ -1,16 +1,23 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using bumbo.Models;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using bumbo.Models.ViewModels.Norms;
 using Microsoft.VisualBasic;
 using System.Globalization;
 using bumbo.Components;
+
+using static bumbo.Controllers.NormeringController;
 using DataLayer.Models.DTOs;
 using DataLayer.Interfaces;
 
-namespace bumbo.Controllers
+
+namespace bumbo.Controllers;
+
+public class NormsController : Controller
 {
     private readonly ILogger<NormsController> _logger;
     private readonly IConfiguration _configuration;
@@ -60,7 +67,7 @@ namespace bumbo.Controllers
                     <td class='py-2 px-4'>{item.Fresh} medewerkers</td>
                     <td class='py-2 px-4'>{item.Fronting} seconden per meter</td>
                     <td class='py-2 px-4 text-right'>
-                    <button onclick = ""window.location.href='../Norms/Update?NormId={item.NormId}'"">✏️</button> 
+                    <button onclick = ""window.location.href='../Norms/Update?NormId={item.NormId}'"">✏️</button>
                     </td>";
         }, searchTerm, page);
 
@@ -246,4 +253,7 @@ namespace bumbo.Controllers
             return View("Error");
         }
     }
+
+
+
 }

@@ -12,10 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BumboDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("anthony")));
 
+
+builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
+builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
 builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeRepositorySql>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
+
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
