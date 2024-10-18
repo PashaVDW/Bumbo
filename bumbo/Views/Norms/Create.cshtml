@@ -76,4 +76,10 @@
             <default-button button-text="Aanmaken" button-type="primary" on-click=""></default-button>
         </div>
     </form>
+
+    <default-button button-text="Succesvol toast (met Auto Hide)" on-click="showToast('toast-success', 'yes', 3000);" button-type="succes"></default-button>
+    <toast-message toast-id="toast-success" message="Succesvol iets gedaan" message-type="success"></toast-message>
+
+    <default-button button-text="Error toast (zonder Auto Hide)" on-click="showToast('toast-error', 'no', 0);" button-type="delete"></default-button>
+    <toast-message toast-id="toast-error" message="Er is een fout opgetreden!" message-type="error"></toast-message>
 </div>

@@ -192,9 +192,20 @@ public class NormsController : Controller
             Fronting.activity = "Spiegelen";
             Fronting.normInSeconds = (viewModel.Fronting);
 
-            await _normsRepository.InsertMany(new Norm[] { Coli, Fillshelves, Cashregister, Fresh, Fronting });
+            Norm[] norms = new Norm[] { Coli, Fillshelves, Cashregister, Fresh, Fronting };
 
-            return RedirectToAction("Index");
+            List<Norm> normsCheck = await _normsRepository.GetSelectedNorms(norms[0].branchId, norms[0].year, norms[0].week);
+
+            if (normsCheck.Count > 0)
+            {
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                await _normsRepository.InsertMany(norms);
+
+                return RedirectToAction("Index");
+            }
         }
         catch (Exception ex)
         {
