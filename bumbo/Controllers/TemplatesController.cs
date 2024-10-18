@@ -23,5 +23,15 @@ namespace bumbo.Controllers
             }
             return View();
         }
+
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Update()
+        {
+            return View();
+        }
     }
 }
