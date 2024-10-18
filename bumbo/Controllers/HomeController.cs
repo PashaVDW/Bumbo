@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using bumbo.Models;
-using bumbo.Components;
 
 namespace bumbo.Controllers;
 
