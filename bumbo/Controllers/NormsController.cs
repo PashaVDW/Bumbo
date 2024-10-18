@@ -19,7 +19,9 @@ using DataLayer.Models.DTOs;
 using DataLayer.Interfaces;
 
 
-namespace bumbo.Controllers
+namespace bumbo.Controllers;
+
+public class NormsController : Controller
 {
     private readonly ILogger<NormsController> _logger;
     private readonly IConfiguration _configuration;

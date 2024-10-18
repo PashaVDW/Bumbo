@@ -13,16 +13,6 @@ namespace bumbo.Controllers
             _userManager = userManager;
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        public ActionResult Edit()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);

@@ -22,7 +22,6 @@ namespace DataLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
             modelBuilder.Entity("Branch", b =>
                 {
                     b.Property<int>("BranchId")
@@ -66,22 +65,10 @@ namespace DataLayer.Migrations
                     b.HasIndex("PrognosisId");
 
                     b.ToTable("Branches");
-=======
-            modelBuilder.Entity("DataLayer.Models.Days", b =>
-                {
-                    b.Property<string>("Name")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("Name");
-
-                    b.ToTable("Days");
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
 
                     b.HasData(
                         new
                         {
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
                             BranchId = 1,
                             CountryName = "Netherlands",
                             HouseNumber = "10",
@@ -281,33 +268,6 @@ namespace DataLayer.Migrations
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
-=======
-                            Name = "Maandag"
-                        },
-                        new
-                        {
-                            Name = "Dinsdag"
-                        },
-                        new
-                        {
-                            Name = "Woensdag"
-                        },
-                        new
-                        {
-                            Name = "Donderdag"
-                        },
-                        new
-                        {
-                            Name = "Vrijdag"
-                        },
-                        new
-                        {
-                            Name = "Zaterdag"
-                        },
-                        new
-                        {
-                            Name = "Zondag"
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
                         });
                 });
 
@@ -462,47 +422,9 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("EmployeeId");
 
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
                     b.HasIndex("FunctionName");
 
                     b.ToTable("BranchHasEmployees");
-=======
-                    b.Property<string>("PrognosisId")
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("BranchId");
-
-                    b.HasIndex("CountryName");
-
-                    b.HasIndex("PrognosisId");
-
-                    b.ToTable("Branches");
-
-                    b.HasData(
-                        new
-                        {
-                            BranchId = 1,
-                            CountryName = "Netherlands",
-                            HouseNumber = "10",
-                            Name = "Amsterdam Branch",
-                            PostalCode = "12345",
-                            Street = "Damrak"
-                        },
-                        new
-                        {
-                            BranchId = 2,
-                            CountryName = "Belgium",
-                            HouseNumber = "20",
-                            Name = "Brussels Branch",
-                            PostalCode = "67890",
-                            Street = "Grand Place"
-                        });
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
                 });
 
             modelBuilder.Entity("bumbo.Models.Country", b =>
@@ -543,7 +465,6 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
                             Name = "Maandag"
                         },
                         new
@@ -569,172 +490,40 @@ namespace DataLayer.Migrations
                         new
                         {
                             Name = "Zondag"
-=======
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            BID = "B001",
-                            BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "f9ebb500-dccf-43c3-bad4-1c5d656a6524",
-                            Email = "john.doe@example.com",
-                            EmailConfirmed = true,
-                            FirstName = "John",
-                            FunctionName = "Manager",
-                            HouseNumber = 10,
-                            IsSystemManager = true,
-                            LastName = "Doe",
-                            LockoutEnabled = false,
-                            ManagerOfBranchId = 1,
-                            MiddleName = "A.",
-                            NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
-                            NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE485tLhsdvo1airefDPLHQNoo4k+Uby/vLslJWjftAQnxOX7rET3ty5Hia4VZh5dg==",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "12345",
-                            SecurityStamp = "28aff5c9-d203-4ac2-a84b-aeb78717782c",
-                            StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "john.doe@example.com"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            AccessFailedCount = 0,
-                            BID = "B002",
-                            BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "ba5910f8-188e-421c-b3ec-b5b71c8dbff9",
-                            Email = "jane.smith@example.com",
-                            EmailConfirmed = true,
-                            FirstName = "Jane",
-                            FunctionName = "Cashier",
-                            HouseNumber = 22,
-                            IsSystemManager = false,
-                            LastName = "Smith",
-                            LockoutEnabled = false,
-                            MiddleName = "B.",
-                            NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
-                            NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGqpv7268tRtUinBYCNhDCnZewkkJ8rZ1vpUshuk9/CCr63h9++PaftkfReMdMrUfQ==",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "54321",
-                            SecurityStamp = "43a35417-141d-4b9e-87d7-3d67cb0bcbd7",
-                            StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "jane.smith@example.com"
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
                         });
                 });
 
-            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
+            modelBuilder.Entity("bumbo.Models.Norm", b =>
                 {
-                    b.Property<string>("PrognosisId")
+                    b.Property<int>("normId")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<int>("BranchId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WeekNr")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("normId"));
+
+                    b.Property<string>("activity")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("branchId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Year")
+                    b.Property<int>("normInSeconds")
                         .HasColumnType("int");
 
-                    b.HasKey("PrognosisId");
-
-                    b.HasIndex("BranchId");
-
-                    b.ToTable("Prognoses");
-
-                    b.HasData(
-                        new
-                        {
-                            PrognosisId = "1",
-                            BranchId = 1,
-                            WeekNr = 40,
-                            Year = 2024
-                        });
-                });
-
-            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
-                {
-                    b.Property<string>("Days_name")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("PrognosisId")
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<int>("CustomerAmount")
+                    b.Property<int>("week")
                         .HasColumnType("int");
 
-                    b.Property<int>("PackagesAmount")
+                    b.Property<int>("year")
                         .HasColumnType("int");
 
-                    b.HasKey("Days_name", "PrognosisId");
+                    b.HasKey("normId");
 
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
                     b.HasIndex("branchId", "year", "week", "activity")
                         .IsUnique();
 
                     b.ToTable("Norms");
-=======
-                    b.HasIndex("PrognosisId");
-
-                    b.ToTable("Prognosis_Has_Days");
-
-                    b.HasData(
-                        new
-                        {
-                            Days_name = "Maandag",
-                            PrognosisId = "1",
-                            CustomerAmount = 100,
-                            PackagesAmount = 50
-                        },
-                        new
-                        {
-                            Days_name = "Dinsdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 120,
-                            PackagesAmount = 60
-                        },
-                        new
-                        {
-                            Days_name = "Woensdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 130,
-                            PackagesAmount = 55
-                        },
-                        new
-                        {
-                            Days_name = "Donderdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 110,
-                            PackagesAmount = 45
-                        },
-                        new
-                        {
-                            Days_name = "Vrijdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 150,
-                            PackagesAmount = 70
-                        },
-                        new
-                        {
-                            Days_name = "Zaterdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 160,
-                            PackagesAmount = 80
-                        },
-                        new
-                        {
-                            Days_name = "Zondag",
-                            PrognosisId = "1",
-                            CustomerAmount = 140,
-                            PackagesAmount = 65
-                        });
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
                 });
 
             modelBuilder.Entity("bumbo.Models.Prognosis", b =>
@@ -971,7 +760,6 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
                     b.HasOne("Employee", "Employee")
                         .WithMany("BranchEmployees")
                         .HasForeignKey("EmployeeId")
@@ -987,13 +775,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Function");
-=======
-                    b.HasOne("bumbo.Models.Prognosis", null)
-                        .WithMany("Branches")
-                        .HasForeignKey("PrognosisId");
-
-                    b.Navigation("Country");
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
                 });
 
             modelBuilder.Entity("bumbo.Models.Prognosis", b =>
@@ -1007,46 +788,7 @@ namespace DataLayer.Migrations
                     b.Navigation("Branch");
                 });
 
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
             modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
-=======
-            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
-                {
-                    b.HasOne("bumbo.Models.Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-                });
-
-            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
-                {
-                    b.HasOne("DataLayer.Models.Days", "Days")
-                        .WithMany("Prognosis_Has_Days")
-                        .HasForeignKey("Days_name")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("bumbo.Models.Prognosis", "Prognosis")
-                        .WithMany("Prognosis_Has_Days")
-                        .HasForeignKey("PrognosisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Days");
-
-                    b.Navigation("Prognosis");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Days", b =>
-                {
-                    b.Navigation("Prognosis_Has_Days");
-                });
-
-            modelBuilder.Entity("bumbo.Models.Branch", b =>
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
                 {
                     b.HasOne("bumbo.Models.Days", "Days")
                         .WithMany("Prognosis_Has_Days")
@@ -1112,7 +854,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Branches");
                 });
 
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
             modelBuilder.Entity("bumbo.Models.Days", b =>
                 {
                     b.Navigation("Prognosis_Has_Days");
@@ -1120,22 +861,17 @@ namespace DataLayer.Migrations
                     b.Navigation("TemplateHasDays");
                 });
 
-=======
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
             modelBuilder.Entity("bumbo.Models.Prognosis", b =>
                 {
                     b.Navigation("Branches");
 
                     b.Navigation("Prognosis_Has_Days");
                 });
-<<<<<<< HEAD:DataLayer/Migrations/BumboDBContextModelSnapshot.cs
 
             modelBuilder.Entity("bumbo.Models.Template", b =>
                 {
                     b.Navigation("TemplateHasDays");
                 });
-=======
->>>>>>> origin/GCB-67:DataLayer/Migrations/BumboDbContextModelSnapshot.cs
 #pragma warning restore 612, 618
         }
     }

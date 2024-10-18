@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataLayer.Models
+namespace bumbo.Models
 {
     public class Days
     {
@@ -9,6 +9,5 @@ namespace DataLayer.Models
 
         public ICollection<Template_has_days> TemplateHasDays { get; set; }
         public ICollection<Prognosis_has_days> Prognosis_Has_Days { get; set; }
-        public ICollection<bumbo.Models.Prognosis_has_days> Prognosis_Has_Days { get; set; }
     }
 }

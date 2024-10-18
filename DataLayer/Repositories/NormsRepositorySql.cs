@@ -1,4 +1,5 @@
 ﻿using bumbo.Data;
+using bumbo.Models;
 using DataLayer.Interfaces;
 using DataLayer.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
