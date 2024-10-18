@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+using DataLayer.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
 
@@ -8,6 +9,7 @@ namespace bumbo.Models
     {
         [Key]
         [StringLength(45)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string PrognosisId { get; set; }
 
         [Required, Range(0, 99)]
@@ -24,6 +26,6 @@ namespace bumbo.Models
 
         public ICollection<Branch> Branches { get; set; }
 
-        public ICollection<Prognosis_has_days> Prognosis_Has_Days{ get; set; }
+        public ICollection<Prognosis_has_days> Prognosis_Has_Days { get; set; }
     }
 }

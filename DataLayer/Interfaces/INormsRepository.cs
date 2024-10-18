@@ -1,5 +1,5 @@
 
-﻿using bumbo.Models;
+using bumbo.Models;
 using DataLayer.Models.DTOs;
 
 namespace DataLayer.Interfaces

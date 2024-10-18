@@ -7,6 +7,7 @@ using DataLayer.Interfaces;
 using DataLayer.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
 
 // Add services to the container.
 builder.Services.AddDbContext<BumboDBContext>(options =>
@@ -49,17 +50,21 @@ app.MapControllerRoute(
 
 // Custom routes for specific pages
 app.MapControllerRoute(
-    name: "forecasts",
+    name: "test",
+    pattern: "{controller=Test}/{action=LoginAsJohnDoe}");
+
+app.MapControllerRoute(
+    name: "prognoses",
     pattern: "prognoses",
     defaults: new { controller = "Forecasts", action = "Index" });
 
 app.MapControllerRoute(
-    name: "norms",
+    name: "normeringen",
     pattern: "normeringen",
     defaults: new { controller = "Norms", action = "Index" });
 
 app.MapControllerRoute(
-    name: "employees",
+    name: "medewerkers",
     pattern: "medewerkers",
     defaults: new { controller = "Employees", action = "Index" });
 
@@ -79,23 +84,19 @@ app.MapControllerRoute(
     defaults: new { controller = "Templates", action = "Index" });
 
 app.MapControllerRoute(
-    name: "reviews",
+    name: "terugblikken",
     pattern: "terugblikken",
     defaults: new { controller = "Reviews", action = "Index" });
 
 app.MapControllerRoute(
-    name: "branches",
+    name: "filialen",
     pattern: "filialen",
     defaults: new { controller = "Branches", action = "BranchesView" });
 
+// Route for logging out
 app.MapControllerRoute(
     name: "logout",
     pattern: "uitloggen",
-    defaults: new { controller = "Account", action = "Logout" });
-
-app.MapControllerRoute(
-    name: "login",
-    pattern: "inloggen",
-    defaults: new { controller = "Account", action = "Login" });
+    defaults: new { controller = "Logout", action = "Logout" });
 
 app.Run();
