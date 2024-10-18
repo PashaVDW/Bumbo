@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace bumbo.ViewModels
 {
@@ -34,6 +35,12 @@ namespace bumbo.ViewModels
         [Required(ErrorMessage = "E-mailadres is verplicht.")]
         [EmailAddress(ErrorMessage = "Voer een geldig e-mailadres in.")]
         public string Email { get; set; }
+
+        public string? BID { get; set; }
+
+        public string? SelectedFunction { get; set; }
+
+        public List<SelectListItem>? Functions { get; set; }
 
         public bool IsSystemManager { get; set; }
 

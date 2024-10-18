@@ -8,5 +8,7 @@ namespace DataLayer.Interfaces
         List<BranchHasEmployee> GetBranchesForEmployee(string employeeId);
         BranchHasEmployee GetBranchAssignment(string employeeId, int branchId);
         void RemoveBranchAssignment(BranchHasEmployee branchAssignment);
+
+        void UpdateBranchAssignment(BranchHasEmployee branchAssignment);
     }
 }

@@ -40,5 +40,11 @@ namespace DataLayer.Repositories
             _context.SaveChanges();
         }
 
+        public void UpdateBranchAssignment(BranchHasEmployee branchAssignment)
+        {
+            _context.BranchHasEmployees.Update(branchAssignment);
+            _context.SaveChanges();
+        }
+
     }
 }

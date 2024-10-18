@@ -164,6 +164,9 @@ namespace bumbo.Controllers
                 return RedirectToAction("Index");
             }
 
+            var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(employee.Id);
+            var userManagerOfBranchAssignment = branchAssignments.FirstOrDefault(b => b.BranchId == user.ManagerOfBranchId);
+
             var model = new UpdateEmployeeViewModel
             {
                 Id = employee.Id,
@@ -175,22 +178,30 @@ namespace bumbo.Controllers
                 HouseNumber = employee.HouseNumber,
                 PhoneNumber = employee.PhoneNumber,
                 Email = employee.Email,
+                BID = employee.BID,
                 IsSystemManager = employee.IsSystemManager,
-                UserManagerOfBranchId = user.ManagerOfBranchId ?? 0
+                UserManagerOfBranchId = user.ManagerOfBranchId ?? 0,
+
+                SelectedFunction = userManagerOfBranchAssignment?.FunctionName,
+
+                BranchAssignments = branchAssignments.Select(bhe => new BranchAssignmentViewModel
+                {
+                    BranchId = bhe.BranchId,
+                    BranchName = bhe.Branch.Name,
+                    FunctionName = bhe.FunctionName,
+                    StartDate = bhe.StartDate
+                }).ToList(),
+
+                Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
+                {
+                    Value = f.FunctionName,
+                    Text = f.FunctionName
+                }).ToList()
             };
 
-            var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(employee.Id);
-            model.BranchAssignments = branchAssignments.Select(bhe => new BranchAssignmentViewModel
-            {
-                BranchId = bhe.BranchId,
-                BranchName = bhe.Branch.Name,
-                FunctionName = bhe.FunctionName,
-                StartDate = bhe.StartDate
-            }).ToList();
-
-            // Pass the model to the view
             return View(model);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -205,11 +216,24 @@ namespace bumbo.Controllers
 
             if (!ModelState.IsValid)
             {
-                // If the model is invalid, return the view with validation errors.
+                model.Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
+                {
+                    Value = f.FunctionName,
+                    Text = f.FunctionName
+                }).ToList();
+
+                var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(model.Id);
+                model.BranchAssignments = branchAssignments.Select(bhe => new BranchAssignmentViewModel
+                {
+                    BranchId = bhe.BranchId,
+                    BranchName = bhe.Branch.Name,
+                    FunctionName = bhe.FunctionName,
+                    StartDate = bhe.StartDate
+                }).ToList();
+
                 return View(model);
             }
 
-            // Fetch the employee from the repository using the ID
             var employee = _employeeRepository.GetEmployeeById(model.Id);
             if (employee == null)
             {
@@ -217,7 +241,6 @@ namespace bumbo.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Update the employee's details
             employee.FirstName = model.FirstName;
             employee.MiddleName = model.MiddleName;
             employee.LastName = model.LastName;
@@ -226,16 +249,32 @@ namespace bumbo.Controllers
             employee.HouseNumber = model.HouseNumber;
             employee.PhoneNumber = model.PhoneNumber;
             employee.Email = model.Email;
+            employee.BID = model.BID;
             employee.IsSystemManager = model.IsSystemManager;
 
-            // Update the employee in the repository
             _employeeRepository.UpdateEmployee(employee);
+
+            if (user.ManagerOfBranchId != null)
+            {
+                var branchAssignment = _branchHasEmployeeRepository.GetBranchAssignment(employee.Id, user.ManagerOfBranchId.Value);
+
+                if (branchAssignment != null && !string.IsNullOrEmpty(model.SelectedFunction))
+                {
+                    branchAssignment.FunctionName = model.SelectedFunction;
+                    _branchHasEmployeeRepository.UpdateBranchAssignment(branchAssignment);
+                }
+                else if (branchAssignment == null && !string.IsNullOrEmpty(model.SelectedFunction))
+                {
+                    TempData["ErrorMessage"] = "Functie kan niet ingesteld worden.";
+                }
+            }
 
             TempData["SuccessMessage"] = "De medewerker is succesvol bijgewerkt.";
 
             // Redirect back to the employee overview page
             return RedirectToAction("Index");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -282,6 +321,35 @@ namespace bumbo.Controllers
                 return RedirectToAction("Update", new { medewerkerId = employeeId });
             }
         }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignBranchToEmployee(string employeeId, int branchId)
+        {
+            var employee = _employeeRepository.GetEmployeeById(employeeId);
+            if (employee == null)
+            {
+                TempData["ErrorMessage"] = "De medewerker bestaat niet.";
+                return RedirectToAction("Index");
+            }
+
+            var branchAssignment = new BranchHasEmployee
+            {
+                EmployeeId = employeeId,
+                BranchId = branchId,
+                FunctionName = null,
+                StartDate = DateTime.Now
+            };
+
+            await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchAssignment);
+
+            TempData["SuccessMessage"] = "Het filiaal is succesvol toegewezen aan de medewerker.";
+
+            return RedirectToAction("Update", new { medewerkerId = employeeId });
+        }
+
+
 
     }
 }
