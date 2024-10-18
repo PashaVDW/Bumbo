@@ -2,6 +2,7 @@
 using bumbo.Models;
 using DataLayer.Interfaces;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories
 {
@@ -14,9 +15,25 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public void getPrognosisForThisWeek()
+        public async Task<Prognosis> GetPrognosisForCurrentWeekAsync(int branchId)
         {
-          
+            var currentDate = DateTime.Now;
+
+            var currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+            int currentWeek = currentCulture.Calendar.GetWeekOfYear(
+                currentDate,
+                currentCulture.DateTimeFormat.CalendarWeekRule,
+                currentCulture.DateTimeFormat.FirstDayOfWeek
+            );
+            int currentYear = currentDate.Year;
+
+            var prognosis = await _context.Prognoses
+                .Include(p => p.Prognosis_Has_Days)
+                .Include(p => p.Branch)
+                .Where(p => p.WeekNr == currentWeek && p.Year == currentYear && p.BranchId == branchId)
+                .FirstOrDefaultAsync();
+
+            return prognosis;
         }
 
         public void AddPrognosis(List<Days> days, List<int> CustomerAmount, List<int> PackagesAmount, int week, int year)

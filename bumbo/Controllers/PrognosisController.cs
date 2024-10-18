@@ -14,7 +14,7 @@ namespace bumbo.Controllers
     public class Template
     {
         public int TemplateId { get; set; }
-        public string TemplateName { get; set; } 
+        public string TemplateName { get; set; }
         public List<Days> DaysList { get; set; }
     }
 
@@ -27,7 +27,7 @@ namespace bumbo.Controllers
         public PrognosisController(IPrognosisRepository prognosisRepository)
         {
             _prognosisRepository = prognosisRepository;
-             DateTime currentDate = DateTime.Now;
+            DateTime currentDate = DateTime.Now;
             _currentYear = currentDate.Year;
 
             CultureInfo cultureInfo = CultureInfo.CurrentCulture;
@@ -47,12 +47,12 @@ namespace bumbo.Controllers
         DaysList = new List<Days>
         {
             new Days { Name = "Ma" },
-            new Days { Name = "Di" },  
-            new Days { Name = "Wo" },  
-            new Days { Name = "Do" },  
-            new Days { Name = "Vr" },  
-            new Days { Name = "Za" },  
-            new Days { Name = "Zo" }   
+            new Days { Name = "Di" },
+            new Days { Name = "Wo" },
+            new Days { Name = "Do" },
+            new Days { Name = "Vr" },
+            new Days { Name = "Za" },
+            new Days { Name = "Zo" }
         }
     },
     new Template
@@ -61,13 +61,13 @@ namespace bumbo.Controllers
         TemplateId = 2,
         DaysList = new List<Days>
         {
-            new Days { Name = "Ma" }, 
-            new Days { Name = "Di" },  
-            new Days { Name = "Wo" },  
-            new Days { Name = "Do" },  
-            new Days { Name = "Vr" },  
-            new Days { Name = "Za" },  
-            new Days { Name = "Zo" }   
+            new Days { Name = "Ma" },
+            new Days { Name = "Di" },
+            new Days { Name = "Wo" },
+            new Days { Name = "Do" },
+            new Days { Name = "Vr" },
+            new Days { Name = "Za" },
+            new Days { Name = "Zo" }
         }
     },
     new Template
@@ -76,13 +76,13 @@ namespace bumbo.Controllers
         TemplateId = 3,
         DaysList = new List<Days>
         {
-            new Days { Name = "Ma" },  
-            new Days { Name = "Di" },  
-            new Days { Name = "Wo" },  
-            new Days { Name = "Do" },  
-            new Days { Name = "Vr" },  
-            new Days { Name = "Za" },  
-            new Days { Name = "Zo" }   
+            new Days { Name = "Ma" },
+            new Days { Name = "Di" },
+            new Days { Name = "Wo" },
+            new Days { Name = "Do" },
+            new Days { Name = "Vr" },
+            new Days { Name = "Za" },
+            new Days { Name = "Zo" }
         }
     }
 };
@@ -152,7 +152,7 @@ namespace bumbo.Controllers
                 new Days { Name = "Zondag" },
             };
 
-            ViewBag.CurrentWeek = _currentWeek; 
+            ViewBag.CurrentWeek = _currentWeek;
             ViewBag.CurrentYear = _currentYear;
 
             return View();
@@ -212,7 +212,7 @@ namespace bumbo.Controllers
                 return View();
             }
         }
-        public ActionResult AddTemplate (string searchTerm, int page = 1)
+        public ActionResult AddTemplate(string searchTerm, int page = 1)
         {
             var headers = new List<string> { "Naam" };
 
