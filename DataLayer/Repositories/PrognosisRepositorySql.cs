@@ -14,6 +14,11 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
+        public void getPrognosisForThisWeek()
+        {
+          
+        }
+
         public void AddPrognosis(List<Days> days, List<int> CustomerAmount, List<int> PackagesAmount, int week, int year)
         {
             var prognosis = new Prognosis
