@@ -18,7 +18,6 @@ namespace bumbo.Data
         public DbSet<Template> Templates { get; set; }
         public DbSet<TemplateHasDays> TemplateHasDays { get; set; }
         public DbSet<Days> Days { get; set; }
-        public DbSet<Norm> Norms { get; set; }
         public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
         public DbSet<Function> Functions { get; set; }
 

@@ -217,7 +217,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "114b19b3-0eb9-496e-97ea-1c44c5a41aa6",
+                            ConcurrencyStamp = "1cf645cc-a532-44ab-b3b8-7a9555dc9d43",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -229,11 +229,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECP+vT4AtYCEP4Vi/bSnltOWP/6JnDZ3xygu0XYlxxo5Na4x2DQOCTjD+sdsgtkzmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK+Jig/L8onWlXwlJZLUNPcF1TdUh1qUx0vhgsNQdF1WDuCEY1gjyiBpzrexpZUAyA==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "4abaf2e8-7696-4c1c-a763-a6a12a03e342",
+                            SecurityStamp = "b9046ee8-98af-43d1-bb70-2cb483232697",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -244,7 +244,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "f1104e2b-8a65-4f9f-a5f9-3d16535d1f52",
+                            ConcurrencyStamp = "71e2f782-64b2-4383-81bb-a592b1fdc587",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -255,11 +255,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGm2hcRzXRAFDP/kTkJn99EK67rV7Hwt4e/RioWt//3+JqDyIuDha8A6Acu01GXA4w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHKubiJTfK4znZ3jT74/DELdZpNs2iUTXmDk3ByBQUa5B7ABSk3DvZch6IEAV4ngUQ==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "c8d62379-65f2-4224-a9ea-37d1725d33e3",
+                            SecurityStamp = "a267096c-846e-489f-8989-9c4003bdb9ab",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -485,170 +485,6 @@ namespace DataLayer.Migrations
                         new
                         {
                             Name = "Sunday"
-                        });
-                });
-
-            modelBuilder.Entity("bumbo.Models.Employee", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FunctionName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HouseNumber")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsSystemManager")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("ManagerOfBranchId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ManagerOfBranchId");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            BID = "B001",
-                            BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "9a06164c-7311-4625-bf1f-1df67e783cee",
-                            Email = "john.doe@example.com",
-                            EmailConfirmed = true,
-                            FirstName = "John",
-                            FunctionName = "Manager",
-                            HouseNumber = 10,
-                            IsSystemManager = true,
-                            LastName = "Doe",
-                            LockoutEnabled = false,
-                            ManagerOfBranchId = 1,
-                            MiddleName = "A.",
-                            NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
-                            NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFGtD5zymh655w3bAHIPs8i9csqvgngsXkTdHt7xJl0VpMs44xd0X6DqzPUj01ZY1A==",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "12345",
-                            SecurityStamp = "71843d89-5b71-424e-bfc3-24d14f52496f",
-                            StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "john.doe@example.com"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            AccessFailedCount = 0,
-                            BID = "B002",
-                            BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "092b2c77-f5d4-44ca-8350-ba9e6e4ca1c9",
-                            Email = "jane.smith@example.com",
-                            EmailConfirmed = true,
-                            FirstName = "Jane",
-                            FunctionName = "Cashier",
-                            HouseNumber = 22,
-                            IsSystemManager = false,
-                            LastName = "Smith",
-                            LockoutEnabled = false,
-                            MiddleName = "B.",
-                            NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
-                            NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA/Cnynl3DpCsbs7fGApcVzwjycITV8LQor7V+s80bkppBQ+UiOX3ZDJ9XkwLwbhPg==",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "54321",
-                            SecurityStamp = "8a073d6c-c3a5-4d63-b715-4a82ba5c7a75",
-                            StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "jane.smith@example.com"
                         });
                 });
 
@@ -1072,14 +908,9 @@ namespace DataLayer.Migrations
                     b.Navigation("Function");
                 });
 
-            modelBuilder.Entity("Branch", b =>
-                {
-                    b.Navigation("BranchHasEmployees");
-                });
-
             modelBuilder.Entity("bumbo.Models.Template", b =>
                 {
-                    b.HasOne("bumbo.Models.Branch", "Branch")
+                    b.HasOne("Branch", "Branch")
                         .WithMany()
                         .HasForeignKey("Branch_branchId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1107,7 +938,12 @@ namespace DataLayer.Migrations
                     b.Navigation("Template");
                 });
 
-            modelBuilder.Entity("bumbo.Models.Branch", b =>
+            modelBuilder.Entity("Branch", b =>
+                {
+                    b.Navigation("BranchHasEmployees");
+                });
+
+            modelBuilder.Entity("Employee", b =>
                 {
                     b.Navigation("BranchEmployees");
                 });

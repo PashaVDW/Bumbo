@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\bumbo.csproj": {}
+    "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\bumbo.csproj": {
+    "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\bumbo.csproj",
+        "projectUniqueName": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj",
         "projectName": "bumbo",
-        "projectPath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\bumbo.csproj",
+        "projectPath": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\bumbo.csproj",
         "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\bumbo\\obj\\",
+        "outputPath": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\bumbo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -33,8 +35,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\DataLayer\\DataLayer.csproj": {
-                "projectPath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\DataLayer\\DataLayer.csproj"
+              "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\DataLayer\\DataLayer.csproj": {
+                "projectPath": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\DataLayer\\DataLayer.csproj"
               }
             }
           }
@@ -104,22 +106,24 @@
         }
       }
     },
-    "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\DataLayer\\DataLayer.csproj": {
+    "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\DataLayer\\DataLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\DataLayer\\DataLayer.csproj",
+        "projectUniqueName": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\DataLayer\\DataLayer.csproj",
         "projectName": "DataLayer",
-        "projectPath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\DataLayer\\DataLayer.csproj",
+        "projectPath": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\DataLayer\\DataLayer.csproj",
         "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thoma\\Documents\\Git\\Bumbo\\DataLayer\\obj\\",
+        "outputPath": "C:\\Users\\thoma\\OneDrive\\Documenten\\HBO Informatica\\leerjaar 2\\blok 5\\Project\\Code\\Bumbo\\DataLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"

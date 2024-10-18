@@ -14,7 +14,6 @@ builder.Services.AddDbContext<BumboDBContext>(options =>
 
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository,  TemplateHasDaysRepositorySql>();
-builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
 builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeRepositorySql>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();

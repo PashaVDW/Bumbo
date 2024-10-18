@@ -62,7 +62,7 @@ namespace bumbo.Controllers
             })
             .ToList();
 
-            var htmlTable = tableBuilder.GenerateTable("Templates", headers, templateViewModel, "../Templates/Create", "../#edit", item =>
+            var htmlTable = tableBuilder.GenerateTable("Templates", headers, templateViewModel, "../Templates/Create", item =>
             {
                 return $@"
                     <td class='py-2 px-4'>{item.Name}</td>
