@@ -4240,55 +4240,23 @@
     ]
   },
   "packageFolders": {
-<<<<<<< Updated upstream
-<<<<<<< HEAD
     "C:\\Users\\agros\\.nuget\\packages\\": {},
-=======
-    "C:\\Users\\darlo\\.nuget\\packages\\": {},
->>>>>>> development
-=======
-    "C:\\Users\\agros\\.nuget\\packages\\": {},
->>>>>>> Stashed changes
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< Updated upstream
-<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\bumbo.csproj",
       "projectName": "bumbo",
       "projectPath": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\bumbo.csproj",
       "packagesPath": "C:\\Users\\agros\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\obj\\",
-=======
-      "projectUniqueName": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj",
-      "projectName": "bumbo",
-      "projectPath": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\bumbo\\bumbo.csproj",
-      "packagesPath": "C:\\Users\\darlo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\darlo\\source\\repos\\Bumbo\\bumbo\\obj\\",
->>>>>>> development
-=======
-      "projectUniqueName": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\bumbo.csproj",
-      "projectName": "bumbo",
-      "projectPath": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\bumbo.csproj",
-      "packagesPath": "C:\\Users\\agros\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\obj\\",
->>>>>>> Stashed changes
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-<<<<<<< Updated upstream
-<<<<<<< HEAD
         "C:\\Users\\agros\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
-        "C:\\Users\\darlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> development
-=======
-        "C:\\Users\\agros\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> Stashed changes
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4304,18 +4272,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-<<<<<<< Updated upstream
-<<<<<<< HEAD
             "C:\\Users\\agros\\source\\repos\\Bumbo\\DataLayer\\DataLayer.csproj": {
               "projectPath": "C:\\Users\\agros\\source\\repos\\Bumbo\\DataLayer\\DataLayer.csproj"
-=======
-            "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\DataLayer\\DataLayer.csproj": {
-              "projectPath": "C:\\Users\\darlo\\Source\\Repos\\Bumbo\\DataLayer\\DataLayer.csproj"
->>>>>>> development
-=======
-            "C:\\Users\\agros\\source\\repos\\Bumbo\\DataLayer\\DataLayer.csproj": {
-              "projectPath": "C:\\Users\\agros\\source\\repos\\Bumbo\\DataLayer\\DataLayer.csproj"
->>>>>>> Stashed changes
             }
           }
         }
@@ -4380,5 +4338,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\agros\\source\\repos\\Bumbo\\bumbo\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
