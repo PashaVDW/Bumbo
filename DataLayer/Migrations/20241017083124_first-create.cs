@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstCreate : Migration
+    public partial class firstcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,17 @@ namespace DataLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Countries", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Functions",
+                columns: table => new
+                {
+                    FunctionName = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Functions", x => x.FunctionName);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,15 +115,15 @@ namespace DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PostalCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     HouseNumber = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FunctionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FunctionName = table.Column<string>(type: "nvarchar(45)", nullable: true),
                     IsSystemManager = table.Column<bool>(type: "bit", nullable: false),
                     ManagerOfBranchId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -138,6 +149,11 @@ namespace DataLayer.Migrations
                         column: x => x.ManagerOfBranchId,
                         principalTable: "Branches",
                         principalColumn: "BranchId");
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Functions_FunctionName",
+                        column: x => x.FunctionName,
+                        principalTable: "Functions",
+                        principalColumn: "FunctionName");
                 });
 
             migrationBuilder.CreateTable(
@@ -225,10 +241,46 @@ namespace DataLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "BranchHasEmployees",
+                columns: table => new
+                {
+                    BranchId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FunctionName = table.Column<string>(type: "nvarchar(45)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BranchHasEmployees", x => new { x.BranchId, x.EmployeeId, x.FunctionName });
+                    table.ForeignKey(
+                        name: "FK_BranchHasEmployees_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BranchHasEmployees_Branches_BranchId",
+                        column: x => x.BranchId,
+                        principalTable: "Branches",
+                        principalColumn: "BranchId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BranchHasEmployees_Functions_FunctionName",
+                        column: x => x.FunctionName,
+                        principalTable: "Functions",
+                        principalColumn: "FunctionName",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "5e86f65e-ce47-4695-a197-1a1cc57589dd", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAECFTVGYOb0Vs46tGHL/lUhMp08aqk10FRkHy89EtF1DDrpYzTLt8FKLyW6vefa2GZg==", null, false, "54321", "dafd6170-068f-43de-a78a-e4ebe726bfce", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
+<<<<<<<< HEAD:DataLayer/Migrations/20241017191101_FirstCreate.cs
+                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "ec8e3964-a70d-4cac-9330-be7e87c05f80", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEPDOFD6CvnTtqvAHjyKp6cidFeyA5G3R7Mbr6hzd+V4SAf1On+Fbk1VSrabF1CNa0g==", null, false, "54321", "986c8b8c-fde5-4cf3-a35a-64649fef0ad9", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
+========
+                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "1ba3cfd4-e3f5-489c-a0ec-8662f8b5a934", "jane.smith@example.com", true, "Jane", null, 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEJrowK0whg+oE+95zlgERkOrrI+wiWjAVFJYL/z6aK475GnHVvbx0EvHRFOwaGx5TQ==", null, false, "54321", "dac3f719-6c6c-43c1-aa9e-9b999c066089", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
+>>>>>>>> development:DataLayer/Migrations/20241017083124_first-create.cs
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -238,6 +290,16 @@ namespace DataLayer.Migrations
                     "Belgium",
                     "Germany",
                     "Netherlands"
+                });
+
+            migrationBuilder.InsertData(
+                table: "Functions",
+                column: "FunctionName",
+                values: new object[]
+                {
+                    "Cashier",
+                    "Manager",
+                    "Stocker"
                 });
 
             migrationBuilder.InsertData(
@@ -252,7 +314,11 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "ebb87ae2-1238-4301-9dd7-b264e5403419", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEOWnjsFZvntptYDkSys8lUwygcxzSZqIaCzF83J6Dctj6fOexYECMZUxzBGH/dnmHg==", null, false, "12345", "74762b9c-4097-49c6-b90a-90c8c3136804", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+<<<<<<<< HEAD:DataLayer/Migrations/20241017191101_FirstCreate.cs
+                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "140608ab-0da9-4532-be89-bd94cccf61a5", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEGjHteE+BkGqmlXjjpdCKMImIDAF9JeNkjFdSPRViQ1/ev7+8G499IzfydW2aOX2Cw==", null, false, "12345", "8c759da9-8e25-4c13-b7a9-8d600f23b3e0", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+========
+                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "9954dc8e-0b32-410b-abb4-ea54aee2cce8", "john.doe@example.com", true, "John", null, 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEN+OdGxMHC/guT2YESHQJUZbjv5FVJcbY5E5O8XzZwnyEXFB+43VubdTjGqdgxIFBg==", null, false, "12345", "4ab98cf6-8499-400e-a26e-17003e6f382f", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+>>>>>>>> development:DataLayer/Migrations/20241017083124_first-create.cs
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -287,6 +353,11 @@ namespace DataLayer.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_FunctionName",
+                table: "AspNetUsers",
+                column: "FunctionName");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_ManagerOfBranchId",
                 table: "AspNetUsers",
                 column: "ManagerOfBranchId");
@@ -302,6 +373,23 @@ namespace DataLayer.Migrations
                 name: "IX_Branches_CountryName",
                 table: "Branches",
                 column: "CountryName");
+
+            migrationBuilder.CreateIndex(
+<<<<<<<< HEAD:DataLayer/Migrations/20241017191101_FirstCreate.cs
+                name: "IX_Norms_branchId_year_week",
+                table: "Norms",
+                columns: new[] { "branchId", "year", "week" },
+                unique: true);
+========
+                name: "IX_BranchHasEmployees_EmployeeId",
+                table: "BranchHasEmployees",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BranchHasEmployees_FunctionName",
+                table: "BranchHasEmployees",
+                column: "FunctionName");
+>>>>>>>> development:DataLayer/Migrations/20241017083124_first-create.cs
         }
 
         /// <inheritdoc />
@@ -323,6 +411,9 @@ namespace DataLayer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BranchHasEmployees");
+
+            migrationBuilder.DropTable(
                 name: "Norms");
 
             migrationBuilder.DropTable(
@@ -333,6 +424,9 @@ namespace DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Branches");
+
+            migrationBuilder.DropTable(
+                name: "Functions");
 
             migrationBuilder.DropTable(
                 name: "Countries");

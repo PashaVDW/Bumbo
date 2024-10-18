@@ -13,6 +13,9 @@ builder.Services.AddDbContext<BumboDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
 
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
+builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
+builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeRepositorySql>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
@@ -55,6 +58,16 @@ app.MapControllerRoute(
     name: "employees",
     pattern: "medewerkers",
     defaults: new { controller = "Employees", action = "Index" });
+
+app.MapControllerRoute(
+    name: "createEmployee",
+    pattern: "medewerkers/aanmaken",
+    defaults: new { controller = "Employees", action = "Create" });
+
+app.MapControllerRoute(
+    name: "updateEmployee",
+    pattern: "medewerkers/bewerken",
+    defaults: new { controller = "Employees", action = "Update" });
 
 app.MapControllerRoute(
     name: "templates",
