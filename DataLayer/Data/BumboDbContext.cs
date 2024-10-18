@@ -20,7 +20,7 @@ namespace bumbo.Data
         public DbSet<Days> Days { get; set; }
         public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
         public DbSet<Function> Functions { get; set; }
-
+        
         public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +29,9 @@ namespace bumbo.Data
 
             modelBuilder.Entity<TemplateHasDays>()
                .HasKey(t => new { t.Templates_id, t.Days_name });
+            modelBuilder.Entity<Norm>()
+                .HasIndex(norm => new { norm.branchId, norm.year, norm.week, norm.activity })
+                .IsUnique();
 
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },
