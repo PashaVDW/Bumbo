@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -11,9 +12,11 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    partial class BumboDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241017101420_function-nullable-2")]
+    partial class functionnullable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,7 +175,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -217,7 +219,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "114b19b3-0eb9-496e-97ea-1c44c5a41aa6",
+                            ConcurrencyStamp = "2d567907-c4f9-4888-962a-aab1a3c27db7",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -229,11 +231,10 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECP+vT4AtYCEP4Vi/bSnltOWP/6JnDZ3xygu0XYlxxo5Na4x2DQOCTjD+sdsgtkzmA==",
-                            PhoneNumber = "06-9876543",
+                            PasswordHash = "AQAAAAIAAYagAAAAECEQ6mASoItow59+vn1An3Zy4x/biMPMSKcovmxxu53vZUjpWkq7xBcBIAWMPaR/EA==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "4abaf2e8-7696-4c1c-a763-a6a12a03e342",
+                            SecurityStamp = "4ace8e33-7cb8-4e09-a0c9-af7459147b6a",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -244,7 +245,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "f1104e2b-8a65-4f9f-a5f9-3d16535d1f52",
+                            ConcurrencyStamp = "f8c432a5-2a4d-4868-8eaf-c81001346895",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -255,11 +256,10 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGm2hcRzXRAFDP/kTkJn99EK67rV7Hwt4e/RioWt//3+JqDyIuDha8A6Acu01GXA4w==",
-                            PhoneNumber = "06-12345678",
+                            PasswordHash = "AQAAAAIAAYagAAAAED1PRHaN6+Q3xxaCehJcAYSUZLu8kHSWdsXnoA49CDPNqODQooe0B8KqxOAH4i4CMg==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "c8d62379-65f2-4224-a9ea-37d1725d33e3",
+                            SecurityStamp = "47c6e445-9e2e-4f11-bf18-414133870383",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -491,7 +491,7 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("Employee", b =>
                 {
                     b.HasOne("Branch", "ManagerOfBranch")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("ManagerOfBranchId");
 
                     b.Navigation("ManagerOfBranch");
@@ -576,8 +576,6 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("Branch", b =>
                 {
                     b.Navigation("BranchHasEmployees");
-
-                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Employee", b =>

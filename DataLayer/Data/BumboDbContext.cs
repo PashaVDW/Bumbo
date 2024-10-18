@@ -73,6 +73,7 @@ namespace bumbo.Data
                 StartDate = new DateTime(2010, 1, 1),
                 IsSystemManager = true,
                 ManagerOfBranchId = 1,
+                PhoneNumber = "06-9876543",
                 UserName = "john.doe@example.com",
                 NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
                 Email = "john.doe@example.com",
@@ -94,6 +95,7 @@ namespace bumbo.Data
                 StartDate = new DateTime(2012, 4, 1),
                 IsSystemManager = false,
                 ManagerOfBranchId = null,
+                PhoneNumber = "06-12345678",
                 UserName = "jane.smith@example.com",
                 NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
                 Email = "jane.smith@example.com",
@@ -106,24 +108,30 @@ namespace bumbo.Data
             modelBuilder.Entity<Employee>().HasData(john, jane);
 
             //Relations
+            // Relations
             modelBuilder.Entity<BranchHasEmployee>()
-                .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId, bhw.FunctionName });
+                .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
 
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasOne(bhw => bhw.Branch)
                 .WithMany(b => b.BranchHasEmployees)
-                .HasForeignKey(bhw => bhw.BranchId);
+                .HasForeignKey(bhw => bhw.BranchId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasOne(bhw => bhw.Employee)
                 .WithMany(e => e.BranchEmployees)
-                .HasForeignKey(bhw => bhw.EmployeeId);
+                .HasForeignKey(bhw => bhw.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasOne(bhw => bhw.Function)
                 .WithMany()
                 .HasForeignKey(bhw => bhw.FunctionName)
-                .HasPrincipalKey(f => f.FunctionName);
+                .HasPrincipalKey(f => f.FunctionName)
+                .IsRequired(false);
+
+
 
         }
     }
