@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using bumbo.Models;
+using DataLayer.Models;
 
 namespace bumbo.Data
 {
@@ -11,9 +12,13 @@ namespace bumbo.Data
             : base(options)
         {
         }
-
+        public DbSet<Days> Days { get; set; }
+        public DbSet<Prognosis> Prognoses { get; set; }
+        public DbSet<Prognosis_has_days> Prognosis_Has_Days { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +28,30 @@ namespace bumbo.Data
                 new Country { Name = "Netherlands" },
                 new Country { Name = "Belgium" },
                 new Country { Name = "Germany" }
+            );
+
+            modelBuilder.Entity<Days>().HasData(
+                new Days { Name = "Maandag" },
+                new Days { Name = "Dinsdag" },
+                new Days { Name = "Woensdag" },
+                new Days { Name = "Donderdag" },
+                new Days { Name = "Vrijdag" },
+                new Days { Name = "Zaterdag" },
+                new Days { Name = "Zondag" }
+            );
+
+            modelBuilder.Entity<Prognosis>().HasData(
+                new Prognosis { PrognosisId = "1", WeekNr = 40, Year = 2024, BranchId = 1 }
+            );
+
+            modelBuilder.Entity<Prognosis_has_days>().HasData(
+                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = "1", CustomerAmount = 100, PackagesAmount = 50 },
+                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = "1", CustomerAmount = 120, PackagesAmount = 60 },
+                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = "1", CustomerAmount = 130, PackagesAmount = 55 },
+                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
+                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
+                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
+                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 }
             );
 
             modelBuilder.Entity<Branch>().HasData(

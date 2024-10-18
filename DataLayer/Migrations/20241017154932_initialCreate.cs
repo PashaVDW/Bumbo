@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace bumbo.Migrations
+namespace DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,17 @@ namespace bumbo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Days",
+                columns: table => new
+                {
+                    Name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Days", x => x.Name);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -60,25 +71,49 @@ namespace bumbo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Branches",
+                name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    BranchId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PostalCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    HouseNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CountryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Branches", x => x.BranchId);
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_Branches_Countries_CountryName",
-                        column: x => x.CountryName,
-                        principalTable: "Countries",
-                        principalColumn: "Name",
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -116,76 +151,6 @@ namespace bumbo.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Branches_ManagerOfBranchId",
-                        column: x => x.ManagerOfBranchId,
-                        principalTable: "Branches",
-                        principalColumn: "BranchId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserRoles",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,10 +173,80 @@ namespace bumbo.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Branches",
+                columns: table => new
+                {
+                    BranchId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostalCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HouseNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CountryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PrognosisId = table.Column<string>(type: "nvarchar(45)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Branches", x => x.BranchId);
+                    table.ForeignKey(
+                        name: "FK_Branches_Countries_CountryName",
+                        column: x => x.CountryName,
+                        principalTable: "Countries",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Prognoses",
+                columns: table => new
+                {
+                    PrognosisId = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
+                    WeekNr = table.Column<int>(type: "int", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    BranchId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prognoses", x => x.PrognosisId);
+                    table.ForeignKey(
+                        name: "FK_Prognoses_Branches_BranchId",
+                        column: x => x.BranchId,
+                        principalTable: "Branches",
+                        principalColumn: "BranchId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Prognosis_Has_Days",
+                columns: table => new
+                {
+                    Days_name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    PrognosisId = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
+                    CustomerAmount = table.Column<int>(type: "int", nullable: false),
+                    PackagesAmount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prognosis_Has_Days", x => new { x.Days_name, x.PrognosisId });
+                    table.ForeignKey(
+                        name: "FK_Prognosis_Has_Days_Days_Days_name",
+                        column: x => x.Days_name,
+                        principalTable: "Days",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Prognosis_Has_Days_Prognoses_PrognosisId",
+                        column: x => x.PrognosisId,
+                        principalTable: "Prognoses",
+                        principalColumn: "PrognosisId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "4b0728b2-6d24-43de-afb3-cb4f87b034e7", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEN8ZXBXrog3LfEWkE/z+yW69XOPnd323IDUMV9ET8mTHj7GpaXjzPCiq9Gc9dmgV9A==", null, false, "54321", "f706b431-d6d3-4476-ae19-4a0120d62d34", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
+                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "da6d4b37-8358-4fd6-b570-0200ea1e83fd", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAECLrc2mTpMI2JUZzwZEqgypbwsu9ZtFz5yuBqJIS++E41w94eqeVwLxcK9HRvp9jXw==", null, false, "54321", "18976c9d-5d4b-4d13-9c2c-d98004f56724", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -224,18 +259,51 @@ namespace bumbo.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Days",
+                column: "Name",
+                values: new object[]
+                {
+                    "Dinsdag",
+                    "Donderdag",
+                    "Maandag",
+                    "Vrijdag",
+                    "Woensdag",
+                    "Zaterdag",
+                    "Zondag"
+                });
+
+            migrationBuilder.InsertData(
                 table: "Branches",
-                columns: new[] { "BranchId", "CountryName", "HouseNumber", "Name", "PostalCode", "Street" },
+                columns: new[] { "BranchId", "CountryName", "HouseNumber", "Name", "PostalCode", "PrognosisId", "Street" },
                 values: new object[,]
                 {
-                    { 1, "Netherlands", "10", "Amsterdam Branch", "12345", "Damrak" },
-                    { 2, "Belgium", "20", "Brussels Branch", "67890", "Grand Place" }
+                    { 1, "Netherlands", "10", "Amsterdam Branch", "12345", null, "Damrak" },
+                    { 2, "Belgium", "20", "Brussels Branch", "67890", null, "Grand Place" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "be6a2682-1629-4f8d-987a-0203f23feef7", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEH6HHdaFZ8sVzr8GuuBrxjE4JRob17hWTQqu0mI3e+l2lgylFZh21s13gqbnc3xcbA==", null, false, "12345", "43168cf4-d8bd-49d1-a721-b050ba06e528", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "82f7d831-42b3-4711-8bfa-91da4dd3c2c5", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEP2pu1VUhRHOcOwV5Pwv3/k4SKbo5XxoIk7/W/sc2mpcSYXS+LX21vmBvsdfvZXFng==", null, false, "12345", "3790904b-3575-49c3-a4fa-c47ac5945c7c", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+
+            migrationBuilder.InsertData(
+                table: "Prognoses",
+                columns: new[] { "PrognosisId", "BranchId", "WeekNr", "Year" },
+                values: new object[] { "1", 1, 40, 2024 });
+
+            migrationBuilder.InsertData(
+                table: "Prognosis_Has_Days",
+                columns: new[] { "Days_name", "PrognosisId", "CustomerAmount", "PackagesAmount" },
+                values: new object[,]
+                {
+                    { "Dinsdag", "1", 120, 60 },
+                    { "Donderdag", "1", 110, 45 },
+                    { "Maandag", "1", 100, 50 },
+                    { "Vrijdag", "1", 150, 70 },
+                    { "Woensdag", "1", 130, 55 },
+                    { "Zaterdag", "1", 160, 80 },
+                    { "Zondag", "1", 140, 65 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -285,11 +353,68 @@ namespace bumbo.Migrations
                 name: "IX_Branches_CountryName",
                 table: "Branches",
                 column: "CountryName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Branches_PrognosisId",
+                table: "Branches",
+                column: "PrognosisId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prognoses_BranchId",
+                table: "Prognoses",
+                column: "BranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prognosis_Has_Days_PrognosisId",
+                table: "Prognosis_Has_Days",
+                column: "PrognosisId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                table: "AspNetUserRoles",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_Branches_ManagerOfBranchId",
+                table: "AspNetUsers",
+                column: "ManagerOfBranchId",
+                principalTable: "Branches",
+                principalColumn: "BranchId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Branches_Prognoses_PrognosisId",
+                table: "Branches",
+                column: "PrognosisId",
+                principalTable: "Prognoses",
+                principalColumn: "PrognosisId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Prognoses_Branches_BranchId",
+                table: "Prognoses");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -306,16 +431,25 @@ namespace bumbo.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Prognosis_Has_Days");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Days");
+
+            migrationBuilder.DropTable(
                 name: "Branches");
 
             migrationBuilder.DropTable(
                 name: "Countries");
+
+            migrationBuilder.DropTable(
+                name: "Prognoses");
         }
     }
 }
