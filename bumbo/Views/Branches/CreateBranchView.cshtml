@@ -38,8 +38,11 @@
             </div>
             <div class="mr-5 w-60 flex flex-col">
                 <label asp-for="CountryName">Land</label>
-                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="CountryName" />
-                <span asp-validation-for="CountryName" class="text-danger"></span>
+                <select asp-for="CountryName" class="bg-light text-sm-start p-2 rounded border-2 border-solid">
+                    <option value='Netherlands'>Nederland</option>
+                    <option value='Belgium'>België</option>
+                    <option value='Germany'>Duitsland</option>
+                </select>
             </div>
 
         </div>
