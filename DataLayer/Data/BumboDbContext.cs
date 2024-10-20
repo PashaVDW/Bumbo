@@ -41,7 +41,7 @@ namespace bumbo.Data
                 new Branch
                 {
                     BranchId = 1,
-                    PostalCode = "12345",
+                    PostalCode = "1012 LG",
                     HouseNumber = "10",
                     Name = "Amsterdam Branch",
                     Street = "Damrak",
@@ -50,10 +50,10 @@ namespace bumbo.Data
                 new Branch
                 {
                     BranchId = 2,
-                    PostalCode = "67890",
+                    PostalCode = "1000",
                     HouseNumber = "20",
                     Name = "Brussels Branch",
-                    Street = "Grand Place",
+                    Street = "Grote Markt",
                     CountryName = "Belgium"
                 }
             );

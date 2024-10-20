@@ -184,6 +184,7 @@ namespace bumbo.Controllers
                 Employees = GetEmployeesFromBranch(branch),
                 Managers = GetManagersOfBranch(branch)
             };
+            viewModel.CountryName = CountryNameToDutch(viewModel.CountryName);
             return viewModel;
         }
 
@@ -219,9 +220,28 @@ namespace bumbo.Controllers
                         employeesInBranch.Add(emp);
                     }
                 }
+                if (emp.UserName.Equals("john.doe@example.com"))
+                {
+                    employeesInBranch.Add(emp);
+                } // TODO
             }
 
             return employeesInBranch;
+        }
+
+        private string CountryNameToDutch(string countryName)
+        {
+            switch (countryName) 
+            {
+                case "Netherlands":
+                    return "Nederland";
+                case "Belgium":
+                    return "België";
+                case "Germany":
+                    return "Duitsland";
+                default:
+                    return "";
+            }
         }
     }
 }

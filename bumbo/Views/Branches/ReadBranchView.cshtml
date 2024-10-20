@@ -62,18 +62,17 @@
                     <figure class="w-16 h-16 border-slate-200 border-2">
                         <img src="https://imageplaceholder.net/64x64/" alt="" class="w-16 h-16" />
                     </figure>
-                    <p class="top-3 relative text-center font-bold">@employee.FirstName @employee.LastName</p>
+                    <p class="top-3 relative text-center font-bold">@employee.FirstName @employee.MiddleName @employee.LastName</p>
                 </div>
 
-                <custom-modal modal-id="deletebranchmanager" body-text="Weet je zeker dat je deze filiaalmanager wilt verwijderen?">
+                <custom-modal modal-id="deletebranchmanager{@employee.Id}" body-text="Weet je zeker dat je @employee.FirstName @employee.MiddleName @employee.LastName wilt verwijderen?">
                     <a asp-action="DeleteBranchManager" asp-controller="Branches"
                        asp-route-branchId="@Model.BranchId" asp-route-employeeId="@employee.Id"
                        class="bg-red-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-500">Verwijderen</a>
-                    <default-button button-text="Annuleren" button-type="secondary" on-click="document.getElementById('deletebranchmanager').classList.add('hidden')"></default-button>
+                    <default-button button-text="Annuleren" button-type="secondary" on-click="document.getElementById('deletebranchmanager{@employee.Id}').classList.add('hidden')"></default-button>
                 </custom-modal>
-
                 <button class="w-6 h-6 bg-gray-200 right-7 bottom-1 relative rotate-45 content-center rounded-3xl"
-                        onclick="document.getElementById('deletebranchmanager').classList.remove('hidden')">
+                        onclick="document.getElementById('deletebranchmanager{@employee.Id}').classList.remove('hidden')">
                     <div class="w-2 bg-black h-px m-auto rotate-90"></div>
                     <div class="w-2 bottom-px bg-black h-px relative m-auto"></div>
                 </button>
