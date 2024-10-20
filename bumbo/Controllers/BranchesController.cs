@@ -108,21 +108,34 @@ namespace bumbo.Controllers
 
         public IActionResult AddBranch(Branch branch)
         {
+            try
+            {
+                _context.Branches.Add(branch);
+                _context.SaveChanges();
 
-            _context.Branches.Add(branch);
-            _context.SaveChanges();
-
-            return RedirectToAction("BranchesView");
+                return RedirectToAction("BranchesView");
+            }
+            catch (Exception ex) 
+            {
+                return View("CreateBranchView");
+            }
         }
 
         [HttpPost]
         public IActionResult UpdateBranch(Branch branch)
         {
 
-            _context.Branches.Update(branch);
-            _context.SaveChanges();
+            try
+            {
+                _context.Branches.Update(branch);
+                _context.SaveChanges();
 
-            return RedirectToAction("BranchesView");
+                return RedirectToAction("BranchesView");
+            }
+            catch (Exception ex)
+            {
+                return View("UpdateBranchView", branch);
+            }
         }
 
         [HttpPost]
