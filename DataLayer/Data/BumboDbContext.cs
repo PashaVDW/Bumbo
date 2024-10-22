@@ -109,7 +109,7 @@ namespace bumbo.Data
 
             var john = new Employee
             {
-                Id = "1",
+                Id = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // If this gives errors, make it '1' and DONT DELETE HIM FROM BRANCH
                 BID = "B001",
                 FirstName = "John",
                 MiddleName = "A.",
