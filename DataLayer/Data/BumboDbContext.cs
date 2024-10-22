@@ -131,13 +131,13 @@ namespace bumbo.Data
 
             var jane = new Employee
             {
-                Id = "2",
+                Id = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                 BID = "B002",
                 FirstName = "Jane",
                 MiddleName = "B.",
                 LastName = "Smith",
                 BirthDate = new DateTime(1990, 5, 15),
-                PostalCode = "54321",
+                PostalCode = "9271 GB",
                 HouseNumber = 22,
                 StartDate = new DateTime(2012, 4, 1),
                 IsSystemManager = false,
@@ -156,8 +156,8 @@ namespace bumbo.Data
                 Id = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
                 BID = "B003",
                 FirstName = "Anna",
-                MiddleName = "van",
-                LastName = "Dijk",
+                MiddleName = "",
+                LastName = "van Dijk",
                 BirthDate = new DateTime(1992, 2, 14),
                 PostalCode = "8329 SK",
                 HouseNumber = 5,
@@ -200,8 +200,8 @@ namespace bumbo.Data
                 Id = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
                 BID = "B005",
                 FirstName = "Sarah",
-                MiddleName = "van der",
-                LastName = "Ven",
+                MiddleName = "",
+                LastName = "van der Ven",
                 BirthDate = new DateTime(1988, 4, 10),
                 PostalCode = "2933 KJ",
                 HouseNumber = 8,
@@ -222,8 +222,8 @@ namespace bumbo.Data
                 Id = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1",
                 BID = "B006",
                 FirstName = "David",
-                MiddleName = "den",
-                LastName = "Boer",
+                MiddleName = "",
+                LastName = "den Boer",
                 BirthDate = new DateTime(1995, 7, 20),
                 PostalCode = "4293 BF",
                 HouseNumber = 30,
@@ -294,7 +294,20 @@ namespace bumbo.Data
                 StartDate = sarah.StartDate,
                 FunctionName = "Cashier"
             };
-
+            var branchHasEmployeeFive = new BranchHasEmployee
+            {
+                BranchId = 1,
+                EmployeeId = jane.Id,
+                StartDate = jane.StartDate,
+                FunctionName = "Cashier"
+            };
+            modelBuilder.Entity<BranchHasEmployee>().HasData(
+                branchHasEmployeeOne, 
+                branchHasEmployeeTwo, 
+                branchHasEmployeeThree, 
+                branchHasEmployeeFour,
+                branchHasEmployeeFive
+            );
         }
     }
 }
