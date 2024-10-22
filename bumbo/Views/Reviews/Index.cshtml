@@ -7,15 +7,20 @@
     <h2 class="weeknr">Week @Model.WeekNr - @Model.Year</h2>
 
     <div class="flex w-full items-center justify-between">
-        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = -1 })" class="bg-transparent text-lg hover:text-blue-700">Vorige week</a>
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = -1 })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+            Vorige week
+        </button>
 
         @if (ViewBag.Message != null)
         {
             <div class="text-red-500">@ViewBag.Message</div>
         }
 
-        <a href="@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })" class="bg-transparent text-lg hover:text-blue-700">Volgende week</a>
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+            Volgende week
+        </button>
     </div>
+
 
     <div class="gap-4 mt-6 grid grid-cols-7">
         @foreach (var day in Model.Days)
