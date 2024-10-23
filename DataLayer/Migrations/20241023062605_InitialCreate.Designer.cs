@@ -12,8 +12,8 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241018111613_firstCreate")]
-    partial class firstCreate
+    [Migration("20241023062605_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,7 +225,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "d7837438-89a9-47a7-9e3c-a89becf990c1",
+                            ConcurrencyStamp = "99f557eb-93da-4adf-9ed9-4dd6ad8d998c",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -237,11 +237,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMX6nNV3BucJKrK1qehxCmeQQOoEnSshT0vKF3tYdjihD5mJ9WkvQc6Npr6f+H+J7g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM2WOqvdxjL+h7v8kadgiG/fy2HHkQxn5Og3Er6YvYoIMWVOhJ2rWxJuJg3zTHQuKg==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "c12fbd2a-c779-4466-b7b4-ea50f53cb5fc",
+                            SecurityStamp = "9f97526c-dd5f-41da-ab4c-9391ba29a68d",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -252,7 +252,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "77cba4ce-5113-45cc-8666-e316d8f97d94",
+                            ConcurrencyStamp = "37258c27-84f2-437d-8ec5-ad9824a4a642",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -263,11 +263,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM6S5hThalIccFQXeOfhJrMVyAGeMDFutWcNg0svihxK4pXC43ORGWXS6lHJjkItoA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIuGEM3Mky3p8PkVz9ebnMvAhVN2H/rNo1oC7RogPTTuz49csp1+Vc+iEJOx4K2E2w==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "b5eb6d67-8537-4d07-8499-e97edbe9662f",
+                            SecurityStamp = "c19cfb08-ec82-4122-98c6-1378f834c83a",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -532,6 +532,7 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("bumbo.Models.Prognosis", b =>
                 {
                     b.Property<string>("PrognosisId")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
