@@ -108,15 +108,22 @@ namespace bumbo.Controllers
 
         public IActionResult AddBranch(Branch branch)
         {
+            SetTempDataForToast("createBranchToast");
             try
             {
                 _context.Branches.Add(branch);
                 _context.SaveChanges();
 
+                TempData["ToastMessage"] = "Filiaal is aangemaakt";
+                TempData["ToastType"] = "success";
+
                 return RedirectToAction("BranchesView");
             }
             catch (Exception ex) 
             {
+                TempData["ToastMessage"] = "Filiaal aanmaken mislukt";
+                TempData["ToastType"] = "error";
+
                 return View("CreateBranchView");
             }
         }
@@ -124,16 +131,22 @@ namespace bumbo.Controllers
         [HttpPost]
         public IActionResult UpdateBranch(Branch branch)
         {
-
+            SetTempDataForToast("updateBranchToast");
             try
             {
                 _context.Branches.Update(branch);
                 _context.SaveChanges();
 
+                TempData["ToastMessage"] = "Filiaal is geüpdatet";
+                TempData["ToastType"] = "success";
+
                 return RedirectToAction("BranchesView");
             }
             catch (Exception ex)
             {
+                TempData["ToastMessage"] = "Filiaal updaten mislukt";
+                TempData["ToastType"] = "error";
+
                 return View("UpdateBranchView", branch);
             }
         }
@@ -141,15 +154,23 @@ namespace bumbo.Controllers
         [HttpPost]
         public IActionResult DeleteBranch(int branchId)
         {
+            SetTempDataForToast("updateBranchToast");
+
             var newBranch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
 
             if(newBranch == null)
             {
+                TempData["ToastMessage"] = "Filiaal verwijderen mislukt";
+                TempData["ToastType"] = "error";
+
                 return View("UpdateBranchView", branchId);
             }
 
             _context.Branches.Remove(newBranch);
             _context.SaveChanges();
+
+            TempData["ToastMessage"] = "Filiaal is verwijderd";
+            TempData["ToastType"] = "success";
 
             return RedirectToAction("BranchesView");
         }
@@ -166,6 +187,10 @@ namespace bumbo.Controllers
 
             var viewModel = GetReadBranchViewModel(branch);
 
+            SetTempDataForToast("addBranchManagerToast");
+            TempData["ToastMessage"] = "Filiaalmanager is toegevoegd";
+            TempData["ToastType"] = "success";
+
             return View("ReadBranchView", viewModel);
         }
 
@@ -180,6 +205,10 @@ namespace bumbo.Controllers
             _context.SaveChanges();
 
             var viewModel = GetReadBranchViewModel(branch);
+
+            SetTempDataForToast("deleteBranchManagerToast");
+            TempData["ToastMessage"] = "Filiaalmanager is verwijderd";
+            TempData["ToastType"] = "success";
 
             return View("ReadBranchView", viewModel);
         }
@@ -251,6 +280,13 @@ namespace bumbo.Controllers
                 default:
                     return "";
             }
+        }
+
+        private void SetTempDataForToast(string toastId)
+        {
+            TempData["ToastId"] = toastId;
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
         }
     }
 }
