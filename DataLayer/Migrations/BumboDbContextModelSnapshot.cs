@@ -355,7 +355,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "1b5eb9eb-10ac-4235-851c-7cf273b6e7c7",
+                            ConcurrencyStamp = "c1eb2dfb-e669-404f-847b-65e08d2ccf77",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -368,10 +368,10 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMuBYvcVu5TcCJRjZE+lG6Oj75xrG6z00LfG/YrlwrfDsRXlsYdEiogyr9QlzbhkDg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDs8e4+rp14w/nt0uySuCq7YwwFD1gfsYKbfGJ/b/NToQ8N3fX37zlO/xoe4ieKnww==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "c803a282-1beb-489a-8c20-f2ffe2c96261",
+                            SecurityStamp = "9981a380-e686-4851-b1de-698543b3613d",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -382,7 +382,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "72b1804b-6cbd-4614-816f-733c9c77acb6",
+                            ConcurrencyStamp = "801f8493-282e-49be-bb8a-03f704b2577e",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -394,10 +394,10 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKDOlI6zFowqOTqOXi8jKKJID38JlHmOlPpWaNia5nRyqeLA8paxsc50sxw5vzqtbg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECHymFDyMzxhaLo4OxrsjhhxRbJU3neo4w7Ro1oVTIWjj9QOMVqCWWWnhqkii6hrcQ==",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "039015ab-9e82-4a80-8f0a-ac58ebf8081e",
+                            SecurityStamp = "0c34c566-0d82-483b-ab64-93c9fbb102bd",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -435,6 +435,53 @@ namespace DataLayer.Migrations
                         .IsUnique();
 
                     b.ToTable("Norms");
+
+                    b.HasData(
+                        new
+                        {
+                            normId = 1,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 90,
+                            week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 2,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 33,
+                            week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 3,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 3,
+                            week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 4,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 7,
+                            week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 5,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 2,
+                            week = 41,
+                            year = 2024
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

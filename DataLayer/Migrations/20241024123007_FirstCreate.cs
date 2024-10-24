@@ -228,7 +228,7 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "ec8e3964-a70d-4cac-9330-be7e87c05f80", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEPDOFD6CvnTtqvAHjyKp6cidFeyA5G3R7Mbr6hzd+V4SAf1On+Fbk1VSrabF1CNa0g==", null, false, "54321", "986c8b8c-fde5-4cf3-a35a-64649fef0ad9", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
+                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "801f8493-282e-49be-bb8a-03f704b2577e", "jane.smith@example.com", true, "Jane", "Cashier", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAECHymFDyMzxhaLo4OxrsjhhxRbJU3neo4w7Ro1oVTIWjj9QOMVqCWWWnhqkii6hrcQ==", null, false, "54321", "0c34c566-0d82-483b-ab64-93c9fbb102bd", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -238,6 +238,18 @@ namespace DataLayer.Migrations
                     "Belgium",
                     "Germany",
                     "Netherlands"
+                });
+
+            migrationBuilder.InsertData(
+                table: "Norms",
+                columns: new[] { "normId", "activity", "branchId", "normInSeconds", "week", "year" },
+                values: new object[,]
+                {
+                    { 1, "Coli uitladen", 1, 90, 41, 2024 },
+                    { 2, "Vakkenvullen", 1, 33, 41, 2024 },
+                    { 3, "Kassa", 1, 3, 41, 2024 },
+                    { 4, "Vers", 1, 7, 41, 2024 },
+                    { 5, "Spiegelen", 1, 2, 41, 2024 }
                 });
 
             migrationBuilder.InsertData(
@@ -252,7 +264,7 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "FunctionName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "140608ab-0da9-4532-be89-bd94cccf61a5", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEGjHteE+BkGqmlXjjpdCKMImIDAF9JeNkjFdSPRViQ1/ev7+8G499IzfydW2aOX2Cw==", null, false, "12345", "8c759da9-8e25-4c13-b7a9-8d600f23b3e0", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "c1eb2dfb-e669-404f-847b-65e08d2ccf77", "john.doe@example.com", true, "John", "Manager", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEDs8e4+rp14w/nt0uySuCq7YwwFD1gfsYKbfGJ/b/NToQ8N3fX37zlO/xoe4ieKnww==", null, false, "12345", "9981a380-e686-4851-b1de-698543b3613d", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -304,9 +316,9 @@ namespace DataLayer.Migrations
                 column: "CountryName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Norms_branchId_year_week",
+                name: "IX_Norms_branchId_year_week_activity",
                 table: "Norms",
-                columns: new[] { "branchId", "year", "week" },
+                columns: new[] { "branchId", "year", "week", "activity" },
                 unique: true);
         }
 
