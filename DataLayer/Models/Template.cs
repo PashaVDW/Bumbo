@@ -19,6 +19,6 @@ namespace bumbo.Models
         [Required, StringLength(64)]
         public string Name { get; set; }
 
-        public ICollection<TemplateHasDays> TemplateHasDays { get; set; }
+        public ICollection<Template_has_days> TemplateHasDays { get; set; }
     }
 }
