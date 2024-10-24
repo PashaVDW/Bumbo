@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bumbo.Models
 {
-    public class TemplateHasDays
+    public class Template_has_days
     {
         [Key, Required]
         public int Templates_id { get; set; }

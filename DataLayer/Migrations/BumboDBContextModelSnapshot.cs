@@ -222,7 +222,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "7e7f204b-8521-45e4-a840-b52e5a3bfaff",
+                            ConcurrencyStamp = "99f557eb-93da-4adf-9ed9-4dd6ad8d998c",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -234,11 +234,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH3xRce/zGfoZvWElh3JcfKziJWQE1VzhusVJPvelSbd08FVA5JBtr58n7pBEUFpVg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM2WOqvdxjL+h7v8kadgiG/fy2HHkQxn5Og3Er6YvYoIMWVOhJ2rWxJuJg3zTHQuKg==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "ec796368-9438-43fb-9532-73d57d5ee5a2",
+                            SecurityStamp = "9f97526c-dd5f-41da-ab4c-9391ba29a68d",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -249,7 +249,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "cb46ece3-0b38-4128-83ad-db06d7de272c",
+                            ConcurrencyStamp = "37258c27-84f2-437d-8ec5-ad9824a4a642",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -260,11 +260,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDdWLA/CkMSKCrz2priiZEX2Y4BHsBuw/NYV0Lq5nlOXGMSoHlJsfsjKCv4LeSrkLA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIuGEM3Mky3p8PkVz9ebnMvAhVN2H/rNo1oC7RogPTTuz49csp1+Vc+iEJOx4K2E2w==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "22af53a2-f91b-4f4e-9f18-ee87669d8a04",
+                            SecurityStamp = "c19cfb08-ec82-4122-98c6-1378f834c83a",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -490,34 +490,6 @@ namespace DataLayer.Migrations
                         new
                         {
                             Name = "Zondag"
-                        },
-                        new
-                        {
-                            Name = "Monday"
-                        },
-                        new
-                        {
-                            Name = "Tuesday"
-                        },
-                        new
-                        {
-                            Name = "Wednesday"
-                        },
-                        new
-                        {
-                            Name = "Thursday"
-                        },
-                        new
-                        {
-                            Name = "Friday"
-                        },
-                        new
-                        {
-                            Name = "Saturday"
-                        },
-                        new
-                        {
-                            Name = "Sunday"
                         });
                 });
 
@@ -557,6 +529,7 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("bumbo.Models.Prognosis", b =>
                 {
                     b.Property<string>("PrognosisId")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)");
 
@@ -679,49 +652,13 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("Branch_branchId");
 
-                    b.ToTable("Templates");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Branch_branchId = 1,
-                            Name = "Basic Package"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Branch_branchId = 1,
-                            Name = "Standard Package"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Branch_branchId = 2,
-                            Name = "Premium Package"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Branch_branchId = 2,
-                            Name = "Family Package"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Branch_branchId = 1,
-                            Name = "Weekly Special"
-                        });
+                    b.ToTable("Template");
                 });
 
-            modelBuilder.Entity("bumbo.Models.TemplateHasDays", b =>
+            modelBuilder.Entity("bumbo.Models.Template_has_days", b =>
                 {
                     b.Property<int>("Templates_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("Days_name")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("ContainerAmount")
                         .HasColumnType("int");
@@ -729,258 +666,16 @@ namespace DataLayer.Migrations
                     b.Property<int>("CustomerAmount")
                         .HasColumnType("int");
 
-                    b.HasKey("Templates_id", "Days_name");
+                    b.Property<string>("Days_name")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Templates_id");
 
                     b.HasIndex("Days_name");
 
-                    b.ToTable("TemplateHasDays");
-
-                    b.HasData(
-                        new
-                        {
-                            Templates_id = 1,
-                            Days_name = "Monday",
-                            ContainerAmount = 41,
-                            CustomerAmount = 989
-                        },
-                        new
-                        {
-                            Templates_id = 1,
-                            Days_name = "Tuesday",
-                            ContainerAmount = 52,
-                            CustomerAmount = 825
-                        },
-                        new
-                        {
-                            Templates_id = 1,
-                            Days_name = "Wednesday",
-                            ContainerAmount = 38,
-                            CustomerAmount = 902
-                        },
-                        new
-                        {
-                            Templates_id = 1,
-                            Days_name = "Thursday",
-                            ContainerAmount = 52,
-                            CustomerAmount = 990
-                        },
-                        new
-                        {
-                            Templates_id = 1,
-                            Days_name = "Friday",
-                            ContainerAmount = 39,
-                            CustomerAmount = 1040
-                        },
-                        new
-                        {
-                            Templates_id = 1,
-                            Days_name = "Saturday",
-                            ContainerAmount = 43,
-                            CustomerAmount = 953
-                        },
-                        new
-                        {
-                            Templates_id = 1,
-                            Days_name = "Sunday",
-                            ContainerAmount = 32,
-                            CustomerAmount = 872
-                        },
-                        new
-                        {
-                            Templates_id = 2,
-                            Days_name = "Monday",
-                            ContainerAmount = 42,
-                            CustomerAmount = 916
-                        },
-                        new
-                        {
-                            Templates_id = 2,
-                            Days_name = "Tuesday",
-                            ContainerAmount = 38,
-                            CustomerAmount = 912
-                        },
-                        new
-                        {
-                            Templates_id = 2,
-                            Days_name = "Wednesday",
-                            ContainerAmount = 32,
-                            CustomerAmount = 902
-                        },
-                        new
-                        {
-                            Templates_id = 2,
-                            Days_name = "Thursday",
-                            ContainerAmount = 45,
-                            CustomerAmount = 940
-                        },
-                        new
-                        {
-                            Templates_id = 2,
-                            Days_name = "Friday",
-                            ContainerAmount = 47,
-                            CustomerAmount = 816
-                        },
-                        new
-                        {
-                            Templates_id = 2,
-                            Days_name = "Saturday",
-                            ContainerAmount = 38,
-                            CustomerAmount = 842
-                        },
-                        new
-                        {
-                            Templates_id = 2,
-                            Days_name = "Sunday",
-                            ContainerAmount = 45,
-                            CustomerAmount = 885
-                        },
-                        new
-                        {
-                            Templates_id = 3,
-                            Days_name = "Monday",
-                            ContainerAmount = 53,
-                            CustomerAmount = 872
-                        },
-                        new
-                        {
-                            Templates_id = 3,
-                            Days_name = "Tuesday",
-                            ContainerAmount = 41,
-                            CustomerAmount = 989
-                        },
-                        new
-                        {
-                            Templates_id = 3,
-                            Days_name = "Wednesday",
-                            ContainerAmount = 42,
-                            CustomerAmount = 916
-                        },
-                        new
-                        {
-                            Templates_id = 3,
-                            Days_name = "Thursday",
-                            ContainerAmount = 36,
-                            CustomerAmount = 875
-                        },
-                        new
-                        {
-                            Templates_id = 3,
-                            Days_name = "Friday",
-                            ContainerAmount = 29,
-                            CustomerAmount = 877
-                        },
-                        new
-                        {
-                            Templates_id = 3,
-                            Days_name = "Saturday",
-                            ContainerAmount = 53,
-                            CustomerAmount = 945
-                        },
-                        new
-                        {
-                            Templates_id = 3,
-                            Days_name = "Sunday",
-                            ContainerAmount = 52,
-                            CustomerAmount = 880
-                        },
-                        new
-                        {
-                            Templates_id = 4,
-                            Days_name = "Monday",
-                            ContainerAmount = 49,
-                            CustomerAmount = 900
-                        },
-                        new
-                        {
-                            Templates_id = 4,
-                            Days_name = "Tuesday",
-                            ContainerAmount = 38,
-                            CustomerAmount = 903
-                        },
-                        new
-                        {
-                            Templates_id = 4,
-                            Days_name = "Wednesday",
-                            ContainerAmount = 45,
-                            CustomerAmount = 930
-                        },
-                        new
-                        {
-                            Templates_id = 4,
-                            Days_name = "Thursday",
-                            ContainerAmount = 42,
-                            CustomerAmount = 985
-                        },
-                        new
-                        {
-                            Templates_id = 4,
-                            Days_name = "Friday",
-                            ContainerAmount = 36,
-                            CustomerAmount = 865
-                        },
-                        new
-                        {
-                            Templates_id = 4,
-                            Days_name = "Saturday",
-                            ContainerAmount = 43,
-                            CustomerAmount = 950
-                        },
-                        new
-                        {
-                            Templates_id = 4,
-                            Days_name = "Sunday",
-                            ContainerAmount = 38,
-                            CustomerAmount = 950
-                        },
-                        new
-                        {
-                            Templates_id = 5,
-                            Days_name = "Monday",
-                            ContainerAmount = 52,
-                            CustomerAmount = 832
-                        },
-                        new
-                        {
-                            Templates_id = 5,
-                            Days_name = "Tuesday",
-                            ContainerAmount = 49,
-                            CustomerAmount = 935
-                        },
-                        new
-                        {
-                            Templates_id = 5,
-                            Days_name = "Wednesday",
-                            ContainerAmount = 29,
-                            CustomerAmount = 877
-                        },
-                        new
-                        {
-                            Templates_id = 5,
-                            Days_name = "Thursday",
-                            ContainerAmount = 41,
-                            CustomerAmount = 989
-                        },
-                        new
-                        {
-                            Templates_id = 5,
-                            Days_name = "Friday",
-                            ContainerAmount = 32,
-                            CustomerAmount = 872
-                        },
-                        new
-                        {
-                            Templates_id = 5,
-                            Days_name = "Saturday",
-                            ContainerAmount = 36,
-                            CustomerAmount = 771
-                        },
-                        new
-                        {
-                            Templates_id = 5,
-                            Days_name = "Sunday",
-                            ContainerAmount = 52,
-                            CustomerAmount = 885
-                        });
+                    b.ToTable("Template_has_days");
                 });
 
             modelBuilder.Entity("Branch", b =>
@@ -1124,7 +819,7 @@ namespace DataLayer.Migrations
                     b.Navigation("Branch");
                 });
 
-            modelBuilder.Entity("bumbo.Models.TemplateHasDays", b =>
+            modelBuilder.Entity("bumbo.Models.Template_has_days", b =>
                 {
                     b.HasOne("bumbo.Models.Days", "Days")
                         .WithMany("TemplateHasDays")
