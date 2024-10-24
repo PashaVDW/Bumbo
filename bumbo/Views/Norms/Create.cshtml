@@ -1,3 +1,4 @@
+@using bumbo.Models.ViewModels.Norms
 @model AddNormViewModel
 
 @{
@@ -20,7 +21,7 @@
                 <label for="year">Kies een jaar</label>
                 <select class="bg-light text-sm-start p-2 rounded border-2 border-solid" id="year" name="@nameof(AddNormViewModel.Year)">
                     @{
-                        for (int i = DateTime.Now.Year+1; i > DateTime.Now.Year-99; i--)
+                        for (int i = DateTime.Now.Year + 1; i > DateTime.Now.Year - 99; i--)
                         {
                             if (i == DateTime.Now.Year)
                             {
@@ -56,7 +57,7 @@
         </div>
         <div class="mt-6 mb-6 ml-6 flex">
             <div class="mr-5 w-96 flex flex-col">
-                <label for="cashier">Hoeveelheid kassiéres per 30 klanten per uur</label>
+                <label for="cashier">Hoeveelheid kassiÃ©res per 30 klanten per uur</label>
                 <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" value="@ViewModel.Cashier" id="cashier" type="number" name="@nameof(AddNormViewModel.Cashier)" />
             </div>
         </div>
