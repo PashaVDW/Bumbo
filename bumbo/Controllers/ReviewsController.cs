@@ -142,11 +142,12 @@ namespace bumbo.Controllers
                         "Zondag" => 7,
                         _ => 8
                     })
-                    .Select(day => new DayOverviewViewModel
+                    .Select((day, index) => new DayOverviewViewModel
                     {
                         DayName = day.Days_name,
                         CustomerAmount = day.CustomerAmount,
-                        PackagesAmount = day.PackagesAmount
+                        PackagesAmount = day.PackagesAmount,
+                        Date = firstDayOfWeek.AddDays(index)
                     }).ToList();
             }
 

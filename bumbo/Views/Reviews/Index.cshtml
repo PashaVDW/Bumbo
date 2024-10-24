@@ -33,7 +33,9 @@
         @foreach (var day in Model.Days)
         {
             <div class="day-column text-center">
+                
                 <p class="font-medium">@day.DayName</p>
+                <p class="font-medium">@day.Date.ToString("dd MMMM")</p>
                 <p>Aantal klanten</p>
                 <div class="data-box border-gray-300 p-2 w-20 mx-auto rounded-md border">@day.CustomerAmount</div>
                 <p>Aantal coli's</p>
