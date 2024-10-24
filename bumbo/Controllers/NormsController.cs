@@ -257,4 +257,7 @@ public class NormsController : Controller
             return View("Error");
         }
     }
+
+
+
 }
