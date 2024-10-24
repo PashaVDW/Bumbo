@@ -12,7 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BumboDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
 
+
+builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
+builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
+builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
+builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeRepositorySql>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
+
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
@@ -57,6 +64,16 @@ app.MapControllerRoute(
     defaults: new { controller = "Employees", action = "Index" });
 
 app.MapControllerRoute(
+    name: "createEmployee",
+    pattern: "medewerkers/aanmaken",
+    defaults: new { controller = "Employees", action = "Create" });
+
+app.MapControllerRoute(
+    name: "updateEmployee",
+    pattern: "medewerkers/bewerken",
+    defaults: new { controller = "Employees", action = "Update" });
+
+app.MapControllerRoute(
     name: "templates",
     pattern: "standaard-templates",
     defaults: new { controller = "Templates", action = "Index" });
@@ -69,7 +86,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "branches",
     pattern: "filialen",
-    defaults: new { controller = "Branches", action = "Index" });
+    defaults: new { controller = "Branches", action = "BranchesView" });
 
 app.MapControllerRoute(
     name: "logout",
