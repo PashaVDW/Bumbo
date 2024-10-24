@@ -74,6 +74,14 @@ namespace bumbo.Controllers
             var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
             var viewModel = GetReadBranchViewModel(branch);
 
+            if (viewModel.Managers.Count == 0) 
+            {
+                SetTempDataForToast("branchManagerAmountToast");
+                TempData["ToastMessage"] = "Er zijn op dit moment geen filiaalmanagers";
+                TempData["ToastType"] = "info";
+                TempData["MilSecHide"] = 5000;
+            }
+
             return View(viewModel);
         }
 
