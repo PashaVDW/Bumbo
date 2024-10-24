@@ -12,7 +12,7 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241022111033_InitialCreate")]
+    [Migration("20241024082048_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -225,7 +225,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "d4b7df38-093a-452d-b951-473a67ed71cb",
+                            ConcurrencyStamp = "777e0b04-9ea8-443c-a870-6ada9eb0f144",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -237,11 +237,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGz8x8pf5cbyyx9Bsz5IRaKdu3acpRWBLA3Zi9y+Cfyt7WR513s4+8NL8KYrm6HdvA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPWpuSO9wRxp3ZQiPivgw7LLAl5u/vfY5/jvwTd4zabihrF/FTuFFQcXnuop4RMIVw==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "45f6e238-b6d4-4d66-bd42-37f95e832e47",
+                            SecurityStamp = "de3c5d86-338c-44b7-99d0-09ef4dd0bc25",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -252,7 +252,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "b1d5c48d-4060-4ff4-834c-2d3c2a183b3a",
+                            ConcurrencyStamp = "a9b67c7a-2f71-4172-bf1f-6c8c3183c9d7",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -263,11 +263,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENoeY7DI6D5ncGA6G+A8WmX9yVOpLlfy/QoMq+s0fJvW4yuI87e3U+CjBsWaCzK8FQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB/6Rqvm4YyIqTQNZJZ7XnJStGs2zS6zEmUzhLpVUN7dsdIw5x/ziOxnvPepwEQHdQ==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "6c566553-a8f3-41fe-9b75-75752bbbbb20",
+                            SecurityStamp = "723dcc10-8e99-46d0-984b-35a959f1e4d8",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"

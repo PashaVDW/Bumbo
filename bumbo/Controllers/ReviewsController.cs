@@ -22,6 +22,10 @@ namespace bumbo.Controllers
 
         public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
         {
+            if(weekNumber > 53)
+            {
+                weekNumber = 53;
+            }
             var user = await _userManager.GetUserAsync(User);
             DateTime firstDayOfWeek;
             DateTime lastDayOfWeek;
@@ -58,7 +62,7 @@ namespace bumbo.Controllers
 
                     DateTime jan1;
 
-                    if (weekNumber.Value == 53)
+                    if (weekNumber.Value >= 53)
                     {
                         jan1 = new DateTime(year.Value + 1, 1, 1);
                     }
