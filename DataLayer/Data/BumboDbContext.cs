@@ -69,7 +69,8 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Prognosis>().HasData(
-                new Prognosis { PrognosisId = "1", WeekNr = 40, Year = 2024, BranchId = 1 }
+                new Prognosis { PrognosisId = "1", WeekNr = 40, Year = 2024, BranchId = 1 },
+                new Prognosis { PrognosisId = "2", WeekNr = 20, Year = 2024, BranchId = 1 }
             );
 
             modelBuilder.Entity<Prognosis_has_days>().HasData(
@@ -79,7 +80,15 @@ namespace bumbo.Data
                 new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
                 new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
                 new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
-                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 }
+                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 },
+
+                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = "2", CustomerAmount = 90, PackagesAmount = 40 },
+                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = "2", CustomerAmount = 115, PackagesAmount = 55 },
+                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = "2", CustomerAmount = 125, PackagesAmount = 50 },
+                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = "2", CustomerAmount = 105, PackagesAmount = 42 },
+                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = "2", CustomerAmount = 140, PackagesAmount = 68 },
+                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = "2", CustomerAmount = 150, PackagesAmount = 75 },
+                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "2", CustomerAmount = 130, PackagesAmount = 60 }
             );
 
             modelBuilder.Entity<Function>().HasData(

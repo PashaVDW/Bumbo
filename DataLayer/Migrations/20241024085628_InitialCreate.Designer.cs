@@ -12,7 +12,7 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241024082048_InitialCreate")]
+    [Migration("20241024085628_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -225,7 +225,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "777e0b04-9ea8-443c-a870-6ada9eb0f144",
+                            ConcurrencyStamp = "0dcf83f3-88f3-4c1b-90d9-27641162d3e9",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -237,11 +237,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPWpuSO9wRxp3ZQiPivgw7LLAl5u/vfY5/jvwTd4zabihrF/FTuFFQcXnuop4RMIVw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED1tuXVzTL5CAvPtv9axq64OLp22kTb9/cRZMuCdc/xr5w/uF2sNClr/izWVjZdGng==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "de3c5d86-338c-44b7-99d0-09ef4dd0bc25",
+                            SecurityStamp = "619946b3-9eeb-4601-b91f-c99fe585b71c",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -252,7 +252,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "a9b67c7a-2f71-4172-bf1f-6c8c3183c9d7",
+                            ConcurrencyStamp = "ee47d830-e53a-407d-9f02-4aaa98367bfd",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -263,11 +263,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEB/6Rqvm4YyIqTQNZJZ7XnJStGs2zS6zEmUzhLpVUN7dsdIw5x/ziOxnvPepwEQHdQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMehmwCw+93R15ssz/3CL5nUNddczgvgOciEo0BfX0JmYceuqhh4B+hOSekJumYiPg==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "723dcc10-8e99-46d0-984b-35a959f1e4d8",
+                            SecurityStamp = "77c03ccf-6e0a-4cbd-9b8b-002abd90c8be",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -557,6 +557,13 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             WeekNr = 40,
                             Year = 2024
+                        },
+                        new
+                        {
+                            PrognosisId = "2",
+                            BranchId = 1,
+                            WeekNr = 20,
+                            Year = 2024
                         });
                 });
 
@@ -631,6 +638,55 @@ namespace DataLayer.Migrations
                             PrognosisId = "1",
                             CustomerAmount = 140,
                             PackagesAmount = 65
+                        },
+                        new
+                        {
+                            Days_name = "Maandag",
+                            PrognosisId = "2",
+                            CustomerAmount = 90,
+                            PackagesAmount = 40
+                        },
+                        new
+                        {
+                            Days_name = "Dinsdag",
+                            PrognosisId = "2",
+                            CustomerAmount = 115,
+                            PackagesAmount = 55
+                        },
+                        new
+                        {
+                            Days_name = "Woensdag",
+                            PrognosisId = "2",
+                            CustomerAmount = 125,
+                            PackagesAmount = 50
+                        },
+                        new
+                        {
+                            Days_name = "Donderdag",
+                            PrognosisId = "2",
+                            CustomerAmount = 105,
+                            PackagesAmount = 42
+                        },
+                        new
+                        {
+                            Days_name = "Vrijdag",
+                            PrognosisId = "2",
+                            CustomerAmount = 140,
+                            PackagesAmount = 68
+                        },
+                        new
+                        {
+                            Days_name = "Zaterdag",
+                            PrognosisId = "2",
+                            CustomerAmount = 150,
+                            PackagesAmount = 75
+                        },
+                        new
+                        {
+                            Days_name = "Zondag",
+                            PrognosisId = "2",
+                            CustomerAmount = 130,
+                            PackagesAmount = 60
                         });
                 });
 
