@@ -10,27 +10,30 @@ using bumbo.ViewModels;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using Microsoft.IdentityModel.Tokens;
+using DataLayer.Interfaces;
 
 namespace bumbo.Controllers
 {
     public class BranchesController : Controller
     {
         private readonly UserManager<Employee> _userManager;
-        private BumboDBContext _context;
+        private readonly IBranchesRepository _branchesRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
 
-        public BranchesController(UserManager<Employee> userManager, BumboDBContext context)
+        public BranchesController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository)
         {
             _userManager = userManager;
-            _context = context;
+            _branchesRepository = branchesRepository;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
         }
 
         public async Task<IActionResult> BranchesView(string searchTerm, int page = 1)
         {
             var user = await _userManager.GetUserAsync(User);
-            var branches = _context.Branches.ToList();
+            var branches = _branchesRepository.GetAllBranches();
             foreach (var branch in branches)
             {
-                branch.Employees = GetEmployeesFromBranch(branch);
+                branch.Employees = _branchesRepository.GetEmployeesFromBranch(branch);
             }
 
             if (user == null || !user.IsSystemManager)
@@ -65,13 +68,13 @@ namespace bumbo.Controllers
 
         public IActionResult UpdateBranchView(int branchId)
         {
-            var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var branch = _branchesRepository.GetBranch(branchId);
             return View(branch);
         }
 
         public IActionResult ReadBranchView(int branchId)
         {
-            var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var branch = _branchesRepository.GetBranch(branchId);
             var viewModel = GetReadBranchViewModel(branch);
 
             if (viewModel.Managers.Count == 0) 
@@ -88,16 +91,14 @@ namespace bumbo.Controllers
         public IActionResult CreateBranchManagerView(int branchId, string searchTerm, int page = 1)
         {
 
-            var newBranch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
-            newBranch.Employees = GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
+            var newBranch = _branchesRepository.GetBranch(branchId);
+            newBranch.Employees = _branchesRepository.GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
 
             var viewModel = new CreateBranchManagerViewModel() { 
                 BranchId = branchId, Employees = newBranch.Employees.ToList() 
             };
 
             var employees = newBranch.Employees.ToList();
-
-            var branchHasEmployees = _context.BranchHasEmployees.Where(e => e.BranchId == branchId).ToList();
 
             var headers = new List<string> { "Naam", "Filiaal nummer" };
             var tableBuilder = new TableHtmlBuilder<Employee>();
@@ -119,8 +120,7 @@ namespace bumbo.Controllers
             SetTempDataForToast("createBranchToast");
             try
             {
-                _context.Branches.Add(branch);
-                _context.SaveChanges();
+                _branchesRepository.AddBranch(branch);
 
                 TempData["ToastMessage"] = "Filiaal is aangemaakt";
                 TempData["ToastType"] = "success";
@@ -142,8 +142,7 @@ namespace bumbo.Controllers
             SetTempDataForToast("updateBranchToast");
             try
             {
-                _context.Branches.Update(branch);
-                _context.SaveChanges();
+                _branchesRepository.UpdateBranch(branch);
 
                 TempData["ToastMessage"] = "Filiaal is geüpdatet";
                 TempData["ToastType"] = "success";
@@ -164,7 +163,7 @@ namespace bumbo.Controllers
         {
             SetTempDataForToast("updateBranchToast");
 
-            var newBranch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var newBranch = _branchesRepository.GetBranch(branchId);
 
             if(newBranch == null)
             {
@@ -174,8 +173,7 @@ namespace bumbo.Controllers
                 return View("UpdateBranchView", branchId);
             }
 
-            _context.Branches.Remove(newBranch);
-            _context.SaveChanges();
+            _branchesRepository.DeleteBranch(newBranch);
 
             TempData["ToastMessage"] = "Filiaal is verwijderd";
             TempData["ToastType"] = "success";
@@ -186,12 +184,9 @@ namespace bumbo.Controllers
         public IActionResult AddBranchManager(string employeeId, int branchId)
         {
 
-            var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var branch = _branchesRepository.GetBranch(branchId);
 
-            var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
-            employee.ManagerOfBranch = branch;
-            employee.ManagerOfBranchId = branchId;
-            _context.SaveChanges();
+            _branchesRepository.AddBranchManager(employeeId, branch);
 
             var viewModel = GetReadBranchViewModel(branch);
 
@@ -205,12 +200,9 @@ namespace bumbo.Controllers
         public IActionResult DeleteBranchManager(string employeeId, int branchId)
         {
 
-            var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var branch = _branchesRepository.GetBranch(branchId);
 
-            var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
-            employee.ManagerOfBranch = null;
-            employee.ManagerOfBranchId = null;
-            _context.SaveChanges();
+            _branchesRepository.DeleteBranchManager(employeeId);
 
             var viewModel = GetReadBranchViewModel(branch);
 
@@ -231,48 +223,11 @@ namespace bumbo.Controllers
                 Name = branch.Name,
                 PostalCode = branch.PostalCode,
                 Street = branch.Street,
-                Employees = GetEmployeesFromBranch(branch),
-                Managers = GetManagersOfBranch(branch)
+                Employees = _branchesRepository.GetEmployeesFromBranch(branch),
+                Managers = _branchesRepository.GetManagersOfBranch(branch)
             };
             viewModel.CountryName = CountryNameToDutch(viewModel.CountryName);
             return viewModel;
-        }
-
-        private List<Employee> GetManagersOfBranch(Branch branch)
-        {
-            List<Employee> employees = _context
-                .Employees
-                .Where(e => e.ManagerOfBranchId == branch.BranchId)
-                .ToList();
-            return employees;
-        }
-
-        private List<Employee> GetEmployeesFromBranch(Branch branch)
-        {
-            List<BranchHasEmployee> branchHasEmployees = _context
-                .BranchHasEmployees
-                .Where(e => e.BranchId == branch.BranchId)
-                .ToList();
-
-
-            List<Employee> employeesInDatabase = _context
-                .Employees
-                .ToList();
-
-            List<Employee> employeesInBranch = new List<Employee>();
-
-            foreach (var emp in employeesInDatabase)
-            {
-                foreach (var branchEmp in branchHasEmployees) 
-                {
-                    if (branchEmp.EmployeeId == emp.Id)
-                    {
-                        employeesInBranch.Add(emp);
-                    }
-                }
-            }
-
-            return employeesInBranch;
         }
 
         private string CountryNameToDutch(string countryName)
