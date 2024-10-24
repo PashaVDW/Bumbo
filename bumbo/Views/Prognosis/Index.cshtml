@@ -1,4 +1,4 @@
-﻿﻿@{
+﻿@{
     ViewData["Title"] = "Prognosis";
     var today = DateTime.Today;
     var culture = System.Globalization.CultureInfo.CurrentCulture;
@@ -33,6 +33,7 @@ else
 {
     <p>No data available.</p>
 }
+
 <div class="grid grid-cols-3 gap-4 mt-20 mx-auto max-w-screen-lg">
     <div class="space-y-1" name="prognoses_title">
         <h1 class="font-bold">Prognose</h1>
@@ -40,7 +41,10 @@ else
     </div>
     <div></div>
     <div class="flex justify-end">
-        <default-button onclick="window.location.href='Prognosis/edit';" button-text="bewerk deze prognose" button-type="primary"></default-button>
+        @if (ViewBag.LatestPrognosis != null)
+        {
+            <default-button onclick="window.location.href='/Prognosis/Edit/@ViewBag.LatestPrognosis.PrognosisId';" button-text="Bewerk deze prognose" button-type="primary"></default-button>
+        }
     </div>
 </div>
 
@@ -53,8 +57,18 @@ else
             <div class="p-4 text-center">
                 <h1>@dates[i].Day</h1>
                 <h5>@dates[i].ToString("ddd")</h5>
-                <h2>Totaal Benodigde Uren: -</h2>
-                <h2>Medewerkers: -</h2>
+
+                @* Check if ViewBag.CalculationResults is available *@
+                @if (ViewBag.CalculationResults != null && i < ViewBag.CalculationResults.Count)
+                {
+                    <h2>Totaal Benodigde Uren: @ViewBag.CalculationResults[i].Uren</h2>
+                    <h2>Medewerkers: @ViewBag.CalculationResults[i].MedewerkersNeeded</h2>
+                }
+                else
+                {
+                    <h2>Totaal Benodigde Uren: -</h2>
+                    <h2>Medewerkers: -</h2>
+                }
             </div>
         }
     </div>
@@ -91,18 +105,13 @@ else
     }
 </div>
 
-<!-- Message when theresno prognosis -->
-<div class="mt-8 flex items-start">
-    <div class="flex flex-col ml-64 space-y-4">
-        <span>Kassa</span>
-        <span>Vakkenvullen</span>
-        <span>Vers</span>
+<!-- Message when there's no prognosis for this week -->
+@if (ViewBag.LatestPrognosis == null)
+{
+    <div class="flex flex-col items-center mt-8 align-items-center">
+        <h2 class="text-2xl font-bold">Er is nog geen prognose voor deze week</h2>
+        <div class="mt-4">
+            <default-button onclick="window.location.href='prognosis/create';" button-text="Maak een Prognose" button-type="primary"></default-button>
+        </div>
     </div>
-</div>
-
-<div class="flex flex-col items-center mt-8 align-items-center">
-    <h2 class="text-2xl font-bold">Er Is nog geen prognose voor deze week</h2>
-    <div class="mt-4">
-        <default-button onclick="window.location.href='prognosis/create';" button-text="Maak een Prognose" button-type="primary"></default-button>
-    </div>
-</div>
+}

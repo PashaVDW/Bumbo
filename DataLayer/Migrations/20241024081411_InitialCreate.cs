@@ -211,7 +211,7 @@ namespace DataLayer.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CountryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PrognosisId = table.Column<string>(type: "nvarchar(45)", nullable: true)
+                    PrognosisId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -259,7 +259,8 @@ namespace DataLayer.Migrations
                 name: "Prognoses",
                 columns: table => new
                 {
-                    PrognosisId = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
+                    PrognosisId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     WeekNr = table.Column<int>(type: "int", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     BranchId = table.Column<int>(type: "int", nullable: false)
@@ -300,7 +301,7 @@ namespace DataLayer.Migrations
                 columns: table => new
                 {
                     Days_name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    PrognosisId = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
+                    PrognosisId = table.Column<int>(type: "int", nullable: false),
                     CustomerAmount = table.Column<int>(type: "int", nullable: false),
                     PackagesAmount = table.Column<int>(type: "int", nullable: false)
                 },
@@ -350,7 +351,7 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "37258c27-84f2-437d-8ec5-ad9824a4a642", "jane.smith@example.com", true, "Jane", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEIuGEM3Mky3p8PkVz9ebnMvAhVN2H/rNo1oC7RogPTTuz49csp1+Vc+iEJOx4K2E2w==", "06-12345678", false, "54321", "c19cfb08-ec82-4122-98c6-1378f834c83a", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
+                values: new object[] { "2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "53933e01-ed86-4c5d-89fa-cfa5fda3bf3d", "jane.smith@example.com", true, "Jane", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEGyHb4qQS3cJJuIPbi2uQEtXS9cV6npeY1LiURtd1Zk/xozte6xJSZCWm5iOeiJEhg==", "06-12345678", false, "54321", "693df122-fb40-4843-b207-e49e50d04ea8", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -387,6 +388,18 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Norms",
+                columns: new[] { "normId", "activity", "branchId", "normInSeconds", "week", "year" },
+                values: new object[,]
+                {
+                    { 1, "Coli uitladen", 1, 90, 41, 2024 },
+                    { 2, "Vakkenvullen", 1, 33, 41, 2024 },
+                    { 3, "Kassa", 1, 3, 41, 2024 },
+                    { 4, "Vers", 1, 7, 41, 2024 },
+                    { 5, "Spiegelen", 1, 2, 41, 2024 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Branches",
                 columns: new[] { "BranchId", "CountryName", "HouseNumber", "Name", "PostalCode", "PrognosisId", "Street" },
                 values: new object[,]
@@ -398,25 +411,25 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "99f557eb-93da-4adf-9ed9-4dd6ad8d998c", "john.doe@example.com", true, "John", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEM2WOqvdxjL+h7v8kadgiG/fy2HHkQxn5Og3Er6YvYoIMWVOhJ2rWxJuJg3zTHQuKg==", "06-9876543", false, "12345", "9f97526c-dd5f-41da-ab4c-9391ba29a68d", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
+                values: new object[] { "1", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "5b089c38-1954-4aa6-9e76-81b68b2c16f0", "john.doe@example.com", true, "John", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEJRcPhfhHzMR8CK+atMupu4gY2dGuUyqVBIbMtaQ1RI2eNsYiucY3pQIMFzARKpB+w==", "06-9876543", false, "12345", "ffaaaf29-7b8f-4742-a712-db3b10628ec3", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" });
 
             migrationBuilder.InsertData(
                 table: "Prognoses",
                 columns: new[] { "PrognosisId", "BranchId", "WeekNr", "Year" },
-                values: new object[] { "1", 1, 40, 2024 });
+                values: new object[] { 1, 1, 40, 2024 });
 
             migrationBuilder.InsertData(
                 table: "Prognosis_Has_Days",
                 columns: new[] { "Days_name", "PrognosisId", "CustomerAmount", "PackagesAmount" },
                 values: new object[,]
                 {
-                    { "Dinsdag", "1", 120, 60 },
-                    { "Donderdag", "1", 110, 45 },
-                    { "Maandag", "1", 100, 50 },
-                    { "Vrijdag", "1", 150, 70 },
-                    { "Woensdag", "1", 130, 55 },
-                    { "Zaterdag", "1", 160, 80 },
-                    { "Zondag", "1", 140, 65 }
+                    { "Dinsdag", 1, 120, 60 },
+                    { "Donderdag", 1, 110, 45 },
+                    { "Maandag", 1, 100, 50 },
+                    { "Vrijdag", 1, 150, 70 },
+                    { "Woensdag", 1, 130, 55 },
+                    { "Zaterdag", 1, 160, 80 },
+                    { "Zondag", 1, 140, 65 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -85,5 +85,31 @@ namespace DataLayer.Repositories
 
             return prognosis.First();
         }
+        public void UpdatePrognosis(int prognosisId, List<int> CustomerAmount, List<int> PackagesAmount)
+        {
+            var prognosisDays = _context.Prognosis_Has_Days.Where(p => p.PrognosisId == prognosisId).ToList();
+            if (prognosisDays.Count == CustomerAmount.Count && prognosisDays.Count == PackagesAmount.Count)
+            {
+                for (int i = 0; i < prognosisDays.Count; i++)
+                {
+                    prognosisDays[i].CustomerAmount = CustomerAmount[i];
+                    prognosisDays[i].PackagesAmount = PackagesAmount[i];
+                }
+
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("CustomerAmount and PackagesAmount lists must have the same number of elements as prognosis days.");
+            }
+        }
+
+        public Prognosis GetPrognosisById(int id)
+        {
+            return _context.Prognoses
+                .Include(p => p.Prognosis_Has_Days)
+                .FirstOrDefault(p => p.PrognosisId == id);
+        }
+
     }
 }

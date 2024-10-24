@@ -69,17 +69,17 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Prognosis>().HasData(
-                new Prognosis { PrognosisId = "1", WeekNr = 40, Year = 2024, BranchId = 1 }
+                new Prognosis { PrognosisId = 1, WeekNr = 40, Year = 2024, BranchId = 1 }
             );
 
             modelBuilder.Entity<Prognosis_has_days>().HasData(
-                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = "1", CustomerAmount = 100, PackagesAmount = 50 },
-                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = "1", CustomerAmount = 120, PackagesAmount = 60 },
-                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = "1", CustomerAmount = 130, PackagesAmount = 55 },
-                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
-                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
-                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
-                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 }
+                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = 1, CustomerAmount = 100, PackagesAmount = 50 },
+                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = 1, CustomerAmount = 120, PackagesAmount = 60 },
+                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = 1, CustomerAmount = 130, PackagesAmount = 55 },
+                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = 1, CustomerAmount = 110, PackagesAmount = 45 },
+                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = 1, CustomerAmount = 150, PackagesAmount = 70 },
+                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = 1, CustomerAmount = 160, PackagesAmount = 80 },
+                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = 1, CustomerAmount = 140, PackagesAmount = 65 }
             );
 
             modelBuilder.Entity<Function>().HasData(
@@ -159,9 +159,66 @@ namespace bumbo.Data
                 .HasForeignKey(bhw => bhw.FunctionName)
                 .HasPrincipalKey(f => f.FunctionName)
                 .IsRequired(false);
+            modelBuilder.Entity<Norm>()
+                .HasIndex(norm => new { norm.branchId, norm.year, norm.week, norm.activity })
+                .IsUnique();
 
+            var weekFourtyOneColi = new Norm
+            {
+                normId = 1,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 90
+            };
 
+            var weekFourtyOneShelve = new Norm
+            {
+                normId = 2,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 33
+            };
 
+            var weekFourtyOneCashier = new Norm
+            {
+                normId = 3,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 3
+            };
+
+            var weekFourtyOneFresh = new Norm
+            {
+                normId = 4,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 7
+            };
+
+            var weekFourtyOneFronting = new Norm
+            {
+                normId = 5,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 2
+            };
+
+            modelBuilder.Entity<Norm>().HasData(
+                weekFourtyOneColi,
+                weekFourtyOneShelve,
+                weekFourtyOneCashier,
+                weekFourtyOneFresh,
+                weekFourtyOneFronting);
         }
     }
 }
