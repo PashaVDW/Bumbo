@@ -281,7 +281,7 @@ public class NormsController : Controller
                 TempData["ToastId"] = "updateNormToast";
                 TempData["AutoHide"] = "no";
 
-                return RedirectToAction("Update", new { NormId = viewModel.FirstNormId });
+                return RedirectToAction("Update",, new { NormId = viewModel.FirstNormId });
             }
             else
             {
