@@ -13,7 +13,7 @@ builder.Services.AddDbContext<BumboDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
 
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
-builder.Services.AddScoped<ITemplateHasDaysRepository,  TemplateHasDaysRepositorySql>();
+builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
 
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();

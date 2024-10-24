@@ -178,11 +178,11 @@ namespace bumbo.Controllers
                 HasDays = templateHasDays
             .Where(thd => thd.Templates_id == template.Id)
             .Select(thd => new TemplateHasDaysViewModel
-                {
-                    DayName = thd.Days_name,
-                    CustomerAmount = thd.CustomerAmount,
-                    ContainerAmount = thd.ContainerAmount
-                })
+            {
+                DayName = thd.Days_name,
+                CustomerAmount = thd.CustomerAmount,
+                ContainerAmount = thd.ContainerAmount
+            })
             .OrderBy(thd => Array.IndexOf(dayOrder, thd.DayName))
             .ToList()
             }).ToList();
@@ -196,7 +196,7 @@ namespace bumbo.Controllers
         {
             var template = _templatesRepository.GetAllTemplates().FirstOrDefault(t => t.Id == templateId);
 
-            if(template == null)
+            if (template == null)
             {
                 var templateViewModel = new TemplatesViewModel
                 {

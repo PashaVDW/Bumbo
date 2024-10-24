@@ -16,7 +16,7 @@ namespace DataLayer.Repositories
         }
 
         public List<Template> GetAllTemplates()
-        { 
+        {
             return _context.Templates.ToList();
         }
 
