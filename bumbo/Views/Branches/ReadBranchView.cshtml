@@ -78,13 +78,11 @@
                 </button>
             </div>
         }
-        <form method="post" asp-action="CreateBranchManagerView" asp-controller="Branches">
-            <input type="hidden" name="branchId" value="@Model.BranchId" />
-            <button type="submit" class="border-slate-100 mr-3 mt-3 w-40 h-36 content-center rounded-3xl border-2">
-                <div class="bg-gray-200 top-4 w-8 h-1 relative m-auto rounded"></div>
-                <div class="bg-gray-200 w-1 h-8 bottom-0.5 relative m-auto rounded"></div>
-            </button>
-        </form>
+        <a asp-action="CreateBranchManagerView" asp-controller="Branches" asp-route-branchId="@Model.BranchId" 
+            class="border-slate-100 mr-3 mt-3 w-40 h-36 content-center rounded-3xl border-2">
+            <div class="bg-gray-200 top-4 w-8 h-1 relative m-auto rounded"></div>
+            <div class="bg-gray-200 w-1 h-8 bottom-0.5 relative m-auto rounded"></div>
+        </a>
     </div>
 </div>
 
