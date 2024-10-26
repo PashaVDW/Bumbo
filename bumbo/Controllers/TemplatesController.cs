@@ -390,7 +390,6 @@ namespace bumbo.Controllers
 
                 TempData["ToastMessage"] = "The template doesn't exist";
                 TempData["ToastType"] = "error";
-
                 TempData["ToastId"] = "templateToast";
                 TempData["AutoHide"] = "yes";
                 TempData["MilSecHide"] = 3000;
@@ -441,13 +440,23 @@ namespace bumbo.Controllers
 
             if (template == null)
             {
-                return NotFound();
+                TempData["ToastMessage"] = "The template doesn't exist";
+                TempData["ToastType"] = "error";
+                TempData["ToastId"] = "templateToast";
+                TempData["AutoHide"] = "yes";
+                TempData["MilSecHide"] = 3000;
+                return RedirectToAction(nameof(Index));
             }
 
             _templatesHasDaysRepository.DeleteByTemplateId(templateId);
 
             await _templatesRepository.DeleteAsync(template);
 
+            TempData["ToastMessage"] = "Template deleted successfully!";
+            TempData["ToastType"] = "success";
+            TempData["ToastId"] = "templateToast";
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
 
             return RedirectToAction(nameof(Index));
         }
