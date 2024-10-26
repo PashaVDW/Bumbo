@@ -31,6 +31,63 @@ namespace bumbo.Data
                 .HasIndex(norm => new { norm.branchId, norm.year, norm.week, norm.activity })
                 .IsUnique();
 
+            var weekFourtyOneColi = new Norm
+            {
+                normId = 1,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 90
+            };
+
+            var weekFourtyOneShelve = new Norm
+            {
+                normId = 2,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 33
+            };
+
+            var weekFourtyOneCashier = new Norm
+            {
+                normId = 3,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 3
+            };
+
+            var weekFourtyOneFresh = new Norm
+            {
+                normId = 4,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 7
+            };
+
+            var weekFourtyOneFronting = new Norm
+            {
+                normId = 5,
+                branchId = 1,
+                week = 41,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 2
+            };
+
+            modelBuilder.Entity<Norm>().HasData(
+                weekFourtyOneColi,
+                weekFourtyOneShelve,
+                weekFourtyOneCashier,
+                weekFourtyOneFresh,
+                weekFourtyOneFronting);
+
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },
                 new Country { Name = "Belgium" },
