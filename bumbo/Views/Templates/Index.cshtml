@@ -1,6 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "Standaard templates    ";
+    ViewData["Title"] = "Standaard templates";
 }
 
-<h1>Standaard templates Page</h1>
-<p>This is the Standaard templates page.</p>
+<div>
+    @Html.Raw(ViewBag.HtmlTable)
+</div>
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}
