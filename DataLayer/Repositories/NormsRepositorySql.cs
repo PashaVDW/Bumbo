@@ -4,6 +4,8 @@ using DataLayer.Interfaces;
 using DataLayer.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DataLayer.Repositories
 {
