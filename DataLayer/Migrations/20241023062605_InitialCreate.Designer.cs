@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -11,9 +12,11 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    partial class BumboDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241023062605_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +75,8 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             CountryName = "Netherlands",
                             HouseNumber = "10",
-                            Name = "Amsterdam Filiaal",
-                            PostalCode = "1012 LG",
+                            Name = "Amsterdam Branch",
+                            PostalCode = "12345",
                             Street = "Damrak"
                         },
                         new
@@ -81,27 +84,9 @@ namespace DataLayer.Migrations
                             BranchId = 2,
                             CountryName = "Belgium",
                             HouseNumber = "20",
-                            Name = "Brussels Filiaal",
-                            PostalCode = "1000",
-                            Street = "Grote Markt"
-                        },
-                        new
-                        {
-                            BranchId = 3,
-                            CountryName = "Netherlands",
-                            HouseNumber = "2",
-                            Name = "Alkmaar Filiaal",
-                            PostalCode = "1811 KH",
-                            Street = "Paardenmarkt"
-                        },
-                        new
-                        {
-                            BranchId = 4,
-                            CountryName = "Netherlands",
-                            HouseNumber = "15",
-                            Name = "Rotterdam Filiaal",
-                            PostalCode = "3011 HE",
-                            Street = "Botersloot"
+                            Name = "Brussels Branch",
+                            PostalCode = "67890",
+                            Street = "Grand Place"
                         });
                 });
 
@@ -278,120 +263,14 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIG4zdhglqBuTjy3VLD6fVT6eQzUh16I2oyPev9R/JTVOm9ZPjMvBStIj8w+KvrjdA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIuGEM3Mky3p8PkVz9ebnMvAhVN2H/rNo1oC7RogPTTuz49csp1+Vc+iEJOx4K2E2w==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "54321",
-                            SecurityStamp = "18559eb6-6187-4d99-b3b8-d8d5a3fe0c4a",
+                            SecurityStamp = "c19cfb08-ec82-4122-98c6-1378f834c83a",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
-                        },
-                        new
-                        {
-                            Id = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
-                            AccessFailedCount = 0,
-                            BID = "B003",
-                            BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "f03ac546-1bed-4840-9a7d-07807fa98d97",
-                            Email = "anna.vandijk@hotmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Anna",
-                            HouseNumber = 5,
-                            IsSystemManager = false,
-                            LastName = "Dijk",
-                            LockoutEnabled = false,
-                            MiddleName = "van",
-                            NormalizedEmail = "ANNA.VANDIJK@HOTMAIL.COM",
-                            NormalizedUserName = "ANNA.VANDIJK@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAlYWneZLbdFRKXmluR5C6Uq6b+vm40bvhfZdIOC8/vYjYzMa56lFluvyOg8sh215A==",
-                            PhoneNumber = "+31 6 34567890",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "8329 SK",
-                            SecurityStamp = "2bd8d4eb-25b8-47f0-9941-2d717839dae6",
-                            StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "anna.vandijk@hotmail.com"
-                        },
-                        new
-                        {
-                            Id = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9",
-                            AccessFailedCount = 0,
-                            BID = "B004",
-                            BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "e73c79b6-5d87-48ba-b92d-7c31c477c31b",
-                            Email = "michael.bakker@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Michael",
-                            HouseNumber = 15,
-                            IsSystemManager = false,
-                            LastName = "Bakker",
-                            LockoutEnabled = false,
-                            ManagerOfBranchId = 3,
-                            MiddleName = "",
-                            NormalizedEmail = "MICHAEL.BAKKER@GMAIL.COM",
-                            NormalizedUserName = "MICHAEL.BAKKER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGiBi6HJ1AohXAMBzIu5OlU1j0vZl/6BJx3cybEhUcYz9DJlyLyMvIOWPQpzXy60NQ==",
-                            PhoneNumber = "+31 6 45678901",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "3894 HT",
-                            SecurityStamp = "048ed561-7145-4f02-b237-6cfa5968663a",
-                            StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "michael.bakker@gmail.com"
-                        },
-                        new
-                        {
-                            Id = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
-                            AccessFailedCount = 0,
-                            BID = "B005",
-                            BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "d1914cb0-ca7e-4167-8919-08d1b877e05c",
-                            Email = "sarah.vanderven@hotmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Sarah",
-                            HouseNumber = 8,
-                            IsSystemManager = false,
-                            LastName = "Ven",
-                            LockoutEnabled = false,
-                            MiddleName = "van der",
-                            NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGQEPk99bkU0wM/qNm0SKISiIGOOHt0EtaR5ftAXiCzsKBQ5+wBFq81HiYz6GRS1PQ==",
-                            PhoneNumber = "+31 6 56789012",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "2933 KJ",
-                            SecurityStamp = "cb85d067-0cda-4555-b56e-9fccaae2f243",
-                            StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "sarah.vanderven@hotmail.com"
-                        },
-                        new
-                        {
-                            Id = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1",
-                            AccessFailedCount = 0,
-                            BID = "B006",
-                            BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "187fa36e-088c-4d29-8a88-904dde73a871",
-                            Email = "david.denboer@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "David",
-                            HouseNumber = 30,
-                            IsSystemManager = false,
-                            LastName = "Boer",
-                            LockoutEnabled = false,
-                            ManagerOfBranchId = 2,
-                            MiddleName = "den",
-                            NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
-                            NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOLeQBP2DRIrIV9hVCeO7KNI2ZVjCfpAt9kFEskqjBg342/aguAfjRjCc8aRWmn8Rg==",
-                            PhoneNumber = "+31 6 67890123",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "4293 BF",
-                            SecurityStamp = "9f2b4563-03f5-4091-8d20-4053b26e6eaf",
-                            StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TwoFactorEnabled = false,
-                            UserName = "david.denboer@gmail.com"
                         });
                 });
 
@@ -549,36 +428,6 @@ namespace DataLayer.Migrations
                     b.HasIndex("FunctionName");
 
                     b.ToTable("BranchHasEmployees");
-
-                    b.HasData(
-                        new
-                        {
-                            BranchId = 2,
-                            EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1",
-                            FunctionName = "Manager",
-                            StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            BranchId = 3,
-                            EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9",
-                            FunctionName = "Manager",
-                            StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            BranchId = 4,
-                            EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
-                            FunctionName = "Stocker",
-                            StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            BranchId = 3,
-                            EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
-                            FunctionName = "Cashier",
-                            StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("bumbo.Models.Country", b =>

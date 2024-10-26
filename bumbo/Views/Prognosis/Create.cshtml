@@ -1,0 +1,95 @@
+﻿﻿@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="grid grid-cols-3 gap-4 mt-20 mx-auto max-w-screen-lg">
+    <div class="flex items-center space-x-2" name="prognoses_title">
+        <button class="text-2xl">&#10094;</button>
+        <h1 class="font-bold text-3xl">Prognose Aanmaken</h1>
+    </div>
+</div>
+
+<div class="mt-4 mx-auto max-w-screen-lg">
+    <!-- Tweede rij met Weeknummer en knop boven de andere invoervelden -->
+    <div class="flex items-center space-x-4 mb-4">
+        <div class="flex flex-row flex-grow">
+            <input disabled type="text" class="mt-1 p-2 border border-gray-300 rounded w-full" placeholder="@ViewBag.templatename" />
+            <button onclick="window.location.href='../prognosis/AddTemplate'" class="mt-6 p-2 bg-green-600 text-white rounded hover:bg-green-700">
+                Importeer Standaard Template
+            </button>
+        </div>
+    </div>
+
+    <!-- Eerste rij met Week en Jaar -->
+    <div class="flex items-center space-x-4">
+        <div class="flex flex-col flex-grow">
+            <label class="block text-sm font-medium text-gray-700">Week</label>
+            <input type="text" value="@ViewBag.CurrentWeek" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
+        </div>
+        <div class="flex flex-col flex-grow">
+            <label class="block text-sm font-medium text-gray-700">Jaar</label>
+            <input type="text" value="@ViewBag.CurrentYear" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
+        </div>
+        <div class="flex flex-col">
+            <button class="mt-6 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Importeer Vorige Week
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<form method="post" action="/Prognosis/CreatePrognosis">
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="mt-4 mx-auto max-w-screen-lg">
+            <div class="grid grid-cols-3 gap-2">
+                <div class="font-bold max-w-xs">Dag</div>
+                <div class="font-bold max-w-xs">Aantal Verwachte Klanten</div>
+                <div class="font-bold max-w-xs">Aantal Verwachte Collies</div>
+
+                @if (ViewBag.days != null)
+                {
+                    int count = 0;
+                    foreach (var day in ViewBag.days)
+                    {
+                        @if (ViewBag.daysList != null)
+                        {
+                            <input name="weeknr" value="@ViewBag.CurrentWeek" type="hidden" />
+                            <input name="year" value="@ViewBag.CurrentYear" type="hidden" />
+
+                            <input name="prognosisCreateDaysList[@count].Name" type="hidden" value="@day.Name" />
+                            <div class="max-w-xs">@day.Name</div>
+
+                            <div>
+                                <!-- value="with this ViewBag.daysList.DaysList[count].CustomerAmount" -->
+                                <input name="CustomerAmount[@count]" type="number" class="border rounded p-1 w-full">
+                            </div>
+                            <div>
+                                <!-- value="ViewBag.daysList.DaysList[count].Packages" -->
+                                <input name="PackagesAmount[@count]" type="number" class="border rounded p-1 w-full">
+                            </div>
+                        }
+                        else
+                        {
+                            <input name="weeknr" value="@ViewBag.CurrentWeek" type="hidden" />
+                            <input name="year" value="@ViewBag.CurrentYear" type="hidden" />
+                            <input name="prognosisCreateDaysList[@count].Name" type="hidden" value="@day.Name" />
+                            <div class="max-w-xs">@day.Name</div>
+                            <div>
+                                <input name="CustomerAmount[@count]" type="number" class="border rounded p-1 w-full">
+                            </div>
+                            <div>
+                                <input name="PackagesAmount[@count]" type="number" class="border rounded p-1 w-full">
+                            </div>
+                        }
+                        count++;
+                    }
+                }
+            </div>
+            <div class="mt-4 flex justify-end space-x-2">
+                <button type="submit" class="bg-blue-500 text-white border border-blue-700 rounded p-2 hover:bg-blue-600 transition">Aanmaken</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
