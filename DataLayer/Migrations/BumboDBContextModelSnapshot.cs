@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -12,16 +11,9 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-<<<<<<<< HEAD:DataLayer/Migrations/20241024093012_InitialCreate.Designer.cs
-    [Migration("20241024093012_InitialCreate")]
-    partial class InitialCreate
-========
-    [Migration("20241024131254_FirstCreate")]
-    partial class FirstCreate
->>>>>>>> development:DataLayer/Migrations/20241024131254_FirstCreate.Designer.cs
+    partial class BumboDBContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,8 +72,8 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             CountryName = "Netherlands",
                             HouseNumber = "10",
-                            Name = "Amsterdam Branch",
-                            PostalCode = "12345",
+                            Name = "Amsterdam Filiaal",
+                            PostalCode = "1012 LG",
                             Street = "Damrak"
                         },
                         new
@@ -89,9 +81,27 @@ namespace DataLayer.Migrations
                             BranchId = 2,
                             CountryName = "Belgium",
                             HouseNumber = "20",
-                            Name = "Brussels Branch",
-                            PostalCode = "67890",
-                            Street = "Grand Place"
+                            Name = "Brussels Filiaal",
+                            PostalCode = "1000",
+                            Street = "Grote Markt"
+                        },
+                        new
+                        {
+                            BranchId = 3,
+                            CountryName = "Netherlands",
+                            HouseNumber = "2",
+                            Name = "Alkmaar Filiaal",
+                            PostalCode = "1811 KH",
+                            Street = "Paardenmarkt"
+                        },
+                        new
+                        {
+                            BranchId = 4,
+                            CountryName = "Netherlands",
+                            HouseNumber = "15",
+                            Name = "Rotterdam Filiaal",
+                            PostalCode = "3011 HE",
+                            Street = "Botersloot"
                         });
                 });
 
@@ -226,15 +236,11 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1",
+                            Id = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3",
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-<<<<<<<< HEAD:DataLayer/Migrations/20241024093012_InitialCreate.Designer.cs
-                            ConcurrencyStamp = "8cb620e5-e7da-49e4-acf5-d1ad69ad213c",
-========
-                            ConcurrencyStamp = "4c4c4aca-54a0-4ebf-a7db-f1c26a85f498",
->>>>>>>> development:DataLayer/Migrations/20241024131254_FirstCreate.Designer.cs
+                            ConcurrencyStamp = "420c975a-ea56-4d5c-9e3c-7cfb972e6697",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -246,34 +252,22 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-<<<<<<<< HEAD:DataLayer/Migrations/20241024093012_InitialCreate.Designer.cs
-                            PasswordHash = "AQAAAAIAAYagAAAAEKqYUkjZfaLgUD/R9dIlJscxI6O19owM+5kh5TFyOj2zY4Mhu06tV0wTMUUGamePeQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDnVIoUGswNb65jLhg6BaEu1hjYpCtSbdghsG2ZPSzp7f9kgkVdF+gjBBwUgFoMlrA==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "67deae1f-0f08-4902-9695-725e74a5415c",
-========
-                            PasswordHash = "AQAAAAIAAYagAAAAEELCebYKVwiDP8fDp0UbkPBwXmpEvHM4RGASzcud7RBcd9pbKwvm8z7TLAgSHUpdCA==",
-                            PhoneNumber = "06-9876543",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "12345",
-                            SecurityStamp = "e93f9f96-6b0e-4985-b0c4-2977e9729175",
->>>>>>>> development:DataLayer/Migrations/20241024131254_FirstCreate.Designer.cs
+                            SecurityStamp = "2375c0d9-239f-4970-b5d7-3b5cc2ab560d",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
                         },
                         new
                         {
-                            Id = "2",
+                            Id = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-<<<<<<<< HEAD:DataLayer/Migrations/20241024093012_InitialCreate.Designer.cs
-                            ConcurrencyStamp = "44847efb-de86-4c18-bbc5-ab53fddf8d40",
-========
-                            ConcurrencyStamp = "db41937e-fa29-4cd3-8308-2c6976a57d41",
->>>>>>>> development:DataLayer/Migrations/20241024131254_FirstCreate.Designer.cs
+                            ConcurrencyStamp = "782d259f-9eb0-42bf-804c-f444f80f9376",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -284,22 +278,120 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-<<<<<<<< HEAD:DataLayer/Migrations/20241024093012_InitialCreate.Designer.cs
-                            PasswordHash = "AQAAAAIAAYagAAAAEC+iejBIjr1Bg6sBonkMiryYWS59LGAXWPz6qIxSAVQV+cu6TGyOivsUzPp/ZS7VmQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGNg0qKfDiucDlYTOukSfFFxHdYi6tpTPkw5H5IYvXkDOPFu89mGo3U/YNnxY67A1g==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
-                            PostalCode = "54321",
-                            SecurityStamp = "22a911d6-5ae2-453d-a445-fa22310882b5",
-========
-                            PasswordHash = "AQAAAAIAAYagAAAAENeyAz6LzM7oPnQuXxkT0H+qrYwehTVx7ffdgxVzcnIOBU2nJyNqObLE9ESp/WCizw==",
-                            PhoneNumber = "06-12345678",
-                            PhoneNumberConfirmed = false,
-                            PostalCode = "54321",
-                            SecurityStamp = "d2e85deb-dd37-4668-8ad0-a023fde8f7f1",
->>>>>>>> development:DataLayer/Migrations/20241024131254_FirstCreate.Designer.cs
+                            PostalCode = "9271 GB",
+                            SecurityStamp = "4f18cbfb-4ff1-4db3-8c1d-94f07d959867",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
+                        },
+                        new
+                        {
+                            Id = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
+                            AccessFailedCount = 0,
+                            BID = "B003",
+                            BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "59a141d9-e14a-4b83-90b2-57d905949f94",
+                            Email = "anna.vandijk@hotmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Anna",
+                            HouseNumber = 5,
+                            IsSystemManager = false,
+                            LastName = "van Dijk",
+                            LockoutEnabled = false,
+                            MiddleName = "",
+                            NormalizedEmail = "ANNA.VANDIJK@HOTMAIL.COM",
+                            NormalizedUserName = "ANNA.VANDIJK@HOTMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELNHGLKUuyXYTEJyL4/oUj+yQ9lkNpAodjiotLEsQN2rjKjeCOE1lm2SCPU+TC1RpQ==",
+                            PhoneNumber = "+31 6 34567890",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "8329 SK",
+                            SecurityStamp = "c539e0d9-d1f4-466e-9975-c9f81508373a",
+                            StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "anna.vandijk@hotmail.com"
+                        },
+                        new
+                        {
+                            Id = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9",
+                            AccessFailedCount = 0,
+                            BID = "B004",
+                            BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "13f50284-6552-4513-b3a5-6a4860ecb329",
+                            Email = "michael.bakker@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Michael",
+                            HouseNumber = 15,
+                            IsSystemManager = false,
+                            LastName = "Bakker",
+                            LockoutEnabled = false,
+                            ManagerOfBranchId = 3,
+                            MiddleName = "",
+                            NormalizedEmail = "MICHAEL.BAKKER@GMAIL.COM",
+                            NormalizedUserName = "MICHAEL.BAKKER@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOD/iJujLwIM4PdiD5CXaLgLOIvZRHEcRjDJaZifJyh3dkS1bh3PcqO3n4jc+Dc08Q==",
+                            PhoneNumber = "+31 6 45678901",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "3894 HT",
+                            SecurityStamp = "3b550959-0749-4839-8768-5210ed40503b",
+                            StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "michael.bakker@gmail.com"
+                        },
+                        new
+                        {
+                            Id = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
+                            AccessFailedCount = 0,
+                            BID = "B005",
+                            BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "bbee3c07-77b6-4c8b-80a9-332a6297f9bb",
+                            Email = "sarah.vanderven@hotmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Sarah",
+                            HouseNumber = 8,
+                            IsSystemManager = false,
+                            LastName = "van der Ven",
+                            LockoutEnabled = false,
+                            MiddleName = "",
+                            NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
+                            NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAENV7fmThl8w3BCUV99uF/TX7tRMMP9zXoXC80FKIhK3IkC6efsRjC7Gjw0zpybgiEg==",
+                            PhoneNumber = "+31 6 56789012",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "2933 KJ",
+                            SecurityStamp = "3ecce02b-2662-4daf-a8f6-84f0cbcbcdb5",
+                            StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "sarah.vanderven@hotmail.com"
+                        },
+                        new
+                        {
+                            Id = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1",
+                            AccessFailedCount = 0,
+                            BID = "B006",
+                            BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "f5082b72-369e-42d0-b832-6229299219a7",
+                            Email = "david.denboer@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "David",
+                            HouseNumber = 30,
+                            IsSystemManager = false,
+                            LastName = "den Boer",
+                            LockoutEnabled = false,
+                            ManagerOfBranchId = 2,
+                            MiddleName = "",
+                            NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
+                            NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPLXzPi1dXSSj+fmKh7THefAb6LwMxRfHOpDNOV3pOUpfxBJ2JmCq1lV923cy9C56Q==",
+                            PhoneNumber = "+31 6 67890123",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "4293 BF",
+                            SecurityStamp = "10fa7759-5f51-4853-a243-47ed01ecb384",
+                            StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false,
+                            UserName = "david.denboer@gmail.com"
                         });
                 });
 
@@ -457,6 +549,43 @@ namespace DataLayer.Migrations
                     b.HasIndex("FunctionName");
 
                     b.ToTable("BranchHasEmployees");
+
+                    b.HasData(
+                        new
+                        {
+                            BranchId = 2,
+                            EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1",
+                            FunctionName = "Manager",
+                            StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            BranchId = 3,
+                            EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9",
+                            FunctionName = "Manager",
+                            StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            BranchId = 4,
+                            EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
+                            FunctionName = "Stocker",
+                            StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            BranchId = 3,
+                            EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
+                            FunctionName = "Cashier",
+                            StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            FunctionName = "Cashier",
+                            StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("bumbo.Models.Country", b =>
@@ -584,6 +713,53 @@ namespace DataLayer.Migrations
                         .IsUnique();
 
                     b.ToTable("Norms");
+
+                    b.HasData(
+                        new
+                        {
+                            normId = 1,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 90,
+                            week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 2,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 33,
+                            week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 3,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 3,
+                            week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 4,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 7,
+                            week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 5,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 2,
+                            week = 41,
+                            year = 2024
+                        });
                 });
 
             modelBuilder.Entity("bumbo.Models.Prognosis", b =>
