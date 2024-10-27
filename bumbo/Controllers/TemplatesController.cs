@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using bumbo.Models;
 using bumbo.Components;
-using static bumbo.Controllers.NormeringController;
 using bumbo.ViewModels;
 using DataLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
