@@ -5,7 +5,6 @@ using bumbo.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using bumbo.Components;
-using static bumbo.Controllers.NormeringController;
 using bumbo.ViewModels;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
