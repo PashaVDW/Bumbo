@@ -83,6 +83,7 @@ namespace bumbo.Controllers
 
             if (ModelState.IsValid)
             {
+                bool isSuccess = false;
                 var employee = new Employee
                 {
                     FirstName = model.FirstName,
@@ -115,6 +116,21 @@ namespace bumbo.Controllers
 
                         await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchHasEmployee);
                     }
+                    
+                    if (isSuccess)
+                    {
+                        TempData["ToastMessage"] = "Je bent succesvol ingelogd!"; // het bericht dat je laat zien
+                        TempData["ToastType"] = "success"; // het type message (dit heeft invloed op de style)
+                    }
+                    else
+                    {
+                        TempData["ToastMessage"] = "Inloggen mislukt. Probeer het opnieuw."; // het bericht dat je laat zien
+                        TempData["ToastType"] = "error"; // het type message (dit heeft invloed op de style)
+                    }
+                    TempData["ToastId"] = "loginToast"; // id voor je toast ( Belangerijk )
+                    TempData["AutoHide"] = "yes"; // of die automatisch hide = "yes" of "no"
+                    TempData["MilSecHide"] = 3000; // aantal sec dat die blijft met autohide aan
+                                                   // als je deze in 1 van de if of else zet kan je het per toast verschillend maken
 
                     TempData["SuccessEmployeeAddedMessage"] = "Medewerker succesvol toegevoegd!";
 

@@ -171,7 +171,7 @@ namespace bumbo.Data
 
             var john = new Employee
             {
-                Id = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // If this gives errors, make it '1' and DONT DELETE HIM FROM BRANCH
+                Id = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3",
                 BID = "B001",
                 FirstName = "John",
                 MiddleName = "A.",
@@ -213,11 +213,11 @@ namespace bumbo.Data
             };
             jane.PasswordHash = passwordHasher.HashPassword(jane, "PassJane");
 
-            var anna = new Employee
+            var darlon = new Employee
             {
                 Id = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
                 BID = "B003",
-                FirstName = "Anna",
+                FirstName = "Darlon",
                 MiddleName = "",
                 LastName = "van Dijk",
                 BirthDate = new DateTime(1992, 2, 14),
@@ -227,19 +227,19 @@ namespace bumbo.Data
                 IsSystemManager = false,
                 ManagerOfBranchId = null,
                 PhoneNumber = "+31 6 34567890",
-                UserName = "anna.vandijk@hotmail.com",
-                NormalizedUserName = "ANNA.VANDIJK@HOTMAIL.COM",
-                Email = "anna.vandijk@hotmail.com",
-                NormalizedEmail = "ANNA.VANDIJK@HOTMAIL.COM",
-                EmailConfirmed = false
+                UserName = "darlon.vandijk@hotmail.com",
+                NormalizedUserName = "DARLON.VANDIJK@HOTMAIL.COM",
+                Email = "darlon.vandijk@hotmail.com",
+                NormalizedEmail = "DARLON.VANDIJK@HOTMAIL.COM",
+                EmailConfirmed = true
             };
-            anna.PasswordHash = passwordHasher.HashPassword(anna, "PassAnna");
+            darlon.PasswordHash = passwordHasher.HashPassword(darlon, "PassDarlon");
 
-            var michael = new Employee
+            var pasha = new Employee
             {
                 Id = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9",
                 BID = "B004",
-                FirstName = "Michael",
+                FirstName = "Pasha",
                 MiddleName = "",
                 LastName = "Bakker",
                 BirthDate = new DateTime(1980, 12, 1),
@@ -249,13 +249,13 @@ namespace bumbo.Data
                 IsSystemManager = false,
                 ManagerOfBranchId = 3,
                 PhoneNumber = "+31 6 45678901",
-                UserName = "michael.bakker@gmail.com",
-                NormalizedUserName = "MICHAEL.BAKKER@GMAIL.COM",
-                Email = "michael.bakker@gmail.com",
-                NormalizedEmail = "MICHAEL.BAKKER@GMAIL.COM",
+                UserName = "pasha.bakker@gmail.com",
+                NormalizedUserName = "PASHA.BAKKER@GMAIL.COM",
+                Email = "pasha.bakker@gmail.com",
+                NormalizedEmail = "PASHA.BAKKER@GMAIL.COM",
                 EmailConfirmed = false
             };
-            michael.PasswordHash = passwordHasher.HashPassword(michael, "PassMicheal");
+            pasha.PasswordHash = passwordHasher.HashPassword(pasha, "PassPasha");
 
             var sarah = new Employee
             {
@@ -301,9 +301,53 @@ namespace bumbo.Data
             };
             david.PasswordHash = passwordHasher.HashPassword(david, "PassDavid");
 
+            var anthony = new Employee
+            {
+                Id = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                BID = "B012",
+                FirstName = "Anthony",
+                MiddleName = "",
+                LastName = "Ross",
+                BirthDate = new DateTime(1993, 3, 5),
+                PostalCode = "2234 AB",
+                HouseNumber = 7,
+                StartDate = DateTime.Now,
+                IsSystemManager = false,
+                ManagerOfBranchId = 1,
+                PhoneNumber = "+31 6 12345678",
+                UserName = "anthony.ross@example.com",
+                NormalizedUserName = "ANTHONY.ROSS@EXAMPLE.COM",
+                Email = "anthony.ross@example.com",
+                NormalizedEmail = "ANTHONY.ROSS@EXAMPLE.COM",
+                EmailConfirmed = true
+            };
+            anthony.PasswordHash = passwordHasher.HashPassword(anthony, "PassAnthony");
+
+            var douwe = new Employee
+            {
+                Id = "b2c2d2e2-2222-3333-4444-5555abcdefab",
+                BID = "B013",
+                FirstName = "Douwe",
+                MiddleName = "",
+                LastName = "Jansen",
+                BirthDate = new DateTime(1987, 9, 10),
+                PostalCode = "3345 CD",
+                HouseNumber = 12,
+                StartDate = DateTime.Now,
+                IsSystemManager = false,
+                ManagerOfBranchId = 2,
+                PhoneNumber = "+31 6 87654321",
+                UserName = "douwe.jansen@example.com",
+                NormalizedUserName = "DOUWE.JANSEN@EXAMPLE.COM",
+                Email = "douwe.jansen@example.com",
+                NormalizedEmail = "DOUWE.JANSEN@EXAMPLE.COM",
+                EmailConfirmed = true
+            };
+            douwe.PasswordHash = passwordHasher.HashPassword(douwe, "PassDouwe");
+
             // Add employees to the model
 
-            modelBuilder.Entity<Employee>().HasData(john, jane, anna, michael, sarah, david);
+            modelBuilder.Entity<Employee>().HasData(john, jane, darlon, pasha, sarah, david, anthony, douwe);
             
             modelBuilder.Entity<Days>().HasData(
                 new Days()
@@ -440,15 +484,15 @@ namespace bumbo.Data
             var branchHasEmployeeTwo = new BranchHasEmployee
             {
                 BranchId = 3,
-                EmployeeId = michael.Id,
-                StartDate = michael.StartDate,
+                EmployeeId = pasha.Id,
+                StartDate = pasha.StartDate,
                 FunctionName = "Manager"
             };
             var branchHasEmployeeThree = new BranchHasEmployee
             {
                 BranchId = 4,
-                EmployeeId = anna.Id,
-                StartDate = anna.StartDate,
+                EmployeeId = darlon.Id,
+                StartDate = darlon.StartDate,
                 FunctionName = "Stocker"
             };
             var branchHasEmployeeFour = new BranchHasEmployee
@@ -461,17 +505,27 @@ namespace bumbo.Data
             var branchHasEmployeeFive = new BranchHasEmployee
             {
                 BranchId = 1,
-                EmployeeId = jane.Id,
-                StartDate = jane.StartDate,
+                EmployeeId = anthony.Id,
+                StartDate = anthony.StartDate,
                 FunctionName = "Cashier"
             };
+            var branchHasEmployeeSix = new BranchHasEmployee
+            {
+                BranchId = 2,
+                EmployeeId = douwe.Id,
+                StartDate = douwe.StartDate,
+                FunctionName = "Stocker"
+            };
+
             modelBuilder.Entity<BranchHasEmployee>().HasData(
-                branchHasEmployeeOne, 
-                branchHasEmployeeTwo, 
-                branchHasEmployeeThree, 
+                branchHasEmployeeOne,
+                branchHasEmployeeTwo,
+                branchHasEmployeeThree,
                 branchHasEmployeeFour,
-                branchHasEmployeeFive
+                branchHasEmployeeFive,
+                branchHasEmployeeSix
             );
+
         }
     }
 }
