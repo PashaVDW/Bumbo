@@ -80,19 +80,19 @@ namespace bumbo.Controllers
 
                 // Define each department (activity) and its associated amount type
                 var activities = new List<(string activity, int amount)>
-                {
-                    ("Coli uitladen", day.PackagesAmount),
-                    ("Vakkenvullen", day.PackagesAmount),
-                    ("Kassa", day.CustomerAmount),
-                    ("Vers", day.PackagesAmount),
-                    ("Spiegelen", day.PackagesAmount)
-                };
+            {
+                ("Coli uitladen", day.PackagesAmount),
+                ("Vakkenvullen", day.PackagesAmount),
+                ("Kassa", day.CustomerAmount),
+                ("Vers", day.PackagesAmount),
+                ("Spiegelen", day.PackagesAmount)
+            };
 
                 foreach (var (activity, amount) in activities)
                 {
                     double totalSeconds = amount * GetNormInSeconds(activity, norms);
-                    int uren = (int)Math.Ceiling(totalSeconds / 3600); // Convert to hours and round up
-                    int medewerkersNeeded = (int)Math.Ceiling(uren / 8.0); // Assume 8-hour shifts
+                    int uren = (int)Math.Ceiling(totalSeconds / 3600);
+                    int medewerkersNeeded = (int)Math.Ceiling(uren / 8.0);
 
                     dayResult.DepartmentCalculations.Add(new DepartmentCalculationResult
                     {
