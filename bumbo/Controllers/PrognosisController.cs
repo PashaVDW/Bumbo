@@ -52,22 +52,20 @@ namespace bumbo.Controllers
             ViewBag.CurrentYear = _currentYear;
 
             var weekPrognosis = _prognosisRepository.GetLatestPrognosis();
+
             if (weekPrognosis != null)
             {
                 ViewBag.LatestPrognosis = weekPrognosis;
+                var weekPrognosisHasDays = _prognosisHasDaysRepository.GetLatestPrognosis_has_days();
+                var norms = await _normsRepository.GetSelectedNorms(1, weekPrognosis.Year, weekPrognosis.WeekNr);
+                var calculationResults = CalculateUrenAndMedewerkers(weekPrognosisHasDays, norms);
+                ViewBag.CalculationResults = calculationResults;
+                ViewBag.WeekPrognosisHasDays = weekPrognosisHasDays;
             }
-
-            var weekPrognosisHasDays = _prognosisHasDaysRepository.GetLatestPrognosis_has_days();
-            var norms = await _normsRepository.GetSelectedNorms(1, weekPrognosis.Year, weekPrognosis.WeekNr);
-
-            var calculationResults = CalculateUrenAndMedewerkers(weekPrognosisHasDays, norms);
-            ViewBag.CalculationResults = calculationResults;
-
             DateTime firstDayOfWeek = FirstDateOfWeekISO8601(_currentYear, _currentWeek);
             List<DateTime> weekDates = Enumerable.Range(0, 7).Select(i => firstDayOfWeek.AddDays(i)).ToList();
 
             ViewBag.WeekDates = weekDates;
-            ViewBag.WeekPrognosisHasDays = weekPrognosisHasDays;
 
             return View();
         }
@@ -220,13 +218,15 @@ namespace bumbo.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _prognosisRepository.DeletePrognosisById(id);
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Edit");
             }
         }
+
 
         public ActionResult AddTemplate(string searchTerm, int page = 1)
         {

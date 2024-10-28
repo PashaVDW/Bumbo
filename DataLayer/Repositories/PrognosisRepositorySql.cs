@@ -3,6 +3,7 @@ using bumbo.Models;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace DataLayer.Repositories
 {
@@ -63,12 +64,15 @@ namespace DataLayer.Repositories
 
         public Prognosis GetLatestPrognosis()
         {
-            List<Prognosis> prognosis = _context.Prognoses
+            int currentWeek = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            int currentYear = DateTime.Now.Year;
+
+            Prognosis currentPrognosis = _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
-                .OrderByDescending(p => p.Year)
-                .ThenByDescending(p => p.WeekNr)
-                .ToList<Prognosis>();
-            return prognosis.First();
+                .Where(p => p.Year == currentYear && p.WeekNr == currentWeek)
+                .FirstOrDefault();
+
+            return currentPrognosis;
         }
 
         public Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year)
@@ -109,6 +113,16 @@ namespace DataLayer.Repositories
             return _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
                 .FirstOrDefault(p => p.PrognosisId == id);
+        }
+
+        public void DeletePrognosisById(int id)
+        {
+            var prognosis = _context.Prognoses.FirstOrDefault(p => p.PrognosisId == id);
+            if (prognosis != null)
+            {
+                _context.Prognoses.Remove(prognosis);
+                _context.SaveChanges();
+            }
         }
 
     }
