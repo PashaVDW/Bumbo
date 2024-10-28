@@ -2,18 +2,18 @@
     ViewData["Title"] = "Create";
 }
 
-<div class="grid grid-cols-3 gap-4 mt-20 mx-auto max-w-screen-lg">
-    <div class="flex items-center space-x-2" name="prognoses_title">
+<div class="gap-4 mt-20 mx-auto grid max-w-screen-lg grid-cols-3">
+    <div class="space-x-2 flex items-center" name="prognoses_title">
         <button class="text-2xl">&#10094;</button>
-        <h1 class="font-bold text-3xl">Prognose Aanmaken</h1>
+        <h1 class="text-3xl font-bold">Prognose Aanmaken</h1>
     </div>
 </div>
 
 <div class="mt-4 mx-auto max-w-screen-lg">
     <!-- Tweede rij met Weeknummer en knop boven de andere invoervelden -->
-    <div class="flex items-center space-x-4 mb-4">
-        <div class="flex flex-row flex-grow">
-            <input disabled type="text" class="mt-1 p-2 border border-gray-300 rounded w-full" placeholder="@ViewBag.templatename" />
+    <div class="space-x-4 mb-4 flex items-center">
+        <div class="flex flex-grow flex-row">
+            <input disabled type="text" class="mt-1 p-2 border-gray-300 w-full rounded border" placeholder="@ViewBag.templatename" />
             <button onclick="window.location.href='../prognosis/AddTemplate'" class="mt-6 p-2 bg-green-600 text-white rounded hover:bg-green-700">
                 Importeer Standaard Template
             </button>
@@ -21,14 +21,14 @@
     </div>
 
     <!-- Eerste rij met Week en Jaar -->
-    <div class="flex items-center space-x-4">
-        <div class="flex flex-col flex-grow">
-            <label class="block text-sm font-medium text-gray-700">Week</label>
-            <input type="text" value="@ViewBag.CurrentWeek" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
+    <div class="space-x-4 flex items-center">
+        <div class="flex flex-grow flex-col">
+            <label class="text-gray-700 block text-sm font-medium">Week</label>
+            <input type="text" value="@ViewBag.CurrentWeek" class="mt-1 p-2 border-gray-300 w-full rounded border" disabled />
         </div>
-        <div class="flex flex-col flex-grow">
-            <label class="block text-sm font-medium text-gray-700">Jaar</label>
-            <input type="text" value="@ViewBag.CurrentYear" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
+        <div class="flex flex-grow flex-col">
+            <label class="text-gray-700 block text-sm font-medium">Jaar</label>
+            <input type="text" value="@ViewBag.CurrentYear" class="mt-1 p-2 border-gray-300 w-full rounded border" disabled />
         </div>
         <div class="flex flex-col">
             <button class="mt-6 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">
@@ -38,15 +38,28 @@
     </div>
 
 </div>
-
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}
 <form method="post" action="/Prognosis/CreatePrognosis">
     @Html.AntiForgeryToken()
     <fieldset>
         <div class="mt-4 mx-auto max-w-screen-lg">
-            <div class="grid grid-cols-3 gap-2">
-                <div class="font-bold max-w-xs">Dag</div>
-                <div class="font-bold max-w-xs">Aantal Verwachte Klanten</div>
-                <div class="font-bold max-w-xs">Aantal Verwachte Collies</div>
+            <div class="gap-2 grid grid-cols-3">
+                <div class="max-w-xs font-bold">Dag</div>
+                <div class="max-w-xs font-bold">Aantal Verwachte Klanten</div>
+                <div class="max-w-xs font-bold">Aantal Verwachte Collies</div>
 
                 @if (ViewBag.days != null)
                 {
@@ -63,11 +76,11 @@
 
                             <div>
                                 <!-- value="with this ViewBag.daysList.DaysList[count].CustomerAmount" -->
-                                <input name="CustomerAmount[@count]" type="number" class="border rounded p-1 w-full">
+                                <input name="CustomerAmount[@count]" type="number" class="p-1 w-full rounded border" required>
                             </div>
                             <div>
                                 <!-- value="ViewBag.daysList.DaysList[count].Packages" -->
-                                <input name="PackagesAmount[@count]" type="number" class="border rounded p-1 w-full">
+                                <input name="PackagesAmount[@count]" type="number" class="p-1 w-full rounded border" required>
                             </div>
                         }
                         else
@@ -77,18 +90,18 @@
                             <input name="prognosisCreateDaysList[@count].Name" type="hidden" value="@day.Name" />
                             <div class="max-w-xs">@day.Name</div>
                             <div>
-                                <input name="CustomerAmount[@count]" type="number" class="border rounded p-1 w-full">
+                                <input name="CustomerAmount[@count]" type="number" class="p-1 w-full rounded border" required>
                             </div>
                             <div>
-                                <input name="PackagesAmount[@count]" type="number" class="border rounded p-1 w-full">
+                                <input name="PackagesAmount[@count]" type="number" class="p-1 w-full rounded border" required>
                             </div>
                         }
                         count++;
                     }
                 }
             </div>
-            <div class="mt-4 flex justify-end space-x-2">
-                <button type="submit" class="bg-blue-500 text-white border border-blue-700 rounded p-2 hover:bg-blue-600 transition">Aanmaken</button>
+            <div class="mt-4 space-x-2 flex justify-end">
+                <button type="submit" class="bg-blue-500 text-white border-blue-700 p-2 rounded border transition hover:bg-blue-600">Aanmaken</button>
             </div>
         </div>
     </fieldset>

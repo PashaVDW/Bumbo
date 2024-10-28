@@ -87,7 +87,7 @@ namespace bumbo.Controllers
                 ("Vers", day.PackagesAmount),
                 ("Spiegelen", day.PackagesAmount)
             };
-
+                ViewBag.Activities = activities;
                 foreach (var (activity, amount) in activities)
                 {
                     double totalSeconds = amount * GetNormInSeconds(activity, norms);
@@ -177,8 +177,20 @@ namespace bumbo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePrognosis(List<Days> prognosisCreateDaysList, List<int> CustomerAmount, List<int> PackagesAmount, int weeknr, int year)
         {
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 4000;
+            TempData["ToastId"] = "createPrognosisToast";
+            if (year < DateTime.Now.Year || year > DateTime.Now.Year + 1)
+            {
+                TempData["ToastMessage"] = "Het jaar moet het huidige of het volgende jaar zijn.";
+                TempData["ToastType"] = "error";
+
+                return View("Create");
+            }
             _prognosisRepository.AddPrognosis(prognosisCreateDaysList, CustomerAmount, PackagesAmount, weeknr, year);
-            return View("Index");
+            TempData["ToastMessage"] = "Prognose succesvol aangemaakt!";
+            TempData["ToastType"] = "success";
+            return RedirectToAction("Index");
         }
 
         // GET: Prognosis/Edit/1
