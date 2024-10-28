@@ -6,6 +6,10 @@ on:
       - master
   workflow_dispatch:
 
+permissions:                   # Add this section to enable id-token permissions globally
+  id-token: write
+  contents: read
+
 jobs:
   build:
     runs-on: windows-latest
@@ -40,9 +44,6 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-    permissions:
-      id-token: write  # This grants write access to id-token for OIDC authentication
-      contents: read   # This allows reading the repository contents
     steps:
       # Download the published files
       - name: Download artifact from build job
@@ -50,12 +51,12 @@ jobs:
         with:
           name: .net-app
       
-      # Login to Azure using credentials from GitHub secrets
+      # Login to Azure using OIDC
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: 80fb242c-5dca-496a-a149-841188dd4bb8
-          tenant-id: 87c50b58-2ef2-423d-a4db-1fa7c84efcfa
+          client-id: 80fb242c-5dca-496a-a149-841188dd4bb8   # Your app registration's client ID
+          tenant-id: 87c50b58-2ef2-423d-a4db-1fa7c84efcfa    # Your tenant ID
           subscription-id: 7c86441b-4dca-49f3-b903-89a3a711343f
 
       # Deploy to Azure Web App
