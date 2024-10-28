@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -11,9 +12,16 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    partial class BumboDBContextModelSnapshot : ModelSnapshot
+<<<<<<<< HEAD:DataLayer/Migrations/20241028100618_InitialCreate.Designer.cs
+    [Migration("20241028100618_InitialCreate")]
+    partial class InitialCreate
+========
+    [Migration("20241028082638_firstCreate")]
+    partial class firstCreate
+>>>>>>>> 8fa7fd1654dde5f14e9783a6f1d68b9ca25c45a5:DataLayer/Migrations/20241028082638_firstCreate.Designer.cs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,7 +248,11 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+<<<<<<<< HEAD:DataLayer/Migrations/20241028100618_InitialCreate.Designer.cs
+                            ConcurrencyStamp = "89ef9963-67b6-40c4-9e05-984df9f69e9d",
+========
                             ConcurrencyStamp = "0fb9eeb1-843c-48cd-9b94-90d1835e5757",
+>>>>>>>> 8fa7fd1654dde5f14e9783a6f1d68b9ca25c45a5:DataLayer/Migrations/20241028082638_firstCreate.Designer.cs
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -252,11 +264,19 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
+<<<<<<<< HEAD:DataLayer/Migrations/20241028100618_InitialCreate.Designer.cs
+                            PasswordHash = "AQAAAAIAAYagAAAAEKO0iyiUY58rcJmaiwmCNHA65HhSDot5amipMCydGb6V9i2buphIVfoqB1YdGJQaqw==",
+                            PhoneNumber = "06-9876543",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "12345",
+                            SecurityStamp = "9c7a4cea-3c0a-48cb-9ed2-aa60d734bf0b",
+========
                             PasswordHash = "AQAAAAIAAYagAAAAELSXpfmLfhRMhPQ93SYuhC4e3Qudm01X/OdWsCQVwXYBLwO2NCnnv9F1I05JkhXxsA==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
                             SecurityStamp = "9bce8371-6079-4c70-a390-2dc3ac7f9d38",
+>>>>>>>> 8fa7fd1654dde5f14e9783a6f1d68b9ca25c45a5:DataLayer/Migrations/20241028082638_firstCreate.Designer.cs
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -267,7 +287,11 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+<<<<<<<< HEAD:DataLayer/Migrations/20241028100618_InitialCreate.Designer.cs
+                            ConcurrencyStamp = "be9d2b26-55d3-4572-85b3-94470f6107c7",
+========
                             ConcurrencyStamp = "fd55dc8d-f17e-4f4b-8bd2-82bf36424308",
+>>>>>>>> 8fa7fd1654dde5f14e9783a6f1d68b9ca25c45a5:DataLayer/Migrations/20241028082638_firstCreate.Designer.cs
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -278,11 +302,19 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
+<<<<<<<< HEAD:DataLayer/Migrations/20241028100618_InitialCreate.Designer.cs
+                            PasswordHash = "AQAAAAIAAYagAAAAEJyL7rGbVN5v5hA0DQ+Jjpt1xb11GcFYn3H2JYZGGwSwNsw0blsau9wyhJkyq3FBFw==",
+                            PhoneNumber = "06-12345678",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "54321",
+                            SecurityStamp = "16bb2602-e431-424c-9e19-3984ad22a798",
+========
                             PasswordHash = "AQAAAAIAAYagAAAAEFaXQJf+MFvHWnkLydwXrUNU3cPbalibiuJEVgAk1A3XZBrt7CLq1cTopfQprc7xBw==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "9271 GB",
                             SecurityStamp = "478fdfda-2f73-4ffb-a5e4-8508cc007ebd",
+>>>>>>>> 8fa7fd1654dde5f14e9783a6f1d68b9ca25c45a5:DataLayer/Migrations/20241028082638_firstCreate.Designer.cs
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -880,6 +912,8 @@ namespace DataLayer.Migrations
                         .IsUnique();
 
                     b.ToTable("Norms");
+<<<<<<<< HEAD:DataLayer/Migrations/20241028100618_InitialCreate.Designer.cs
+========
 
                     b.HasData(
                         new
@@ -949,10 +983,19 @@ namespace DataLayer.Migrations
                     b.HasIndex("BranchId");
 
                     b.ToTable("Prognoses");
+>>>>>>>> 8fa7fd1654dde5f14e9783a6f1d68b9ca25c45a5:DataLayer/Migrations/20241028082638_firstCreate.Designer.cs
 
                     b.HasData(
                         new
                         {
+<<<<<<<< HEAD:DataLayer/Migrations/20241028100618_InitialCreate.Designer.cs
+                            normId = 1,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 90,
+                            week = 41,
+                            year = 2024
+========
                             PrognosisId = "1",
                             BranchId = 1,
                             WeekNr = 40,
@@ -996,20 +1039,7 @@ namespace DataLayer.Migrations
                             PrognosisId = "1",
                             CustomerAmount = 100,
                             PackagesAmount = 50
-                        },
-                        new
-                        {
-                            Days_name = "Dinsdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 120,
-                            PackagesAmount = 60
-                        },
-                        new
-                        {
-                            Days_name = "Woensdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 130,
-                            PackagesAmount = 55
+>>>>>>>> 8fa7fd1654dde5f14e9783a6f1d68b9ca25c45a5:DataLayer/Migrations/20241028082638_firstCreate.Designer.cs
                         },
                         new
                         {
@@ -1037,6 +1067,28 @@ namespace DataLayer.Migrations
                             normInSeconds = 7,
                             week = 41,
                             year = 2024
+                        },
+                        new
+                        {
+<<<<<<<< HEAD:DataLayer/Migrations/20241028100618_InitialCreate.Designer.cs
+                            normId = 5,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 2,
+                            week = 41,
+                            year = 2024
+========
+                            Days_name = "Vrijdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 150,
+                            PackagesAmount = 70
+                        },
+                        new
+                        {
+                            Days_name = "Zaterdag",
+                            PrognosisId = "1",
+                            CustomerAmount = 160,
+                            PackagesAmount = 80
                         },
                         new
                         {
@@ -1093,6 +1145,7 @@ namespace DataLayer.Migrations
                             PrognosisId = "2",
                             CustomerAmount = 130,
                             PackagesAmount = 60
+>>>>>>>> 8fa7fd1654dde5f14e9783a6f1d68b9ca25c45a5:DataLayer/Migrations/20241028082638_firstCreate.Designer.cs
                         });
                 });
 

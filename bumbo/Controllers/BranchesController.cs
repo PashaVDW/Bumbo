@@ -5,32 +5,35 @@ using bumbo.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using bumbo.Components;
-using static bumbo.Controllers.NormeringController;
 using bumbo.ViewModels;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using Microsoft.IdentityModel.Tokens;
+using DataLayer.Interfaces;
+using System.Text;
 
 namespace bumbo.Controllers
 {
     public class BranchesController : Controller
     {
         private readonly UserManager<Employee> _userManager;
-        private BumboDBContext _context;
+        private readonly IBranchesRepository _branchesRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
 
-        public BranchesController(UserManager<Employee> userManager, BumboDBContext context)
+        public BranchesController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository)
         {
             _userManager = userManager;
-            _context = context;
+            _branchesRepository = branchesRepository;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
         }
 
         public async Task<IActionResult> BranchesView(string searchTerm, int page = 1)
         {
             var user = await _userManager.GetUserAsync(User);
-            var branches = _context.Branches.ToList();
+            var branches = _branchesRepository.GetAllBranches();
             foreach (var branch in branches)
             {
-                branch.Employees = GetEmployeesFromBranch(branch);
+                branch.Employees = _branchesRepository.GetEmployeesFromBranch(branch);
             }
 
             if (user == null || !user.IsSystemManager)
@@ -65,14 +68,22 @@ namespace bumbo.Controllers
 
         public IActionResult UpdateBranchView(int branchId)
         {
-            var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var branch = _branchesRepository.GetBranch(branchId);
             return View(branch);
         }
 
         public IActionResult ReadBranchView(int branchId)
         {
-            var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var branch = _branchesRepository.GetBranch(branchId);
             var viewModel = GetReadBranchViewModel(branch);
+
+            if (viewModel.Managers.Count == 0) 
+            {
+                SetTempDataForToast("branchManagerAmountToast");
+                TempData["ToastMessage"] = "Er zijn op dit moment geen filiaalmanagers";
+                TempData["ToastType"] = "info";
+                TempData["MilSecHide"] = 5000;
+            }
 
             return View(viewModel);
         }
@@ -80,8 +91,8 @@ namespace bumbo.Controllers
         public IActionResult CreateBranchManagerView(int branchId, string searchTerm, int page = 1)
         {
 
-            var newBranch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
-            newBranch.Employees = GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
+            var newBranch = _branchesRepository.GetBranch(branchId);
+            newBranch.Employees = _branchesRepository.GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
 
             var viewModel = new CreateBranchManagerViewModel() { 
                 BranchId = branchId, Employees = newBranch.Employees.ToList() 
@@ -89,17 +100,15 @@ namespace bumbo.Controllers
 
             var employees = newBranch.Employees.ToList();
 
-            var branchHasEmployees = _context.BranchHasEmployees.Where(e => e.BranchId == branchId).ToList();
-
             var headers = new List<string> { "Naam", "Filiaal nummer" };
-            var tableBuilder = new TableHtmlBuilder<Employee>();
+            var tableBuilder = new TableHtmlBuilderAddBranchManager<Employee>();
             var htmlTable = tableBuilder.GenerateTable("", headers, employees, "", item =>
             {
             return $@"
                  <td class='py-2 px-4'>{item.FirstName + " " + item.LastName}</td>
                  <td class='py-2 px-4'>{newBranch.BranchId}</td>
                  <td class='py-2 px-4'><a href='/Branches/AddBranchManager?branchId={newBranch.BranchId}&amp;employeeId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
-            }, searchTerm, page);
+            }, branchId, searchTerm, page);
 
             ViewBag.HtmlTable = htmlTable;
 
@@ -108,35 +117,66 @@ namespace bumbo.Controllers
 
         public IActionResult AddBranch(Branch branch)
         {
+            SetTempDataForToast("createBranchToast");
+            try
+            {
+                _branchesRepository.AddBranch(branch);
 
-            _context.Branches.Add(branch);
-            _context.SaveChanges();
+                TempData["ToastMessage"] = "Filiaal is aangemaakt";
+                TempData["ToastType"] = "success";
 
-            return RedirectToAction("BranchesView");
+                return RedirectToAction("BranchesView");
+            }
+            catch (Exception ex) 
+            {
+                TempData["ToastMessage"] = "Filiaal aanmaken mislukt";
+                TempData["ToastType"] = "error";
+
+                return View("CreateBranchView");
+            }
         }
 
         [HttpPost]
         public IActionResult UpdateBranch(Branch branch)
         {
+            SetTempDataForToast("updateBranchToast");
+            try
+            {
+                _branchesRepository.UpdateBranch(branch);
 
-            _context.Branches.Update(branch);
-            _context.SaveChanges();
+                TempData["ToastMessage"] = "Filiaal is geüpdatet";
+                TempData["ToastType"] = "success";
 
-            return RedirectToAction("BranchesView");
+                return RedirectToAction("BranchesView");
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "Filiaal updaten mislukt";
+                TempData["ToastType"] = "error";
+
+                return View("UpdateBranchView", branch);
+            }
         }
 
         [HttpPost]
         public IActionResult DeleteBranch(int branchId)
         {
-            var newBranch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            SetTempDataForToast("updateBranchToast");
+
+            var newBranch = _branchesRepository.GetBranch(branchId);
 
             if(newBranch == null)
             {
+                TempData["ToastMessage"] = "Filiaal verwijderen mislukt";
+                TempData["ToastType"] = "error";
+
                 return View("UpdateBranchView", branchId);
             }
 
-            _context.Branches.Remove(newBranch);
-            _context.SaveChanges();
+            _branchesRepository.DeleteBranch(newBranch);
+
+            TempData["ToastMessage"] = "Filiaal is verwijderd";
+            TempData["ToastType"] = "success";
 
             return RedirectToAction("BranchesView");
         }
@@ -144,14 +184,15 @@ namespace bumbo.Controllers
         public IActionResult AddBranchManager(string employeeId, int branchId)
         {
 
-            var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var branch = _branchesRepository.GetBranch(branchId);
 
-            var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
-            employee.ManagerOfBranch = branch;
-            employee.ManagerOfBranchId = branchId;
-            _context.SaveChanges();
+            _branchesRepository.AddBranchManager(employeeId, branch);
 
             var viewModel = GetReadBranchViewModel(branch);
+
+            SetTempDataForToast("addBranchManagerToast");
+            TempData["ToastMessage"] = "Filiaalmanager is toegevoegd";
+            TempData["ToastType"] = "success";
 
             return View("ReadBranchView", viewModel);
         }
@@ -159,14 +200,15 @@ namespace bumbo.Controllers
         public IActionResult DeleteBranchManager(string employeeId, int branchId)
         {
 
-            var branch = _context.Branches.SingleOrDefault(p => p.BranchId == branchId);
+            var branch = _branchesRepository.GetBranch(branchId);
 
-            var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
-            employee.ManagerOfBranch = null;
-            employee.ManagerOfBranchId = null;
-            _context.SaveChanges();
+            _branchesRepository.DeleteBranchManager(employeeId);
 
             var viewModel = GetReadBranchViewModel(branch);
+
+            SetTempDataForToast("deleteBranchManagerToast");
+            TempData["ToastMessage"] = "Filiaalmanager is verwijderd";
+            TempData["ToastType"] = "success";
 
             return View("ReadBranchView", viewModel);
         }
@@ -181,47 +223,135 @@ namespace bumbo.Controllers
                 Name = branch.Name,
                 PostalCode = branch.PostalCode,
                 Street = branch.Street,
-                Employees = GetEmployeesFromBranch(branch),
-                Managers = GetManagersOfBranch(branch)
+                Employees = _branchesRepository.GetEmployeesFromBranch(branch),
+                Managers = _branchesRepository.GetManagersOfBranch(branch)
             };
+            viewModel.CountryName = CountryNameToDutch(viewModel.CountryName);
             return viewModel;
         }
 
-        private List<Employee> GetManagersOfBranch(Branch branch)
+        private string CountryNameToDutch(string countryName)
         {
-            List<Employee> employees = _context
-                .Employees
-                .Where(e => e.ManagerOfBranchId == branch.BranchId)
-                .ToList();
-            return employees;
+            switch (countryName) 
+            {
+                case "Netherlands":
+                    return "Nederland";
+                case "Belgium":
+                    return "België";
+                case "Germany":
+                    return "Duitsland";
+                default:
+                    return "";
+            }
         }
 
-        private List<Employee> GetEmployeesFromBranch(Branch branch)
+        private void SetTempDataForToast(string toastId)
         {
-            List<BranchHasEmployee> branchHasEmployees = _context
-                .BranchHasEmployees
-                .Where(e => e.BranchId == branch.BranchId)
-                .ToList();
-
-
-            List<Employee> employeesInDatabase = _context
-                .Employees
-                .ToList();
-
-            List<Employee> employeesInBranch = new List<Employee>();
-
-            foreach (var emp in employeesInDatabase)
-            {
-                foreach (var branchEmp in branchHasEmployees) 
-                {
-                    if (branchEmp.EmployeeId == emp.Id)
-                    {
-                        employeesInBranch.Add(emp);
-                    }
-                }
-            }
-
-            return employeesInBranch;
+            TempData["ToastId"] = toastId;
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
         }
     }
+}
+
+
+
+
+
+class TableHtmlBuilderAddBranchManager<TItem>
+{
+    public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, Func<TItem, string> rowTemplate, int branchId, string searchTerm = null, int currentPage = 1, int pageSize = 10)
+    {
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            items = items.Where(item =>
+            {
+                var properties = typeof(TItem).GetProperties();
+                return properties.Any(prop => prop.GetValue(item)?.ToString()?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true);
+            }).ToList();
+        }
+
+        var totalItems = items.Count;
+        var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+        currentPage = Math.Max(1, Math.Min(currentPage, totalPages));
+
+        var pagedItems = items.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+
+        var htmlBuilder = new StringBuilder();
+        htmlBuilder.AppendLine("<div class='container mx-auto p-10'>" +
+                               "<div class='flex justify-between items-center mb-4'>" +
+                               "<h2 class='mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900'>" + title + "</h2>" +
+                               "<form method='get' class='flex items-center space-x-4'>" +
+                               "<input type='hidden' name='branchId' value=" + branchId + " />" +
+                               "<input type='text' name='searchTerm' value='" + searchTerm + "' placeholder='Zoek naar " + title.ToLower() + "' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />" +
+                               "<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>" +
+                               "</form>" +
+                               "<button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>" +
+                               "</div>"
+                               );
+        htmlBuilder.AppendLine("<div class='w-full p-6'>");
+        htmlBuilder.AppendLine("<div class='overflow-x-auto w-full'>");
+        htmlBuilder.AppendLine("<table class='min-w-full table-auto border-collapse'>");
+
+        htmlBuilder.AppendLine(
+            "<thead>" +
+            "<tr class='text-left text-gray-600 font-bold'>"
+        );
+        foreach (var header in headers)
+        {
+            htmlBuilder.AppendLine($"<th class='py-2 px-4'>{header}</th>");
+        }
+        htmlBuilder.AppendLine(
+            "</tr>" +
+            "</thead>"
+        );
+        htmlBuilder.AppendLine("<tbody>");
+        foreach (var item in pagedItems)
+        {
+            htmlBuilder.AppendLine("<tr class='border-b hover:bg-gray-50'>");
+            htmlBuilder.AppendLine(rowTemplate(item));
+            htmlBuilder.AppendLine("</tr>");
+        }
+        htmlBuilder.AppendLine("</tbody>");
+        htmlBuilder.AppendLine("</table>");
+        htmlBuilder.AppendLine("</div>");
+
+        htmlBuilder.AppendLine("<div class='flex justify-center items-center mt-4 space-x-2'>");
+
+        if (currentPage > 1)
+        {
+            htmlBuilder.AppendLine($"<a href='?page={currentPage - 1}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300'>Vorige</a>");
+        }
+        else
+        {
+            htmlBuilder.AppendLine("<span class='py-2 px-4 bg-gray-100 text-gray-400 rounded-lg'>Vorige</span>");
+        }
+
+        for (int i = 1; i <= totalPages; i++)
+        {
+            if (i == currentPage)
+            {
+                htmlBuilder.AppendLine($"<span class='py-2 px-4 bg-yellow-400 text-white rounded-lg'>{i}</span>");
+            }
+            else
+            {
+                htmlBuilder.AppendLine($"<a href='?page={i}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300'>{i}</a>");
+            }
+        }
+        if (currentPage < totalPages)
+        {
+            htmlBuilder.AppendLine($"<a href='?page={currentPage + 1}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300'>Volgende</a>");
+        }
+        else
+        {
+            htmlBuilder.AppendLine("<span class='py-2 px-4 bg-gray-100 text-gray-400 rounded-lg'>Volgende</span>");
+        }
+        htmlBuilder.AppendLine("</div>");
+
+        htmlBuilder.AppendLine("</div>");
+
+        return htmlBuilder.ToString();
+    }
+
+
 }

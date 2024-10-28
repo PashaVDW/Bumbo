@@ -17,20 +17,6 @@
 
     <h1 class="text-3xl font-semibold mb-6">Medewerker bewerken</h1>
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            @TempData["ErrorMessage"]
-        </div>
-    }
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
-                <p>@TempData["SuccessMessage"]</p>
-            </div>
-    }
-
     <form asp-action="Update" method="post" class="space-y-6">
         <input type="hidden" asp-for="Id" />
 
@@ -125,12 +111,19 @@
         </div>
     </form>
 
-    <form asp-action="DeleteEmployee" method="post" class="mt-2" style="margin-top: -30px;">
-        <input type="hidden" name="EmployeeId" value="@Model.Id" />
-        <button type="submit" class="text-sm text-red-500 underline hover:text-red-700" style="background: none; border: none; padding: 0; cursor: pointer;">
-            Medewerker verwijderen
-        </button>
-    </form>
+    <button type="button" class="text-sm text-red-500 underline hover:text-red-700 mt-2" style="background: none; border: none; padding: 0; cursor: pointer;" onclick="document.getElementById('deleteEmployeeModal').classList.remove('hidden')">
+        Medewerker verwijderen
+    </button>
+
+    <custom-modal modal-id="deleteEmployeeModal" body-text="Weet je zeker dat je deze medewerker wilt verwijderen?">
+        <form asp-action="DeleteEmployee" method="post" class="inline">
+            <input type="hidden" name="EmployeeId" value="@Model.Id" />
+            <button type="submit" class="bg-red-600 text-white py-2 px-4 rounded-xl font-semibold hover:bg-red-500">
+                Ja
+            </button>
+        </form>
+        <default-button button-text="Nee" button-type="secondary" on-click="document.getElementById('deleteEmployeeModal').classList.add('hidden')"></default-button>
+    </custom-modal>
 
     <h2 class="text-xl font-semibold mt-12 mb-4">Tijwijzingen filialen</h2>
     @if (Model.BranchAssignments != null && Model.BranchAssignments.Count > 0)
@@ -193,3 +186,19 @@
 
 
 </div>
+
+
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}

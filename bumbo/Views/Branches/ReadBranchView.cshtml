@@ -39,7 +39,7 @@
             <figure>
                <iframe class="w-96 h-96 rounded-3xl" width="600" height="450"
                         style="border:0" loading="lazy" allowfullscreen
-                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD7VOvSNl7UiioL23rjXVatk7SeLfC4pHg&q=@Model.Street+@Model.HouseNumber+Jumbo">
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD7VOvSNl7UiioL23rjXVatk7SeLfC4pHg&q=@Model.Street+@Model.HouseNumber">
                 </iframe>
             </figure>
         </div>
@@ -62,31 +62,43 @@
                     <figure class="w-16 h-16 border-slate-200 border-2">
                         <img src="https://imageplaceholder.net/64x64/" alt="" class="w-16 h-16" />
                     </figure>
-                    <p class="top-3 relative text-center font-bold">@employee.FirstName @employee.LastName</p>
+                    <p class="top-3 relative text-center font-bold">@employee.FirstName @employee.MiddleName @employee.LastName</p>
                 </div>
 
-                <custom-modal modal-id="deletebranchmanager" body-text="Weet je zeker dat je deze filiaalmanager wilt verwijderen?">
+                <custom-modal modal-id="deletebranchmanager{@employee.Id}" body-text="Weet je zeker dat je @employee.FirstName @employee.MiddleName @employee.LastName wilt verwijderen?">
                     <a asp-action="DeleteBranchManager" asp-controller="Branches"
                        asp-route-branchId="@Model.BranchId" asp-route-employeeId="@employee.Id"
                        class="bg-red-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-500">Verwijderen</a>
-                    <default-button button-text="Annuleren" button-type="secondary" on-click="document.getElementById('deletebranchmanager').classList.add('hidden')"></default-button>
+                    <default-button button-text="Annuleren" button-type="secondary" on-click="document.getElementById('deletebranchmanager{@employee.Id}').classList.add('hidden')"></default-button>
                 </custom-modal>
-
                 <button class="w-6 h-6 bg-gray-200 right-7 bottom-1 relative rotate-45 content-center rounded-3xl"
-                        onclick="document.getElementById('deletebranchmanager').classList.remove('hidden')">
+                        onclick="document.getElementById('deletebranchmanager{@employee.Id}').classList.remove('hidden')">
                     <div class="w-2 bg-black h-px m-auto rotate-90"></div>
                     <div class="w-2 bottom-px bg-black h-px relative m-auto"></div>
                 </button>
             </div>
         }
-        <form method="post" asp-action="CreateBranchManagerView" asp-controller="Branches">
-            <input type="hidden" name="branchId" value="@Model.BranchId" />
-            <button type="submit" class="border-slate-100 mr-3 mt-3 w-40 h-36 content-center rounded-3xl border-2">
-                <div class="bg-gray-200 top-4 w-8 h-1 relative m-auto rounded"></div>
-                <div class="bg-gray-200 w-1 h-8 bottom-0.5 relative m-auto rounded"></div>
-            </button>
-        </form>
+        <a asp-action="CreateBranchManagerView" asp-controller="Branches" asp-route-branchId="@Model.BranchId" 
+            class="border-slate-100 mr-3 mt-3 w-40 h-36 content-center rounded-3xl border-2">
+            <div class="bg-gray-200 top-4 w-8 h-1 relative m-auto rounded"></div>
+            <div class="bg-gray-200 w-1 h-8 bottom-0.5 relative m-auto rounded"></div>
+        </a>
     </div>
 </div>
 
 <div class="h-28"></div>
+
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}

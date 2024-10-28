@@ -2,34 +2,24 @@
     ViewData["Title"] = "Medewerker Overzicht";
 }
 
-@if (TempData["SuccessEmployeeAddedMessage"] != null)
-{
-    <div class="container mx-auto mt-2" role="alert">
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mx-10 rounded">
-            <p>@TempData["SuccessEmployeeAddedMessage"]</p>
-        </div>
-    </div>
-}
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="container mx-auto mt-2" role="alert">
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mx-10 rounded">
-            <p>@TempData["SuccessMessage"]</p>
-        </div>
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="container mx-auto mt-2" role="alert">
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-10 rounded">
-            <p>@TempData["ErrorMessage"]</p>
-        </div>
-    </div>
-}
-
 <!-- Display the generated table -->
-<div class="mt-4">
-    @Html.Raw(ViewBag.HtmlTable)
+<div class="mx-4 mt-4">
+    <div class="mt-6 flex flex-row">
+        @Html.Raw(ViewBag.HtmlTable)
+    </div>
 </div>
+
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}
