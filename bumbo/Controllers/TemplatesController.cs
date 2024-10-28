@@ -75,8 +75,15 @@ namespace bumbo.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             var model = new TemplateCreateViewModel
             {
                 Days = new List<DayData>
