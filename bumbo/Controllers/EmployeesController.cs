@@ -34,7 +34,9 @@ namespace bumbo.Controllers
                     <td class='py-2 px-4'>{item.LastName}</td>
                     <td class='py-2 px-4'>{item.Email}</td>
                     <td class='py-2 px-4'>{item.PhoneNumber}</td>
-                    <td class='py-2 px-4'><a href='/medewerkers/bewerken?medewerkerId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Bewerken</a><td>";
+                    <td class='py-2 px-4'>
+                    <button onclick = ""window.location.href='/medewerkers/bewerken?medewerkerId={item.Id}'"">✏️</button> 
+                    <td>";
             }, searchTerm, page);
 
             ViewBag.HtmlTable = htmlTable;
