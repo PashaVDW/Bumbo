@@ -8,12 +8,6 @@ using System.Globalization;
 
 namespace bumbo.Controllers
 {
-    public class Template
-    {
-        public int TemplateId { get; set; }
-        public string TemplateName { get; set; }
-        public List<Days> DaysList { get; set; }
-    }
 
     public class PrognosisController : Controller
     {
@@ -130,12 +124,12 @@ namespace bumbo.Controllers
         [HttpGet]
         public ActionResult Create(int? id)
         {
-            var template = templates.Find(t => t.TemplateId == id);
+            var template = templates.Find(t => t.Id == id);
 
             if (template != null)
             {
                 ViewBag.daysList = template;
-                ViewBag.templateName = template.TemplateName;
+                ViewBag.templateName = template.Name;
             }
             else
             {
@@ -236,10 +230,10 @@ namespace bumbo.Controllers
             var htmlTable = tableBuilder.GenerateTable("", headers, templates, "", item =>
             {
                 return $@"
-                    <td class='py-2 px-4'>{item.TemplateName}</td>
+                    <td class='py-2 px-4'>{item.Name}</td>
                     <td class='py-2 px-4 text-right'>
                         <button class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl' 
-                                onclick=""window.location.href='../prognosis/Create?id={item.TemplateId}'"">
+                                onclick=""window.location.href='../prognosis/Create?id={item.Id}'"">
                             Kies
                         </button>
                     </td>";
