@@ -11,51 +11,54 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      # Checkout the code from the repo
       - uses: actions/checkout@v4
 
+      # Set up .NET Core
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
 
+      # Build with dotnet
       - name: Build with dotnet
         run: dotnet build bumbo/bumbo.csproj --configuration Release
 
-      - name: dotnet publish
-        run: dotnet publish bumbo/bumbo.csproj -c Release -o ${{ runner.workspace }}/myapp
+      # Publish the application
+      - name: Publish .NET app
+        run: dotnet publish bumbo/bumbo.csproj -c Release -o ${{ github.workspace }}/published_app
 
+      # Upload the published files for the deploy job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{ runner.workspace }}/myapp
+          path: ${{ github.workspace }}/published_app
 
   deploy:
     runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write # Required for requesting the JWT
-
     steps:
+      # Download the published files
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
       
+      # Login to Azure using credentials from GitHub secrets
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # Deploy to Azure Web App
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'bumbo-webapp'
-          slot-name: 'Production'
-          package: ${{ runner.workspace }}/myapp
+          package: ${{ github.workspace }}/published_app
