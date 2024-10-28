@@ -23,12 +23,16 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
+        SetTempDataForAccountToast("loginToast");
+
         if (ModelState.IsValid)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "Dit e-mailadres bestaat niet.");
+                TempData["ToastMessage"] = "Dit e-mailadres bestaat niet.";
+                TempData["ToastType"] = "error";
+                return View(model);
             }
             else
             {
@@ -40,7 +44,8 @@ public class AccountController : Controller
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Wachtwoord is onjuist.");
+                    TempData["ToastMessage"] = "Wachtwoord is onjuist.";
+                    TempData["ToastType"] = "error";
                 }
             }
         }
@@ -48,9 +53,17 @@ public class AccountController : Controller
         return View(model);
     }
 
+
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
+    }
+
+    private void SetTempDataForAccountToast(string toastId)
+    {
+        TempData["ToastId"] = toastId;
+        TempData["AutoHide"] = "yes";
+        TempData["MilSecHide"] = 5000;
     }
 }

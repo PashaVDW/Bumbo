@@ -17,20 +17,6 @@
 
     <h1 class="text-3xl font-semibold mb-6">Medewerker bewerken</h1>
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            @TempData["ErrorMessage"]
-        </div>
-    }
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded">
-                <p>@TempData["SuccessMessage"]</p>
-            </div>
-    }
-
     <form asp-action="Update" method="post" class="space-y-6">
         <input type="hidden" asp-for="Id" />
 
@@ -193,3 +179,19 @@
 
 
 </div>
+
+
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}

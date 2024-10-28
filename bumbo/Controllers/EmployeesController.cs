@@ -74,6 +74,7 @@ namespace bumbo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateEmployeeViewModel model)
         {
+            SetTempDataForEmployeeToast("createEmployeeToast");
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null || (user.ManagerOfBranchId == null && !user.IsSystemManager))
@@ -83,6 +84,7 @@ namespace bumbo.Controllers
 
             if (ModelState.IsValid)
             {
+               
                 bool isSuccess = false;
                 var employee = new Employee
                 {
@@ -116,42 +118,22 @@ namespace bumbo.Controllers
 
                         await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchHasEmployee);
                     }
-                    
-                    if (isSuccess)
-                    {
-                        TempData["ToastMessage"] = "Je bent succesvol ingelogd!"; // het bericht dat je laat zien
-                        TempData["ToastType"] = "success"; // het type message (dit heeft invloed op de style)
-                    }
-                    else
-                    {
-                        TempData["ToastMessage"] = "Inloggen mislukt. Probeer het opnieuw."; // het bericht dat je laat zien
-                        TempData["ToastType"] = "error"; // het type message (dit heeft invloed op de style)
-                    }
-                    TempData["ToastId"] = "loginToast"; // id voor je toast ( Belangerijk )
-                    TempData["AutoHide"] = "yes"; // of die automatisch hide = "yes" of "no"
-                    TempData["MilSecHide"] = 3000; // aantal sec dat die blijft met autohide aan
-                                                   // als je deze in 1 van de if of else zet kan je het per toast verschillend maken
 
-                    TempData["SuccessEmployeeAddedMessage"] = "Medewerker succesvol toegevoegd!";
+                    TempData["ToastMessage"] = "Medewerker succesvol toegevoegd!";
+                    TempData["ToastType"] = "success";
 
                     return RedirectToAction("Index");
                 }
-
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    TempData["ToastMessage"] = "Er is iets mis gegaan, probeer het opnieuw.";
+                    TempData["ToastType"] = "error";
                 }
             }
             else
             {
-                // Log the validation errors
-                foreach (var state in ModelState)
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Validation Error: {error.ErrorMessage}");
-                    }
-                }
+                TempData["ToastMessage"] = "Gegevens zijn niet juist ingevuld!";
+                TempData["ToastType"] = "error";
             }
 
             model.Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
@@ -166,6 +148,8 @@ namespace bumbo.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateAsync(string medewerkerId)
         {
+            SetTempDataForEmployeeToast("updateEmployeeToast");
+
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null || (user.ManagerOfBranchId == null && !user.IsSystemManager))
@@ -176,7 +160,8 @@ namespace bumbo.Controllers
             var employee = _employeeRepository.GetEmployeeById(medewerkerId);
             if (employee == null)
             {
-                TempData["ErrorMessage"] = "De medewerker die u wilt bewerken, bestaat niet." + medewerkerId + "ads";
+                TempData["ToastMessage"] = "De medewerker die u wilt bewerken, bestaat niet.";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("Index");
             }
 
@@ -219,14 +204,18 @@ namespace bumbo.Controllers
         }
 
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAsync(UpdateEmployeeViewModel model)
         {
+            SetTempDataForEmployeeToast("updateEmployeeToast");
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null || (user.ManagerOfBranchId == null && !user.IsSystemManager))
             {
+                TempData["ToastMessage"] = "Je hebt geen toegang tot deze functionaliteit";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("AccessDenied", "Home");
             }
 
@@ -253,7 +242,8 @@ namespace bumbo.Controllers
             var employee = _employeeRepository.GetEmployeeById(model.Id);
             if (employee == null)
             {
-                TempData["ErrorMessage"] = "De medewerker die u wilt bewerken, bestaat niet.";
+                TempData["ToastMessage"] = "De medewerker die u wilt bewerken, bestaat niet.";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("Index");
             }
 
@@ -281,13 +271,14 @@ namespace bumbo.Controllers
                 }
                 else if (branchAssignment == null && !string.IsNullOrEmpty(model.SelectedFunction))
                 {
-                    TempData["ErrorMessage"] = "Functie kan niet ingesteld worden.";
+                    TempData["ToastMessage"] = "Functie kan niet ingesteld worden.";
+                    TempData["ToastType"] = "error";
                 }
             }
 
-            TempData["SuccessMessage"] = "De medewerker is succesvol bijgewerkt.";
+            TempData["ToastMessage"] = "De medewerker is succesvol bijgewerkt.";
+            TempData["ToastType"] = "success";
 
-            // Redirect back to the employee overview page
             return RedirectToAction("Index");
         }
 
@@ -296,30 +287,38 @@ namespace bumbo.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RemoveBranchAssignment(string EmployeeId, int BranchId)
         {
+            SetTempDataForEmployeeToast("removeBranchAssignmentToast");
+
             var branchAssignment = _branchHasEmployeeRepository.GetBranchAssignment(EmployeeId, BranchId);
 
             if (branchAssignment == null)
             {
-                TempData["ErrorMessage"] = "De toewijzing kon niet worden gevonden.";
+                TempData["ToastMessage"] = "De toewijzing kon niet worden gevonden.";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("Update", new { medewerkerId = EmployeeId });
             }
 
-            // Verwijder de branch-employee relatie
             _branchHasEmployeeRepository.RemoveBranchAssignment(branchAssignment);
 
-            TempData["SuccessMessage"] = "De toewijzing is succesvol verwijderd.";
+            TempData["ToastMessage"] = "De toewijzing is succesvol verwijderd.";
+            TempData["ToastType"] = "success";
+
             return RedirectToAction("Update", new { medewerkerId = EmployeeId });
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteEmployee(string employeeId)
         {
+            SetTempDataForEmployeeToast("deleteEmployeeToast");
+
             var employee = _employeeRepository.GetEmployeeById(employeeId);
 
             if (employee == null)
             {
-                TempData["ErrorMessage"] = "De medewerker die u wilt verwijderen, bestaat niet.";
+                TempData["ToastMessage"] = "De medewerker die u wilt verwijderen, bestaat niet.";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("Index");
             }
 
@@ -327,26 +326,32 @@ namespace bumbo.Controllers
             {
                 _employeeRepository.DeleteEmployee(employeeId);
 
-                TempData["SuccessMessage"] = "De medewerker is succesvol verwijderd.";
+                TempData["ToastMessage"] = "De medewerker is succesvol verwijderd.";
+                TempData["ToastType"] = "success";
 
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = $"Er is een fout opgetreden bij het verwijderen van de medewerker: {ex.Message}";
+                TempData["ToastMessage"] = $"Er is een fout opgetreden bij het verwijderen van de medewerker: {ex.Message}";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("Update", new { medewerkerId = employeeId });
             }
         }
 
-        
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignBranchToEmployee(string employeeId, int branchId)
         {
+            SetTempDataForEmployeeToast("assignBranchToEmployeeToast");
+
             var employee = _employeeRepository.GetEmployeeById(employeeId);
             if (employee == null)
             {
-                TempData["ErrorMessage"] = "De medewerker bestaat niet.";
+                TempData["ToastMessage"] = "De medewerker bestaat niet.";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("Index");
             }
 
@@ -360,9 +365,18 @@ namespace bumbo.Controllers
 
             await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchAssignment);
 
-            TempData["SuccessMessage"] = "Het filiaal is succesvol toegewezen aan de medewerker.";
+            TempData["ToastMessage"] = "Het filiaal is succesvol toegewezen aan de medewerker.";
+            TempData["ToastType"] = "success";
 
             return RedirectToAction("Update", new { medewerkerId = employeeId });
+        }
+
+
+        private void SetTempDataForEmployeeToast(string toastId)
+        {
+            TempData["ToastId"] = toastId;
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 5000;
         }
 
 
