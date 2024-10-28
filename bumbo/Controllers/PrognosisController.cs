@@ -65,30 +65,49 @@ namespace bumbo.Controllers
         }
 
         private List<DailyCalculationResult> CalculateUrenAndMedewerkers(
-          List<Prognosis_has_days> prognosisDays,
-          List<Norm> norms)
+            List<Prognosis_has_days> prognosisDays,
+            List<Norm> norms)
         {
             var results = new List<DailyCalculationResult>();
 
             foreach (var day in prognosisDays)
             {
-                double totalSecondsForCustomers = day.CustomerAmount * GetNormInSeconds("Kassa", norms);
-                double totalSecondsForPackages = day.PackagesAmount * GetNormInSeconds("Vakkenvullen", norms);
-
-                double totalSeconds = totalSecondsForCustomers + totalSecondsForPackages;
-                double uren = totalSeconds / 3600;
-                double medewerkersNeeded = uren / 8.0;
-
-                results.Add(new DailyCalculationResult
+                var dayResult = new DailyCalculationResult
                 {
                     DayName = day.Days_name,
-                    Uren = uren,
-                    MedewerkersNeeded = Math.Ceiling(medewerkersNeeded)
-                });
+                    DepartmentCalculations = new List<DepartmentCalculationResult>()
+                };
+
+                // Define each department (activity) and its associated amount type
+                var activities = new List<(string activity, int amount)>
+                {
+                    ("Coli uitladen", day.PackagesAmount),
+                    ("Vakkenvullen", day.PackagesAmount),
+                    ("Kassa", day.CustomerAmount),
+                    ("Vers", day.PackagesAmount),
+                    ("Spiegelen", day.PackagesAmount)
+                };
+
+                foreach (var (activity, amount) in activities)
+                {
+                    double totalSeconds = amount * GetNormInSeconds(activity, norms);
+                    int uren = (int)Math.Ceiling(totalSeconds / 3600); // Convert to hours and round up
+                    int medewerkersNeeded = (int)Math.Ceiling(uren / 8.0); // Assume 8-hour shifts
+
+                    dayResult.DepartmentCalculations.Add(new DepartmentCalculationResult
+                    {
+                        Activity = activity,
+                        Uren = uren,
+                        MedewerkersNeeded = medewerkersNeeded
+                    });
+                }
+
+                results.Add(dayResult);
             }
 
             return results;
         }
+
 
         private double GetNormInSeconds(string activity, List<Norm> norms)
         {
@@ -201,10 +220,13 @@ namespace bumbo.Controllers
         }
 
 
+        [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View();
+            _prognosisRepository.DeletePrognosisById(id);
+            return RedirectToAction("Index");
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -247,7 +269,13 @@ namespace bumbo.Controllers
     public class DailyCalculationResult
     {
         public string DayName { get; set; }
-        public double Uren { get; set; }
-        public double MedewerkersNeeded { get; set; }
+        public List<DepartmentCalculationResult> DepartmentCalculations { get; set; }
+    }
+
+    public class DepartmentCalculationResult
+    {
+        public string Activity { get; set; }
+        public int Uren { get; set; }
+        public int MedewerkersNeeded { get; set; }
     }
 }

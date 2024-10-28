@@ -55,14 +55,22 @@ else
         @for (int i = 0; i < dates.Count; i++)
         {
             <div class="p-4 text-center">
-                <h1>@dates[i].Day</h1>
+                <h1>@dates[i].ToString("dddd")</h1>
                 <h5>@dates[i].ToString("ddd")</h5>
 
                 @* Check if ViewBag.CalculationResults is available *@
                 @if (ViewBag.CalculationResults != null && i < ViewBag.CalculationResults.Count)
                 {
-                    <h2>Totaal Benodigde Uren: @ViewBag.CalculationResults[i].Uren</h2>
-                    <h2>Medewerkers: @ViewBag.CalculationResults[i].MedewerkersNeeded</h2>
+                    <h2 class="font-bold">Totaal voor @dates[i].ToString("dddd")</h2>
+
+                    @foreach (var department in ViewBag.CalculationResults[i].DepartmentCalculations)
+                    {
+                        <div class="mt-2">
+                            <p><strong>@department.Activity:</strong></p>
+                            <p>Uren: @department.Uren</p>
+                            <p>Medewerkers: @department.MedewerkersNeeded</p>
+                        </div>
+                    }
                 }
                 else
                 {
@@ -76,34 +84,40 @@ else
     <button class="text-2xl">&#10095;</button>
 </div>
 
-<div class="grid grid-cols-7 gap-4 mt-8 mx-auto max-w-screen-lg">
-    @for (int i = 0; i < dates.Count; i++)
-    {
-        <div class="flex flex-col items-center">
-            <div class="font-bold">@dates[i].ToString("dddd")</div>
+@if (ViewBag.LatestPrognosis != null)
+{
+    <div class="grid grid-cols-7 gap-4 mt-8 mx-auto max-w-screen-lg">
+        @for (int i = 0; i < dates.Count; i++)
+        {
+            <div class="flex flex-col items-center">
+                <div class="font-bold">@dates[i].ToString("dddd")</div>
 
-            <div class="grid grid-cols-2 gap-2 mt-2">
-                <label class="text-center">Uur</label>
-                <label class="text-center">Medewerkers</label>
-            </div>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <label class="text-center">Uur</label>
+                    <label class="text-center">Medewerkers</label>
+                </div>
 
-            <div class="grid grid-cols-2 gap-2 mt-2">
-                <input type="number" class="p-2 border" />
-                <input type="number" class="p-2 border" />
+                @if (ViewBag.CalculationResults != null && i < ViewBag.CalculationResults.Count)
+                {
+                    @foreach (var department in ViewBag.CalculationResults[i].DepartmentCalculations)
+                    {
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <input type="text" class="p-2 border text-center" value="@department.Uren" readonly />
+                            <input type="text" class="p-2 border text-center" value="@department.MedewerkersNeeded" readonly />
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="grid grid-cols-2 gap-2 mt-2">
+                        <input type="text" class="p-2 border text-center" value="-" readonly />
+                        <input type="text" class="p-2 border text-center" value="-" readonly />
+                    </div>
+                }
             </div>
-
-            <div class="grid grid-cols-2 gap-2 mt-2">
-                <input type="number" class="p-2 border" />
-                <input type="number" class="p-2 border" />
-            </div>
-
-            <div class="grid grid-cols-2 gap-2 mt-2">
-                <input type="number" class="p-2 border" />
-                <input type="number" class="p-2 border" />
-            </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
 
 <!-- Message when there's no prognosis for this week -->
 @if (ViewBag.LatestPrognosis == null)

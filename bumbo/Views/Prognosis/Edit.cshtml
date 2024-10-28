@@ -49,7 +49,12 @@
 
         <div class="mt-4 flex justify-end space-x-2">
             <button type="submit" class="bg-blue-500 text-white border border-blue-700 rounded p-2 hover:bg-blue-600 transition">Opslaan</button>
-            <button type="button" class="bg-red-500 text-white border border-red-700 rounded p-2 hover:bg-red-600 transition" onclick="window.location.href='/Prognosis/Delete/@Model.PrognosisId'">Verwijderen</button>
         </div>
+    </form>
+    <form asp-action="Delete" method="post" asp-route-id="@Model.PrognosisId">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="bg-red-500 text-white border border-red-700 rounded p-2 hover:bg-red-600 transition">
+            Verwijderen
+        </button>
     </form>
 </div>
