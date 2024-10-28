@@ -57,7 +57,6 @@ jobs:
           client-id: 80fb242c-5dca-496a-a149-841188dd4bb8
           tenant-id: 87c50b58-2ef2-423d-a4db-1fa7c84efcfa
           subscription-id: 7c86441b-4dca-49f3-b903-89a3a711343f
-          auth-type: id-token  # Ensure this is set to use id-token authentication
 
       # Deploy to Azure Web App
       - name: Deploy to Azure Web App
