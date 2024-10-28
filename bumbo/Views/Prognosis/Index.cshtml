@@ -54,33 +54,6 @@
     <button class="text-2xl">&#10095;</button>
 </div>
 
-@if (ViewBag.prognoseLijst != null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Dag</th>
-                <th>Aantal Verwachte Klanten</th>
-                <th>Aantal Verwachte Collies</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < ViewBag.prognoseLijst.Count; i++)
-            {
-                <tr>
-                    <td>@ViewBag.prognoseLijst[i].Name</td>
-                    <td>@ViewBag.prognoseLijst[i].CustomerAmount</td>
-                    <td>@ViewBag.prognoseLijst[i].Packages</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No data available.</p>
-}
-
 <div class="grid grid-cols-7 gap-4 mt-8 mx-auto max-w-screen-lg">
     @for (int i = 0; i < dates.Count; i++)
     {
