@@ -1,0 +1,126 @@
+﻿@using bumbo.Controllers
+@{
+    ViewData["Title"] = "Prognose";
+    var today = DateTime.Today;
+    var culture = System.Globalization.CultureInfo.CurrentCulture;
+    var weekNumber = culture.Calendar.GetWeekOfYear(today, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+    var startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday);
+    var dates = Enumerable.Range(0, 7).Select(d => startOfWeek.AddDays(d)).ToList();
+}
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}
+<div class="gap-4 mt-20 mx-auto grid max-w-screen-lg grid-cols-3">
+    <div class="space-y-1" name="prognoses_title">
+        <h1 class="font-bold">Prognose</h1>
+        <h3>Week @weekNumber</h3>
+    </div>
+    <div></div>
+    <div class="flex justify-end">
+        @if (ViewBag.LatestPrognosis != null)
+        {
+            <default-button onclick="window.location.href='/Prognosis/Edit/@ViewBag.LatestPrognosis.PrognosisId';" button-text="Bewerk deze prognose" button-type="primary"></default-button>
+        }
+    </div>
+</div>
+<div class="mt-8 mx-auto flex max-w-screen-lg items-center justify-between">
+    <button class="text-2xl">&#10094;</button>
+
+
+    <div class="gap-4 grid grid-cols-7">
+        @for (int i = 0; i < dates.Count; i++)
+        {
+            <div class="p-4 text-center">
+                <h1>@dates[i].Day</h1>
+                <h5>@dates[i].ToString("ddd")</h5>
+
+                @* Check if ViewBag.CalculationResults is available *@
+                @if (ViewBag.CalculationResults != null && i < ((List<DailyCalculationResult>)ViewBag.CalculationResults).Count)
+                {
+                    var dailyCalculation = (DailyCalculationResult)ViewBag.CalculationResults[i];
+                    int totalUren = dailyCalculation.DepartmentCalculations.Sum(d => d.Uren);
+                    int totalMedewerkers = dailyCalculation.DepartmentCalculations.Sum(d => d.MedewerkersNeeded);
+
+                    <h2>Totaal Benodigde Uren: @totalUren</h2>
+                    <h2>Medewerkers: @totalMedewerkers</h2>
+                }
+                else
+                {
+                    <h2>Totaal Benodigde Uren: -</h2>
+                    <h2>Medewerkers: -</h2>
+                }
+            </div>
+        }
+    </div>
+
+    <button class="text-2xl">&#10095;</button>
+</div>
+<div class="mt-8 mx-auto flex max-w-6xl flex-row">
+    <br /><br />
+
+    <div class="flex flex-col justify-between flex-grow">
+        <div class="align-bottom">
+            @foreach (var activity in ViewBag.Activities)
+            {
+                <h2>@activity.Item1</h2>
+                <br />
+            }
+        </div>
+    </div>
+
+    <div class="gap-4 mt-8 mx-auto grid grid-cols-7">
+        @for (int i = 0; i < dates.Count; i++)
+        {
+            <div class="flex flex-col items-center">
+                <div class="font-bold">@dates[i].ToString("dddd")</div>
+
+                <div class="gap-2 mt-2 grid grid-cols-2">
+                    <label class="text-center">Uur</label>
+                    <label class="text-center">Medewerkers</label>
+                </div>
+
+                @if (ViewBag.CalculationResults != null && i < ((List<DailyCalculationResult>)ViewBag.CalculationResults).Count)
+                {
+                    var dailyCalculation = (DailyCalculationResult)ViewBag.CalculationResults[i];
+
+                    @foreach (var department in dailyCalculation.DepartmentCalculations)
+                    {
+                        <div class="gap-2 mt-2 grid grid-cols-2">
+                            <input type="text" class="p-2 border text-center" value="@department.Uren" readonly />
+                            <input type="text" class="p-2 border text-center" value="@department.MedewerkersNeeded" readonly />
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="gap-2 mt-2 grid grid-cols-2">
+                        <input type="text" class="p-2 border text-center" value="-" readonly />
+                        <input type="text" class="p-2 border text-center" value="-" readonly />
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Message when there's no prognosis for this week -->
+        @if (ViewBag.LatestPrognosis == null)
+        {
+            <div class="mt-8 align-items-center flex flex-col items-center">
+                <h2 class="text-2xl font-bold">Er is nog geen prognose voor deze week</h2>
+                <div class="mt-4">
+                    <default-button onclick="window.location.href='prognosis/create';" button-text="Maak een Prognose" button-type="primary"></default-button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

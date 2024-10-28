@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using bumbo.Models;
+using bumbo.Models;// Zorg dat deze regel aanwezig is voor toegang tot het Employee model
 using bumbo.ViewModels;
 using DataLayer.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using bumbo.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace bumbo.Controllers
 {

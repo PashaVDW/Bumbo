@@ -23,7 +23,7 @@ namespace bumbo.Data
         public DbSet<Norm> Norms { get; set; }
         public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
         public DbSet<Function> Functions { get; set; }
-        
+
         public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -149,26 +149,26 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Prognosis>().HasData(
-                new Prognosis { PrognosisId = "1", WeekNr = 40, Year = 2024, BranchId = 1 },
-                new Prognosis { PrognosisId = "2", WeekNr = 20, Year = 2024, BranchId = 1 }
+                new Prognosis { PrognosisId = 1, WeekNr = 40, Year = 2024, BranchId = 1 },
+                new Prognosis { PrognosisId = 2, WeekNr = 20, Year = 2024, BranchId = 1 }
             );
 
             modelBuilder.Entity<Prognosis_has_days>().HasData(
-                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = "1", CustomerAmount = 100, PackagesAmount = 50 },
-                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = "1", CustomerAmount = 120, PackagesAmount = 60 },
-                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = "1", CustomerAmount = 130, PackagesAmount = 55 },
-                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
-                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
-                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
-                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 },
+                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = 1, CustomerAmount = 100, PackagesAmount = 50 },
+                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = 1, CustomerAmount = 120, PackagesAmount = 60 },
+                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = 1, CustomerAmount = 130, PackagesAmount = 55 },
+                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = 1, CustomerAmount = 110, PackagesAmount = 45 },
+                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = 1, CustomerAmount = 150, PackagesAmount = 70 },
+                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = 1, CustomerAmount = 160, PackagesAmount = 80 },
+                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = 1, CustomerAmount = 140, PackagesAmount = 65 },
 
-                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = "2", CustomerAmount = 90, PackagesAmount = 40 },
-                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = "2", CustomerAmount = 115, PackagesAmount = 55 },
-                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = "2", CustomerAmount = 125, PackagesAmount = 50 },
-                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = "2", CustomerAmount = 105, PackagesAmount = 42 },
-                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = "2", CustomerAmount = 140, PackagesAmount = 68 },
-                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = "2", CustomerAmount = 150, PackagesAmount = 75 },
-                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "2", CustomerAmount = 130, PackagesAmount = 60 }
+                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = 2, CustomerAmount = 90, PackagesAmount = 40 },
+                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = 2, CustomerAmount = 115, PackagesAmount = 55 },
+                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = 2, CustomerAmount = 125, PackagesAmount = 50 },
+                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = 2, CustomerAmount = 105, PackagesAmount = 42 },
+                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = 2, CustomerAmount = 140, PackagesAmount = 68 },
+                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = 2, CustomerAmount = 150, PackagesAmount = 75 },
+                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = 2, CustomerAmount = 130, PackagesAmount = 60 }
             );
 
             modelBuilder.Entity<Function>().HasData(
@@ -357,7 +357,7 @@ namespace bumbo.Data
             // Add employees to the model
 
             modelBuilder.Entity<Employee>().HasData(john, jane, darlon, pasha, sarah, david, anthony, douwe);
-            
+
             modelBuilder.Entity<Days>().HasData(
                 new Days()
                 {
@@ -390,27 +390,32 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Template>().HasData(
-                new Template {
+                new Template
+                {
                     Id = 1,
                     Name = "Basic Package",
                     Branch_branchId = 1
                 },
-                new Template {
+                new Template
+                {
                     Id = 2,
                     Name = "Standard Package",
                     Branch_branchId = 1
                 },
-                new Template {
+                new Template
+                {
                     Id = 3,
                     Name = "Premium Package",
                     Branch_branchId = 2
                 },
-                new Template {
+                new Template
+                {
                     Id = 4,
                     Name = "Family Package",
                     Branch_branchId = 2
                 },
-                new Template {
+                new Template
+                {
                     Id = 5,
                     Name = "Weekly Special",
                     Branch_branchId = 1

@@ -36,7 +36,7 @@ namespace bumbo.Controllers
             var headers = new List<string> { "Naam" };
             var tableBuilder = new TableHtmlBuilder<TemplatesViewModel>();
 
-            List<Template> templates = _templatesRepository
+            var templates = _templatesRepository
                 .GetAllTemplates()
                 .Where(template => template.Branch_branchId == branchId)
                 .ToList();
