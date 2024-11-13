@@ -92,7 +92,7 @@ namespace bumbo.Controllers
         {
 
             var newBranch = _branchesRepository.GetBranch(branchId);
-            newBranch.Employees = _branchesRepository.GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
+            newBranch.Employees = _branchesRepository.GetAllEmployees().Where(e => e.ManagerOfBranchId == null).ToList();
 
             var viewModel = new CreateBranchManagerViewModel() { 
                 BranchId = branchId, Employees = newBranch.Employees.ToList() 

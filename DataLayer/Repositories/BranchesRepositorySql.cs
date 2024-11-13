@@ -96,5 +96,10 @@ namespace DataLayer.Repositories
 
             return employeesInBranch;
         }
+
+        public List<Employee> GetAllEmployees()
+        {
+            return _context.Employees.ToList();
+        }
     }
 }
