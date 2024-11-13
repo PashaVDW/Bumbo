@@ -1,13 +1,13 @@
 ﻿
-    <div class="bg-gray-100 p-4 flex justify-between items-center px-24">
+    <div class="bg-gray-100 p-4 px-24 flex items-center justify-between">
         <div class="flex items-center space-x-[100px]">
             <a href="/">
-                <div class="h-16 max-w-[80px] flex items-center justify-center">
-                    <img src="/media/bumbo-logo.png" alt="Logo" class="max-w-[80px] h-auto" />
+                <div class="h-16 flex max-w-[80px] items-center justify-center">
+                    <img src="/media/bumbo-logo.png" alt="Logo" class="h-auto max-w-[80px]" />
                 </div>
             </a>
 
-            <div class="flex space-x-6">
+            <div class="space-x-6 flex">
                 @if (Model.IsBranchManager)
                 {
                     <a href="/prognoses" class="hover:text-gray-600">Prognoses</a>
@@ -15,6 +15,7 @@
                     <a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a>
                     <a href="/standaard-templates" class="hover:text-gray-600">Standaard templates</a>
                     <a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a>
+                    <a href="/roosters" class="hover:text-gray-600">Rooster</a>
                 }
                 @if (Model.IsSystemManager)
                 {
@@ -23,18 +24,18 @@
             </div>
         </div>
 
-        <div class="flex items-center space-x-4">
+        <div class="space-x-4 flex items-center">
             @if (Model.IsAuthenticated)
             {
                 <div class="text-right">
                     <div class="text-gray-700">@Model.FirstName</div>
                     <div class="text-gray-500 text-sm">@Model.Email</div>
                 </div>
-                <a href="/uitloggen" class="hover:text-gray-600 text-sm">Uitloggen</a>
+                <a href="/uitloggen" class="text-sm hover:text-gray-600">Uitloggen</a>
             }
             else
             {
-                <a href="/inloggen" class="hover:text-gray-600 text-sm">Inloggen</a>
+                <a href="/inloggen" class="text-sm hover:text-gray-600">Inloggen</a>
             }
         </div>
     </div>

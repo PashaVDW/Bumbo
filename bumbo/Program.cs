@@ -87,6 +87,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Reviews", action = "Index" });
 
 app.MapControllerRoute(
+    name: "schedules",
+    pattern: "roosters",
+    defaults: new { controller = "Schedules", action = "Index" });
+
+app.MapControllerRoute(
     name: "branches",
     pattern: "filialen",
     defaults: new { controller = "Branches", action = "BranchesView" });
