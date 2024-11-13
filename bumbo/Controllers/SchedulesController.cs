@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using bumbo.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace bumbo.Controllers
 {
@@ -6,7 +7,11 @@ namespace bumbo.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new ScheduleOverviewViewModel() 
+            {
+                WeekHasSchedule = true
+            };
+            return View(viewModel);
         }
     }
 }
