@@ -16,37 +16,41 @@
 
 @if(!Model.WeekHasSchedule){
     <div class="px-12 flex justify-between">
-        <button class="h-10 top-14 relative">
+        <a href="#" class="h-10 top-14 relative">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-        </button>
+        </a>
         <div class="top-52 relative text-center">
             <p class="w-96 mb-6 text-4xl">Er is nog geen rooster voor deze week</p>
             <default-button button-type="secondary" button-text="Genereren"></default-button>
         </div>
-        <button class="h-10 top-14 relative rotate-180">
+        <a href="#" class="h-10 top-14 relative rotate-180">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-        </button>
+        </a>
     </div>
 } else
 {
     <div class="px-12 flex justify-between">
-        <button class="h-10 top-14 relative">
+        <a href="#" class="h-10 top-14 relative">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-        </button>
+        </a>
 
-        @for (int i = 1; i < 7; i++)
+        @for (int i = 0; i < 6; i++)
         {
             <div class="pt-12 px-4 pb-4 flex flex-col rounded-3xl hover:bg-zinc-50">
                 <div class="text-center">
-                    <p class="text-3xl">@(i + 7)</p>
-                    <p class="text-xs">Ma</p>
+                    <p class="text-3xl">@Model.DateUsed.AddDays(i).Day</p>
+                    <p class="text-xs">@Model.DateUsed.AddDays(i).DayOfWeek.ToString().Substring(0, 2)</p>
                 </div>
+
+                @{
+                    Model.DateUsed.AddDays(i);
+                }
 
                 <div class="bg-zinc-200 mt-6 w-36 h-36 rounded-2xl">
                     <div class="p-3 w-36 h-36 flex flex-col justify-between">
@@ -69,7 +73,7 @@
 
         <div class="pt-12 px-4 pb-4 flex flex-col rounded-3xl hover:bg-zinc-50">
             <div class="text-center">
-                <p class="text-3xl">14</p>
+                <p class="text-3xl">17</p>
                 <p class="text-xs">Zo</p>
             </div>
 
@@ -112,11 +116,11 @@
                 <div class="bg-gray-200 w-1 h-8 bottom-0.5 relative m-auto rounded"></div>
             </a>
         </div>
-        <button class="h-10 top-14 relative rotate-180">
+        <a href="#" class="h-10 top-14 relative rotate-180">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-        </button>
+        </a>
     </div>
 }
 
