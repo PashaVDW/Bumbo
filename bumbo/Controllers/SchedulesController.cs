@@ -25,7 +25,7 @@ namespace bumbo.Controllers
             var viewModel = new ScheduleOverviewViewModel() 
             {
                 WeekHasSchedule = true,
-                DateUsed = DateTime.Today.AddDays(-2),
+                DateUsed = new DateTime(2024, 2, 12)
             };
             
             return View(viewModel);
