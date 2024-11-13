@@ -1,7 +1,7 @@
-﻿@model bumbo.ViewModels.WeekOverviewViewModel
+﻿@model bumbo.ViewModels.PrognosisViewModel
 
 <div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
-    <h1 class="mt-8 text-2xl">Terugblik</h1>
+    <h1 class="mt-8 text-2xl">Prognose</h1>
     <p class="mt-2">Maand: @ViewBag.MonthName</p>
     <p>Week loopt van @ViewBag.FirstDayOfWeek.ToString("dd MMMM yyyy") tot @ViewBag.LastDayOfWeek.ToString("dd MMMM yyyy")</p>
     <h2 class="weeknr">Week @Model.WeekNr - @Model.Year</h2>
@@ -30,17 +30,16 @@
         </button>
     </div>
 
-
+    <!--informatie over de dagen zelf-->
     <div class="gap-4 mt-6 grid grid-cols-7">
         @foreach (var day in Model.Days)
         {
             <div class="day-column text-center">
                 <p class="font-medium">@day.DayName</p>
                 <p class="font-medium">@day.Date.ToString("dd MMMM")</p>
-                <p>Aantal klanten</p>
-                <div class="data-box border-gray-300 p-2 w-20 mx-auto rounded-md border">@day.CustomerAmount</div>
-                <p>Aantal coli's</p>
-                <div class="data-box border-gray-300 p-2 w-20 mx-auto rounded-md border">@day.PackagesAmount</div>
+                <p class="font-medium">Totaal benodigde</p>
+                <p class="font-medium">Uren: @day.Hours</p>
+                <p class="font-medium">Medewerkers: @day.Employees</p>
             </div>
         }
     </div>
@@ -49,7 +48,7 @@
 <script type="text/javascript">
     document.getElementById("weekForm").addEventListener("submit", function(event) {
         event.preventDefault();
-        
+
         var week = parseInt(document.getElementById("weekInput").value);
         var year = document.getElementById("yearInput").value;
 
