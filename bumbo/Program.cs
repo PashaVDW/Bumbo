@@ -16,6 +16,7 @@ builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
 
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
+builder.Services.AddScoped<IDaysRepositorySQL, DaysRepositorySQL>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();

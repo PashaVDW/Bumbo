@@ -71,10 +71,13 @@
 
     <div class="flex flex-col justify-between flex-grow">
         <div class="align-bottom">
-            @foreach (var activity in ViewBag.Activities)
+            @if (ViewBag.Activities != null)
             {
-                <h2>@activity.Item1</h2>
-                <br />
+                @foreach (var activity in ViewBag.Activities)
+                {
+                    <h2>@activity.Item1</h2>
+                    <br />
+                }
             }
         </div>
     </div>

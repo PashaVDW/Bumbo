@@ -1,5 +1,6 @@
 ﻿using bumbo.Components;
 using bumbo.Models;
+using bumbo.ViewModels.Prognosis;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Http;
@@ -16,28 +17,19 @@ namespace bumbo.Controllers
         private readonly IPrognosisRepository _prognosisRepository;
         private readonly IPrognosisHasDaysRepository _prognosisHasDaysRepository;
         private readonly INormsRepository _normsRepository;
-
+        private readonly IDaysRepositorySQL _daysRepository;
         private readonly int _currentYear;
         private readonly int _currentWeek;
-
         public PrognosisController(
             IPrognosisRepository prognosisRepository,
             IPrognosisHasDaysRepository prognosisHasDaysRepository,
-            INormsRepository normsRepository)
+            INormsRepository normsRepository,
+            IDaysRepositorySQL daysRepository)
         {
             _prognosisRepository = prognosisRepository;
             _prognosisHasDaysRepository = prognosisHasDaysRepository;
             _normsRepository = normsRepository;
-
-            DateTime currentDate = DateTime.Now;
-            _currentYear = currentDate.Year;
-
-            CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-            _currentWeek = cultureInfo.Calendar.GetWeekOfYear(
-                currentDate,
-                CalendarWeekRule.FirstDay,
-                DayOfWeek.Monday
-            );
+            _daysRepository = daysRepository;
         }
 
         public async Task<ActionResult> Index()
@@ -45,21 +37,21 @@ namespace bumbo.Controllers
             ViewBag.CurrentWeek = _currentWeek;
             ViewBag.CurrentYear = _currentYear;
 
-            var weekPrognosis = _prognosisRepository.GetLatestPrognosis();
+            //var weekPrognosis = _prognosisRepository.GetLatestPrognosis();
 
-            if (weekPrognosis != null)
-            {
-                ViewBag.LatestPrognosis = weekPrognosis;
-                var weekPrognosisHasDays = _prognosisHasDaysRepository.GetLatestPrognosis_has_days();
-                var norms = await _normsRepository.GetSelectedNorms(1, weekPrognosis.Year, weekPrognosis.WeekNr);
-                var calculationResults = CalculateUrenAndMedewerkers(weekPrognosisHasDays, norms);
-                ViewBag.CalculationResults = calculationResults;
-                ViewBag.WeekPrognosisHasDays = weekPrognosisHasDays;
-            }
-            DateTime firstDayOfWeek = FirstDateOfWeekISO8601(_currentYear, _currentWeek);
-            List<DateTime> weekDates = Enumerable.Range(0, 7).Select(i => firstDayOfWeek.AddDays(i)).ToList();
+            //if (weekPrognosis != null)
+            //{
+            //    ViewBag.LatestPrognosis = weekPrognosis;
+            //    var weekPrognosisHasDays = _prognosisHasDaysRepository.GetLatestPrognosis_has_days();
+            //    var norms = await _normsRepository.GetSelectedNorms(1, weekPrognosis.Year, weekPrognosis.WeekNr);
+            //    var calculationResults = CalculateUrenAndMedewerkers(weekPrognosisHasDays, norms);
+            //    ViewBag.CalculationResults = calculationResults;
+            //    ViewBag.WeekPrognosisHasDays = weekPrognosisHasDays;
+            //}
+            //DateTime firstDayOfWeek = FirstDateOfWeekISO8601(_currentYear, _currentWeek);
+            //List<DateTime> weekDates = Enumerable.Range(0, 7).Select(i => firstDayOfWeek.AddDays(i)).ToList();
 
-            ViewBag.WeekDates = weekDates;
+            //ViewBag.WeekDates = weekDates;
 
             return View();
         }
@@ -143,53 +135,23 @@ namespace bumbo.Controllers
         [HttpGet]
         public ActionResult Create(int? id)
         {
-            var template = templates.Find(t => t.Id == id);
-
-            if (template != null)
+            var viewModel = new PrognosisCreateViewModel
             {
-                ViewBag.daysList = template;
-                ViewBag.templateName = template.Name;
-            }
-            else
-            {
-                ViewBag.daysList = null;
-                ViewBag.templateName = "Er is geen template geimporteerd";
-            }
-
-            ViewBag.days = new List<Days>
-            {
-                new Days { Name = "Maandag" },
-                new Days { Name = "Dinsdag" },
-                new Days { Name = "Woensdag" },
-                new Days { Name = "Donderdag" },
-                new Days { Name = "Vrijdag" },
-                new Days { Name = "Zaterdag" },
-                new Days { Name = "Zondag" },
+                Days = _daysRepository.getAllDays(),
+                WeekNr = _currentWeek,
+                Year = _currentYear
             };
 
-            ViewBag.CurrentWeek = _currentWeek;
-            ViewBag.CurrentYear = _currentYear;
 
-            return View();
+            return View(viewModel);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreatePrognosis(List<Days> prognosisCreateDaysList, List<int> CustomerAmount, List<int> PackagesAmount, int weeknr, int year)
-        {
-            TempData["AutoHide"] = "yes";
-            TempData["MilSecHide"] = 4000;
-            TempData["ToastId"] = "createPrognosisToast";
-            if (year < DateTime.Now.Year || year > DateTime.Now.Year + 1)
-            {
-                TempData["ToastMessage"] = "Het jaar moet het huidige of het volgende jaar zijn.";
-                TempData["ToastType"] = "error";
-
-                return View("Create");
-            }
+        {         
             _prognosisRepository.AddPrognosis(prognosisCreateDaysList, CustomerAmount, PackagesAmount, weeknr, year);
-            TempData["ToastMessage"] = "Prognose succesvol aangemaakt!";
-            TempData["ToastType"] = "success";
             return RedirectToAction("Index");
         }
 
