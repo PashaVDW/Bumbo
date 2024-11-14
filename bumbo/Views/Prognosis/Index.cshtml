@@ -38,8 +38,16 @@
                 <p class="font-medium">@day.DayName</p>
                 <p class="font-medium">@day.Date.ToString("dd MMMM")</p>
                 <p class="font-medium">Totaal benodigde</p>
-                <p class="font-medium">Uren: @day.Hours</p>
-                <p class="font-medium">Medewerkers: @day.Employees</p>
+                <p class="font-medium">Uren: @day.TotalHoursWorkNeeded</p>
+                <p class="font-medium">Medewerkers: @day.TotalWorkersNeeded</p>
+                <ul>
+                    @foreach (var dept in day.DepartmentList)
+                    {
+                        <li>
+                            Afdeling: @dept.DepartmentName, Werknemers: @dept.AmountWorkersNeeded, Uren: @dept.HoursWorkNeeded
+                        </li>
+                    }
+                </ul>
             </div>
         }
     </div>

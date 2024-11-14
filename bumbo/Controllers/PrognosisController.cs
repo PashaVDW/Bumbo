@@ -1,6 +1,7 @@
 ﻿using bumbo.Models;
 using bumbo.ViewModels;
 using DataLayer.Interfaces;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
@@ -100,7 +101,6 @@ namespace bumbo.Controllers
 
             ViewBag.FirstDayOfWeek = firstDayOfWeek;
             ViewBag.LastDayOfWeek = lastDayOfWeek;
-
             ViewBag.MonthName = firstDayOfWeek.ToString("MMMM");
             if (firstDayOfWeek.Month != lastDayOfWeek.Month)
             {
@@ -114,25 +114,38 @@ namespace bumbo.Controllers
             if (prognosis != null)
             {
                 days = prognosis.Prognosis_Has_Days
-                    .OrderBy(d => d.Days_name switch
+                .OrderBy(d => d.Days_name switch
+                {
+                    "Maandag" => 1,
+                    "Dinsdag" => 2,
+                    "Woensdag" => 3,
+                    "Donderdag" => 4,
+                    "Vrijdag" => 5,
+                    "Zaterdag" => 6,
+                    "Zondag" => 7,
+                    _ => 8
+                })
+                .Select((day, index) =>
+                {
+                    var departmentList = day.prognosis_Has_Days_Has_Department.Select(dept => new Prognosis_has_days_has_Department
                     {
-                        "Maandag" => 1,
-                        "Dinsdag" => 2,
-                        "Woensdag" => 3,
-                        "Donderdag" => 4,
-                        "Vrijdag" => 5,
-                        "Zaterdag" => 6,
-                        "Zondag" => 7,
-                        _ => 8
-                    })
-                    .Select((day, index) => new PrognosisDay
+                        DepartmentName = dept.DepartmentName,
+                        AmountWorkersNeeded = dept.AmountWorkersNeeded,
+                        HoursWorkNeeded = dept.HoursWorkNeeded
+                    }).ToList();
+
+                    int totalWorkersNeeded = departmentList.Sum(d => d.AmountWorkersNeeded);
+                    int totalHoursWorkNeeded = departmentList.Sum(d => d.HoursWorkNeeded);
+
+                    return new PrognosisDay
                     {
                         DayName = day.Days_name,
-                        Date = firstDayOfWeek.AddDays(index) /*,
-                        de informatie die per dag is
-                        Hours = 10,
-                        Employees = 2*/
-                    }).ToList();
+                        Date = firstDayOfWeek.AddDays(index),
+                        DepartmentList = departmentList,
+                        TotalWorkersNeeded = totalWorkersNeeded,
+                        TotalHoursWorkNeeded = totalHoursWorkNeeded
+                    };
+                }).ToList();
             }
 
             if (prognosis == null)
