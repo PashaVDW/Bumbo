@@ -7,16 +7,16 @@
     <h2 class="weeknr">Week @Model.WeekNr - @Model.Year</h2>
 
     <!--zoekbalk-->
-    <form id="weekForm" method="get" class="flex items-center space-x-4 mt-4 mb-4">
-        <input type="number" id="weekInput" name="weekNumber" placeholder="Week" class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
-        <input type="number" id="yearInput" name="year" placeholder="Jaar" class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+    <form id="weekForm" method="get" class="space-x-4 mt-4 mb-4 flex items-center">
+        <input type="number" id="weekInput" name="weekNumber" placeholder="Week" class="border-gray-300 py-2 px-6 w-full rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <input type="number" id="yearInput" name="year" placeholder="Jaar" class="border-gray-300 py-2 px-6 w-full rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400" />
         <input type="hidden" id="weekIncInput" name="weekInc" value="1" />
         <button type="submit" class="bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300">Zoeken</button>
     </form>
 
     <!--navigatie-->
     <div class="flex w-full items-center justify-between">
-        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = -1 })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = -1 })';" class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500">
             Vorige week
         </button>
 
@@ -25,7 +25,7 @@
             <div class="text-red-500">@ViewBag.Message</div>
         }
 
-        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })';" class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500">
             Volgende week
         </button>
     </div>

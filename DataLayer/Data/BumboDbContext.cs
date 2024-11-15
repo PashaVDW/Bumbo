@@ -541,6 +541,12 @@ namespace bumbo.Data
                 .HasPrincipalKey(f => f.FunctionName)
                 .IsRequired(false);
 
+            modelBuilder.Entity<Prognosis_has_days_has_Department>()
+                .HasOne(phdd => phdd.Prognosis_Has_Days)
+                .WithMany()
+                .HasForeignKey(phdd => new { phdd.Days_name, phdd.PrognosisId })
+                .OnDelete(DeleteBehavior.Restrict);
+
             var branchHasEmployeeOne = new BranchHasEmployee
             {
                 BranchId = 2,

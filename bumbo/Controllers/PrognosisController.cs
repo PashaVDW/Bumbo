@@ -137,6 +137,7 @@ namespace bumbo.Controllers
                     int totalWorkersNeeded = departmentList.Sum(d => d.AmountWorkersNeeded);
                     int totalHoursWorkNeeded = departmentList.Sum(d => d.HoursWorkNeeded);
 
+                    Console.WriteLine("count: " + departmentList.Count());
                     return new PrognosisDay
                     {
                         DayName = day.Days_name,
