@@ -3,19 +3,19 @@
 @{
     ViewData["Title"] = "Medewerker bewerken";
     Layout = "_Layout";
-    ViewData["HideLayoutElements"] = true;
+    // ViewData["HideLayoutElements"] = true;
 }
 
 <div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
-    <div class="absolute top-9 -left-24">
-        <a href="/medewerkers">
+    <div class="flex">
+        <a href="/medewerkers" style="margin-right: 25px">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </a>
-    </div>
 
-    <h1 class="text-3xl font-semibold mb-6">Medewerker bewerken</h1>
+        <h1 class="text-3xl font-semibold mb-6">Medewerker bewerken</h1>
+    </div>
 
     <form asp-action="Update" method="post" class="space-y-6">
         <input type="hidden" asp-for="Id" />
@@ -107,13 +107,11 @@
         }
 
         <div class="flex justify-end mt-6">
+            <default-button button-text="Medewerker verwijderen" button-type="delete" onclick="document.getElementById('deleteEmployeeModal').classList.remove('hidden')" style="margin-right: 10px"></default-button>
             <default-button button-text="Opslaan" button-type="primary" typeof="submit"></default-button>
         </div>
     </form>
 
-    <button type="button" class="text-sm text-red-500 underline hover:text-red-700 mt-2" style="background: none; border: none; padding: 0; cursor: pointer;" onclick="document.getElementById('deleteEmployeeModal').classList.remove('hidden')">
-        Medewerker verwijderen
-    </button>
 
     <custom-modal modal-id="deleteEmployeeModal" body-text="Weet je zeker dat je deze medewerker wilt verwijderen?">
         <form asp-action="DeleteEmployee" method="post" class="inline">
@@ -154,13 +152,13 @@
                                 }
                             </td>
                             <td class="py-2 px-4">@assignment.StartDate.ToString("dd-MM-yyyy")</td>
-                            <td class="py-2 px-4">
+                            <td class="py-2 px-4 flex justify-end">
                                 @if (Model.UserManagerOfBranchId == assignment.BranchId)
                                 {
-                                    <form asp-action="RemoveBranchAssignment" method="post">
+                                    <form asp-action="RemoveBranchAssignment" method="post" id="RemoveBranchAssignment">
                                         <input type="hidden" name="EmployeeId" value="@Model.Id" />
                                         <input type="hidden" name="BranchId" value="@assignment.BranchId" />
-                                        <button type="submit" class="text-red-500 hover:text-red-700">Verwijderen</button>
+                                        <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('RemoveBranchAssignment').submit();"></default-button>
                                     </form>
                                 }
                             </td>
