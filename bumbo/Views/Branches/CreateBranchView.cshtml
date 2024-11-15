@@ -3,10 +3,14 @@
 }
 
 @model Branch
-
-<div class="ml-60 mt-12">
-    <div>
-        <h1 class="text-4xl"><strong><a asp-area="" asp-controller="Branches" asp-action="BranchesView"> < </a>Filiaal toevoegen</strong></h1>
+<div class="p-16 container mx-auto max-w-6xl">
+    <div class="mb-6 flex">
+        <a href="/BranchesView" style="margin-right: 25px">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+        <h1 class="mb-6 text-3xl font-semibold">Filiaal toevoegen</h1>
     </div>
 
     <form asp-action="AddBranch" method="post">
@@ -22,13 +26,13 @@
             <div class="mr-5 w-60 flex flex-col">
                 <label asp-for="Street">Straatnaam</label>
                 <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="Street"
-                       pattern="^[^\d]*$" title="Straatnaam mag geen cijfers bevatten." />
+                        pattern="^[^\d]*$" title="Straatnaam mag geen cijfers bevatten." />
                 <span asp-validation-for="Street" class="text-danger"></span>
             </div>
             <div class="mr-5 w-32 flex flex-col">
                 <label asp-for="HouseNumber">Huisnummer</label>
                 <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="HouseNumber"
-                       pattern="^\d+([a-zA-Z]?)$" title="Voer een geldig huisnummer in zoals 17 of 17b" />
+                        pattern="^\d+([a-zA-Z]?)$" title="Voer een geldig huisnummer in zoals 17 of 17b" />
                 <span asp-validation-for="HouseNumber" class="text-danger"></span>
             </div>
         </div>
@@ -36,7 +40,7 @@
             <div class="mr-5 w-32 flex flex-col">
                 <label asp-for="PostalCode">Postcode</label>
                 <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="PostalCode"
-                       pattern="^\d{4} [A-Za-z]{2}$" title="Het formaat is 1111 AA (Vergeet spatie niet)" />
+                        pattern="^\d{4} [A-Za-z]{2}$" title="Het formaat is 1111 AA (Vergeet spatie niet)" />
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
             <div class="mr-5 w-60 flex flex-col">
@@ -58,8 +62,8 @@
             if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
             {
                 <toast-message toast-id="@TempData["ToastId"]"
-                               message="@TempData["ToastMessage"]"
-                               message-type="@TempData["ToastType"]">
+                                message="@TempData["ToastMessage"]"
+                                message-type="@TempData["ToastType"]">
                 </toast-message>
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
