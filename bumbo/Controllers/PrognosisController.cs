@@ -127,7 +127,7 @@ namespace bumbo.Controllers
                 })
                 .Select((day, index) =>
                 {
-                    var departmentList = day.prognosis_Has_Days_Has_Department.Select(dept => new Prognosis_has_days_has_Department
+                    var departmentList = day.Prognosis_Has_Days_Has_Department.Select(dept => new Prognosis_has_days_has_Department
                     {
                         DepartmentName = dept.DepartmentName,
                         AmountWorkersNeeded = dept.AmountWorkersNeeded,
@@ -137,7 +137,6 @@ namespace bumbo.Controllers
                     int totalWorkersNeeded = departmentList.Sum(d => d.AmountWorkersNeeded);
                     int totalHoursWorkNeeded = departmentList.Sum(d => d.HoursWorkNeeded);
 
-                    Console.WriteLine("count: " + departmentList.Count());
                     return new PrognosisDay
                     {
                         DayName = day.Days_name,

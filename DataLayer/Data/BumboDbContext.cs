@@ -543,7 +543,7 @@ namespace bumbo.Data
 
             modelBuilder.Entity<Prognosis_has_days_has_Department>()
                 .HasOne(phdd => phdd.Prognosis_Has_Days)
-                .WithMany()
+                .WithMany(phd => phd.Prognosis_Has_Days_Has_Department)
                 .HasForeignKey(phdd => new { phdd.Days_name, phdd.PrognosisId })
                 .OnDelete(DeleteBehavior.Restrict);
 

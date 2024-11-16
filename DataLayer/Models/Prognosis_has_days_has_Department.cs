@@ -22,6 +22,6 @@ namespace DataLayer.Models
         public Prognosis Prognosis { get; set; }
         public int AmountWorkersNeeded { get; set; }
         public int HoursWorkNeeded { get; set; }
-        public Prognosis_has_days Prognosis_Has_Days { get; internal set; }
+        public Prognosis_has_days Prognosis_Has_Days { get; set; }
     }
 }

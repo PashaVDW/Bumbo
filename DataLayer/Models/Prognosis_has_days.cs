@@ -25,6 +25,6 @@ namespace bumbo.Models
 
         [Required]
         public int PackagesAmount { get; set; }
-        public ICollection<Prognosis_has_days_has_Department> prognosis_Has_Days_Has_Department { get; set; }
+        public ICollection<Prognosis_has_days_has_Department> Prognosis_Has_Days_Has_Department { get; set; }
     }
 }
