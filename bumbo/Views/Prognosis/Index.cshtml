@@ -30,31 +30,70 @@
         </button>
     </div>
 
-    <!--informatie over de dagen zelf-->
-    <div class="gap-4 mt-6 grid grid-cols-7">
-        @foreach (var day in Model.Days)
-        {
-            <div class="day-column text-center">
-                <p class="font-medium">@day.DayName</p>
-                <p class="font-medium">@day.Date.ToString("dd MMMM")</p>
-                <p class="font-medium">Totaal benodigde</p>
-                <p class="font-medium">Uren: @day.TotalHoursWorkNeeded</p>
-                <p class="font-medium">Medewerkers: @day.TotalWorkersNeeded</p>
-                <ul>
-                    @foreach (var dept in day.DepartmentList)
+    @if (ViewBag.Message == null)
+    {
+        <!-- Prognose Tabel -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border-collapse">
+                <thead>
+                    <tr class="border-b">
+                        <th class="p-4 text-left"></th>
+                        @foreach (var day in Model.Days)
+                        {
+                            <th class="p-4 text-center">
+                                <div class="font-bold">@day.Date.ToString("dd MMM")</div>
+                                <div>@day.DayName</div>
+                                <div>Uren: @day.TotalHoursWorkNeeded</div>
+                                <div>Werknemers: @day.TotalWorkersNeeded</div>
+                            </th>
+                        }
+                    </tr>
+                    <tr class="border-b">
+                        <th class="p-4 text-left"></th>
+                        @foreach (var day in Model.Days)
+                        {
+                            <th class="p-4 text-center">
+                                <div class="flex space-x-9 text-xs">
+                                    <div class="pl-6">Uren</div>
+                                    <div>Medewerkers</div>
+                                </div>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop door de afdelingen -->
+                    @foreach (var departmentName in Model.Days.First().DepartmentList.Select(d => d.DepartmentName).Distinct())
                     {
-                        <li>
-                            Afdeling: @dept.DepartmentName, Werknemers: @dept.AmountWorkersNeeded, Uren: @dept.HoursWorkNeeded
-                        </li>
+                        <tr class="border-b">
+                            <td class="p-4 font-medium text-left">@departmentName</td>
+                            <!-- Loop door de dagen en toon de inputvelden voor uren en werknemers -->
+                            @foreach (var day in Model.Days)
+                            {
+                                var deptData = day.DepartmentList.FirstOrDefault(d => d.DepartmentName == departmentName);
+
+                                <td class="p-4 text-center">
+                                    <div class="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0">
+                                        <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
+                                            @deptData.HoursWorkNeeded
+                                        </div>
+
+                                        <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
+                                            @deptData.AmountWorkersNeeded
+                                        </div>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
                     }
-                </ul>
-            </div>
-        }
-    </div>
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
 
 <script type="text/javascript">
-    document.getElementById("weekForm").addEventListener("submit", function(event) {
+    document.getElementById("weekForm").addEventListener("submit", function (event) {
         event.preventDefault();
 
         var week = parseInt(document.getElementById("weekInput").value);
