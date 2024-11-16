@@ -14,7 +14,7 @@
         <h1 class="text-3xl font-semibold">Filiaal bewerken</h1>
     </div>
 
-    <form asp-action="UpdateBranch" method="post">
+    <form asp-action="UpdateBranch" method="post" id="update-branch">
 
         <input type="hidden" asp-for="BranchId" />
 
@@ -55,17 +55,16 @@
                 </select>
             </div>
         </div>
-        <div class="ml-72 mt-4">
-            <default-button  button-text="Bewerken" button-type="primary"></default-button>
-        </div>
     </form>
-
     <div class="flex justify-end">
-        <form asp-action="DeleteBranch" asp-controller="Branches" method="post">
-            <input type="hidden" name="branchId" value="@Model.BranchId" />
-            <default-button button-text="Verwijderen" button-type="secondary"></default-button>
-        </form>        
+        <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('delete-branch').classList.remove('hidden')" style="margin-right: 10px"></default-button>
+        <default-button button-text="Bewerken" button-type="primary" onclick="document.getElementById('update-branch').submit();"></default-button>
     </div>
+
+    <custom-modal modal-id="delete-branch" body-text="Weet je zeker dat je dit filiaal wilt verwijderen?">
+        <default-button button-text="Delete" button-type="delete" on-click="window.location.href='/Branches/DeleteBranch?branchId=@Model.BranchId'"></default-button>
+        <default-button button-text="Cancel" button-type="secondary" on-click="document.getElementById('delete-branch').classList.add('hidden')"></default-button>
+    </custom-modal>
 </div>
 
 @{

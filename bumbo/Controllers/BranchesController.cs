@@ -158,7 +158,7 @@ namespace bumbo.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult DeleteBranch(int branchId)
         {
             SetTempDataForToast("updateBranchToast");
