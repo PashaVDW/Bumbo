@@ -7,6 +7,7 @@ using DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using System.Globalization;
 
 namespace bumbo.Controllers
@@ -393,6 +394,77 @@ namespace bumbo.Controllers
             TempData["MilSecHide"] = 5000;
 
             return RedirectToAction("Index");
+        }
+
+        public void calculatePrognosis(PrognosisCreateViewModel model)
+        {
+            List<Norm> norms = _normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result;
+
+            int weekhours = 13;
+
+            int cassiereNorm = 30;
+            int cassieresNeededForThirtyPerHour = norms[2].normInSeconds;
+
+            int workersNorm = 100;
+            int workersNeededForHundredPerHour = norms[3].normInSeconds;
+
+            int colliUitladenNormInSeconds = norms[0].normInSeconds;
+            int stockingNormInSeconds = norms[1].normInSeconds;
+            int spiegelenNormInSeconds = norms[4].normInSeconds;
+
+            List<int> cassiereHours = new List<int>();
+            List<int> versWorkersHours = new List<int>();
+
+            List<int> colliUitLadenMinutes = new List<int>();
+            List<int> stockingMinutes = new List<int>();
+            List<int> spiegelenMinutes = new List<int>();
+
+            for (int i = 0; i < model.CustomerAmount.Count; i++)
+            {
+                int number = model.CustomerAmount[i];
+
+                if (model.Days[i].Equals("Zondag"))
+                {
+                    weekhours = 8;
+                }
+                else
+                {
+                    weekhours = 13;
+                }
+
+                int customerPerHour = number / weekhours;
+
+                int cassierePerHour = customerPerHour / cassiereNorm * cassieresNeededForThirtyPerHour;
+                int totalCassiereNeeded = cassierePerHour * weekhours;
+
+                int workersPerHour = customerPerHour / workersNorm * workersNeededForHundredPerHour;
+                int totalWorkersForVersNeeded = workersPerHour * weekhours;
+
+                cassiereHours.Add(totalCassiereNeeded);
+                versWorkersHours.Add(totalWorkersForVersNeeded);
+            }
+
+            for (int i = 0; i < model.PackagesAmount.Count; i++)
+            {
+
+                if (model.Days[i].Equals("Zondag"))
+                {
+                    weekhours = 8;
+                }
+                else
+                {
+                    weekhours = 13;
+                }
+
+                int number = model.PackagesAmount[i];
+                int colliUitlatenMinutesNeeded = number * colliUitladenNormInSeconds;
+                int stockingMinutesNeeded = number * stockingNormInSeconds;
+                int spiegelenSecondsNeeded = number * spiegelenNormInSeconds;
+
+                colliUitLadenMinutes.Add(colliUitlatenMinutesNeeded);
+                stockingMinutes.Add(stockingMinutesNeeded);
+                spiegelenMinutes.Add(spiegelenSecondsNeeded);
+            }
         }
 
 
