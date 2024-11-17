@@ -62,31 +62,26 @@ namespace DataLayer.Repositories
 
         public Prognosis GetLatestPrognosis()
         {
-            int currentWeek = CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-            int currentYear = DateTime.Now.Year;
-
-            Prognosis currentPrognosis = _context.Prognoses
+            List<Prognosis> prognosis = _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
-                .Where(p => p.Year == currentYear && p.WeekNr == currentWeek)
-                .FirstOrDefault();
-
-            return currentPrognosis;
+                    .ThenInclude(phd => phd.Prognosis_Has_Days_Has_Department)
+                .OrderByDescending(p => p.Year)
+                .ThenByDescending(p => p.WeekNr)
+                .ToList<Prognosis>();
+            return prognosis.First();
         }
 
         public Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year)
         {
             List<Prognosis> prognosis = _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
+                    .ThenInclude(phd => phd.Prognosis_Has_Days_Has_Department)
                 .Where(p => p.WeekNr == weekNumber && p.Year == year)
-                .ToList<Prognosis>();
+                .ToList();
 
-            if (!prognosis.Any())
-            {
-                return null;
-            }
-
-            return prognosis.First();
+            return prognosis.FirstOrDefault();
         }
+
         public void UpdatePrognosis(int prognosisId, List<int> CustomerAmount, List<int> PackagesAmount)
         {
             var prognosisDays = _context.Prognosis_Has_Days.Where(p => p.PrognosisId == prognosisId).ToList();
@@ -122,6 +117,5 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
-
     }
 }

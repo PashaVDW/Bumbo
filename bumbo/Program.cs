@@ -58,6 +58,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Prognosis", action = "Index" });
 
 app.MapControllerRoute(
+    name: "forecasts",
+    pattern: "prognoses",
+    defaults: new { controller = "Prognosis", action = "Index" });
+
+app.MapControllerRoute(
     name: "norms",
     pattern: "normeringen",
     defaults: new { controller = "Norms", action = "Index" });
