@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using DataLayer.Models;
 using DataLayer.Interfaces;
 using System.Text;
+using bumbo.ViewModels;
 
 namespace bumbo.Controllers
 {
@@ -28,7 +29,7 @@ namespace bumbo.Controllers
             }
 
             // TODO remove
-            Employee testEmp = _branchesRepository.GetEmployeeById("c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0");
+            Employee testEmp = _branchesRepository.GetEmployeeById("289594c0-1d21-4276-b98c-3a7a9d18cb2b");
 
             // TODO repo i.p.v. Testdata
             var requests = new List<Request>()
@@ -46,9 +47,10 @@ namespace bumbo.Controllers
             var tableBuilder = new TableHtmlBuilderRequests<Request>();
             var htmlTable = tableBuilder.GenerateTable("Aanvragen", headers, requests, item =>
             {
+                var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
                 return $@"
                  <td class='py-2 px-4'><strong>Naam</strong></td>
-                 <td class='py-2 px-4'>{_branchesRepository.GetEmployeeById(item.EmployeeId).FirstName}</td>
+                 <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName }</td>
                  <td class='py-2 px-4'>{item.RequestTypeName}</td>
                  <td class='py-2 px-4'>{item.RequestStatusName}</td>
                  <td class='py-2 px-4 text-right'>
@@ -59,12 +61,36 @@ namespace bumbo.Controllers
 
             ViewBag.HtmlTable = htmlTable;
 
-            return View();
+            var viewModel = new RequestsViewModel()
+            {
+                Requests = requests
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Read(int requestId)
         {
-            return View();
+            // var request = _requestsRepository.GetRequestById(requestId)
+            // Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
+
+            // TODO remove
+            Employee testEmp = _branchesRepository.GetEmployeeById("289594c0-1d21-4276-b98c-3a7a9d18cb2b");
+
+            var request = new Request()
+            {
+                RequestStatusName = "Afgehandeld",
+                RequestTypeName = "Vakantie",
+                EmployeeId = testEmp.Id,
+                Description = "Ik wil op vakantie omdat ik de afgelopen maanden hard heb gewerkt en het gevoel heb dat ik een pauze nodig heb om op te laden. De stress van deadlines en lange werkdagen heeft me uitgeput, en ik wil de kans grijpen om te ontspannen en nieuwe energie op te doen. Bovendien heb ik altijd al de prachtige stranden van Bali willen bezoeken, waar ik kan genieten van de zon, de zee en de lokale cultuur. Het lijkt me heerlijk om even weg te zijn van de dagelijkse sleur en te genieten van een nieuwe omgeving. Daarom kan ik niet werken; ik heb deze tijd voor mezelf nodig om te herstellen en te genieten van het leven."
+            };
+
+            var viewModel = new RequestsReadViewModel() { 
+                Request = request,
+                Employee = testEmp
+            };
+
+            return View(viewModel);
         }
     }
 
