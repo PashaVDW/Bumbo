@@ -92,6 +92,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Reviews", action = "Index" });
 
 app.MapControllerRoute(
+    name: "requests",
+    pattern: "aanvragen",
+    defaults: new { controller = "Requests", action = "Index" });
+
+app.MapControllerRoute(
     name: "branches",
     pattern: "filialen",
     defaults: new { controller = "Branches", action = "BranchesView" });
