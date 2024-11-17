@@ -146,8 +146,6 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreatePrognosis(PrognosisCreateViewModel model)
@@ -165,8 +163,15 @@ namespace bumbo.Controllers
 
             _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year);
 
+            TempData["ToastMessage"] = "De prognose is succesvol aangemaakt!";
+            TempData["ToastType"] = "success";
+            TempData["ToastId"] = "PrognosisCreateSuccess";
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 5000;
+
             return RedirectToAction("Index");
         }
+
 
         // GET: Prognosis/Edit/1
         [HttpGet]
