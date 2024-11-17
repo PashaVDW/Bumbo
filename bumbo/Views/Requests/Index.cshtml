@@ -4,7 +4,7 @@
 
 <div class="flex h-screen">
     <!-- Filter -->
-    <div class="bg-stone-100 w-56 p-8">
+    <div class="bg-stone-100 min-w-56 max-w-56 p-8">
         <p class="mb-6 text-2xl"><strong>Filter</strong></p>
         <p class="mb-3 text-sm"><strong>Categorie</strong></p>
         <div class="mt-1 flex items-center">
@@ -36,7 +36,5 @@
     </div>
 
     <!-- Requests -->
-    <div>
-
-    </div>
+    @Html.Raw(ViewBag.HtmlTable)
 </div>

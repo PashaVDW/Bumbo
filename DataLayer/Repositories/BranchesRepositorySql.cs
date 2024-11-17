@@ -97,6 +97,13 @@ namespace DataLayer.Repositories
             return employeesInBranch;
         }
 
+        public Employee GetEmployeeById(string employeeId)
+        {
+            return _context.Employees
+                .ToList()
+                .SingleOrDefault(e => e.Id.Equals(employeeId));
+        }
+
         public List<Employee> GetAllEmployees()
         {
             return _context.Employees.ToList();
