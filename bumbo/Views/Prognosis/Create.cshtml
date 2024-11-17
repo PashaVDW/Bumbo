@@ -1,8 +1,10 @@
-﻿﻿@{
+﻿﻿
+@{
     ViewData["Title"] = "Create";
 }
 
 @model bumbo.ViewModels.Prognosis.PrognosisCreateViewModel
+
 
 <div class="gap-4 mt-20 mx-auto grid max-w-screen-lg grid-cols-3">
     <div class="space-x-2 flex items-center" name="prognoses_title">
@@ -71,13 +73,11 @@
                     <div class="max-w-xs">@Model.Days[i].Name</div>
 
                     <div>
-                        <input name="CustomerAmount[@i]" type="number" class="p-1 w-full rounded border" 
-                               required>
+                        <input name="CustomerAmount[@i]" type="number" class="p-1 w-full rounded border" required />
                     </div>
 
                     <div>
-                        <input name="PackagesAmount[@i]" type="number" class="p-1 w-full rounded border" 
-                               required>
+                        <input name="PackagesAmount[@i]" type="number" class="p-1 w-full rounded border" required />
                     </div>
                 }
             </div>

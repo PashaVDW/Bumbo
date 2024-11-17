@@ -6,7 +6,7 @@ public class Prognosis
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int PrognosisId { get; set; } // Change to int for auto-increment
+    public int PrognosisId { get; set; }
 
     [Required, Range(0, 99)]
     public int WeekNr { get; set; }

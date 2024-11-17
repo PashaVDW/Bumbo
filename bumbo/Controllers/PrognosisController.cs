@@ -18,6 +18,7 @@ namespace bumbo.Controllers
         private readonly IPrognosisHasDaysRepository _prognosisHasDaysRepository;
         private readonly INormsRepository _normsRepository;
         private readonly IDaysRepositorySQL _daysRepository;
+        private readonly DateHelper dateHelper;
         private readonly int _currentYear;
         private readonly int _currentWeek;
         public PrognosisController(
@@ -30,13 +31,14 @@ namespace bumbo.Controllers
             _prognosisHasDaysRepository = prognosisHasDaysRepository;
             _normsRepository = normsRepository;
             _daysRepository = daysRepository;
+           
+            dateHelper = new DateHelper();
+            _currentYear = dateHelper.GetCurrentYear();
+            _currentWeek = dateHelper.GetCurrentWeek();
         }
 
         public async Task<ActionResult> Index()
         {
-            ViewBag.CurrentWeek = _currentWeek;
-            ViewBag.CurrentYear = _currentYear;
-
             //var weekPrognosis = _prognosisRepository.GetLatestPrognosis();
 
             //if (weekPrognosis != null)
@@ -70,7 +72,6 @@ namespace bumbo.Controllers
                     DepartmentCalculations = new List<DepartmentCalculationResult>()
                 };
 
-                // Define each department (activity) and its associated amount type
                 var activities = new List<(string activity, int amount)>
             {
                 ("Coli uitladen", day.PackagesAmount),
@@ -125,8 +126,6 @@ namespace bumbo.Controllers
             return firstWeekStart.AddDays((weekOfYear - 1) * 7);
         }
 
-        // Your existing methods remain untouched and are included here
-
         public ActionResult Details(int id)
         {
             return View();
@@ -138,20 +137,34 @@ namespace bumbo.Controllers
             var viewModel = new PrognosisCreateViewModel
             {
                 Days = _daysRepository.getAllDays(),
+                CustomerAmount = new List<int>(),
+                PackagesAmount = new List<int>(), 
                 WeekNr = _currentWeek,
                 Year = _currentYear
             };
-
 
             return View(viewModel);
         }
 
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreatePrognosis(List<Days> prognosisCreateDaysList, List<int> CustomerAmount, List<int> PackagesAmount, int weeknr, int year)
-        {         
-            _prognosisRepository.AddPrognosis(prognosisCreateDaysList, CustomerAmount, PackagesAmount, weeknr, year);
+        public ActionResult CreatePrognosis(PrognosisCreateViewModel model)
+        {
+            var prognosisDays = model.Days.Select((day, index) => new Prognosis_has_days
+            {
+                Days = day,
+                CustomerAmount = model.CustomerAmount[index],
+                PackagesAmount = model.PackagesAmount[index]
+            }).ToList();
+
+            var days = prognosisDays.Select(p => p.Days).ToList();
+            var customerAmounts = prognosisDays.Select(p => p.CustomerAmount).ToList();
+            var packagesAmounts = prognosisDays.Select(p => p.PackagesAmount).ToList();
+
+            _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year);
+
             return RedirectToAction("Index");
         }
 
@@ -159,14 +172,12 @@ namespace bumbo.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            // Fetch the prognosis by ID
             var prognosis = _prognosisRepository.GetPrognosisById(id);
             if (prognosis == null)
             {
                 return NotFound();
             }
 
-            // Get the related days and populate the ViewBag
             var prognosisDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(id);
             ViewBag.DaysList = prognosisDays;
 
@@ -183,7 +194,6 @@ namespace bumbo.Controllers
         {
             try
             {
-                // Update the prognosis details
                 _prognosisRepository.UpdatePrognosis(id, CustomerAmount, PackagesAmount);
                 return RedirectToAction(nameof(Index));
             }

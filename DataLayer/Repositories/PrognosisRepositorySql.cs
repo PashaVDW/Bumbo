@@ -32,7 +32,6 @@ namespace DataLayer.Repositories
             {
                 foreach (var day in days)
                 {
-                    // Check if the day exists in the Days table
                     if (!_context.Days.Any(d => d.Name == day.Name))
                     {
                         throw new InvalidOperationException($"Day '{day.Name}' does not exist in the Days table.");
@@ -47,9 +46,8 @@ namespace DataLayer.Repositories
                     };
 
                     _context.Prognosis_Has_Days.Add(prognosisHasDays);
+                    _context.SaveChanges();
                 }
-
-                _context.SaveChanges();
             }
             else
             {
