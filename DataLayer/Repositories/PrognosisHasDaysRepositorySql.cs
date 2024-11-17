@@ -34,5 +34,12 @@ namespace DataLayer.Repositories
                 .Where(p => p.PrognosisId == prognosisId)
                 .ToList();
         }
+
+        public void UpdatePrognosisHasDays(List<Prognosis_has_days> prognosisDayList)
+        {
+            _context.Prognosis_Has_Days.UpdateRange(prognosisDayList);
+
+            _context.SaveChanges();
+        }
     }
 }

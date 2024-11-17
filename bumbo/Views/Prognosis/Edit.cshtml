@@ -1,60 +1,73 @@
-﻿@{
+﻿@model bumbo.ViewModels.Prognosis.PrognosisEditViewModel
+﻿
+@{
     ViewData["Title"] = "Edit";
 }
 
-<div class="grid grid-cols-3 gap-4 mt-20 mx-auto max-w-screen-lg">
-    <div class="flex items-center space-x-2" name="prognoses_title">
+<div class="gap-4 mt-20 mx-auto grid max-w-screen-lg grid-cols-3">
+    <div class="space-x-2 flex items-center" name="prognoses_title">
         <button class="text-2xl">&#10094;</button>
-        <h1 class="font-bold text-3xl">Prognose Bewerken</h1>
+        <h1 class="text-3xl font-bold">Prognose Bewerken</h1>
     </div>
 </div>
 
 <div class="mt-4 mx-auto max-w-screen-lg">
-    <form method="post" action="/Prognosis/Edit/@Model.PrognosisId">
-        @Html.AntiForgeryToken()
-
-        <div class="flex items-center space-x-4">
-            <div class="flex flex-col flex-grow">
-                <label class="block text-sm font-medium text-gray-700">Week</label>
-                <input type="text" value="@ViewBag.CurrentWeek" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
-            </div>
-            <div class="flex flex-col flex-grow">
-                <label class="block text-sm font-medium text-gray-700">Jaar</label>
-                <input type="text" value="@ViewBag.CurrentYear" class="mt-1 p-2 border border-gray-300 rounded w-full" disabled />
-            </div>
+    <div class="space-x-4 flex items-center">
+        <div class="flex flex-grow flex-col">
+            <label class="text-gray-700 block text-sm font-medium">Week</label>
+            <input type="text" dis value="@Model.WeekNr" class="mt-1 p-2 border-gray-300 w-full rounded border" disabled />
         </div>
-
-        <div class="mt-4 grid grid-cols-3 gap-2">
-            <div class="font-bold max-w-xs">Dag</div>
-            <div class="font-bold max-w-xs">Aantal Verwachte Klanten</div>
-            <div class="font-bold max-w-xs">Aantal Verwachte Collies</div>
-
-            @if (ViewBag.DaysList != null)
-            {
-                int count = 0;
-                foreach (var day in ViewBag.DaysList)
-                {
-                    <input name="prognosisEditDaysList[@count].Name" type="hidden" value="@day.Days_name" />
-                    <div class="max-w-xs">@day.Days_name</div>
-                    <div>
-                        <input name="CustomerAmount[@count]" type="number" class="border rounded p-1 w-full" value="@day.CustomerAmount" />
-                    </div>
-                    <div>
-                        <input name="PackagesAmount[@count]" type="number" class="border rounded p-1 w-full" value="@day.PackagesAmount" />
-                    </div>
-                    count++;
-                }
-            }
+        <div class="flex flex-grow flex-col">
+            <label class="text-gray-700 block text-sm font-medium">Jaar</label>
+            <input type="text" value="@Model.Year" class="mt-1 p-2 border-gray-300 w-full rounded border" disabled />
         </div>
+    </div>
 
-        <div class="mt-4 flex justify-end space-x-2">
-            <button type="submit" class="bg-blue-500 text-white border border-blue-700 rounded p-2 hover:bg-blue-600 transition">Opslaan</button>
-        </div>
-    </form>
-    <form asp-action="Delete" method="post" asp-route-id="@Model.PrognosisId">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="bg-red-500 text-white border border-red-700 rounded p-2 hover:bg-red-600 transition">
-            Verwijderen
-        </button>
-    </form>
 </div>
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}
+
+<form method="post" action="/Prognosis/Update">
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="mt-4 mx-auto max-w-screen-lg">
+            <div class="gap-2 grid grid-cols-3">
+                <div class="max-w-xs font-bold">Dag</div>
+                <div class="max-w-xs font-bold">Aantal Verwachte Klanten</div>
+                <div class="max-w-xs font-bold">Aantal Verwachte Collies</div>
+
+                <input name="PrognosisId" type="hidden" value="@Model.PrognosisId" />
+
+                @for (int i = 0; i < Model.Days_name.Count; i++)
+                {
+                    <input type="hidden" name="Days[@i].Name" value="@Model.Days_name[i]" />
+                    <div class="max-w-xs">@Model.Days_name[i]</div>
+
+                    <div>
+                        <input value="@Model.CustomerAmount[i]" name="CustomerAmount[@i]" type="number" class="p-1 w-full rounded border" required />
+                    </div>
+
+                    <div>
+                        <input value="@Model.PackagesAmount[i]" name="PackagesAmount[@i]" type="number" class="p-1 w-full rounded border" required />
+                    </div>
+                }
+            </div>
+
+            <div class="mt-4 space-x-2 flex justify-end">
+                <default-button button-text="Bewerken" button-type="primary submit"></default-button>
+            </div>
+        </div>
+    </fieldset>
+</form>

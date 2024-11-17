@@ -228,6 +228,9 @@ namespace bumbo.Controllers
 
             var viewModel = new PrognosisViewModel
             {
+                PrognosisId = prognosis.PrognosisId,
+                currentYear = _currentYear,
+                currentWeek = _currentWeek,
                 Year = prognosis.Year,
                 WeekNr = prognosis.WeekNr,
                 Days = days // Vul het model met de berekende dagen
@@ -398,21 +401,44 @@ namespace bumbo.Controllers
 
         // GET: Prognosis/Edit/1
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int prognosisId)
         {
-            var prognosis = _prognosisRepository.GetPrognosisById(id);
-            if (prognosis == null)
+            PrognosisEditViewModel viewmodel = new PrognosisEditViewModel();
+
+            Prognosis prognosis = _prognosisRepository.GetPrognosisById(prognosisId);
+
+            List<Prognosis_has_days> hasDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(prognosisId);
+
+            List<string> day_names = new List<string>();
+            List<int> customerAmount = new List<int>();
+            List<int> packagesAmount = new List<int>();
+
+            List<Days> days = _daysRepository.getAllDays();
+
+            foreach (Days day in days)
             {
-                return NotFound();
+                foreach (Prognosis_has_days dayName in hasDays)
+                {
+                    if (day.Name == dayName.Days_name)
+                    {
+                        day_names.Add(dayName.Days_name);
+                        customerAmount.Add(dayName.CustomerAmount);
+                        packagesAmount.Add(dayName.PackagesAmount);
+
+                    }
+                }
             }
 
-            var prognosisDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(id);
-            ViewBag.DaysList = prognosisDays;
+            viewmodel.PrognosisId = prognosisId;
+            viewmodel.Days_name = day_names;
+            viewmodel.CustomerAmount = customerAmount;
+            viewmodel.PackagesAmount = packagesAmount;
+            viewmodel.CurrentWeek = _currentWeek;
+            viewmodel.CurrentYear = _currentYear;
+            viewmodel.WeekNr = prognosis.WeekNr;
+            viewmodel.Year = prognosis.Year;
 
-            ViewBag.CurrentWeek = prognosis.WeekNr;
-            ViewBag.CurrentYear = prognosis.Year;
-
-            return View(prognosis);
+            return View(viewmodel);
         }
 
         // POST: Prognosis/Edit/1
@@ -429,6 +455,65 @@ namespace bumbo.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Update(PrognosisUpdateViewModel updatedViewModel)
+        {
+            Prognosis prognosis = _prognosisRepository.GetPrognosisById(updatedViewModel.PrognosisId);
+            List<Prognosis_has_days> prognosisDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(updatedViewModel.PrognosisId);
+
+            int highestValue = 0;
+            bool negativeNumber = false;
+            for (int i = 0; i < prognosisDays.Count; i++)
+            {
+                prognosisDays[i].CustomerAmount = updatedViewModel.CustomerAmount[i];
+                prognosisDays[i].PackagesAmount = updatedViewModel.PackagesAmount[i];
+
+                if (highestValue < updatedViewModel.CustomerAmount[i])
+                    highestValue = updatedViewModel.CustomerAmount[i];
+                if (highestValue < updatedViewModel.PackagesAmount[i])
+                    highestValue = updatedViewModel.PackagesAmount[i];
+                if (updatedViewModel.CustomerAmount[i] < 0 || updatedViewModel.PackagesAmount[i] < 0)
+                    negativeNumber = true;
+            }
+
+            if (prognosis.Year <= _currentYear && prognosis.WeekNr <= _currentWeek)
+            {
+                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. Deze prognoses is al in gebruik.";
+                TempData["ToastType"] = "error";
+
+                TempData["ToastId"] = "updatePrognosisToast";
+                TempData["AutoHide"] = "no";
+            }
+            else if (highestValue > 9999)
+            {
+                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. De maximale waarde is 9999.";
+                TempData["ToastType"] = "error";
+
+                TempData["ToastId"] = "updatePrognosisToast";
+                TempData["AutoHide"] = "no";
+            }
+            else if (negativeNumber)
+            {
+                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. Een waarde mag niet negatief zijn.";
+                TempData["ToastType"] = "error";
+
+                TempData["ToastId"] = "updatePrognosisToast";
+                TempData["AutoHide"] = "no";
+            }
+            else
+            {
+                TempData["ToastMessage"] = "Prognoses succesvol bijgewerkt!";
+                TempData["ToastType"] = "success";
+
+                TempData["ToastId"] = "updatePrognosisToast";
+                TempData["AutoHide"] = "yes";
+                TempData["MilSecHide"] = 3000;
+
+                _prognosisHasDaysRepository.UpdatePrognosisHasDays(prognosisDays);
+            }
+
+            return RedirectToAction(nameof(PrognosisController.Index), "Prognosis");
         }
 
 
