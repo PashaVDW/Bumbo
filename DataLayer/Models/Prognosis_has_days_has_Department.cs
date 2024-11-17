@@ -16,8 +16,8 @@ namespace DataLayer.Models
         public string Days_name { get; set; }
         [ForeignKey("Days_name")]
         public Days Days { get; set; }
-        [StringLength(45)]
-        public string PrognosisId { get; set; }
+        [Required]
+        public int PrognosisId { get; set; }
         [ForeignKey("PrognosisId")]
         public Prognosis Prognosis { get; set; }
         public int AmountWorkersNeeded { get; set; }

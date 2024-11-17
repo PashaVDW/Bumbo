@@ -12,7 +12,7 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241116200716_InitialCreate")]
+    [Migration("20241117131909_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -53,8 +53,8 @@ namespace DataLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("PrognosisId")
-                        .HasColumnType("nvarchar(45)");
+                    b.Property<int?>("PrognosisId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -176,9 +176,8 @@ namespace DataLayer.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("PrognosisId")
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
+                    b.Property<int>("PrognosisId")
+                        .HasColumnType("int");
 
                     b.Property<int>("AmountWorkersNeeded")
                         .HasColumnType("int");
@@ -199,7 +198,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             Days_name = "Maandag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 24
                         },
@@ -207,7 +206,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             Days_name = "Maandag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 28
                         },
@@ -215,7 +214,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             Days_name = "Maandag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 5,
                             HoursWorkNeeded = 32
                         },
@@ -223,7 +222,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             Days_name = "Maandag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 2,
                             HoursWorkNeeded = 16
                         },
@@ -231,7 +230,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             Days_name = "Maandag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 20
                         },
@@ -239,7 +238,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             Days_name = "Dinsdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 25
                         },
@@ -247,7 +246,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             Days_name = "Dinsdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 30
                         },
@@ -255,7 +254,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             Days_name = "Dinsdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 5,
                             HoursWorkNeeded = 35
                         },
@@ -263,7 +262,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             Days_name = "Dinsdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 2,
                             HoursWorkNeeded = 18
                         },
@@ -271,7 +270,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             Days_name = "Dinsdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 22
                         },
@@ -279,7 +278,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             Days_name = "Woensdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 26
                         },
@@ -287,7 +286,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             Days_name = "Woensdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 29
                         },
@@ -295,7 +294,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             Days_name = "Woensdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 5,
                             HoursWorkNeeded = 34
                         },
@@ -303,7 +302,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             Days_name = "Woensdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 2,
                             HoursWorkNeeded = 17
                         },
@@ -311,7 +310,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             Days_name = "Woensdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 21
                         },
@@ -319,7 +318,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             Days_name = "Donderdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 24
                         },
@@ -327,7 +326,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             Days_name = "Donderdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 27
                         },
@@ -335,7 +334,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             Days_name = "Donderdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 5,
                             HoursWorkNeeded = 31
                         },
@@ -343,7 +342,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             Days_name = "Donderdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 2,
                             HoursWorkNeeded = 15
                         },
@@ -351,7 +350,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             Days_name = "Donderdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 19
                         },
@@ -359,7 +358,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             Days_name = "Vrijdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 28
                         },
@@ -367,7 +366,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             Days_name = "Vrijdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 5,
                             HoursWorkNeeded = 32
                         },
@@ -375,7 +374,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             Days_name = "Vrijdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 6,
                             HoursWorkNeeded = 36
                         },
@@ -383,7 +382,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             Days_name = "Vrijdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 20
                         },
@@ -391,7 +390,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             Days_name = "Vrijdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 24
                         },
@@ -399,7 +398,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             Days_name = "Zaterdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 30
                         },
@@ -407,7 +406,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             Days_name = "Zaterdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 5,
                             HoursWorkNeeded = 35
                         },
@@ -415,7 +414,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             Days_name = "Zaterdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 6,
                             HoursWorkNeeded = 38
                         },
@@ -423,7 +422,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             Days_name = "Zaterdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 22
                         },
@@ -431,7 +430,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             Days_name = "Zaterdag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 26
                         },
@@ -439,7 +438,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             Days_name = "Zondag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 27
                         },
@@ -447,7 +446,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             Days_name = "Zondag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 4,
                             HoursWorkNeeded = 30
                         },
@@ -455,7 +454,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             Days_name = "Zondag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 5,
                             HoursWorkNeeded = 34
                         },
@@ -463,7 +462,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             Days_name = "Zondag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 2,
                             HoursWorkNeeded = 18
                         },
@@ -471,7 +470,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             Days_name = "Zondag",
-                            PrognosisId = "1",
+                            PrognosisId = 1,
                             AmountWorkersNeeded = 3,
                             HoursWorkNeeded = 22
                         });
@@ -587,7 +586,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "bcb4b08a-b7da-4528-bd6f-cedfe93fcb89",
+                            ConcurrencyStamp = "e8781337-483c-46f5-b218-0a02fb331f7b",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -599,11 +598,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFGkKhByq6HanoUZ+5m7aW8q+6iwmpn11Sbv0VzXZ5KwaC/bpYfRfii87W/gRYYHdg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEdcKIEQrBbFu5DRmpHCVLDryJ9hKh9DKLS9whrVPuTTx+3ysVksdkygQpqLE1PHuA==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "7bcf0f4a-b6cc-40ba-be75-b486ff1b3ede",
+                            SecurityStamp = "8457bd60-767d-4720-9a73-fcc080b83175",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -614,7 +613,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "cefce236-bdd9-4379-a386-4252ae5c7c39",
+                            ConcurrencyStamp = "8c5e03a7-4b1f-4812-952e-473c18e6c9a5",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -625,11 +624,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELXXZrg3+HeDKCEkSnzZrCnNJaRlz9c6RpVOZDkHT0aEXN/BHcd0nexV6CWk0Q0wHQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENbqR9QYukWOeX1nwPQFQSawQAMzIQYAcsO5NCVDwR1PD+yKjBUfmESklQhKDco56A==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "9271 GB",
-                            SecurityStamp = "c9be0173-2fd0-42cc-90fb-1153e0d8dc06",
+                            SecurityStamp = "c17cf1fa-f4e1-4ad4-a5da-f3c8e46ac190",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -640,7 +639,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B003",
                             BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "61bb5663-af49-4c52-9766-a638e9433f02",
+                            ConcurrencyStamp = "6cf4411c-0265-4498-8542-72ec667e4dfb",
                             Email = "darlon.vandijk@hotmail.com",
                             EmailConfirmed = true,
                             FirstName = "Darlon",
@@ -651,11 +650,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DARLON.VANDIJK@HOTMAIL.COM",
                             NormalizedUserName = "DARLON.VANDIJK@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENGVinludLNthgDkwRNkrskNRJ4dny2QXXWJfZZGDhJ7WIaBabo06kUCoBPak2Vagw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKE3iX1Bgcxg3mduIrGp6o6J16vwL0ZIAIPnRDTLUGh8gOor+3K8uA1VozeKGDKZWg==",
                             PhoneNumber = "+31 6 34567890",
                             PhoneNumberConfirmed = false,
                             PostalCode = "8329 SK",
-                            SecurityStamp = "d43da76f-f85c-4284-bdec-0d1530fccc23",
+                            SecurityStamp = "f6007541-482c-43d9-96b6-87c123222354",
                             StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "darlon.vandijk@hotmail.com"
@@ -666,7 +665,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B004",
                             BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "03546caf-11e6-4163-875d-755511643e9c",
+                            ConcurrencyStamp = "e701d4d0-d480-47c4-a99e-6e0ccb5324b5",
                             Email = "pasha.bakker@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Pasha",
@@ -678,11 +677,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "PASHA.BAKKER@GMAIL.COM",
                             NormalizedUserName = "PASHA.BAKKER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPJsWQMe9X4oHX03WNbWCHIkKaEvOqbc4dGXlgcKkSs7SKJNILrbO2LnXxP+FD2i6Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJsuHxEv/tyxlUxGhS91S1y7wCY5zfMVxYcxIu2kUImCyhbP2Ue/okSHMIONtAyLFw==",
                             PhoneNumber = "+31 6 45678901",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3894 HT",
-                            SecurityStamp = "97150579-e09a-467c-bad0-b001292ddfe4",
+                            SecurityStamp = "b0ea8c51-bc39-43f9-b2ef-bd38a1b44135",
                             StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "pasha.bakker@gmail.com"
@@ -693,7 +692,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B005",
                             BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "1701179f-0047-44e5-bf30-56cc91638ab8",
+                            ConcurrencyStamp = "cc73cfa0-5b2d-45e2-82b4-5142e59087af",
                             Email = "sarah.vanderven@hotmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarah",
@@ -704,11 +703,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
                             NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHOhJtKqyRwKZksY0HyyovwzBYYKrgilEGgEh5WxzZhqOji4tkVliHwY992La/UmRw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMDUep+DJVTb5quBRsk+DiKkUUtiKzflQKG2VlGMa4XsWtEfME6ACPg2sGub76/AWw==",
                             PhoneNumber = "+31 6 56789012",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2933 KJ",
-                            SecurityStamp = "1a959f60-6c2c-401a-afb2-326e22f3324a",
+                            SecurityStamp = "b580a5c7-3e0e-45c0-bc89-ae097a936ace",
                             StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "sarah.vanderven@hotmail.com"
@@ -719,7 +718,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B006",
                             BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "5e74b576-2106-4382-9ee5-49825bc912f4",
+                            ConcurrencyStamp = "945f591c-26c9-460f-a525-e63ff6de9a85",
                             Email = "david.denboer@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "David",
@@ -731,11 +730,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
                             NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBtQH9R7SgSL/wwMOTj5eS/UdSPq49KJ9sKaUqw7j7MQ6Tpwr2JTcGWRm41kdBomwA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGNLQwz4/79NmQLriTJibHEj0D5tgPq/aRFHeZ2+qcGnqtg5qxwdqTQejQw2YrGP6w==",
                             PhoneNumber = "+31 6 67890123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "4293 BF",
-                            SecurityStamp = "b24fea54-3d52-4d90-9b81-9fad5776edc2",
+                            SecurityStamp = "1ac4d284-3e82-4f68-911a-233c65ebb5ce",
                             StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "david.denboer@gmail.com"
@@ -746,7 +745,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B012",
                             BirthDate = new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "7d41ecae-bcac-49b0-bc39-a43f9f300f24",
+                            ConcurrencyStamp = "79b18b11-8b26-492e-be75-8c3ab3383b04",
                             Email = "anthony.ross@example.com",
                             EmailConfirmed = true,
                             FirstName = "Anthony",
@@ -758,12 +757,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "ANTHONY.ROSS@EXAMPLE.COM",
                             NormalizedUserName = "ANTHONY.ROSS@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEODUP3LCmqY12KhFIthiVpZsojyoMa2SMgC1WMTQI1TYDUQh8PsQwNeqAbyOVXB2yQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAg6shjcfWUuo0iOX0q6hnZYSkK8SQ+8JAzFi803vGNcFUZDdpnLh570jMGwgyHrDg==",
                             PhoneNumber = "+31 6 12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2234 AB",
-                            SecurityStamp = "2d960ed2-11c7-4bb2-8919-9233308989c1",
-                            StartDate = new DateTime(2024, 11, 16, 21, 7, 15, 600, DateTimeKind.Local).AddTicks(8356),
+                            SecurityStamp = "737e1128-ac1c-4216-a275-59be8db9d7df",
+                            StartDate = new DateTime(2024, 11, 17, 14, 19, 8, 422, DateTimeKind.Local).AddTicks(1698),
                             TwoFactorEnabled = false,
                             UserName = "anthony.ross@example.com"
                         },
@@ -773,7 +772,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B013",
                             BirthDate = new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "9162c1a4-6cce-4bb0-b23b-23661dbde274",
+                            ConcurrencyStamp = "efb1a453-84b2-4ee3-9494-5fafc9fb34e4",
                             Email = "douwe.jansen@example.com",
                             EmailConfirmed = true,
                             FirstName = "Douwe",
@@ -785,12 +784,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DOUWE.JANSEN@EXAMPLE.COM",
                             NormalizedUserName = "DOUWE.JANSEN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF6TT8K/Kbdl8zU+vm1pSL93NwWYuEKGZzWmJzyxiQQTasMvf0nzQBhLmbOyBG3hQg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENXKuMsNjY74VLORiIEXnihe5lRDtvx3hgsKBEpy32rdrJ1uwZePB21cZu++qvwUEA==",
                             PhoneNumber = "+31 6 87654321",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3345 CD",
-                            SecurityStamp = "db36f47a-47eb-456a-8b3f-63911e21e7c8",
-                            StartDate = new DateTime(2024, 11, 16, 21, 7, 15, 666, DateTimeKind.Local).AddTicks(7998),
+                            SecurityStamp = "cb911b87-66d7-4752-ae4b-1fe45ff7b757",
+                            StartDate = new DateTime(2024, 11, 17, 14, 19, 8, 488, DateTimeKind.Local).AddTicks(3579),
                             TwoFactorEnabled = false,
                             UserName = "douwe.jansen@example.com"
                         });
@@ -929,6 +928,168 @@ namespace DataLayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Prognosis", b =>
+                {
+                    b.Property<int>("PrognosisId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrognosisId"));
+
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WeekNr")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("PrognosisId");
+
+                    b.HasIndex("BranchId");
+
+                    b.ToTable("Prognoses");
+
+                    b.HasData(
+                        new
+                        {
+                            PrognosisId = 1,
+                            BranchId = 1,
+                            WeekNr = 40,
+                            Year = 2024
+                        },
+                        new
+                        {
+                            PrognosisId = 2,
+                            BranchId = 1,
+                            WeekNr = 20,
+                            Year = 2024
+                        });
+                });
+
+            modelBuilder.Entity("Prognosis_has_days", b =>
+                {
+                    b.Property<string>("Days_name")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("PrognosisId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PackagesAmount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Days_name", "PrognosisId");
+
+                    b.HasIndex("PrognosisId");
+
+                    b.ToTable("Prognosis_Has_Days");
+
+                    b.HasData(
+                        new
+                        {
+                            Days_name = "Maandag",
+                            PrognosisId = 1,
+                            CustomerAmount = 100,
+                            PackagesAmount = 50
+                        },
+                        new
+                        {
+                            Days_name = "Dinsdag",
+                            PrognosisId = 1,
+                            CustomerAmount = 120,
+                            PackagesAmount = 60
+                        },
+                        new
+                        {
+                            Days_name = "Woensdag",
+                            PrognosisId = 1,
+                            CustomerAmount = 130,
+                            PackagesAmount = 55
+                        },
+                        new
+                        {
+                            Days_name = "Donderdag",
+                            PrognosisId = 1,
+                            CustomerAmount = 110,
+                            PackagesAmount = 45
+                        },
+                        new
+                        {
+                            Days_name = "Vrijdag",
+                            PrognosisId = 1,
+                            CustomerAmount = 150,
+                            PackagesAmount = 70
+                        },
+                        new
+                        {
+                            Days_name = "Zaterdag",
+                            PrognosisId = 1,
+                            CustomerAmount = 160,
+                            PackagesAmount = 80
+                        },
+                        new
+                        {
+                            Days_name = "Zondag",
+                            PrognosisId = 1,
+                            CustomerAmount = 140,
+                            PackagesAmount = 65
+                        },
+                        new
+                        {
+                            Days_name = "Maandag",
+                            PrognosisId = 2,
+                            CustomerAmount = 90,
+                            PackagesAmount = 40
+                        },
+                        new
+                        {
+                            Days_name = "Dinsdag",
+                            PrognosisId = 2,
+                            CustomerAmount = 115,
+                            PackagesAmount = 55
+                        },
+                        new
+                        {
+                            Days_name = "Woensdag",
+                            PrognosisId = 2,
+                            CustomerAmount = 125,
+                            PackagesAmount = 50
+                        },
+                        new
+                        {
+                            Days_name = "Donderdag",
+                            PrognosisId = 2,
+                            CustomerAmount = 105,
+                            PackagesAmount = 42
+                        },
+                        new
+                        {
+                            Days_name = "Vrijdag",
+                            PrognosisId = 2,
+                            CustomerAmount = 140,
+                            PackagesAmount = 68
+                        },
+                        new
+                        {
+                            Days_name = "Zaterdag",
+                            PrognosisId = 2,
+                            CustomerAmount = 150,
+                            PackagesAmount = 75
+                        },
+                        new
+                        {
+                            Days_name = "Zondag",
+                            PrognosisId = 2,
+                            CustomerAmount = 130,
+                            PackagesAmount = 60
+                        });
+                });
+
             modelBuilder.Entity("bumbo.Models.BranchHasEmployee", b =>
                 {
                     b.Property<int>("BranchId")
@@ -985,14 +1146,14 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             FunctionName = "Cashier",
-                            StartDate = new DateTime(2024, 11, 16, 21, 7, 15, 600, DateTimeKind.Local).AddTicks(8356)
+                            StartDate = new DateTime(2024, 11, 17, 14, 19, 8, 422, DateTimeKind.Local).AddTicks(1698)
                         },
                         new
                         {
                             BranchId = 2,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2024, 11, 16, 21, 7, 15, 666, DateTimeKind.Local).AddTicks(7998)
+                            StartDate = new DateTime(2024, 11, 17, 14, 19, 8, 488, DateTimeKind.Local).AddTicks(3579)
                         });
                 });
 
@@ -1167,167 +1328,6 @@ namespace DataLayer.Migrations
                             normInSeconds = 2,
                             week = 41,
                             year = 2024
-                        });
-                });
-
-            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
-                {
-                    b.Property<string>("PrognosisId")
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<int>("BranchId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeekNr")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("PrognosisId");
-
-                    b.HasIndex("BranchId");
-
-                    b.ToTable("Prognoses");
-
-                    b.HasData(
-                        new
-                        {
-                            PrognosisId = "1",
-                            BranchId = 1,
-                            WeekNr = 40,
-                            Year = 2024
-                        },
-                        new
-                        {
-                            PrognosisId = "2",
-                            BranchId = 1,
-                            WeekNr = 20,
-                            Year = 2024
-                        });
-                });
-
-            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
-                {
-                    b.Property<string>("Days_name")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("PrognosisId")
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<int>("CustomerAmount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PackagesAmount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Days_name", "PrognosisId");
-
-                    b.HasIndex("PrognosisId");
-
-                    b.ToTable("Prognosis_Has_Days");
-
-                    b.HasData(
-                        new
-                        {
-                            Days_name = "Maandag",
-                            PrognosisId = "1",
-                            CustomerAmount = 100,
-                            PackagesAmount = 50
-                        },
-                        new
-                        {
-                            Days_name = "Dinsdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 120,
-                            PackagesAmount = 60
-                        },
-                        new
-                        {
-                            Days_name = "Woensdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 130,
-                            PackagesAmount = 55
-                        },
-                        new
-                        {
-                            Days_name = "Donderdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 110,
-                            PackagesAmount = 45
-                        },
-                        new
-                        {
-                            Days_name = "Vrijdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 150,
-                            PackagesAmount = 70
-                        },
-                        new
-                        {
-                            Days_name = "Zaterdag",
-                            PrognosisId = "1",
-                            CustomerAmount = 160,
-                            PackagesAmount = 80
-                        },
-                        new
-                        {
-                            Days_name = "Zondag",
-                            PrognosisId = "1",
-                            CustomerAmount = 140,
-                            PackagesAmount = 65
-                        },
-                        new
-                        {
-                            Days_name = "Maandag",
-                            PrognosisId = "2",
-                            CustomerAmount = 90,
-                            PackagesAmount = 40
-                        },
-                        new
-                        {
-                            Days_name = "Dinsdag",
-                            PrognosisId = "2",
-                            CustomerAmount = 115,
-                            PackagesAmount = 55
-                        },
-                        new
-                        {
-                            Days_name = "Woensdag",
-                            PrognosisId = "2",
-                            CustomerAmount = 125,
-                            PackagesAmount = 50
-                        },
-                        new
-                        {
-                            Days_name = "Donderdag",
-                            PrognosisId = "2",
-                            CustomerAmount = 105,
-                            PackagesAmount = 42
-                        },
-                        new
-                        {
-                            Days_name = "Vrijdag",
-                            PrognosisId = "2",
-                            CustomerAmount = 140,
-                            PackagesAmount = 68
-                        },
-                        new
-                        {
-                            Days_name = "Zaterdag",
-                            PrognosisId = "2",
-                            CustomerAmount = 150,
-                            PackagesAmount = 75
-                        },
-                        new
-                        {
-                            Days_name = "Zondag",
-                            PrognosisId = "2",
-                            CustomerAmount = 130,
-                            PackagesAmount = 60
                         });
                 });
 
@@ -1663,7 +1663,7 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("bumbo.Models.Prognosis", null)
+                    b.HasOne("Prognosis", null)
                         .WithMany("Branches")
                         .HasForeignKey("PrognosisId");
 
@@ -1684,13 +1684,13 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("bumbo.Models.Prognosis", "Prognosis")
+                    b.HasOne("Prognosis", "Prognosis")
                         .WithMany()
                         .HasForeignKey("PrognosisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("bumbo.Models.Prognosis_has_days", "Prognosis_Has_Days")
+                    b.HasOne("Prognosis_has_days", "Prognosis_Has_Days")
                         .WithMany("Prognosis_Has_Days_Has_Department")
                         .HasForeignKey("Days_name", "PrognosisId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1765,6 +1765,36 @@ namespace DataLayer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Prognosis", b =>
+                {
+                    b.HasOne("Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+                });
+
+            modelBuilder.Entity("Prognosis_has_days", b =>
+                {
+                    b.HasOne("bumbo.Models.Days", "Days")
+                        .WithMany("Prognosis_Has_Days")
+                        .HasForeignKey("Days_name")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Prognosis", "Prognosis")
+                        .WithMany("Prognosis_Has_Days")
+                        .HasForeignKey("PrognosisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Days");
+
+                    b.Navigation("Prognosis");
+                });
+
             modelBuilder.Entity("bumbo.Models.BranchHasEmployee", b =>
                 {
                     b.HasOne("Branch", "Branch")
@@ -1788,36 +1818,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Function");
-                });
-
-            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
-                {
-                    b.HasOne("Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-                });
-
-            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
-                {
-                    b.HasOne("bumbo.Models.Days", "Days")
-                        .WithMany("Prognosis_Has_Days")
-                        .HasForeignKey("Days_name")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("bumbo.Models.Prognosis", "Prognosis")
-                        .WithMany("Prognosis_Has_Days")
-                        .HasForeignKey("PrognosisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Days");
-
-                    b.Navigation("Prognosis");
                 });
 
             modelBuilder.Entity("bumbo.Models.Template", b =>
@@ -1867,6 +1867,18 @@ namespace DataLayer.Migrations
                     b.Navigation("BranchEmployees");
                 });
 
+            modelBuilder.Entity("Prognosis", b =>
+                {
+                    b.Navigation("Branches");
+
+                    b.Navigation("Prognosis_Has_Days");
+                });
+
+            modelBuilder.Entity("Prognosis_has_days", b =>
+                {
+                    b.Navigation("Prognosis_Has_Days_Has_Department");
+                });
+
             modelBuilder.Entity("bumbo.Models.Country", b =>
                 {
                     b.Navigation("Branches");
@@ -1877,18 +1889,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Prognosis_Has_Days");
 
                     b.Navigation("TemplateHasDays");
-                });
-
-            modelBuilder.Entity("bumbo.Models.Prognosis", b =>
-                {
-                    b.Navigation("Branches");
-
-                    b.Navigation("Prognosis_Has_Days");
-                });
-
-            modelBuilder.Entity("bumbo.Models.Prognosis_has_days", b =>
-                {
-                    b.Navigation("Prognosis_Has_Days_Has_Department");
                 });
 
             modelBuilder.Entity("bumbo.Models.Template", b =>

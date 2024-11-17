@@ -150,26 +150,26 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Prognosis>().HasData(
-                new Prognosis { PrognosisId = "1", WeekNr = 40, Year = 2024, BranchId = 1 },
-                new Prognosis { PrognosisId = "2", WeekNr = 20, Year = 2024, BranchId = 1 }
+                new Prognosis { PrognosisId = 1, WeekNr = 40, Year = 2024, BranchId = 1 },
+                new Prognosis { PrognosisId = 2, WeekNr = 20, Year = 2024, BranchId = 1 }
             );
 
             modelBuilder.Entity<Prognosis_has_days>().HasData(
-                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = "1", CustomerAmount = 100, PackagesAmount = 50 },
-                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = "1", CustomerAmount = 120, PackagesAmount = 60 },
-                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = "1", CustomerAmount = 130, PackagesAmount = 55 },
-                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
-                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
-                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
-                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 },
+                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = 1, CustomerAmount = 100, PackagesAmount = 50 },
+                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = 1, CustomerAmount = 120, PackagesAmount = 60 },
+                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = 1, CustomerAmount = 130, PackagesAmount = 55 },
+                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = 1, CustomerAmount = 110, PackagesAmount = 45 },
+                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = 1, CustomerAmount = 150, PackagesAmount = 70 },
+                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = 1, CustomerAmount = 160, PackagesAmount = 80 },
+                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = 1, CustomerAmount = 140, PackagesAmount = 65 },
 
-                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = "2", CustomerAmount = 90, PackagesAmount = 40 },
-                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = "2", CustomerAmount = 115, PackagesAmount = 55 },
-                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = "2", CustomerAmount = 125, PackagesAmount = 50 },
-                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = "2", CustomerAmount = 105, PackagesAmount = 42 },
-                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = "2", CustomerAmount = 140, PackagesAmount = 68 },
-                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = "2", CustomerAmount = 150, PackagesAmount = 75 },
-                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "2", CustomerAmount = 130, PackagesAmount = 60 }
+                new Prognosis_has_days { Days_name = "Maandag", PrognosisId = 2, CustomerAmount = 90, PackagesAmount = 40 },
+                new Prognosis_has_days { Days_name = "Dinsdag", PrognosisId = 2, CustomerAmount = 115, PackagesAmount = 55 },
+                new Prognosis_has_days { Days_name = "Woensdag", PrognosisId = 2, CustomerAmount = 125, PackagesAmount = 50 },
+                new Prognosis_has_days { Days_name = "Donderdag", PrognosisId = 2, CustomerAmount = 105, PackagesAmount = 42 },
+                new Prognosis_has_days { Days_name = "Vrijdag", PrognosisId = 2, CustomerAmount = 140, PackagesAmount = 68 },
+                new Prognosis_has_days { Days_name = "Zaterdag", PrognosisId = 2, CustomerAmount = 150, PackagesAmount = 75 },
+                new Prognosis_has_days { Days_name = "Zondag", PrognosisId = 2, CustomerAmount = 130, PackagesAmount = 60 }
             );
 
             modelBuilder.Entity<Function>().HasData(
@@ -474,48 +474,49 @@ namespace bumbo.Data
                 new Department { DepartmentName = "Spiegelen " });
 
             modelBuilder.Entity<Prognosis_has_days_has_Department>().HasData(
-                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Maandag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 24 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Maandag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 28 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Maandag", PrognosisId = "1", AmountWorkersNeeded = 5, HoursWorkNeeded = 32 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Maandag", PrognosisId = "1", AmountWorkersNeeded = 2, HoursWorkNeeded = 16 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Maandag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 20 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Maandag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 24 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Maandag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 28 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Maandag", PrognosisId = 1, AmountWorkersNeeded = 5, HoursWorkNeeded = 32 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Maandag", PrognosisId = 1, AmountWorkersNeeded = 2, HoursWorkNeeded = 16 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Maandag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 20 },
 
-                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Dinsdag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 25 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Dinsdag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 30 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Dinsdag", PrognosisId = "1", AmountWorkersNeeded = 5, HoursWorkNeeded = 35 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Dinsdag", PrognosisId = "1", AmountWorkersNeeded = 2, HoursWorkNeeded = 18 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Dinsdag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 22 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Dinsdag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 25 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Dinsdag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 30 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Dinsdag", PrognosisId = 1, AmountWorkersNeeded = 5, HoursWorkNeeded = 35 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Dinsdag", PrognosisId = 1, AmountWorkersNeeded = 2, HoursWorkNeeded = 18 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Dinsdag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 22 },
 
-                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Woensdag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 26 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Woensdag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 29 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Woensdag", PrognosisId = "1", AmountWorkersNeeded = 5, HoursWorkNeeded = 34 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Woensdag", PrognosisId = "1", AmountWorkersNeeded = 2, HoursWorkNeeded = 17 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Woensdag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 21 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Woensdag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 26 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Woensdag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 29 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Woensdag", PrognosisId = 1, AmountWorkersNeeded = 5, HoursWorkNeeded = 34 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Woensdag", PrognosisId = 1, AmountWorkersNeeded = 2, HoursWorkNeeded = 17 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Woensdag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 21 },
 
-                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Donderdag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 24 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Donderdag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 27 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Donderdag", PrognosisId = "1", AmountWorkersNeeded = 5, HoursWorkNeeded = 31 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Donderdag", PrognosisId = "1", AmountWorkersNeeded = 2, HoursWorkNeeded = 15 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Donderdag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 19 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Donderdag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 24 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Donderdag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 27 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Donderdag", PrognosisId = 1, AmountWorkersNeeded = 5, HoursWorkNeeded = 31 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Donderdag", PrognosisId = 1, AmountWorkersNeeded = 2, HoursWorkNeeded = 15 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Donderdag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 19 },
 
-                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Vrijdag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 28 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Vrijdag", PrognosisId = "1", AmountWorkersNeeded = 5, HoursWorkNeeded = 32 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Vrijdag", PrognosisId = "1", AmountWorkersNeeded = 6, HoursWorkNeeded = 36 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Vrijdag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 20 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Vrijdag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 24 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Vrijdag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 28 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Vrijdag", PrognosisId = 1, AmountWorkersNeeded = 5, HoursWorkNeeded = 32 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Vrijdag", PrognosisId = 1, AmountWorkersNeeded = 6, HoursWorkNeeded = 36 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Vrijdag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 20 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Vrijdag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 24 },
 
-                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Zaterdag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 30 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Zaterdag", PrognosisId = "1", AmountWorkersNeeded = 5, HoursWorkNeeded = 35 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Zaterdag", PrognosisId = "1", AmountWorkersNeeded = 6, HoursWorkNeeded = 38 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Zaterdag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 22 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Zaterdag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 26 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Zaterdag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 30 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Zaterdag", PrognosisId = 1, AmountWorkersNeeded = 5, HoursWorkNeeded = 35 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Zaterdag", PrognosisId = 1, AmountWorkersNeeded = 6, HoursWorkNeeded = 38 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Zaterdag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 22 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Zaterdag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 26 },
 
-                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Zondag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 27 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Zondag", PrognosisId = "1", AmountWorkersNeeded = 4, HoursWorkNeeded = 30 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Zondag", PrognosisId = "1", AmountWorkersNeeded = 5, HoursWorkNeeded = 34 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Zondag", PrognosisId = "1", AmountWorkersNeeded = 2, HoursWorkNeeded = 18 },
-                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Zondag", PrognosisId = "1", AmountWorkersNeeded = 3, HoursWorkNeeded = 22 }
-            );
+                new Prognosis_has_days_has_Department { DepartmentName = "Coli uitladen", Days_name = "Zondag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 27 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vakkenvullen", Days_name = "Zondag", PrognosisId = 1, AmountWorkersNeeded = 4, HoursWorkNeeded = 30 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Kassa", Days_name = "Zondag", PrognosisId = 1, AmountWorkersNeeded = 5, HoursWorkNeeded = 34 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Vers", Days_name = "Zondag", PrognosisId = 1, AmountWorkersNeeded = 2, HoursWorkNeeded = 18 },
+                new Prognosis_has_days_has_Department { DepartmentName = "Spiegelen", Days_name = "Zondag", PrognosisId = 1, AmountWorkersNeeded = 3, HoursWorkNeeded = 22 }
+             );
+
 
             //Relations
             // Relations

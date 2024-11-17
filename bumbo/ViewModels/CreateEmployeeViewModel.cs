@@ -22,7 +22,9 @@ namespace bumbo.ViewModels
         public DateTime BirthDate { get; set; }
 
         [Required(ErrorMessage = "Telefoonnummer is verplicht.")]
+        [RegularExpression(@"^[\d\s\-\(\)\+]+$", ErrorMessage = "Het telefoonnummer mag alleen cijfers, spaties, haakjes, streepjes en een '+' teken bevatten.")]
         public string PhoneNumber { get; set; }
+
 
         [Required(ErrorMessage = "Postcode is verplicht.")]
         [StringLength(50, ErrorMessage = "Postcode mag niet langer zijn dan 50 tekens.")]

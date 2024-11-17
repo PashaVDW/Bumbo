@@ -17,7 +17,7 @@ public class Employee : IdentityUser
     [Required]
     public DateTime BirthDate { get; set; }
 
-    [Required]
+    [Required, RegularExpression(@"^[\d\s\-\(\)\+]+$", ErrorMessage = "Het telefoonnummer mag alleen cijfers, spaties, haakjes, streepjes en een '+' teken bevatten.")]
     public string PhoneNumber { get; set; }
 
     [Required, StringLength(50)]
