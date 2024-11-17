@@ -1,0 +1,114 @@
+﻿@model bumbo.ViewModels.PrognosisViewModel
+
+<div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
+    <h1 class="mt-8 text-2xl">Prognose</h1>
+    <p class="mt-2">Maand: @ViewBag.MonthName</p>
+    <p>Week loopt van @ViewBag.FirstDayOfWeek.ToString("dd MMMM yyyy") tot @ViewBag.LastDayOfWeek.ToString("dd MMMM yyyy")</p>
+    <h2 class="weeknr">Week @Model.WeekNr - @Model.Year</h2>
+
+    <!--zoekbalk-->
+    <form id="weekForm" method="get" class="space-x-4 mt-4 mb-4 flex items-center">
+        <input type="number" id="weekInput" name="weekNumber" placeholder="Week" class="border-gray-300 py-2 px-6 w-full rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <input type="number" id="yearInput" name="year" placeholder="Jaar" class="border-gray-300 py-2 px-6 w-full rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <input type="hidden" id="weekIncInput" name="weekInc" value="1" />
+        <button type="submit" class="bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300">Zoeken</button>
+    </form>
+
+    <!--navigatie-->
+    <div class="flex w-full items-center justify-between">
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = -1 })';" class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500">
+            Vorige week
+        </button>
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="text-red-500">@ViewBag.Message</div>
+        }
+
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })';" class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500">
+            Volgende week
+        </button>
+    </div>
+
+    @if (ViewBag.Message == null)
+    {
+        <!-- Prognose Tabel -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border-collapse">
+                <thead>
+                    <tr class="border-b">
+                        <th class="p-4 text-left"></th>
+                        @foreach (var day in Model.Days)
+                        {
+                            <th class="p-4 text-center">
+                                <div class="font-bold">@day.Date.ToString("dd MMM")</div>
+                                <div>@day.DayName</div>
+                                <div>Uren: @day.TotalHoursWorkNeeded</div>
+                                <div>Werknemers: @day.TotalWorkersNeeded</div>
+                            </th>
+                        }
+                    </tr>
+                    <tr class="border-b">
+                        <th class="p-4 text-left"></th>
+                        @foreach (var day in Model.Days)
+                        {
+                            <th class="p-4 text-center">
+                                <div class="flex space-x-9 text-xs">
+                                    <div class="pl-6">Uren</div>
+                                    <div>Medewerkers</div>
+                                </div>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop door de afdelingen -->
+                    @foreach (var departmentName in Model.Days.First().DepartmentList.Select(d => d.DepartmentName).Distinct())
+                    {
+                        <tr class="border-b">
+                            <td class="p-4 font-medium text-left">@departmentName</td>
+                            <!-- Loop door de dagen en toon de inputvelden voor uren en werknemers -->
+                            @foreach (var day in Model.Days)
+                            {
+                                var deptData = day.DepartmentList.FirstOrDefault(d => d.DepartmentName == departmentName);
+
+                                <td class="p-4 text-center">
+                                    <div class="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0">
+                                        <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
+                                            @deptData.HoursWorkNeeded
+                                        </div>
+
+                                        <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
+                                            @deptData.AmountWorkersNeeded
+                                        </div>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    document.getElementById("weekForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        var week = parseInt(document.getElementById("weekInput").value);
+        var year = document.getElementById("yearInput").value;
+
+        if (!isNaN(week) && year) {
+            week = week - 1;
+
+            document.getElementById("weekInput").value = week;
+
+            document.getElementById("weekIncInput").value = 1;
+
+            this.submit();
+        } else {
+            alert("Vul alstublieft zowel een geldig week- als jaarnummer in.");
+        }
+    });
+</script>

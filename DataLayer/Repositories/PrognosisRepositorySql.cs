@@ -23,6 +23,7 @@ namespace DataLayer.Repositories
         {
             List<Prognosis> prognosis = _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
+                    .ThenInclude(phd => phd.Prognosis_Has_Days_Has_Department)
                 .OrderByDescending(p => p.Year)
                 .ThenByDescending(p => p.WeekNr)
                 .ToList<Prognosis>();
@@ -33,15 +34,12 @@ namespace DataLayer.Repositories
         {
             List<Prognosis> prognosis = _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
+                    .ThenInclude(phd => phd.Prognosis_Has_Days_Has_Department)
                 .Where(p => p.WeekNr == weekNumber && p.Year == year)
-                .ToList<Prognosis>();
+                .ToList();
 
-            if (!prognosis.Any())
-            {
-                return null;
-            }
-
-            return prognosis.First();
+            return prognosis.FirstOrDefault();
         }
+
     }
 }
