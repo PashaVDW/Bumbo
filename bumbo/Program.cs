@@ -52,6 +52,11 @@ app.MapControllerRoute(
 
 // Custom routes for specific pages
 app.MapControllerRoute(
+    name: "prognosis",
+    pattern: "prognoses",
+    defaults: new { controller = "Prognosis", action = "Index" });
+
+app.MapControllerRoute(
     name: "forecasts",
     pattern: "prognoses",
     defaults: new { controller = "Forecasts", action = "Index" });

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,5 +25,6 @@ namespace bumbo.Models
 
         [Required]
         public int PackagesAmount { get; set; }
+        public ICollection<Prognosis_has_days_has_Department> Prognosis_Has_Days_Has_Department { get; set; }
     }
 }

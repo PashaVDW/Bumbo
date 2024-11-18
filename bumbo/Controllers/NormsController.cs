@@ -114,6 +114,7 @@ public class NormsController : Controller
         }
         return View(viewModel);
     }
+
     private async Task<AddNormViewModel> GetLastWeek(int branchId)
     {
         int week = LastWeek();

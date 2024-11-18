@@ -11,6 +11,7 @@ using System.Reflection;
 using Microsoft.IdentityModel.Tokens;
 using DataLayer.Interfaces;
 using System.Text;
+using Microsoft.Data.SqlClient;
 
 namespace bumbo.Controllers
 {
@@ -50,7 +51,7 @@ namespace bumbo.Controllers
                  <td class='py-2 px-4'>{item.BranchId}</td>
                  <td class='py-2 px-4'>{item.Employees.Count} medewerkers</td>
                  <td class='py-2 px-4'>{item.Street + " " + item.HouseNumber}</td>
-                 <td class='py-2 px-4'>
+                 <td class='py-2 px-4 text-right'>
                  <button onclick=""window.location.href='../Branches/ReadBranchView?branchId={item.BranchId}'"">✏️</button> 
                  </td>";
 
@@ -125,12 +126,12 @@ namespace bumbo.Controllers
 
             var headers = new List<string> { "Naam", "Filiaal nummer" };
             var tableBuilder = new TableHtmlBuilderAddBranchManager<Employee>();
-            var htmlTable = tableBuilder.GenerateTable("", headers, employees, "", item =>
+            var htmlTable = tableBuilder.GenerateTable(headers, employees, item =>
             {
             return $@"
                  <td class='py-2 px-4'>{item.FirstName + " " + item.LastName}</td>
                  <td class='py-2 px-4'>{newBranch.BranchId}</td>
-                 <td class='py-2 px-4'><a href='/Branches/AddBranchManager?branchId={newBranch.BranchId}&amp;employeeId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
+                 <td class='py-2 px-4 flex justify-end'><a href='/Branches/AddBranchManager?branchId={newBranch.BranchId}&amp;employeeId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
             }, branchId, searchTerm, page);
 
             ViewBag.HtmlTable = htmlTable;
@@ -193,8 +194,8 @@ namespace bumbo.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteBranch(int branchId)
+        [HttpGet]
+        public IActionResult DeleteBranch(int branchId)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null || !user.IsSystemManager)
@@ -202,24 +203,36 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            SetTempDataForToast("updateBranchToast");
-
-            var newBranch = _branchesRepository.GetBranch(branchId);
-
-            if(newBranch == null)
+            try
             {
-                TempData["ToastMessage"] = "Filiaal verwijderen mislukt";
+                SetTempDataForToast("deleteBranchToast");
+
+                var newBranch = _branchesRepository.GetBranch(branchId);
+
+                if (newBranch == null)
+                {
+                    TempData["ToastMessage"] = "Filiaal verwijderen mislukt";
+                    TempData["ToastType"] = "error";
+
+                    return View("UpdateBranchView", newBranch);
+                }
+
+                _branchesRepository.DeleteBranch(newBranch);
+
+                TempData["ToastMessage"] = "Filiaal is verwijderd";
+                TempData["ToastType"] = "success";
+
+                return RedirectToAction("BranchesView");
+            }
+            catch (DbUpdateException)
+            {
+                TempData["ToastMessage"] = "Filiaal heeft nog een of meerdere filiaalmanager(s)";
                 TempData["ToastType"] = "error";
 
-                return View("UpdateBranchView", branchId);
+                var newBranch = _branchesRepository.GetBranch(branchId);
+                return View("UpdateBranchView", newBranch);
             }
-
-            _branchesRepository.DeleteBranch(newBranch);
-
-            TempData["ToastMessage"] = "Filiaal is verwijderd";
-            TempData["ToastType"] = "success";
-
-            return RedirectToAction("BranchesView");
+            
         }
 
         public async Task<IActionResult> AddBranchManager(string employeeId, int branchId)
@@ -305,13 +318,9 @@ namespace bumbo.Controllers
     }
 }
 
-
-
-
-
 class TableHtmlBuilderAddBranchManager<TItem>
 {
-    public string GenerateTable(string title, List<string> headers, List<TItem> items, string addPageLink, Func<TItem, string> rowTemplate, int branchId, string searchTerm = null, int currentPage = 1, int pageSize = 10)
+    public string GenerateTable(List<string> headers, List<TItem> items, Func<TItem, string> rowTemplate, int branchId, string searchTerm = null, int currentPage = 1, int pageSize = 10)
     {
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
@@ -330,14 +339,12 @@ class TableHtmlBuilderAddBranchManager<TItem>
 
         var htmlBuilder = new StringBuilder();
         htmlBuilder.AppendLine("<div class='container mx-auto p-10'>" +
-                               "<div class='flex justify-between items-center mb-4'>" +
-                               "<h2 class='mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900'>" + title + "</h2>" +
+                               "<div class='flex justify-center items-center mb-4'>" +
                                "<form method='get' class='flex items-center space-x-4'>" +
                                "<input type='hidden' name='branchId' value=" + branchId + " />" +
-                               "<input type='text' name='searchTerm' value='" + searchTerm + "' placeholder='Zoek naar " + title.ToLower() + "' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />" +
+                               "<input type='text' name='searchTerm' value='" + searchTerm + "' placeholder='Zoek naar medewerkers' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />" +
                                "<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>" +
                                "</form>" +
-                               "<button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>" +
                                "</div>"
                                );
         htmlBuilder.AppendLine("<div class='w-full p-6'>");

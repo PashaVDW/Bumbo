@@ -22,10 +22,6 @@ namespace bumbo.Controllers
 
         public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
         {
-            if(weekNumber > 53)
-            {
-                weekNumber = 53;
-            }
             var user = await _userManager.GetUserAsync(User);
             DateTime firstDayOfWeek;
             DateTime lastDayOfWeek;
@@ -106,8 +102,6 @@ namespace bumbo.Controllers
                         year = (year ?? DateTime.Now.Year) - 1;
                     }
                 }
-
-
                 prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value);
             }
 
