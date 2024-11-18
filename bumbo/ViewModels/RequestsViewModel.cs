@@ -6,7 +6,7 @@ namespace bumbo.ViewModels
     {
         public List<Request> Requests { get; set; }
         public string SelectedType { get; set; }
-        public bool ShowFinishedRequest { get; set; }
+        public bool ShowFinishedRequests { get; set; }
 
     }
 }

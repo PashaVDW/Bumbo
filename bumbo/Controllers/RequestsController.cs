@@ -20,7 +20,7 @@ namespace bumbo.Controllers
             _branchesRepository = branchesRepository;
         }
 
-        public async Task<IActionResult> Index(string searchTerm, int page = 1)
+        public async Task<IActionResult> Index(RequestsViewModel oldModel, string searchTerm, int page = 1)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null || !user.IsSystemManager)
@@ -43,27 +43,13 @@ namespace bumbo.Controllers
                 }
             };
 
-            var headers = new List<string> { "Titel", "Naam aanvrager", "Categorie", "Status" };
-            var tableBuilder = new TableHtmlBuilderRequests<Request>();
-            var htmlTable = tableBuilder.GenerateTable("Aanvragen", headers, requests, item =>
-            {
-                var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
-                return $@"
-                 <td class='py-2 px-4'><strong>Naam</strong></td>
-                 <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName }</td>
-                 <td class='py-2 px-4'>{item.RequestTypeName}</td>
-                 <td class='py-2 px-4'>{item.RequestStatusName}</td>
-                 <td class='py-2 px-4 text-right'>
-                 <button onclick=""window.location.href='../Requests/Read?requestId={item.RequestId}'"">✏️</button> 
-                 </td>";
-
-            }, searchTerm, page);
-
-            ViewBag.HtmlTable = htmlTable;
+            MakeHtmlTable(requests, searchTerm, page);
 
             var viewModel = new RequestsViewModel()
             {
-                Requests = requests
+                Requests = requests,
+                SelectedType = oldModel.SelectedType,
+                ShowFinishedRequests = oldModel.ShowFinishedRequests
             };
 
             return View(viewModel);
@@ -91,6 +77,59 @@ namespace bumbo.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public IActionResult FilterType(RequestsViewModel oldModel, string searchTerm, int page = 1)
+        {
+            Console.WriteLine("Categorie: " + oldModel.SelectedType);
+            Console.WriteLine("Status: " + oldModel.ShowFinishedRequests);
+
+            // TODO remove
+            Employee testEmp = _branchesRepository.GetEmployeeById("289594c0-1d21-4276-b98c-3a7a9d18cb2b");
+
+            // TODO repo i.p.v. Testdata
+            var requests = new List<Request>()
+            {
+                new Request()
+                {
+                    RequestStatusName = "Afgehandeld",
+                    RequestTypeName = "Vakantie",
+                    EmployeeId = testEmp.Id,
+                    Description = "Ik wil vakantie, want ik vind mijn collega 's vervelend"
+                }
+            };
+
+            MakeHtmlTable(requests, searchTerm, page);
+
+            var viewModel = new RequestsViewModel()
+            {
+                Requests = requests,
+                SelectedType = oldModel.SelectedType,
+                ShowFinishedRequests = oldModel.ShowFinishedRequests
+            };
+
+            return View("Index", viewModel);
+        }
+
+        private void MakeHtmlTable(List<Request> requests, string searchTerm, int page)
+        {
+            var headers = new List<string> { "Titel", "Naam aanvrager", "Categorie", "Status" };
+            var tableBuilder = new TableHtmlBuilderRequests<Request>();
+            var htmlTable = tableBuilder.GenerateTable("Aanvragen", headers, requests, item =>
+            {
+                var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
+                return $@"
+                 <td class='py-2 px-4'><strong>Naam</strong></td>
+                 <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
+                 <td class='py-2 px-4'>{item.RequestTypeName}</td>
+                 <td class='py-2 px-4'>{item.RequestStatusName}</td>
+                 <td class='py-2 px-4 text-right'>
+                 <button onclick=""window.location.href='../Requests/Read?requestId={item.RequestId}'"">✏️</button> 
+                 </td>";
+
+            }, searchTerm, page);
+
+            ViewBag.HtmlTable = htmlTable;
         }
     }
 
