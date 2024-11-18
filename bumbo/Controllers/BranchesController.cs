@@ -11,6 +11,7 @@ using System.Reflection;
 using Microsoft.IdentityModel.Tokens;
 using DataLayer.Interfaces;
 using System.Text;
+using Microsoft.Data.SqlClient;
 
 namespace bumbo.Controllers
 {
@@ -161,24 +162,36 @@ namespace bumbo.Controllers
         [HttpGet]
         public IActionResult DeleteBranch(int branchId)
         {
-            SetTempDataForToast("updateBranchToast");
-
-            var newBranch = _branchesRepository.GetBranch(branchId);
-
-            if(newBranch == null)
+            try
             {
-                TempData["ToastMessage"] = "Filiaal verwijderen mislukt";
+                SetTempDataForToast("deleteBranchToast");
+
+                var newBranch = _branchesRepository.GetBranch(branchId);
+
+                if (newBranch == null)
+                {
+                    TempData["ToastMessage"] = "Filiaal verwijderen mislukt";
+                    TempData["ToastType"] = "error";
+
+                    return View("UpdateBranchView", newBranch);
+                }
+
+                _branchesRepository.DeleteBranch(newBranch);
+
+                TempData["ToastMessage"] = "Filiaal is verwijderd";
+                TempData["ToastType"] = "success";
+
+                return RedirectToAction("BranchesView");
+            }
+            catch (DbUpdateException)
+            {
+                TempData["ToastMessage"] = "Filiaal heeft nog een of meerdere filiaalmanager(s)";
                 TempData["ToastType"] = "error";
 
-                return View("UpdateBranchView", branchId);
+                var newBranch = _branchesRepository.GetBranch(branchId);
+                return View("UpdateBranchView", newBranch);
             }
-
-            _branchesRepository.DeleteBranch(newBranch);
-
-            TempData["ToastMessage"] = "Filiaal is verwijderd";
-            TempData["ToastType"] = "success";
-
-            return RedirectToAction("BranchesView");
+            
         }
 
         public IActionResult AddBranchManager(string employeeId, int branchId)
