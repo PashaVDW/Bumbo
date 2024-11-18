@@ -403,9 +403,9 @@ namespace DataLayer.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", 0, "B003", new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "bb6ec348-c991-4d6e-859f-c3f8c38970d4", "darlon.vandijk@hotmail.com", true, "Darlon", 5, false, "van Dijk", false, null, null, "", "DARLON.VANDIJK@HOTMAIL.COM", "DARLON.VANDIJK@HOTMAIL.COM", "AQAAAAIAAYagAAAAEL++Ndmdtr5VuP8b25afIs9Pj8bogEc6qAjJdhLBPaxtwO058TM20YxPs4hgbDx4JA==", "+31 6 34567890", false, "8329 SK", "d134ad73-e0c9-40a7-a374-96dc495ad5ed", new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "darlon.vandijk@hotmail.com" },
-                    { "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", 0, "B005", new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "5b4ab499-1b62-42ac-ae78-d6e388fc704a", "sarah.vanderven@hotmail.com", false, "Sarah", 8, false, "van der Ven", false, null, null, "", "SARAH.VANDERVEN@HOTMAIL.COM", "SARAH.VANDERVEN@HOTMAIL.COM", "AQAAAAIAAYagAAAAEDRyDi9M4e6KF/k6flq3jaDhX2EM3mdG1vZv38JFB18wPNARLzXmeooXQkRGi+KmqQ==", "+31 6 56789012", false, "2933 KJ", "307da5af-cef2-469d-adc2-6d336edc5c01", new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "sarah.vanderven@hotmail.com" },
-                    { "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "3e363d4c-b3e8-41df-a808-9c33f4d6a147", "jane.smith@example.com", true, "Jane", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEGKI6Q3L6FkRrJT6suSmzbEB4o4MUu1D4oqAYTGFhFFR65S9ZFTYmvGjcU1HRvYoQQ==", "06-12345678", false, "9271 GB", "231f865a-d36f-4b23-8936-c8a3b5a76a9e", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" }
+                    { "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", 0, "B003", new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "b14c3b76-aaef-455c-b123-a1bc83321831", "darlon.vandijk@hotmail.com", true, "Darlon", 5, false, "van Dijk", false, null, null, "", "DARLON.VANDIJK@HOTMAIL.COM", "DARLON.VANDIJK@HOTMAIL.COM", "AQAAAAIAAYagAAAAEHfDOlxSVyy8qfdSyCeWYntsQWLZwZ5T0vs4JAGKRLMnFDxoAzREa0A7qnOUYGV1+g==", "+31 6 34567890", false, "8329 SK", "3738f238-2c7c-467e-a897-efe57c28680f", new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "darlon.vandijk@hotmail.com" },
+                    { "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", 0, "B005", new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "0406aa6c-a646-47b8-8408-e8fb535a1750", "sarah.vanderven@hotmail.com", false, "Sarah", 8, false, "van der Ven", false, null, null, "", "SARAH.VANDERVEN@HOTMAIL.COM", "SARAH.VANDERVEN@HOTMAIL.COM", "AQAAAAIAAYagAAAAEK61PA/9g2kmUBVqoG6rTF2E7L6n+k5Yyql4cqhJwtrfvhXhPrQGqf2KE8WipF/Y3w==", "+31 6 56789012", false, "2933 KJ", "a15761ee-63f4-4c36-bf3b-db49fec4ca7d", new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "sarah.vanderven@hotmail.com" },
+                    { "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "3091f802-37d7-4d31-9d48-7a81af608875", "jane.smith@example.com", true, "Jane", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEAKHCGtoU3eBQiMQD8hcc9eCwNN5GY/KK1Xl83kWNUxQJAdXdhf2jvCrxOWwAX4j1A==", "06-12345678", false, "9271 GB", "cd6e0346-da45-49a1-9929-74ad6da25d4a", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -425,15 +425,8 @@ namespace DataLayer.Migrations
                 {
                     "Dinsdag",
                     "Donderdag",
-                    "Friday",
                     "Maandag",
-                    "Monday",
-                    "Saturday",
-                    "Sunday",
-                    "Thursday",
-                    "Tuesday",
                     "Vrijdag",
-                    "Wednesday",
                     "Woensdag",
                     "Zaterdag",
                     "Zondag"
@@ -489,11 +482,11 @@ namespace DataLayer.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a1b1c1d1-1111-2222-3333-4444abcdabcd", 0, "B012", new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "7843d7b0-bfa0-4859-b7fe-8ce33ddeeb03", "anthony.ross@example.com", true, "Anthony", 7, false, "Ross", false, null, 1, "", "ANTHONY.ROSS@EXAMPLE.COM", "ANTHONY.ROSS@EXAMPLE.COM", "AQAAAAIAAYagAAAAEP6hWQapaUXWMVhM2bOp2owhwM7rKUl3gicnRfUPRyWL+kswwJu2eMbr6RO5Ya1bFg==", "+31 6 12345678", false, "2234 AB", "195476f9-1e56-42b3-8977-7acc467168ce", new DateTime(2024, 11, 17, 14, 18, 9, 21, DateTimeKind.Local).AddTicks(6786), false, "anthony.ross@example.com" },
-                    { "b2c2d2e2-2222-3333-4444-5555abcdefab", 0, "B013", new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "6b2ddc38-65b6-4211-974f-e488bf6e1ac7", "douwe.jansen@example.com", true, "Douwe", 12, false, "Jansen", false, null, 2, "", "DOUWE.JANSEN@EXAMPLE.COM", "DOUWE.JANSEN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEMqPQiJHhf619NTxqDKcvEtrHAw2zOy6S1Tjqq1lj5/wtOt1CDE8MNbinp7HKIMoYA==", "+31 6 87654321", false, "3345 CD", "482aeb8b-af81-4f33-9451-42845e9f56b4", new DateTime(2024, 11, 17, 14, 18, 9, 76, DateTimeKind.Local).AddTicks(1021), false, "douwe.jansen@example.com" },
-                    { "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", 0, "B004", new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "1b8e2b19-95ed-47f2-8780-248d8cd5eea1", "pasha.bakker@gmail.com", false, "Pasha", 15, false, "Bakker", false, null, 3, "", "PASHA.BAKKER@GMAIL.COM", "PASHA.BAKKER@GMAIL.COM", "AQAAAAIAAYagAAAAEG8bDd13BCFwdwTVrI3gHeIT07Da7gQkzMC1C6ex6v0jNl+fgVuQ7S10F+yYEglW+w==", "+31 6 45678901", false, "3894 HT", "129bcc10-6805-4a76-93a2-a5b280cfe023", new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "pasha.bakker@gmail.com" },
-                    { "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", 0, "B006", new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "cc02b7cb-ab96-4115-bbcd-0e74f1f2e6e5", "david.denboer@gmail.com", false, "David", 30, false, "den Boer", false, null, 2, "", "DAVID.DENBOER@GMAIL.COM", "DAVID.DENBOER@GMAIL.COM", "AQAAAAIAAYagAAAAEDI13Zq/fw50lF2tsnEKlNOcg+GSqU/3fad0aPMllkHBfuN393r7SFCneytf+tKSdg==", "+31 6 67890123", false, "4293 BF", "61840c3a-5fc2-48f7-8cf6-2ae4430f7e7f", new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "david.denboer@gmail.com" },
-                    { "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "151fdc08-2d67-46e2-8903-5a7d36c1abe3", "john.doe@example.com", true, "John", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEMQODn471FQ9V9bFL89aY9d+POgK/+J6XS4sTmNWZtkLI9gtn1Ovj5cFbkkxFgMbWg==", "06-9876543", false, "12345", "131ec597-8301-425f-ae05-642776c698cc", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" }
+                    { "a1b1c1d1-1111-2222-3333-4444abcdabcd", 0, "B012", new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "95e5d986-668d-4290-9868-4d3031353a78", "anthony.ross@example.com", true, "Anthony", 7, false, "Ross", false, null, 1, "", "ANTHONY.ROSS@EXAMPLE.COM", "ANTHONY.ROSS@EXAMPLE.COM", "AQAAAAIAAYagAAAAECBdWrqU0/9gujvb+W+gxZLKC9YWTOtn9FVAtFc626/uKgY/BCvcDvpWJrT2q3OJRg==", "+31 6 12345678", false, "2234 AB", "13f5b639-797c-42bc-a284-11c0c5877125", new DateTime(2024, 11, 18, 16, 1, 41, 666, DateTimeKind.Local).AddTicks(3800), false, "anthony.ross@example.com" },
+                    { "b2c2d2e2-2222-3333-4444-5555abcdefab", 0, "B013", new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "ec73cba8-dece-4d54-9b37-e2dcddcd60a2", "douwe.jansen@example.com", true, "Douwe", 12, false, "Jansen", false, null, 2, "", "DOUWE.JANSEN@EXAMPLE.COM", "DOUWE.JANSEN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEP3XmGYYuAOFCVN2xAbc69yh0DNTwV7970zSwW1agLgZtQQgqtYoTqAPRKqAjk0xug==", "+31 6 87654321", false, "3345 CD", "880531e0-4825-4619-9e55-72056617ae58", new DateTime(2024, 11, 18, 16, 1, 41, 734, DateTimeKind.Local).AddTicks(7127), false, "douwe.jansen@example.com" },
+                    { "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", 0, "B004", new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "cf5f010f-afde-4a15-9873-f3bb3cdf2d2b", "pasha.bakker@gmail.com", false, "Pasha", 15, false, "Bakker", false, null, 3, "", "PASHA.BAKKER@GMAIL.COM", "PASHA.BAKKER@GMAIL.COM", "AQAAAAIAAYagAAAAEPbP+EqWK7USeFVAH/QbVJnAoI35hOOQnRwiDvfJL++zzuKzyZY8MQh0EfGcFyJRhg==", "+31 6 45678901", false, "3894 HT", "479fe370-c504-482c-b0eb-fae4c1132d62", new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "pasha.bakker@gmail.com" },
+                    { "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", 0, "B006", new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "61299a58-3ea7-45c3-8cb6-6bb7a3fb1df5", "david.denboer@gmail.com", false, "David", 30, false, "den Boer", false, null, 2, "", "DAVID.DENBOER@GMAIL.COM", "DAVID.DENBOER@GMAIL.COM", "AQAAAAIAAYagAAAAEFdmhrfhmrkrNl3s/UrNIZqsZj5eSO0V5m6XStnea7ctvZWqto7gIAqsfwGXEDeC9A==", "+31 6 67890123", false, "4293 BF", "5eea0fe0-e263-464a-ae44-7cd19b65b883", new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "david.denboer@gmail.com" },
+                    { "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "fc1bc6fe-2c95-452d-8a47-4e65307e3b74", "john.doe@example.com", true, "John", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEELZi/hQB9VxiJSVlqk279mK17pTcKrkjIZRLnw9IBxvcRWIN1rrOfS2mycS6jTJvw==", "06-9876543", false, "12345", "5b48cb5f-f4b0-4a7d-83d6-2269f3f65648", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -531,8 +524,8 @@ namespace DataLayer.Migrations
                 columns: new[] { "BranchId", "EmployeeId", "FunctionName", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "a1b1c1d1-1111-2222-3333-4444abcdabcd", "Cashier", new DateTime(2024, 11, 17, 14, 18, 9, 21, DateTimeKind.Local).AddTicks(6786) },
-                    { 2, "b2c2d2e2-2222-3333-4444-5555abcdefab", "Stocker", new DateTime(2024, 11, 17, 14, 18, 9, 76, DateTimeKind.Local).AddTicks(1021) },
+                    { 1, "a1b1c1d1-1111-2222-3333-4444abcdabcd", "Cashier", new DateTime(2024, 11, 18, 16, 1, 41, 666, DateTimeKind.Local).AddTicks(3800) },
+                    { 2, "b2c2d2e2-2222-3333-4444-5555abcdefab", "Stocker", new DateTime(2024, 11, 18, 16, 1, 41, 734, DateTimeKind.Local).AddTicks(7127) },
                     { 2, "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", "Manager", new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
                     { 3, "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", "Manager", new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
@@ -563,41 +556,41 @@ namespace DataLayer.Migrations
                 columns: new[] { "Days_name", "Templates_id", "ContainerAmount", "CustomerAmount" },
                 values: new object[,]
                 {
-                    { "Friday", 1, 39, 1040 },
-                    { "Monday", 1, 41, 989 },
-                    { "Saturday", 1, 43, 953 },
-                    { "Sunday", 1, 32, 872 },
-                    { "Thursday", 1, 52, 990 },
-                    { "Tuesday", 1, 52, 825 },
-                    { "Wednesday", 1, 38, 902 },
-                    { "Friday", 2, 47, 816 },
-                    { "Monday", 2, 42, 916 },
-                    { "Saturday", 2, 38, 842 },
-                    { "Sunday", 2, 45, 885 },
-                    { "Thursday", 2, 45, 940 },
-                    { "Tuesday", 2, 38, 912 },
-                    { "Wednesday", 2, 32, 902 },
-                    { "Friday", 3, 29, 877 },
-                    { "Monday", 3, 53, 872 },
-                    { "Saturday", 3, 53, 945 },
-                    { "Sunday", 3, 52, 880 },
-                    { "Thursday", 3, 36, 875 },
-                    { "Tuesday", 3, 41, 989 },
-                    { "Wednesday", 3, 42, 916 },
-                    { "Friday", 4, 36, 865 },
-                    { "Monday", 4, 49, 900 },
-                    { "Saturday", 4, 43, 950 },
-                    { "Sunday", 4, 38, 950 },
-                    { "Thursday", 4, 42, 985 },
-                    { "Tuesday", 4, 38, 903 },
-                    { "Wednesday", 4, 45, 930 },
-                    { "Friday", 5, 32, 872 },
-                    { "Monday", 5, 52, 832 },
-                    { "Saturday", 5, 36, 771 },
-                    { "Sunday", 5, 52, 885 },
-                    { "Thursday", 5, 41, 989 },
-                    { "Tuesday", 5, 49, 935 },
-                    { "Wednesday", 5, 29, 877 }
+                    { "Dinsdag", 1, 52, 825 },
+                    { "Donderdag", 1, 52, 990 },
+                    { "Maandag", 1, 41, 989 },
+                    { "Vrijdag", 1, 39, 1040 },
+                    { "Woensdag", 1, 38, 902 },
+                    { "Zaterdag", 1, 43, 953 },
+                    { "Zondag", 1, 32, 872 },
+                    { "Dinsdag", 2, 38, 912 },
+                    { "Donderdag", 2, 45, 940 },
+                    { "Maandag", 2, 42, 916 },
+                    { "Vrijdag", 2, 47, 816 },
+                    { "Woensdag", 2, 32, 902 },
+                    { "Zaterdag", 2, 38, 842 },
+                    { "Zondag", 2, 45, 885 },
+                    { "Dinsdag", 3, 41, 989 },
+                    { "Donderdag", 3, 36, 875 },
+                    { "Maandag", 3, 53, 872 },
+                    { "Vrijdag", 3, 29, 877 },
+                    { "Woensdag", 3, 42, 916 },
+                    { "Zaterdag", 3, 53, 945 },
+                    { "Zondag", 3, 52, 880 },
+                    { "Dinsdag", 4, 38, 903 },
+                    { "Donderdag", 4, 42, 985 },
+                    { "Maandag", 4, 49, 900 },
+                    { "Vrijdag", 4, 36, 865 },
+                    { "Woensdag", 4, 45, 930 },
+                    { "Zaterdag", 4, 43, 950 },
+                    { "Zondag", 4, 38, 950 },
+                    { "Dinsdag", 5, 49, 935 },
+                    { "Donderdag", 5, 41, 989 },
+                    { "Maandag", 5, 52, 832 },
+                    { "Vrijdag", 5, 32, 872 },
+                    { "Woensdag", 5, 29, 877 },
+                    { "Zaterdag", 5, 36, 771 },
+                    { "Zondag", 5, 52, 885 }
                 });
 
             migrationBuilder.InsertData(

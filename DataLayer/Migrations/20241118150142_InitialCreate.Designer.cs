@@ -12,7 +12,7 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241117131809_InitialCreate")]
+    [Migration("20241118150142_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -586,7 +586,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "151fdc08-2d67-46e2-8903-5a7d36c1abe3",
+                            ConcurrencyStamp = "fc1bc6fe-2c95-452d-8a47-4e65307e3b74",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -598,11 +598,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMQODn471FQ9V9bFL89aY9d+POgK/+J6XS4sTmNWZtkLI9gtn1Ovj5cFbkkxFgMbWg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEELZi/hQB9VxiJSVlqk279mK17pTcKrkjIZRLnw9IBxvcRWIN1rrOfS2mycS6jTJvw==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "131ec597-8301-425f-ae05-642776c698cc",
+                            SecurityStamp = "5b48cb5f-f4b0-4a7d-83d6-2269f3f65648",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -613,7 +613,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "3e363d4c-b3e8-41df-a808-9c33f4d6a147",
+                            ConcurrencyStamp = "3091f802-37d7-4d31-9d48-7a81af608875",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -624,11 +624,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGKI6Q3L6FkRrJT6suSmzbEB4o4MUu1D4oqAYTGFhFFR65S9ZFTYmvGjcU1HRvYoQQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAKHCGtoU3eBQiMQD8hcc9eCwNN5GY/KK1Xl83kWNUxQJAdXdhf2jvCrxOWwAX4j1A==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "9271 GB",
-                            SecurityStamp = "231f865a-d36f-4b23-8936-c8a3b5a76a9e",
+                            SecurityStamp = "cd6e0346-da45-49a1-9929-74ad6da25d4a",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -639,7 +639,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B003",
                             BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "bb6ec348-c991-4d6e-859f-c3f8c38970d4",
+                            ConcurrencyStamp = "b14c3b76-aaef-455c-b123-a1bc83321831",
                             Email = "darlon.vandijk@hotmail.com",
                             EmailConfirmed = true,
                             FirstName = "Darlon",
@@ -650,11 +650,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DARLON.VANDIJK@HOTMAIL.COM",
                             NormalizedUserName = "DARLON.VANDIJK@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL++Ndmdtr5VuP8b25afIs9Pj8bogEc6qAjJdhLBPaxtwO058TM20YxPs4hgbDx4JA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHfDOlxSVyy8qfdSyCeWYntsQWLZwZ5T0vs4JAGKRLMnFDxoAzREa0A7qnOUYGV1+g==",
                             PhoneNumber = "+31 6 34567890",
                             PhoneNumberConfirmed = false,
                             PostalCode = "8329 SK",
-                            SecurityStamp = "d134ad73-e0c9-40a7-a374-96dc495ad5ed",
+                            SecurityStamp = "3738f238-2c7c-467e-a897-efe57c28680f",
                             StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "darlon.vandijk@hotmail.com"
@@ -665,7 +665,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B004",
                             BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "1b8e2b19-95ed-47f2-8780-248d8cd5eea1",
+                            ConcurrencyStamp = "cf5f010f-afde-4a15-9873-f3bb3cdf2d2b",
                             Email = "pasha.bakker@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Pasha",
@@ -677,11 +677,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "PASHA.BAKKER@GMAIL.COM",
                             NormalizedUserName = "PASHA.BAKKER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG8bDd13BCFwdwTVrI3gHeIT07Da7gQkzMC1C6ex6v0jNl+fgVuQ7S10F+yYEglW+w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPbP+EqWK7USeFVAH/QbVJnAoI35hOOQnRwiDvfJL++zzuKzyZY8MQh0EfGcFyJRhg==",
                             PhoneNumber = "+31 6 45678901",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3894 HT",
-                            SecurityStamp = "129bcc10-6805-4a76-93a2-a5b280cfe023",
+                            SecurityStamp = "479fe370-c504-482c-b0eb-fae4c1132d62",
                             StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "pasha.bakker@gmail.com"
@@ -692,7 +692,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B005",
                             BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "5b4ab499-1b62-42ac-ae78-d6e388fc704a",
+                            ConcurrencyStamp = "0406aa6c-a646-47b8-8408-e8fb535a1750",
                             Email = "sarah.vanderven@hotmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarah",
@@ -703,11 +703,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
                             NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDRyDi9M4e6KF/k6flq3jaDhX2EM3mdG1vZv38JFB18wPNARLzXmeooXQkRGi+KmqQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK61PA/9g2kmUBVqoG6rTF2E7L6n+k5Yyql4cqhJwtrfvhXhPrQGqf2KE8WipF/Y3w==",
                             PhoneNumber = "+31 6 56789012",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2933 KJ",
-                            SecurityStamp = "307da5af-cef2-469d-adc2-6d336edc5c01",
+                            SecurityStamp = "a15761ee-63f4-4c36-bf3b-db49fec4ca7d",
                             StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "sarah.vanderven@hotmail.com"
@@ -718,7 +718,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B006",
                             BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "cc02b7cb-ab96-4115-bbcd-0e74f1f2e6e5",
+                            ConcurrencyStamp = "61299a58-3ea7-45c3-8cb6-6bb7a3fb1df5",
                             Email = "david.denboer@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "David",
@@ -730,11 +730,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
                             NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDI13Zq/fw50lF2tsnEKlNOcg+GSqU/3fad0aPMllkHBfuN393r7SFCneytf+tKSdg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFdmhrfhmrkrNl3s/UrNIZqsZj5eSO0V5m6XStnea7ctvZWqto7gIAqsfwGXEDeC9A==",
                             PhoneNumber = "+31 6 67890123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "4293 BF",
-                            SecurityStamp = "61840c3a-5fc2-48f7-8cf6-2ae4430f7e7f",
+                            SecurityStamp = "5eea0fe0-e263-464a-ae44-7cd19b65b883",
                             StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "david.denboer@gmail.com"
@@ -745,7 +745,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B012",
                             BirthDate = new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "7843d7b0-bfa0-4859-b7fe-8ce33ddeeb03",
+                            ConcurrencyStamp = "95e5d986-668d-4290-9868-4d3031353a78",
                             Email = "anthony.ross@example.com",
                             EmailConfirmed = true,
                             FirstName = "Anthony",
@@ -757,12 +757,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "ANTHONY.ROSS@EXAMPLE.COM",
                             NormalizedUserName = "ANTHONY.ROSS@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP6hWQapaUXWMVhM2bOp2owhwM7rKUl3gicnRfUPRyWL+kswwJu2eMbr6RO5Ya1bFg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECBdWrqU0/9gujvb+W+gxZLKC9YWTOtn9FVAtFc626/uKgY/BCvcDvpWJrT2q3OJRg==",
                             PhoneNumber = "+31 6 12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2234 AB",
-                            SecurityStamp = "195476f9-1e56-42b3-8977-7acc467168ce",
-                            StartDate = new DateTime(2024, 11, 17, 14, 18, 9, 21, DateTimeKind.Local).AddTicks(6786),
+                            SecurityStamp = "13f5b639-797c-42bc-a284-11c0c5877125",
+                            StartDate = new DateTime(2024, 11, 18, 16, 1, 41, 666, DateTimeKind.Local).AddTicks(3800),
                             TwoFactorEnabled = false,
                             UserName = "anthony.ross@example.com"
                         },
@@ -772,7 +772,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B013",
                             BirthDate = new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "6b2ddc38-65b6-4211-974f-e488bf6e1ac7",
+                            ConcurrencyStamp = "ec73cba8-dece-4d54-9b37-e2dcddcd60a2",
                             Email = "douwe.jansen@example.com",
                             EmailConfirmed = true,
                             FirstName = "Douwe",
@@ -784,12 +784,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DOUWE.JANSEN@EXAMPLE.COM",
                             NormalizedUserName = "DOUWE.JANSEN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMqPQiJHhf619NTxqDKcvEtrHAw2zOy6S1Tjqq1lj5/wtOt1CDE8MNbinp7HKIMoYA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP3XmGYYuAOFCVN2xAbc69yh0DNTwV7970zSwW1agLgZtQQgqtYoTqAPRKqAjk0xug==",
                             PhoneNumber = "+31 6 87654321",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3345 CD",
-                            SecurityStamp = "482aeb8b-af81-4f33-9451-42845e9f56b4",
-                            StartDate = new DateTime(2024, 11, 17, 14, 18, 9, 76, DateTimeKind.Local).AddTicks(1021),
+                            SecurityStamp = "880531e0-4825-4619-9e55-72056617ae58",
+                            StartDate = new DateTime(2024, 11, 18, 16, 1, 41, 734, DateTimeKind.Local).AddTicks(7127),
                             TwoFactorEnabled = false,
                             UserName = "douwe.jansen@example.com"
                         });
@@ -1146,14 +1146,14 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             FunctionName = "Cashier",
-                            StartDate = new DateTime(2024, 11, 17, 14, 18, 9, 21, DateTimeKind.Local).AddTicks(6786)
+                            StartDate = new DateTime(2024, 11, 18, 16, 1, 41, 666, DateTimeKind.Local).AddTicks(3800)
                         },
                         new
                         {
                             BranchId = 2,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2024, 11, 17, 14, 18, 9, 76, DateTimeKind.Local).AddTicks(1021)
+                            StartDate = new DateTime(2024, 11, 18, 16, 1, 41, 734, DateTimeKind.Local).AddTicks(7127)
                         });
                 });
 
@@ -1220,34 +1220,6 @@ namespace DataLayer.Migrations
                         new
                         {
                             Name = "Zondag"
-                        },
-                        new
-                        {
-                            Name = "Monday"
-                        },
-                        new
-                        {
-                            Name = "Tuesday"
-                        },
-                        new
-                        {
-                            Name = "Wednesday"
-                        },
-                        new
-                        {
-                            Name = "Thursday"
-                        },
-                        new
-                        {
-                            Name = "Friday"
-                        },
-                        new
-                        {
-                            Name = "Saturday"
-                        },
-                        new
-                        {
-                            Name = "Sunday"
                         });
                 });
 
@@ -1411,245 +1383,245 @@ namespace DataLayer.Migrations
                         new
                         {
                             Templates_id = 1,
-                            Days_name = "Monday",
+                            Days_name = "Maandag",
                             ContainerAmount = 41,
                             CustomerAmount = 989
                         },
                         new
                         {
                             Templates_id = 1,
-                            Days_name = "Tuesday",
+                            Days_name = "Dinsdag",
                             ContainerAmount = 52,
                             CustomerAmount = 825
                         },
                         new
                         {
                             Templates_id = 1,
-                            Days_name = "Wednesday",
+                            Days_name = "Woensdag",
                             ContainerAmount = 38,
                             CustomerAmount = 902
                         },
                         new
                         {
                             Templates_id = 1,
-                            Days_name = "Thursday",
+                            Days_name = "Donderdag",
                             ContainerAmount = 52,
                             CustomerAmount = 990
                         },
                         new
                         {
                             Templates_id = 1,
-                            Days_name = "Friday",
+                            Days_name = "Vrijdag",
                             ContainerAmount = 39,
                             CustomerAmount = 1040
                         },
                         new
                         {
                             Templates_id = 1,
-                            Days_name = "Saturday",
+                            Days_name = "Zaterdag",
                             ContainerAmount = 43,
                             CustomerAmount = 953
                         },
                         new
                         {
                             Templates_id = 1,
-                            Days_name = "Sunday",
+                            Days_name = "Zondag",
                             ContainerAmount = 32,
                             CustomerAmount = 872
                         },
                         new
                         {
                             Templates_id = 2,
-                            Days_name = "Monday",
+                            Days_name = "Maandag",
                             ContainerAmount = 42,
                             CustomerAmount = 916
                         },
                         new
                         {
                             Templates_id = 2,
-                            Days_name = "Tuesday",
+                            Days_name = "Dinsdag",
                             ContainerAmount = 38,
                             CustomerAmount = 912
                         },
                         new
                         {
                             Templates_id = 2,
-                            Days_name = "Wednesday",
+                            Days_name = "Woensdag",
                             ContainerAmount = 32,
                             CustomerAmount = 902
                         },
                         new
                         {
                             Templates_id = 2,
-                            Days_name = "Thursday",
+                            Days_name = "Donderdag",
                             ContainerAmount = 45,
                             CustomerAmount = 940
                         },
                         new
                         {
                             Templates_id = 2,
-                            Days_name = "Friday",
+                            Days_name = "Vrijdag",
                             ContainerAmount = 47,
                             CustomerAmount = 816
                         },
                         new
                         {
                             Templates_id = 2,
-                            Days_name = "Saturday",
+                            Days_name = "Zaterdag",
                             ContainerAmount = 38,
                             CustomerAmount = 842
                         },
                         new
                         {
                             Templates_id = 2,
-                            Days_name = "Sunday",
+                            Days_name = "Zondag",
                             ContainerAmount = 45,
                             CustomerAmount = 885
                         },
                         new
                         {
                             Templates_id = 3,
-                            Days_name = "Monday",
+                            Days_name = "Maandag",
                             ContainerAmount = 53,
                             CustomerAmount = 872
                         },
                         new
                         {
                             Templates_id = 3,
-                            Days_name = "Tuesday",
+                            Days_name = "Dinsdag",
                             ContainerAmount = 41,
                             CustomerAmount = 989
                         },
                         new
                         {
                             Templates_id = 3,
-                            Days_name = "Wednesday",
+                            Days_name = "Woensdag",
                             ContainerAmount = 42,
                             CustomerAmount = 916
                         },
                         new
                         {
                             Templates_id = 3,
-                            Days_name = "Thursday",
+                            Days_name = "Donderdag",
                             ContainerAmount = 36,
                             CustomerAmount = 875
                         },
                         new
                         {
                             Templates_id = 3,
-                            Days_name = "Friday",
+                            Days_name = "Vrijdag",
                             ContainerAmount = 29,
                             CustomerAmount = 877
                         },
                         new
                         {
                             Templates_id = 3,
-                            Days_name = "Saturday",
+                            Days_name = "Zaterdag",
                             ContainerAmount = 53,
                             CustomerAmount = 945
                         },
                         new
                         {
                             Templates_id = 3,
-                            Days_name = "Sunday",
+                            Days_name = "Zondag",
                             ContainerAmount = 52,
                             CustomerAmount = 880
                         },
                         new
                         {
                             Templates_id = 4,
-                            Days_name = "Monday",
+                            Days_name = "Maandag",
                             ContainerAmount = 49,
                             CustomerAmount = 900
                         },
                         new
                         {
                             Templates_id = 4,
-                            Days_name = "Tuesday",
+                            Days_name = "Dinsdag",
                             ContainerAmount = 38,
                             CustomerAmount = 903
                         },
                         new
                         {
                             Templates_id = 4,
-                            Days_name = "Wednesday",
+                            Days_name = "Woensdag",
                             ContainerAmount = 45,
                             CustomerAmount = 930
                         },
                         new
                         {
                             Templates_id = 4,
-                            Days_name = "Thursday",
+                            Days_name = "Donderdag",
                             ContainerAmount = 42,
                             CustomerAmount = 985
                         },
                         new
                         {
                             Templates_id = 4,
-                            Days_name = "Friday",
+                            Days_name = "Vrijdag",
                             ContainerAmount = 36,
                             CustomerAmount = 865
                         },
                         new
                         {
                             Templates_id = 4,
-                            Days_name = "Saturday",
+                            Days_name = "Zaterdag",
                             ContainerAmount = 43,
                             CustomerAmount = 950
                         },
                         new
                         {
                             Templates_id = 4,
-                            Days_name = "Sunday",
+                            Days_name = "Zondag",
                             ContainerAmount = 38,
                             CustomerAmount = 950
                         },
                         new
                         {
                             Templates_id = 5,
-                            Days_name = "Monday",
+                            Days_name = "Maandag",
                             ContainerAmount = 52,
                             CustomerAmount = 832
                         },
                         new
                         {
                             Templates_id = 5,
-                            Days_name = "Tuesday",
+                            Days_name = "Dinsdag",
                             ContainerAmount = 49,
                             CustomerAmount = 935
                         },
                         new
                         {
                             Templates_id = 5,
-                            Days_name = "Wednesday",
+                            Days_name = "Woensdag",
                             ContainerAmount = 29,
                             CustomerAmount = 877
                         },
                         new
                         {
                             Templates_id = 5,
-                            Days_name = "Thursday",
+                            Days_name = "Donderdag",
                             ContainerAmount = 41,
                             CustomerAmount = 989
                         },
                         new
                         {
                             Templates_id = 5,
-                            Days_name = "Friday",
+                            Days_name = "Vrijdag",
                             ContainerAmount = 32,
                             CustomerAmount = 872
                         },
                         new
                         {
                             Templates_id = 5,
-                            Days_name = "Saturday",
+                            Days_name = "Zaterdag",
                             ContainerAmount = 36,
                             CustomerAmount = 771
                         },
                         new
                         {
                             Templates_id = 5,
-                            Days_name = "Sunday",
+                            Days_name = "Zondag",
                             ContainerAmount = 52,
                             CustomerAmount = 885
                         });

@@ -358,15 +358,15 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(int? id)
+        public ActionResult Create(int weekNumber, int yearNumber)
         {
             var viewModel = new PrognosisCreateViewModel
             {
                 Days = _daysRepository.getAllDays(),
                 CustomerAmount = new List<int>(),
                 PackagesAmount = new List<int>(), 
-                WeekNr = _currentWeek,
-                Year = _currentYear
+                WeekNr = weekNumber,
+                Year = yearNumber
             };
 
             return View(viewModel);
