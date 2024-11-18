@@ -169,12 +169,6 @@ namespace bumbo.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateBranch(Branch branch)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null || !user.IsSystemManager)
-            {
-                return RedirectToAction("AccessDenied", "Home");
-            }
-
             SetTempDataForToast("updateBranchToast");
             try
             {
@@ -195,7 +189,7 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteBranch(int branchId)
+        public async Task<IActionResult> DeleteBranch(int branchId)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null || !user.IsSystemManager)
