@@ -396,11 +396,9 @@ namespace bumbo.Controllers
             return RedirectToAction("Index");
         }
 
-        public void calculatePrognosis(PrognosisCreateViewModel model)
+        public void CalculatePrognosis(PrognosisCreateViewModel model)
         {
             List<Norm> norms = _normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result;
-
-            int weekhours = 13;
 
             int cassiereNorm = 30;
             int cassieresNeededForThirtyPerHour = norms[2].normInSeconds;
@@ -412,61 +410,46 @@ namespace bumbo.Controllers
             int stockingNormInSeconds = norms[1].normInSeconds;
             int spiegelenNormInSeconds = norms[4].normInSeconds;
 
-            List<int> cassiereHours = new List<int>();
-            List<int> versWorkersHours = new List<int>();
+            Dictionary<Days, int> cassiereHours = new Dictionary<Days, int>();
+            Dictionary<Days, int> versWorkersHours = new Dictionary<Days, int>();
+            Dictionary<Days, int> colliUitLadenMinutes = new Dictionary<Days, int>();
+            Dictionary<Days, int> stockingMinutes = new Dictionary<Days, int>();
+            Dictionary<Days, int> spiegelenMinutes = new Dictionary<Days, int>();
 
-            List<int> colliUitLadenMinutes = new List<int>();
-            List<int> stockingMinutes = new List<int>();
-            List<int> spiegelenMinutes = new List<int>();
-
-            for (int i = 0; i < model.CustomerAmount.Count; i++)
+            for (int i = 0; i < model.Days.Count; i++)
             {
-                int number = model.CustomerAmount[i];
+                Days day = model.Days[i];
+                int weekhours = day.Equals("Zondag") ? 8 : 13;
 
-                if (model.Days[i].Equals("Zondag"))
+                if (i < model.CustomerAmount.Count)
                 {
-                    weekhours = 8;
-                }
-                else
-                {
-                    weekhours = 13;
-                }
+                    int customerAmount = model.CustomerAmount[i];
+                    int customerPerHour = customerAmount / weekhours;
 
-                int customerPerHour = number / weekhours;
+                    int cassierePerHour = customerPerHour / cassiereNorm * cassieresNeededForThirtyPerHour;
+                    int totalCassiereNeeded = cassierePerHour * weekhours;
 
-                int cassierePerHour = customerPerHour / cassiereNorm * cassieresNeededForThirtyPerHour;
-                int totalCassiereNeeded = cassierePerHour * weekhours;
+                    int workersPerHour = customerPerHour / workersNorm * workersNeededForHundredPerHour;
+                    int totalWorkersForVersNeeded = workersPerHour * weekhours;
 
-                int workersPerHour = customerPerHour / workersNorm * workersNeededForHundredPerHour;
-                int totalWorkersForVersNeeded = workersPerHour * weekhours;
-
-                cassiereHours.Add(totalCassiereNeeded);
-                versWorkersHours.Add(totalWorkersForVersNeeded);
-            }
-
-            for (int i = 0; i < model.PackagesAmount.Count; i++)
-            {
-
-                if (model.Days[i].Equals("Zondag"))
-                {
-                    weekhours = 8;
-                }
-                else
-                {
-                    weekhours = 13;
+                    cassiereHours.Add(day, totalCassiereNeeded);
+                    versWorkersHours.Add(day, totalWorkersForVersNeeded);
                 }
 
-                int number = model.PackagesAmount[i];
-                int colliUitlatenMinutesNeeded = number * colliUitladenNormInSeconds;
-                int stockingMinutesNeeded = number * stockingNormInSeconds;
-                int spiegelenSecondsNeeded = number * spiegelenNormInSeconds;
+                if (i < model.PackagesAmount.Count)
+                {
+                    int packageAmount = model.PackagesAmount[i];
 
-                colliUitLadenMinutes.Add(colliUitlatenMinutesNeeded);
-                stockingMinutes.Add(stockingMinutesNeeded);
-                spiegelenMinutes.Add(spiegelenSecondsNeeded);
+                    int colliUitladenMinutesNeeded = packageAmount * colliUitladenNormInSeconds;
+                    int stockingMinutesNeeded = packageAmount * stockingNormInSeconds;
+                    int spiegelenSecondsNeeded = packageAmount * spiegelenNormInSeconds;
+
+                    colliUitLadenMinutes.Add(day, colliUitladenMinutesNeeded);
+                    stockingMinutes.Add(day, stockingMinutesNeeded);
+                    spiegelenMinutes.Add(day, spiegelenSecondsNeeded);
+                }
             }
         }
-
 
         // GET: Prognosis/Edit/1
         [HttpGet]
