@@ -47,7 +47,7 @@ namespace DataLayer.Repositories
         public void AddBranchManager(string employeeId, Branch branch)
         {
             var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
-            employee.ManagerOfBranch = branch;
+            employee.Branch = branch;
             employee.ManagerOfBranchId = branch.BranchId;
             _context.SaveChanges();
         }
@@ -55,7 +55,7 @@ namespace DataLayer.Repositories
         public void DeleteBranchManager(string employeeId)
         {
             var employee = _context.Employees.SingleOrDefault(e => e.Id.Equals(employeeId.ToString()));
-            employee.ManagerOfBranch = null;
+            employee.Branch = null;
             employee.ManagerOfBranchId = null;
             _context.SaveChanges();
         }
@@ -67,34 +67,6 @@ namespace DataLayer.Repositories
                 .Where(e => e.ManagerOfBranchId == branch.BranchId)
                 .ToList();
             return employees;
-        }
-
-        public List<Employee> GetEmployeesFromBranch(Branch branch)
-        {
-            List<BranchHasEmployee> branchHasEmployees = _context
-                .BranchHasEmployees
-                .Where(e => e.BranchId == branch.BranchId)
-                .ToList();
-
-
-            List<Employee> employeesInDatabase = _context
-                .Employees
-                .ToList();
-
-            List<Employee> employeesInBranch = new List<Employee>();
-
-            foreach (var emp in employeesInDatabase)
-            {
-                foreach (var branchEmp in branchHasEmployees)
-                {
-                    if (branchEmp.EmployeeId == emp.Id)
-                    {
-                        employeesInBranch.Add(emp);
-                    }
-                }
-            }
-
-            return employeesInBranch;
         }
     }
 }

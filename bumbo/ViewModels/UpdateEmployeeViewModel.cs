@@ -38,10 +38,6 @@ namespace bumbo.ViewModels
 
         public string? BID { get; set; }
 
-        public string? SelectedFunction { get; set; }
-
-        public List<SelectListItem>? Functions { get; set; }
-
         public bool IsSystemManager { get; set; }
 
         public List<BranchAssignmentViewModel> BranchAssignments { get; set; } = new List<BranchAssignmentViewModel>();

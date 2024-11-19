@@ -82,16 +82,6 @@
                 <input asp-for="BID" placeholder="123456789" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                 <span asp-validation-for="BID" class="text-sm text-red-600"></span>
             </div>
-            @if (Model.UserManagerOfBranchId != null && Model.BranchAssignments.Any(b => b.BranchId == Model.UserManagerOfBranchId))
-            {
-                <div>
-                    <label asp-for="SelectedFunction" class="block text-sm font-medium text-gray-700">Functie</label>
-                    <select asp-for="SelectedFunction" asp-items="Model.Functions" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        <option value="">None</option>
-                    </select>
-                    <span asp-validation-for="SelectedFunction" class="text-sm text-red-600"></span>
-                </div>
-            }
 
         </div>
 
@@ -143,16 +133,6 @@
                     {
                         <tr class="border-b hover:bg-gray-50">
                             <td class="py-2 px-4">@assignment.BranchName</td>
-                            <td class="py-2 px-4">
-                                @if (string.IsNullOrEmpty(assignment.FunctionName))
-                                {
-                                    <span>Geen</span>
-                                }
-                                else
-                                {
-                                    @assignment.FunctionName
-                                }
-                            </td>
                             <td class="py-2 px-4">@assignment.StartDate.ToString("dd-MM-yyyy")</td>
                             <td class="py-2 px-4">
                                 @if (Model.UserManagerOfBranchId == assignment.BranchId)

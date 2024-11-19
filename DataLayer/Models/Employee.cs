@@ -1,6 +1,8 @@
 ﻿using bumbo.Models;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Employee : IdentityUser
 {
@@ -22,16 +24,21 @@ public class Employee : IdentityUser
 
     [Required, StringLength(50)]
     public string PostalCode { get; set; }
-
+    [Required]
     public int HouseNumber { get; set; }
-
+    [Required, StringLength(50)]
+    public string Email { get; set; }
+    [Required]
     public DateTime StartDate { get; set; }
 
     public bool IsSystemManager { get; set; }
 
     public int? ManagerOfBranchId { get; set; }  // Nullable ManagerOfBranchId
+    public int? WorksAtBranchId { get; set; } // Nullable WorksAtBranchId
 
-    public Branch? ManagerOfBranch { get; set; }  // Nullable ManagerOfBranch
-
-    public ICollection<BranchHasEmployee> BranchEmployees { get; set; }
+    public Branch? Branch { get; set; }  // Nullable ManagerOfBranch
+    public virtual ICollection<EmployeeHasDepartment> EmployeeHasDepartment { get; set; }
+    public virtual ICollection<Availability> Availabilitys { get; set; }
+    public virtual ICollection<SchoolSchedule> SchoolSchedules { get; set; }
+    public virtual ICollection<Schedule> Schedules { get; set; }
 }

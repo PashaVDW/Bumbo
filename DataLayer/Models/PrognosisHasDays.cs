@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bumbo.Models
 {
     [PrimaryKey("Days_name", "PrognosisId")]
-    public class Prognosis_has_days
+    public class PrognosisHasDays
     {
         [StringLength(10)]
         public string Days_name { get; set; }
@@ -24,5 +25,6 @@ namespace bumbo.Models
 
         [Required]
         public int PackagesAmount { get; set; }
+        public virtual ICollection<PrognosisHasDaysHasDepartment> PrognosisHasDaysHasDepartment { get; set; }
     }
 }

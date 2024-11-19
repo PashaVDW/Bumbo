@@ -11,15 +11,11 @@ namespace bumbo.Controllers
     public class EmployeesController : Controller
     {
         private readonly UserManager<Employee> _userManager;
-        private readonly IFunctionRepository _functionRepository;
-        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeesController(UserManager<Employee> userManager, IFunctionRepository functionRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, IEmployeeRepository employeeRepository)
+        public EmployeesController(UserManager<Employee> userManager, IEmployeeRepository employeeRepository)
         {
             _userManager = userManager;
-            _functionRepository = functionRepository;
-            _branchHasEmployeeRepository = branchHasEmployeeRepository;
             _employeeRepository = employeeRepository;
         }
 
@@ -58,12 +54,6 @@ namespace bumbo.Controllers
 
             var model = new CreateEmployeeViewModel
             {
-                Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
-                {
-                    Value = f.FunctionName,
-                    Text = f.FunctionName
-                }).ToList(),
-
                 IsSystemManager = user.IsSystemManager
             };
 
@@ -101,6 +91,7 @@ namespace bumbo.Controllers
                     PhoneNumber = model.PhoneNumber,
                     UserName = model.Email,
                     IsSystemManager = model.IsSystemManager,
+                    WorksAtBranchId = model.ManagerOfBranchId, //TODO add input field for WorksAtBranch and replace ManagerOfBranchId
                     ManagerOfBranchId = model.ManagerOfBranchId
                 };
 
@@ -108,19 +99,6 @@ namespace bumbo.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (user.ManagerOfBranchId != null)
-                    {
-                        var branchHasEmployee = new BranchHasEmployee
-                        {
-                            EmployeeId = employee.Id,
-                            BranchId = user.ManagerOfBranchId.Value,
-                            FunctionName = string.IsNullOrEmpty(model.SelectedFunction) ? null : model.SelectedFunction,
-                            StartDate = DateTime.Now
-                        };
-
-                        await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchHasEmployee);
-                    }
-
                     TempData["ToastMessage"] = "Medewerker succesvol toegevoegd!";
                     TempData["ToastType"] = "success";
 
@@ -137,12 +115,6 @@ namespace bumbo.Controllers
                 TempData["ToastMessage"] = "Gegevens zijn niet juist ingevuld!";
                 TempData["ToastType"] = "error";
             }
-
-            model.Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
-            {
-                Value = f.FunctionName,
-                Text = f.FunctionName
-            }).ToList();
 
             return View(model);
         }
@@ -166,10 +138,7 @@ namespace bumbo.Controllers
                 TempData["ToastType"] = "error";
                 return RedirectToAction("Index");
             }
-
-            var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(employee.Id);
-            var userManagerOfBranchAssignment = branchAssignments.FirstOrDefault(b => b.BranchId == user.ManagerOfBranchId);
-
+            
             var model = new UpdateEmployeeViewModel
             {
                 Id = employee.Id,
@@ -183,23 +152,7 @@ namespace bumbo.Controllers
                 Email = employee.Email,
                 BID = employee.BID,
                 IsSystemManager = employee.IsSystemManager,
-                UserManagerOfBranchId = user.ManagerOfBranchId ?? 0,
-
-                SelectedFunction = userManagerOfBranchAssignment?.FunctionName,
-
-                BranchAssignments = branchAssignments.Select(bhe => new BranchAssignmentViewModel
-                {
-                    BranchId = bhe.BranchId,
-                    BranchName = bhe.Branch.Name,
-                    FunctionName = bhe.FunctionName,
-                    StartDate = bhe.StartDate
-                }).ToList(),
-
-                Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
-                {
-                    Value = f.FunctionName,
-                    Text = f.FunctionName
-                }).ToList()
+                UserManagerOfBranchId = user.ManagerOfBranchId ?? 0
             };
 
             return View(model);
@@ -223,18 +176,10 @@ namespace bumbo.Controllers
 
             if (!ModelState.IsValid)
             {
-                model.Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
-                {
-                    Value = f.FunctionName,
-                    Text = f.FunctionName
-                }).ToList();
-
-                var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(model.Id);
                 model.BranchAssignments = branchAssignments.Select(bhe => new BranchAssignmentViewModel
                 {
                     BranchId = bhe.BranchId,
                     BranchName = bhe.Branch.Name,
-                    FunctionName = bhe.FunctionName,
                     StartDate = bhe.StartDate
                 }).ToList();
 
@@ -265,17 +210,6 @@ namespace bumbo.Controllers
             if (user.ManagerOfBranchId != null)
             {
                 var branchAssignment = _branchHasEmployeeRepository.GetBranchAssignment(employee.Id, user.ManagerOfBranchId.Value);
-
-                if (branchAssignment != null && !string.IsNullOrEmpty(model.SelectedFunction))
-                {
-                    branchAssignment.FunctionName = model.SelectedFunction;
-                    _branchHasEmployeeRepository.UpdateBranchAssignment(branchAssignment);
-                }
-                else if (branchAssignment == null && !string.IsNullOrEmpty(model.SelectedFunction))
-                {
-                    TempData["ToastMessage"] = "Functie kan niet ingesteld worden.";
-                    TempData["ToastType"] = "error";
-                }
             }
 
             TempData["ToastMessage"] = "De medewerker is succesvol bijgewerkt.";
@@ -357,11 +291,10 @@ namespace bumbo.Controllers
                 return RedirectToAction("Index");
             }
 
-            var branchAssignment = new BranchHasEmployee
+            var branchAssignment = new BranchHasEmployees
             {
                 EmployeeId = employeeId,
                 BranchId = branchId,
-                FunctionName = null,
                 StartDate = DateTime.Now
             };
 

@@ -45,10 +45,6 @@ namespace bumbo.ViewModels
 
         public bool IsSystemManager { get; set; } = false;
 
-        public string? SelectedFunction { get; set; }
-
-        public List<SelectListItem>? Functions { get; set; }
-
         public DateTime AssignedDate { get; set; } = DateTime.Now;
     }
 }
