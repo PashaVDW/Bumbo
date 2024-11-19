@@ -8,7 +8,11 @@ public class Branch
     public int BranchId { get; set; }
 
     [Required, StringLength(50)]
+
     public string PostalCode { get; set; }
+
+    [Required]
+    public int shelfMeters { get; set; }
 
     [Required, StringLength(10)]
     public string HouseNumber { get; set; }
