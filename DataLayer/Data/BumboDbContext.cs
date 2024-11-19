@@ -99,7 +99,7 @@ namespace bumbo.Data
                 new Country { Name = "Belgium" },
                 new Country { Name = "Germany" }
             );
-
+            
             modelBuilder.Entity<Branch>().HasData(
                 new Branch
                 {
@@ -108,7 +108,9 @@ namespace bumbo.Data
                     HouseNumber = "10",
                     Name = "Amsterdam Filiaal",
                     Street = "Damrak",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(9, 0, 0),
+                    ClosingTime = new TimeOnly(18, 0, 0)
                 },
                 new Branch
                 {
@@ -117,7 +119,9 @@ namespace bumbo.Data
                     HouseNumber = "20",
                     Name = "Brussels Filiaal",
                     Street = "Grote Markt",
-                    CountryName = "Belgium"
+                    CountryName = "Belgium",
+                    OpeningTime = new TimeOnly(8, 0, 0),
+                    ClosingTime = new TimeOnly(17, 0, 0)
                 },
                 new Branch
                 {
@@ -126,7 +130,9 @@ namespace bumbo.Data
                     HouseNumber = "2",
                     Name = "Alkmaar Filiaal",
                     Street = "Paardenmarkt",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(9, 0, 0),
+                    ClosingTime = new TimeOnly(21, 0, 0)
                 },
                 new Branch
                 {
@@ -135,7 +141,9 @@ namespace bumbo.Data
                     HouseNumber = "15",
                     Name = "Rotterdam Filiaal",
                     Street = "Botersloot",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(9, 0, 0),
+                    ClosingTime = new TimeOnly(17, 0, 0)
                 }
             );
 

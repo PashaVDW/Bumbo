@@ -236,6 +236,8 @@ namespace bumbo.Controllers
                 Name = branch.Name,
                 PostalCode = branch.PostalCode,
                 Street = branch.Street,
+                OpeningTime = branch.OpeningTime,
+                ClosingTime = branch.ClosingTime,
                 Employees = _branchesRepository.GetEmployeesFromBranch(branch),
                 Managers = _branchesRepository.GetManagersOfBranch(branch)
             };
