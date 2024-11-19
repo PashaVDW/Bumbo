@@ -108,7 +108,8 @@ namespace bumbo.Data
                     HouseNumber = "10",
                     Name = "Amsterdam Filiaal",
                     Street = "Damrak",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    shelfMeters = 420
                 },
                 new Branch
                 {
@@ -117,7 +118,8 @@ namespace bumbo.Data
                     HouseNumber = "20",
                     Name = "Brussels Filiaal",
                     Street = "Grote Markt",
-                    CountryName = "Belgium"
+                    CountryName = "Belgium",
+                    shelfMeters = 300
                 },
                 new Branch
                 {
@@ -126,7 +128,8 @@ namespace bumbo.Data
                     HouseNumber = "2",
                     Name = "Alkmaar Filiaal",
                     Street = "Paardenmarkt",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    shelfMeters = 69
                 },
                 new Branch
                 {
@@ -135,7 +138,8 @@ namespace bumbo.Data
                     HouseNumber = "15",
                     Name = "Rotterdam Filiaal",
                     Street = "Botersloot",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    shelfMeters = 823
                 }
             );
 
