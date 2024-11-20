@@ -11,7 +11,7 @@ namespace DataLayer.Models
     public class LabourRules
     {
         [Required, StringLength(50)]
-        public string CountryName { get; set; }
+        public string CountryName { get; set; } 
         [Key, StringLength(10)]
         public string AgeGroup { get; set; }
         public int MaxHoursPerDay { get; set; }
