@@ -11,5 +11,7 @@ namespace DataLayer.Interfaces
         Prognosis GetPrognosisById(int id);
         void UpdatePrognosis(int prognosisId, List<int> CustomerAmount, List<int> PackagesAmount);
         void DeletePrognosisById(int id);
+        int GetShelfMetersByPrognosis(int id);
+
     }
 }

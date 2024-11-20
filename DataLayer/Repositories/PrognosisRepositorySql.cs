@@ -108,6 +108,19 @@ namespace DataLayer.Repositories
                 .FirstOrDefault(p => p.PrognosisId == id);
         }
 
+        public int GetShelfMetersByPrognosis(int id)
+        {
+            return _context.Prognoses
+                .Where(prognosis => prognosis.PrognosisId == id)
+                .Join(
+                    _context.Branches,
+                    prognosis => prognosis.BranchId,
+                    branch => branch.BranchId,
+                    (prognosis, branch) => branch.shelfMeters
+                )
+                .FirstOrDefault();
+        }
+
         public void DeletePrognosisById(int id)
         {
             var prognosis = _context.Prognoses.FirstOrDefault(p => p.PrognosisId == id);

@@ -218,74 +218,6 @@ namespace bumbo.Controllers
             return firstWeekStart;
         }
 
-        //        private DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
-        //        {
-        //            DateTime jan1 = new DateTime(year, 1, 1);
-        //            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
-
-        //            DateTime firstThursday = jan1.AddDays(daysOffset);
-        //            var cal = CultureInfo.CurrentCulture.Calendar;
-        //            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
-        //            DateTime firstWeekStart = firstThursday.AddDays(-3);
-        //            if (firstWeek <= 1)
-        //            {
-        //                firstWeekStart = jan1;
-        //            }
-
-        //            return firstWeekStart.AddDays((weekOfYear - 1) * 7);
-        //        }
-
-        //        // GET: PrognosisController/Details/5
-        //        public ActionResult Details(int id)
-        //        {
-        //            return View();
-        //        }
-
-        //        // GET: PrognosisController/Create
-        //        [HttpGet]
-        //        public ActionResult Create(int? id)
-        //        {
-        //            var template = templates.Find(t => t.TemplateId == id);
-
-        //            if (template != null)
-        //            {
-        //                ViewBag.daysList = template;
-        //                ViewBag.templateName = template.TemplateName;
-        //            }
-        //            else
-        //            {
-        //                ViewBag.daysList = null;
-        //                ViewBag.templateName = "Er is geen template geimporteerd";
-        //            }
-
-        //            ViewBag.days = new List<Days>
-        //            {
-        //                new Days { Name = "Maandag" },
-        //                new Days { Name = "Dinsdag" },
-        //                new Days { Name = "Woensdag" },
-        //                new Days { Name = "Donderdag" },
-        //                new Days { Name = "Vrijdag" },
-        //                new Days { Name = "Zaterdag" },
-        //                new Days { Name = "Zondag" },
-        //            };
-
-        //            ViewBag.CurrentWeek = _currentWeek;
-        //            ViewBag.CurrentYear = _currentYear;
-
-        //            return View();
-        //        }
-
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult CreatePrognosis(List<Days> prognosisCreateDaysList, List<int> CustomerAmount, List<int> PackagesAmount, int weeknr, int year)
-        //        {
-        //            _prognosisRepository.AddPrognosis(prognosisCreateDaysList, CustomerAmount, PackagesAmount, weeknr, year);
-
-        //            return View("Index");
-        //        }
-
-
         private double GetNormInSeconds(string activity, List<Norm> norms)
         {
             var norm = norms.FirstOrDefault(n => n.activity == activity);
@@ -362,6 +294,7 @@ namespace bumbo.Controllers
         {
             List<Norm> norms = _normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result;
             int prognosisId = _prognosisRepository.GetLatestPrognosis().PrognosisId;
+            int shelveMeters = _prognosisRepository.GetShelfMetersByPrognosis(prognosisId);
 
             int cassiereNorm = 30;
             int cassieresNeededForThirtyPerHour = norms[2].normInSeconds;
@@ -373,10 +306,12 @@ namespace bumbo.Controllers
             int spiegelenNormInSeconds = norms[4].normInSeconds;
 
             Dictionary<Days, int> cassiereHours = new Dictionary<Days, int>();
+            Dictionary<Days, int> cassieresNeeded = new Dictionary<Days, int>();
+
             Dictionary<Days, int> versWorkersHours = new Dictionary<Days, int>();
-            Dictionary<Days, int> colliUitLadenMinutes = new Dictionary<Days, int>();
-            Dictionary<Days, int> stockingMinutes = new Dictionary<Days, int>();
-            Dictionary<Days, int> spiegelenMinutes = new Dictionary<Days, int>();
+            Dictionary<Days, int> workersNeeded = new Dictionary<Days, int>();
+
+            Dictionary<Days, int> stockingHours = new Dictionary<Days, int>();
 
             for (int i = 0; i < model.Days.Count; i++)
             {
@@ -386,33 +321,31 @@ namespace bumbo.Controllers
                 if (i < model.CustomerAmount.Count)
                 {
                     int customerAmount = model.CustomerAmount[i];
-                    double customerPerHour = (double)customerAmount / weekhours;
 
-                    int cassierePerHour = (int)((customerPerHour / cassiereNorm) * cassieresNeededForThirtyPerHour);
-                    int totalCassiereNeeded = cassierePerHour * weekhours;
+                    int cassiereHoursNeeded = customerAmount / cassiereNorm;
+                    int workerHoursNeeded = customerAmount / workersNorm;
 
-                    int workersPerHour = (int)((customerPerHour / workersNorm) * workersNeededForHundredPerHour);
-                    int totalWorkersForVersNeeded = workersPerHour * weekhours;
+                    cassieresNeeded.Add(day, (cassiereHoursNeeded * cassieresNeededForThirtyPerHour));
+                    cassiereHours.Add(day, cassiereHoursNeeded);
 
-                    cassiereHours.Add(day, totalCassiereNeeded);
-                    versWorkersHours.Add(day, totalWorkersForVersNeeded);
+                    versWorkersHours.Add(day, workerHoursNeeded);
+                    workersNeeded.Add(day, (workerHoursNeeded * workersNeededForHundredPerHour));
                 }
 
                 if (i < model.PackagesAmount.Count)
                 {
                     int packageAmount = model.PackagesAmount[i];
 
-                    int colliUitladenMinutesNeeded = packageAmount * colliUitladenNormInSeconds;
-                    int stockingMinutesNeeded = packageAmount * stockingNormInSeconds;
-                    int spiegelenSecondsNeeded = packageAmount * spiegelenNormInSeconds;
+                    int colliUitladenHoursNeeded = (packageAmount * colliUitladenNormInSeconds) / 60;
+                    int stockingHoursNeeded = (packageAmount * stockingNormInSeconds) / 60;
+                    int spiegelenHoursNeeded = (shelveMeters * spiegelenNormInSeconds) / 3600;
+                    int totalForStocking = (colliUitladenHoursNeeded + stockingHoursNeeded + spiegelenHoursNeeded);
 
-                    colliUitLadenMinutes.Add(day, colliUitladenMinutesNeeded);
-                    stockingMinutes.Add(day, stockingMinutesNeeded);
-                    spiegelenMinutes.Add(day, spiegelenSecondsNeeded);
+                    stockingHours.Add(day, totalForStocking);
                 }
             }
 
-            _prognosisHasDaysHasDepartments.createCalculation(prognosisId, cassiereHours, versWorkersHours, colliUitLadenMinutes, stockingMinutes, spiegelenMinutes);
+            _prognosisHasDaysHasDepartments.createCalculation(prognosisId, cassiereHours, versWorkersHours, stockingHours, cassieresNeeded, workersNeeded);
         }
 
 
