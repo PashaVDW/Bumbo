@@ -20,15 +20,13 @@ namespace bumbo.ViewModels
 
     public class AvailabilityInputViewModel
     {
-        [Required]
-        public int Week { get; set; }
-
-        [Required]
-        public int Year { get; set; }
-
-        [Required]
+        public int StartWeek { get; set; }
+        public int StartYear { get; set; }
+        public int EndWeek { get; set; }
+        public int EndYear { get; set; }
         public List<DayInputViewModel> Days { get; set; } = new List<DayInputViewModel>();
     }
+
 
     public class DayInputViewModel
     {

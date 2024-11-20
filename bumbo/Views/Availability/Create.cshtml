@@ -1,16 +1,36 @@
 ﻿@model AvailabilityInputViewModel
 
 <div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
-    <h1>Beschikbaarheid invoeren voor week @Model.Week - @Model.Year</h1>
-    <form asp-action="Create" method="post" class="space-y-4">
-        <input type="hidden" asp-for="Week" value="@Model.Week"/>
-        <input type="hidden" asp-for="Year" value="@Model.Year"/>
+    <h1>Beschikbaarheid invoeren</h1>
+    <h2>Beschikbaarheid toepassen voor de geselecteerde periode</h2>
 
-        <table class="table">
+    <form asp-action="Create" method="post" class="space-y-4">
+        <div class="flex space-x-4">
+            <div>
+                <label for="StartWeek" class="block font-medium">Beginweek</label>
+                <input type="number" asp-for="StartWeek" class="border rounded px-2 py-1 w-24" />
+            </div>
+            <div>
+                <label for="StartYear" class="block font-medium">Beginjaar</label>
+                <input type="number" asp-for="StartYear" class="border rounded px-2 py-1 w-24" />
+            </div>
+        </div>
+
+        <div class="flex space-x-4">
+            <div>
+                <label for="EndWeek" class="block font-medium">Eindweek</label>
+                <input type="number" asp-for="EndWeek" class="border rounded px-2 py-1 w-24" />
+            </div>
+            <div>
+                <label for="EndYear" class="block font-medium">Eindjaar</label>
+                <input type="number" asp-for="EndYear" class="border rounded px-2 py-1 w-24" />
+            </div>
+        </div>
+
+        <table class="table mt-4">
             <thead>
                 <tr>
                     <th>Dag</th>
-                    <th>Datum</th>
                     <th>Starttijd</th>
                     <th>Eindtijd</th>
                 </tr>
@@ -20,9 +40,7 @@
                 {
                     <tr>
                         <td>@Model.Days[i].DayName</td>
-                        <td>@Model.Days[i].Date.ToString("dd-MM-yyyy")</td>
-                        <input type="hidden" asp-for="Days[i].DayName" value="@Model.Days[i].DayName"/>
-                        <input type="hidden" asp-for="Days[i].Date" value="@Model.Days[i].Date"/>
+                        <input type="hidden" asp-for="Days[i].DayName" value="@Model.Days[i].DayName" class="border rounded px-2 py-1" />
                         <td>
                             <input type="time" asp-for="Days[i].StartTime" class="border rounded px-2 py-1" />
                         </td>
@@ -33,6 +51,8 @@
                 }
             </tbody>
         </table>
+
         <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded">Opslaan</button>
     </form>
 </div>
+

@@ -82,8 +82,10 @@ namespace bumbo.Controllers
 
             var model = new AvailabilityInputViewModel
             {
-                Week = weekNumber.Value,
-                Year = yearNumber.Value
+                StartWeek = weekNumber.Value,
+                StartYear = yearNumber.Value,
+                EndWeek = weekNumber.Value,
+                EndYear = yearNumber.Value
             };
 
             for (int i = 0; i < 7; i++)
@@ -104,38 +106,50 @@ namespace bumbo.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Maak een lijst van Availability-objecten
-                var availabilities = model.Days
-                    .Where(day => day.StartTime.HasValue && day.EndTime.HasValue)
-                    .Select(day => new Availability
+                int currentWeek = model.StartWeek;
+                int currentYear = model.StartYear;
+
+                while (currentYear < model.EndYear || (currentYear == model.EndYear && currentWeek <= model.EndWeek))
+                {
+                    DateTime startDate = FirstDateOfWeek(currentYear, currentWeek);
+
+                    var availabilities = model.Days
+                        .Where(day => day.StartTime.HasValue && day.EndTime.HasValue)
+                        .Select(day => new Availability
+                        {
+                            Date = DateOnly.FromDateTime(startDate.AddDays((int)day.Date.DayOfWeek)),
+                            StartTime = day.StartTime.Value,
+                            EndTime = day.EndTime.Value,
+                            EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3"
+                        })
+                        .ToList();
+
+                    _availabilityRepository.AddAvailabilities(availabilities);
+
+                    currentWeek++;
+
+                    if (currentWeek > ISOWeek.GetWeeksInYear(currentYear))
                     {
-                        Date = DateOnly.FromDateTime(day.Date),
-                        StartTime = day.StartTime.Value,
-                        EndTime = day.EndTime.Value,
-                        EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3"
-                    })
-                    .ToList();
+                        currentWeek = 1;
+                        currentYear++;
+                    }
+                }
 
-                // Stuur de lijst naar de repository
-                _availabilityRepository.AddAvailabilities(availabilities);
-
-                return RedirectToAction("Index", new { weekNumber = model.Week, yearNumber = model.Year });
+                return RedirectToAction("Index", new { weekNumber = model.StartWeek, yearNumber = model.StartYear });
             }
             else
             {
                 var errors = ModelState.SelectMany(x => x.Value.Errors)
-                                       .Select(x => x.ErrorMessage)
-                                       .ToList();
+                           .Select(x => x.ErrorMessage)
+                           .ToList();
                 Console.WriteLine("Errors: " + string.Join(", ", errors));
 
-                // Of geef de errors door aan de view
                 ViewBag.Errors = errors;
 
                 return View(model);
             }
-
-            return Redirect("Index");
         }
+
 
 
         public static DateTime LastDateOfWeek(int year, int weekOfYear)
