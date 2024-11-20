@@ -442,6 +442,13 @@ namespace bumbo.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int templateId)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             var template = await _templatesRepository.GetByIdAsync(templateId);
 
             if (template == null)

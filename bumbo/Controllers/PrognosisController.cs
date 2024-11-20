@@ -2,6 +2,7 @@
 using bumbo.ViewModels;
 using DataLayer.Interfaces;
 using DataLayer.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
@@ -9,16 +10,24 @@ namespace bumbo.Controllers
 {
     public class PrognosisController : Controller
     {
+        private readonly UserManager<Employee> _userManager;
         private readonly IPrognosisRepository _prognosisRepository;
 
-        public PrognosisController(IPrognosisRepository prognosisRepository)
+        public PrognosisController(IPrognosisRepository prognosisRepository, UserManager<Employee> userManager)
         {
             _prognosisRepository = prognosisRepository;
-
+            _userManager = userManager;
         }
-
-        public ActionResult Index(int? weekNumber, int? year, int? weekInc)
+        
+        public async Task<ActionResult> Index(int? weekNumber, int? year, int? weekInc)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             DateTime firstDayOfWeek;
             DateTime lastDayOfWeek;
 
