@@ -150,6 +150,14 @@ namespace bumbo.Controllers
             SetTempDataForToast("createBranchToast");
             try
             {
+                if (branch.ClosingTime <= branch.OpeningTime)
+                {
+                    TempData["ToastMessage"] = "Sluitingstijd moet later zijn dan openingstijd";
+                    TempData["ToastType"] = "error";
+
+                    return View("CreateBranchView");
+                }
+
                 _branchesRepository.AddBranch(branch);
 
                 TempData["ToastMessage"] = "Filiaal is aangemaakt";
