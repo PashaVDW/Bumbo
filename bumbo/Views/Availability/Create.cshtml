@@ -4,11 +4,23 @@
     <h1>Beschikbaarheid invoeren</h1>
     <h2>Beschikbaarheid toepassen voor de geselecteerde periode</h2>
 
+    @if (ViewBag.Errors != null && ViewBag.Errors.Count > 0)
+    {
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <ul>
+                @foreach (var error in ViewBag.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+
     <form asp-action="Create" method="post" class="space-y-4">
         <div class="flex space-x-4">
             <div>
                 <label for="StartWeek" class="block font-medium">Beginweek</label>
-                <input type="number" asp-for="StartWeek" class="border rounded px-2 py-1 w-24" />
+                <input type="number" asp-for="StartWeek" max="53" class="border rounded px-2 py-1 w-24" />
             </div>
             <div>
                 <label for="StartYear" class="block font-medium">Beginjaar</label>
@@ -19,7 +31,7 @@
         <div class="flex space-x-4">
             <div>
                 <label for="EndWeek" class="block font-medium">Eindweek</label>
-                <input type="number" asp-for="EndWeek" class="border rounded px-2 py-1 w-24" />
+                <input type="number" asp-for="EndWeek" max="53" class="border rounded px-2 py-1 w-24" />
             </div>
             <div>
                 <label for="EndYear" class="block font-medium">Eindjaar</label>

@@ -104,6 +104,20 @@ namespace bumbo.Controllers
         [HttpPost]
         public IActionResult Create(AvailabilityInputViewModel model)
         {
+            if (model.EndYear < model.StartYear ||
+                (model.EndYear == model.StartYear && model.EndWeek < model.StartWeek))
+            {
+                ModelState.AddModelError("", "De eindweek en het eindjaar moeten na de beginweek en het beginjaar liggen.");
+            }
+
+            for (int i = 0; i < 7; i++)
+            {
+                if (model.Days[i].StartTime.HasValue && model.Days[i].EndTime.HasValue && model.Days[i].EndTime <= model.Days[i].StartTime)
+                {
+                    ModelState.AddModelError("", $"De eindtijd moet later zijn dan de starttijd voor {model.Days[i].DayName}.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 int currentWeek = model.StartWeek;
