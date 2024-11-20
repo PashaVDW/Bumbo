@@ -16,6 +16,8 @@ namespace DataLayer.Models
         public string Message { get; set; }
         public string RequestStatusName { get; set; }
         public DateTime DateNeeded { get; set; }
-        
+        public TimeOnly StartTime { get; set; }
+        public TimeOnly EndTime { get; set; }
+
     }
 }

@@ -1,6 +1,9 @@
-﻿@{
+﻿@using bumbo.ViewModels
+@{
 
 }
+
+@model RequestsUpdateViewModel
 
 <div class="mx-24 mt-12 mx-auto max-w-2xl">
     <div class="mb-12 flex">
@@ -14,21 +17,21 @@
     <form asp-action="UpdateRequest" class="mx-12">
         <div class="mb-6">
             <label class="font-semibold">Datum nodig</label>
-            <input type="date" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            <input asp-for="Request.DateNeeded" type="date" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
         </div>
         <div class="mb-6 flex justify-between">
             <div class="w-64">
                 <label class="font-semibold">Begintijd nodig</label>
-                <input type="time" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="Request.StartTime" type="time" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
             </div>
             <div class="w-64">
                 <label class="font-semibold">Eindtijd nodig</label>
-                <input type="time" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="Request.EndTime" type="time" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
             </div>
         </div>
         <div class="mb-6">
             <label class="font-semibold">Afdeling</label>
-            <select class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight">
+            <select asp-for="Department.DepartmentName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight">
                 <option value="Vakkenvullen">Vakkenvullen</option>
                 <option value="Kassa">Kassa</option>
                 <option value="Vers">Vers</option>
@@ -37,14 +40,14 @@
         <div class="mb-6">
             <label class="font-semibold">Nodige medewerker</label>
             <div class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 flex w-full appearance-none items-center justify-between border leading-tight">
-                <p>[Medewerkernaam]</p>
-                <p>[Filiaal naam]</p>
+                <p>@Model.Employee.FirstName @Model.Employee.MiddleName @Model.Employee.LastName</p>
+                <p>@Model.Branch.Name</p>
                 <default-button button-text="Wijzigen" button-type="secondary"></default-button>
             </div>
         </div>
         <div class="mb-6">
             <label class="font-semibold">Omschrijving</label>
-            <textarea class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 h-36 w-full appearance-none rounded border leading-tight"></textarea>
+            <textarea asp-for="Request.Message" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 h-36 w-full appearance-none rounded border leading-tight"></textarea>
         </div>
         <div class="mt-6 flex justify-end">
             <default-button button-text="Bewerken" button-type="primary"></default-button>
