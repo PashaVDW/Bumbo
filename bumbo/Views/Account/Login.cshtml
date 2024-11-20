@@ -46,18 +46,3 @@
         </form>
     </div>
 </div>
-
-@{
-    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
-    {
-        <toast-message toast-id="@TempData["ToastId"]"
-                       message="@TempData["ToastMessage"]"
-                       message-type="@TempData["ToastType"]">
-        </toast-message>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
-            });
-        </script>
-    }
-}

@@ -1,0 +1,51 @@
+﻿@model bumbo.ViewModels.EmployeeSchedulesViewModel
+<main class="p-8">
+    <h1 class="text-2xl font-bold">Rooster</h1>
+    <p>@($"Week {Model.SelectedWeek}")</p>
+
+    <div class="flex items-center justify-between mt-8 flex-wrap md:flex-nowrap">
+        <a asp-action="Index" asp-route-plusWeeks="@{ Model.SelectedWeek--; }" class="text-2xl md:mr-4">&lt;</a>
+
+        <div class="flex space-x-14 h-screen flex-wrap md:flex-nowrap">
+            @{
+                var days = new string[] { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" };
+            }
+            @for (int i = 0; i < 7; i++)
+            {
+                var daySchedules = Model.Schedules.FirstOrDefault(g => g.Date == Model.StartOfWeek.AddDays(i));
+                var calcDate = Model.StartOfWeek.AddDays(i).Day;
+
+                <div class="text-center md:w-1/7 py-8 rounded-xl mb-4 md:mb-0 @( calcDate == Model.Today.Day ? "active-day" : "")">
+                    <div class="text-lg">@calcDate</div>
+                    <div class="text-sm text-gray-600">@days[i]</div>
+
+                    @if (daySchedules != null && daySchedules.Schedules.Any())
+                    {
+                        @foreach (var schedule in daySchedules.Schedules)
+                        {
+                            <div class="bg-gray-200 p-4 rounded-xl mt-2">
+                                <div>@schedule.DepartmentName</div>
+                                <div>@{
+                                       var hours = schedule.EndTime
+                                        -schedule.StartTime;
+                                    } @hours</div>
+                                <div class="text-sm text-gray-600">@schedule.StartTime - @schedule.EndTime</div>
+                            </div>
+                            <a asp-action="CallSick" asp-route-schedule="@schedule" class="border-dashed border-2 m-4 border-gray-400 p-4 gap-2 rounded-xl mb-4 flex items-center">
+                                <img src="media/hospital.svg" alt="Alternate Text" />
+                                <span>Ziek melden</span>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <div class="bg-gray-200 p-4 rounded-xl mt-2">
+                            <div>Geen dienst</div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <a asp-action="Index" asp-route-plusWeeks="@{ Model.SelectedWeek++; }" class="text-2xl md:ml-4">&gt;</a>
+    </div>
+</main>
