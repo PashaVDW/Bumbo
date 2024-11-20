@@ -7,12 +7,12 @@
 
 <div class="mx-24 mt-12 mx-auto max-w-2xl">
     <div class="mb-12 flex">
-        <a href="/aanvragen" class="mr-6">
+        <a href="/verzoeken" class="mr-6">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </a>
-        <h1 class="text-3xl font-semibold">Aanvraag 0</h1> <!-- [apenstaartje]Model.Request.RequestId -->
+        <h1 class="text-3xl font-semibold">Uigaande hulpverzoek bekijken</h1>
     </div>
     <div class="mx-12">
         <div class="mb-6">
@@ -24,14 +24,22 @@
             <p>@Model.Request.Message</p>
         </div>
         <div class="mb-6">
+            <p class="font-semibold">Datum nodige</p>
+            <p>@Model.Request.DateNeeded.Day-@Model.Request.DateNeeded.Month-@Model.Request.DateNeeded.Year</p>
+        </div>
+        <div class="mb-6">
+            <p class="font-semibold">Tijd nodige</p>
+            <p>@Model.Request.DateNeeded.TimeOfDay</p>
+        </div>
+        <div class="mb-6">
             <p class="font-semibold">Status</p>
             <p>@Model.Request.RequestStatusName</p>
         </div>
     </div>
 
-    <div class="mt-10 gap-4 flex w-11/12 justify-end">
-        <default-button button-text="Weigeren" button-type="delete"></default-button>
-        <default-button button-text="Accepteren" button-type="succes"></default-button>
+    <div class="mt-6 mx-12">
+        <default-button button-text="Wijzig" on-click="window.location.href='Update'" 
+            button-type="primary"></default-button>
     </div>
 
     <!-- Extra -->

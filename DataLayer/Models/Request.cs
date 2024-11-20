@@ -15,6 +15,7 @@ namespace DataLayer.Models
         public int BranchId { get; set; }
         public string Message { get; set; }
         public string RequestStatusName { get; set; }
+        public DateTime DateNeeded { get; set; }
         
     }
 }
