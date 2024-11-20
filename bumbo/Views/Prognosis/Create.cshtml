@@ -1,10 +1,8 @@
-﻿﻿
-@{
+﻿@{
     ViewData["Title"] = "Create";
 }
 
 @model bumbo.ViewModels.Prognosis.PrognosisCreateViewModel
-
 
 <div class="gap-4 mt-20 mx-auto grid max-w-screen-lg grid-cols-3">
     <div class="space-x-2 flex items-center" name="prognoses_title">
@@ -16,9 +14,9 @@
 <div class="mt-4 mx-auto max-w-screen-lg">
     <div class="space-x-4 mb-4 flex items-center">
         <div class="flex flex-grow flex-row">
-            <input disabled type="text" class="mt-1 p-2 border-gray-300 w-full rounded border" placeholder="@ViewBag.templatename" />
-            <button onclick="window.location.href='../prognosis/AddTemplate'" class="mt-6 p-2 bg-green-600 text-white rounded hover:bg-green-700">
-                Importeer Standaard Template
+            <input disabled type="text" class="mt-1 p-2 border-gray-300 w-full rounded border" value="@Model.TemplateName" />
+            <button onclick="window.location.href='../prognosis/AddTemplate'" class="ml-4 px-6 py-2 bg-gray-700 text-white rounded shadow hover:bg-gray-800 transition">
+                Importeer standaard template
             </button>
         </div>
     </div>
@@ -33,13 +31,13 @@
             <input type="text" value="@Model.Year" class="mt-1 p-2 border-gray-300 w-full rounded border" disabled />
         </div>
         <div class="flex flex-col">
-            <button class="mt-6 p-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Importeer Vorige Week
+            <button class="mt-6 px-6 py-2 bg-gray-700 text-white rounded shadow hover:bg-gray-800 transition">
+                Importeer oude week
             </button>
         </div>
     </div>
-
 </div>
+
 @{
     if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
     {
@@ -73,17 +71,23 @@
                     <div class="max-w-xs">@Model.Days[i].Name</div>
 
                     <div>
-                        <input name="CustomerAmount[@i]" type="number" class="p-1 w-full rounded border" required />
+                        <input name="CustomerAmount[@i]" type="number"
+                               class="p-1 w-full rounded border"
+                               value="@(Model.CustomerAmount != null && Model.CustomerAmount.Count > i ? Model.CustomerAmount[i].ToString() : "")"
+                               required />
                     </div>
 
                     <div>
-                        <input name="PackagesAmount[@i]" type="number" class="p-1 w-full rounded border" required />
+                        <input name="PackagesAmount[@i]" type="number"
+                               class="p-1 w-full rounded border"
+                               value="@(Model.PackagesAmount != null && Model.PackagesAmount.Count > i ? Model.PackagesAmount[i].ToString() : "")"
+                               required />
                     </div>
                 }
             </div>
 
             <div class="mt-4 space-x-2 flex justify-end">
-                <button type="submit" class="bg-blue-500 text-white border-blue-700 p-2 rounded border transition hover:bg-blue-600">
+                <button type="submit" class="bg-gray-700 text-white px-6 py-2 rounded shadow border-gray-700 transition hover:bg-gray-800">
                     Aanmaken
                 </button>
             </div>
