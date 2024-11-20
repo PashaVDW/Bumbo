@@ -4,7 +4,7 @@
 
 @model Branch
 
-<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
+<div class="mt-10 p-6 relative mx-auto max-w-2xl rounded">
     <div class="mb-6 flex">
         <a asp-area="" asp-controller="Branches" asp-action="ReadBranchView" asp-route-branchId="@Model.BranchId" style="margin-right: 25px">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,14 +19,14 @@
         <input type="hidden" asp-for="BranchId" />
 
         <div class="mt-6 mb-6 flex">
-            <div class="w-full flex flex-col">
+            <div class="flex w-full flex-col">
                 <label asp-for="Name">Naam</label>
                 <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
         <div class="mt-6 mb-6 flex">
-            <div class="mr-5 w-full flex flex-col">
+            <div class="mr-5 flex w-full flex-col">
                 <label asp-for="Street">Straatnaam</label>
                 <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="Street"
                        pattern="^[^\d]*$" title="Straatnaam mag geen cijfers bevatten." />
@@ -40,13 +40,27 @@
             </div>
         </div>
         <div class="mt-6 mb-6 flex">
+            <div class="mr-5 flex w-1/2 flex-col">
+                <label asp-for="OpeningTime">Openingstijd</label>
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="OpeningTime"
+                       title="Openingstijd moet een tijd zijn." type="time" />
+                <span asp-validation-for="OpeningTime" class="text-danger"></span>
+            </div>
+            <div class="flex w-1/2 flex-col">
+                <label asp-for="ClosingTime">Sluitingstijd</label>
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="ClosingTime"
+                       title="Sluitingstijd moet een tijd zijn" type="time" />
+                <span asp-validation-for="ClosingTime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mt-6 mb-6 flex">
             <div class="mr-5 w-32 flex flex-col">
                 <label asp-for="PostalCode">Postcode</label>
                 <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="PostalCode"
                        pattern="^\d{4} [A-Za-z]{2}$" title="Het formaat is 1111 AA (Vergeet spatie niet)" />
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
-            <div class="w-full flex flex-col">
+            <div class="flex w-full flex-col">
                 <label asp-for="CountryName">Land</label>
                 <select asp-for="CountryName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight">
                     <option value='Netherlands'>Nederland</option>

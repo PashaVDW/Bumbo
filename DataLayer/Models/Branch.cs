@@ -21,6 +21,10 @@ public class Branch
 
     [Required, StringLength(50)]
     public string CountryName { get; set; }
+    [Required]
+    public TimeOnly OpeningTime { get; set; }
+    [Required]
+    public TimeOnly ClosingTime { get; set; }
 
     [ForeignKey("CountryName")]
     public Country Country { get; set; }

@@ -18,6 +18,8 @@ namespace bumbo.ViewModels
         public string Street { get; set; }
 
         public string CountryName { get; set; }
+        public TimeOnly OpeningTime { get; set; }
+        public TimeOnly ClosingTime { get; set; }
 
         public ICollection<Employee> Employees { get; set; }
 
