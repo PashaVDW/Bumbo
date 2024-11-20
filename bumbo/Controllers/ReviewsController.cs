@@ -130,7 +130,7 @@ namespace bumbo.Controllers
             var days = new List<DayOverviewViewModel>();
             if (prognosis != null)
             {
-                days = prognosis.Prognosis_Has_Days
+                days = prognosis.PrognosisHasDays
                     .OrderBy(d => d.Days_name switch
                     {
                         "Maandag" => 1,

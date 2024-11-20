@@ -38,12 +38,12 @@ namespace bumbo.Controllers
 
             List<Template> templates = _templatesRepository
                 .GetAllTemplates()
-                .Where(template => template.Branch_branchId == branchId)
+                .Where(template => template.BranchBranchId == branchId)
                 .ToList();
 
             List<TemplateHasDays> templateHasDays = _templatesHasDaysRepository
                 .GetAllTemplateHasDays()
-                .Where(thd => templates.Any(template => template.Id == thd.Templates_id))
+                .Where(thd => templates.Any(template => template.Id == thd.TemplatesId))
                 .ToList();
 
             List<TemplatesViewModel> templateViewModel = templates.Select(template => new TemplatesViewModel
@@ -51,10 +51,10 @@ namespace bumbo.Controllers
                 TemplateId = template.Id,
                 Name = template.Name,
                 HasDays = templateHasDays
-                .Where(thd => thd.Templates_id == template.Id)
+                .Where(thd => thd.TemplatesId == template.Id)
                 .Select(thd => new TemplateHasDaysViewModel
                 {
-                    DayName = thd.Days_name,
+                    DayName = thd.DaysName,
                     CustomerAmount = thd.CustomerAmount,
                     ContainerAmount = thd.ContainerAmount
                 })
@@ -205,10 +205,10 @@ namespace bumbo.Controllers
             var template = new Template
             {
                 Name = name,
-                Branch_branchId = branchId,
+                BranchBranchId = branchId,
                 TemplateHasDays = customerData.Select(kvp => new TemplateHasDays
                 {
-                    Days_name = kvp.Key,
+                    DaysName = kvp.Key,
                     CustomerAmount = kvp.Value,
                     ContainerAmount = containerData[kvp.Key]
                 }).ToList()
@@ -258,10 +258,10 @@ namespace bumbo.Controllers
                 TemplateId = template.Id,
                 Name = template.Name,
                 HasDays = templateHasDays
-            .Where(thd => thd.Templates_id == template.Id)
+            .Where(thd => thd.TemplatesId == template.Id)
             .Select(thd => new TemplateHasDaysViewModel
             {
-                DayName = thd.Days_name,
+                DayName = thd.DaysName,
                 CustomerAmount = thd.CustomerAmount,
                 ContainerAmount = thd.ContainerAmount
             })
@@ -408,17 +408,17 @@ namespace bumbo.Controllers
             template.Name = name;
 
             var templateHasDays = _templatesHasDaysRepository.GetAllTemplateHasDays()
-                .Where(thd => thd.Templates_id == templateId)
+                .Where(thd => thd.TemplatesId == templateId)
                 .ToList();
 
             foreach (var thd in templateHasDays)
             {
-                if (customerData.TryGetValue(thd.Days_name, out int customerAmount))
+                if (customerData.TryGetValue(thd.DaysName, out int customerAmount))
                 {
                     thd.CustomerAmount = customerAmount;
                 }
 
-                if (containerData.TryGetValue(thd.Days_name, out int containerAmount))
+                if (containerData.TryGetValue(thd.DaysName, out int containerAmount))
                 {
                     thd.ContainerAmount = containerAmount;
                 }

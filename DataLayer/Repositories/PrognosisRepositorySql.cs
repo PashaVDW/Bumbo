@@ -22,7 +22,7 @@ namespace DataLayer.Repositories
         public Prognosis GetLatestPrognosis()
         {
             List<Prognosis> prognosis = _context.Prognoses
-                .Include(p => p.Prognosis_Has_Days)
+                .Include(p => p.PrognosisHasDays)
                 .OrderByDescending(p => p.Year)
                 .ThenByDescending(p => p.WeekNr)
                 .ToList<Prognosis>();
@@ -32,7 +32,7 @@ namespace DataLayer.Repositories
         public Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year)
         {
             List<Prognosis> prognosis = _context.Prognoses
-                .Include(p => p.Prognosis_Has_Days)
+                .Include(p => p.PrognosisHasDays)
                 .Where(p => p.WeekNr == weekNumber && p.Year == year)
                 .ToList<Prognosis>();
 

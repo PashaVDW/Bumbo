@@ -11,7 +11,7 @@ namespace bumbo.Models
         public int Id { get; set; }
 
         [Required]
-        public int Branch_branchId { get; set; }
+        public int BranchBranchId { get; set; }
 
         [ForeignKey("Branch_branchId")]
         public Branch Branch { get; set; }

@@ -21,12 +21,13 @@ public class Branch
 
     [Required, StringLength(50)]
     public string CountryName { get; set; }
+    [Required]
+    public int ShelfMeeters { get; set; }
 
     [ForeignKey("CountryName")]
     public Country Country { get; set; }
-
     public ICollection<BranchHasEmployee> BranchHasEmployees { get; set; }
-
     public ICollection<Employee> Employees { get; set; }
+    public virtual ICollection<Norm> Norm { get; set; }
 
 }
