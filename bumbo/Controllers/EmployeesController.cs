@@ -11,16 +11,14 @@ namespace bumbo.Controllers
     public class EmployeesController : Controller
     {
         private readonly UserManager<Employee> _userManager;
-        private readonly IFunctionRepository _functionRepository;
-        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IBranchesRepository _branchRepository;
 
-        public EmployeesController(UserManager<Employee> userManager, IFunctionRepository functionRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, IEmployeeRepository employeeRepository)
+        public EmployeesController(UserManager<Employee> userManager, IEmployeeRepository employeeRepository, IBranchesRepository branchRepository)
         {
             _userManager = userManager;
-            _functionRepository = functionRepository;
-            _branchHasEmployeeRepository = branchHasEmployeeRepository;
             _employeeRepository = employeeRepository;
+            _branchRepository = branchRepository;
         }
 
         public async Task<IActionResult> Index(string searchTerm, int page = 1, int pageSize = 25)
@@ -56,18 +54,13 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            var model = new CreateEmployeeViewModel
+            var viewmodel = new CreateEmployeeViewModel
             {
-                Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
-                {
-                    Value = f.FunctionName,
-                    Text = f.FunctionName
-                }).ToList(),
-
-                IsSystemManager = user.IsSystemManager
+                IsSystemManager = user.IsSystemManager,
+                WorksAtBranchId = user.WorksAtBranchId
             };
 
-            return View(model);
+            return View(viewmodel);
         }
 
 
@@ -100,6 +93,8 @@ namespace bumbo.Controllers
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber,
                     UserName = model.Email,
+                    FunctionName = model.FunctionName,
+                    WorksAtBranchId = model.WorksAtBranchId,
                     IsSystemManager = model.IsSystemManager,
                     ManagerOfBranchId = model.ManagerOfBranchId
                 };
@@ -108,19 +103,6 @@ namespace bumbo.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (user.ManagerOfBranchId != null)
-                    {
-                        var branchHasEmployee = new BranchHasEmployee
-                        {
-                            EmployeeId = employee.Id,
-                            BranchId = user.ManagerOfBranchId.Value,
-                            FunctionName = string.IsNullOrEmpty(model.SelectedFunction) ? null : model.SelectedFunction,
-                            StartDate = DateTime.Now
-                        };
-
-                        await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchHasEmployee);
-                    }
-
                     TempData["ToastMessage"] = "Medewerker succesvol toegevoegd!";
                     TempData["ToastType"] = "success";
 
@@ -137,12 +119,6 @@ namespace bumbo.Controllers
                 TempData["ToastMessage"] = "Gegevens zijn niet juist ingevuld!";
                 TempData["ToastType"] = "error";
             }
-
-            model.Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
-            {
-                Value = f.FunctionName,
-                Text = f.FunctionName
-            }).ToList();
 
             return View(model);
         }
@@ -167,8 +143,8 @@ namespace bumbo.Controllers
                 return RedirectToAction("Index");
             }
 
-            var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(employee.Id);
-            var userManagerOfBranchAssignment = branchAssignments.FirstOrDefault(b => b.BranchId == user.ManagerOfBranchId);
+            var branchAssignments = _branchRepository.GetBranchOfEmployee(employee);
+            var userManagerOfBranchAssignment = _employeeRepository.GetAManagerOfBranch(branchAssignments);
 
             var model = new UpdateEmployeeViewModel
             {
@@ -187,19 +163,13 @@ namespace bumbo.Controllers
 
                 SelectedFunction = userManagerOfBranchAssignment?.FunctionName,
 
-                BranchAssignments = branchAssignments.Select(bhe => new BranchAssignmentViewModel
+                BranchAssignments =  new BranchAssignmentViewModel
                 {
-                    BranchId = bhe.BranchId,
-                    BranchName = bhe.Branch.Name,
-                    FunctionName = bhe.FunctionName,
-                    StartDate = bhe.StartDate
-                }).ToList(),
-
-                Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
-                {
-                    Value = f.FunctionName,
-                    Text = f.FunctionName
-                }).ToList()
+                    BranchId = branchAssignments.BranchId,
+                    BranchName = branchAssignments.Name,
+                    FunctionName = userManagerOfBranchAssignment.FunctionName,
+                    StartDate = userManagerOfBranchAssignment.StartDate
+                }
             };
 
             return View(model);
@@ -223,13 +193,7 @@ namespace bumbo.Controllers
 
             if (!ModelState.IsValid)
             {
-                model.Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
-                {
-                    Value = f.FunctionName,
-                    Text = f.FunctionName
-                }).ToList();
-
-                var branchAssignments = _branchHasEmployeeRepository.GetBranchesForEmployee(model.Id);
+                var branchAssignments = _branchRepository.GetBranchOfEmployee(model.Id);
                 model.BranchAssignments = branchAssignments.Select(bhe => new BranchAssignmentViewModel
                 {
                     BranchId = bhe.BranchId,

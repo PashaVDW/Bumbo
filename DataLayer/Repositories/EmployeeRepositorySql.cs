@@ -49,5 +49,17 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public List<Employee> GetEmployeesFromBranch(Branch branch)
+        {
+            return _context.Employees
+                .Where(e => e.WorksAtBranchId == branch.BranchId)
+                .ToList();
+        }
+
+        public Employee GetAManagerOfBranch(Branch branch)
+        {
+            return _context.Employees.FirstOrDefault(e => e.ManagerOfBranchId == branch.BranchId);
+        }
     }
 }

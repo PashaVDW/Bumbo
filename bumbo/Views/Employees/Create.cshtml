@@ -82,8 +82,10 @@
 
             <div>
                 <label asp-for="SelectedFunction" class="block text-sm font-medium text-gray-700">Functie</label>
-                <select asp-for="SelectedFunction" asp-items="Model.Functions" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    <option value="">None</option>
+                <select asp-for="SelectedFunction" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <option value="Manager">Manager</option>
+                    <option value="Stocker">Stocker</option>
+                    <option value="Cashier">Cashier</option>
                 </select>
                 <span asp-validation-for="SelectedFunction" class="text-sm text-red-600"></span>
             </div>

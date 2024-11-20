@@ -18,13 +18,13 @@ namespace bumbo.Controllers
     {
         private readonly UserManager<Employee> _userManager;
         private readonly IBranchesRepository _branchesRepository;
-        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
+        private readonly IEmployeeRepository _employeesRepository;
 
-        public BranchesController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository)
+        public BranchesController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, IEmployeeRepository employeesRepository)
         {
             _userManager = userManager;
             _branchesRepository = branchesRepository;
-            _branchHasEmployeeRepository = branchHasEmployeeRepository;
+            _employeesRepository = employeesRepository;
         }
 
         public async Task<IActionResult> BranchesView(string searchTerm, int page = 1)
@@ -33,7 +33,7 @@ namespace bumbo.Controllers
             var branches = _branchesRepository.GetAllBranches();
             foreach (var branch in branches)
             {
-                branch.Employees = _branchesRepository.GetEmployeesFromBranch(branch);
+                branch.Employees = _employeesRepository.GetEmployeesFromBranch(branch);
             }
 
             if (user == null || !user.IsSystemManager)
@@ -92,7 +92,7 @@ namespace bumbo.Controllers
         {
 
             var newBranch = _branchesRepository.GetBranch(branchId);
-            newBranch.Employees = _branchesRepository.GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
+            newBranch.Employees = _employeesRepository.GetEmployeesFromBranch(newBranch).Where(e => e.ManagerOfBranchId == null).ToList();
 
             var viewModel = new CreateBranchManagerViewModel() { 
                 BranchId = branchId, Employees = newBranch.Employees.ToList() 
@@ -223,7 +223,7 @@ namespace bumbo.Controllers
                 Name = branch.Name,
                 PostalCode = branch.PostalCode,
                 Street = branch.Street,
-                Employees = _branchesRepository.GetEmployeesFromBranch(branch),
+                Employees = _employeesRepository.GetEmployeesFromBranch(branch),
                 Managers = _branchesRepository.GetManagersOfBranch(branch)
             };
             viewModel.CountryName = CountryNameToDutch(viewModel.CountryName);

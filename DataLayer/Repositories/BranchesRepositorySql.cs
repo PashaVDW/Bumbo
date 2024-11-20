@@ -69,32 +69,9 @@ namespace DataLayer.Repositories
             return employees;
         }
 
-        public List<Employee> GetEmployeesFromBranch(Branch branch)
+        public Branch GetBranchOfEmployee (int employeeId)
         {
-            List<BranchHasEmployee> branchHasEmployees = _context
-                .BranchHasEmployees
-                .Where(e => e.BranchId == branch.BranchId)
-                .ToList();
-
-
-            List<Employee> employeesInDatabase = _context
-                .Employees
-                .ToList();
-
-            List<Employee> employeesInBranch = new List<Employee>();
-
-            foreach (var emp in employeesInDatabase)
-            {
-                foreach (var branchEmp in branchHasEmployees)
-                {
-                    if (branchEmp.EmployeeId == emp.Id)
-                    {
-                        employeesInBranch.Add(emp);
-                    }
-                }
-            }
-
-            return employeesInBranch;
+            return _context.Branches.FirstOrDefault(b => b.BranchId == employeeId);
         }
     }
 }

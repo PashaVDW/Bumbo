@@ -18,7 +18,7 @@ namespace DataLayer.Interfaces
         void AddBranchManager(string employeeId, Branch branch);
         void DeleteBranchManager(string employeeId);
         List<Employee> GetManagersOfBranch(Branch branch);
-        List<Employee> GetEmployeesFromBranch(Branch branch);
+        Branch GetBranchOfEmployee(int employeeId);
 
     }
 }

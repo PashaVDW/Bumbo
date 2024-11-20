@@ -22,16 +22,18 @@ public class Employee : IdentityUser
 
     [Required, StringLength(50)]
     public string PostalCode { get; set; }
-
+    [Required]
     public int HouseNumber { get; set; }
-
+    [Required, StringLength(50)]
+    public string Email { get; set; }
+    [Required]
     public DateTime StartDate { get; set; }
-
+    [Required, StringLength(50)]
+    public string FunctionName { get; set; }
     public bool IsSystemManager { get; set; }
-
     public int? ManagerOfBranchId { get; set; }  // Nullable ManagerOfBranchId
+    public int? WorksAtBranchId { get; set; }  // Nullable WorksAtBranchId
 
     public Branch? ManagerOfBranch { get; set; }  // Nullable ManagerOfBranch
-
-    public ICollection<BranchHasEmployee> BranchEmployees { get; set; }
+    public Branch? WorksAtBranch { get; set; }  // Nullable WorksAtBranch
 }

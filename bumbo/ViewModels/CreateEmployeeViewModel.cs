@@ -42,12 +42,11 @@ namespace bumbo.ViewModels
         public string? BID { get; set; }
 
         public int? ManagerOfBranchId { get; set; } = null;
+        public int? WorksAtBranchId{ get; set; } = null;
 
         public bool IsSystemManager { get; set; } = false;
 
-        public string? SelectedFunction { get; set; }
-
-        public List<SelectListItem>? Functions { get; set; }
+        public string? FunctionName { get; set; }
 
         public DateTime AssignedDate { get; set; } = DateTime.Now;
     }

@@ -44,7 +44,7 @@ namespace bumbo.ViewModels
 
         public bool IsSystemManager { get; set; }
 
-        public List<BranchAssignmentViewModel> BranchAssignments { get; set; } = new List<BranchAssignmentViewModel>();
+        public BranchAssignmentViewModel BranchAssignments { get; set; } = new BranchAssignmentViewModel();
         public int UserManagerOfBranchId { get; set; }
     }
 }

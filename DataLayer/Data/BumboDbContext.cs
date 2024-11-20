@@ -21,8 +21,6 @@ namespace bumbo.Data
         public DbSet<Prognosis> Prognoses { get; set; }
         public DbSet<Prognosis_has_days> Prognosis_Has_Days { get; set; }
         public DbSet<Norm> Norms { get; set; }
-        public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
-        public DbSet<Function> Functions { get; set; }
         
         public DbSet<Employee> Employees { get; set; }
 
@@ -171,11 +169,6 @@ namespace bumbo.Data
                 new Prognosis_has_days { Days_name = "Zondag", PrognosisId = "2", CustomerAmount = 130, PackagesAmount = 60 }
             );
 
-            modelBuilder.Entity<Function>().HasData(
-                new Function { FunctionName = "Cashier" },
-                new Function { FunctionName = "Stocker" },
-                new Function { FunctionName = "Manager" });
-
             var passwordHasher = new PasswordHasher<Employee>();
 
             var john = new Employee
@@ -190,6 +183,8 @@ namespace bumbo.Data
                 HouseNumber = 10,
                 StartDate = new DateTime(2010, 1, 1),
                 IsSystemManager = true,
+                FunctionName = "Manager",
+                WorksAtBranchId = 1,
                 ManagerOfBranchId = 1,
                 PhoneNumber = "06-9876543",
                 UserName = "john.doe@example.com",
@@ -212,6 +207,8 @@ namespace bumbo.Data
                 HouseNumber = 22,
                 StartDate = new DateTime(2012, 4, 1),
                 IsSystemManager = false,
+                FunctionName = "Stocker",
+                WorksAtBranchId = 1,
                 ManagerOfBranchId = null,
                 PhoneNumber = "06-12345678",
                 UserName = "jane.smith@example.com",
@@ -234,6 +231,8 @@ namespace bumbo.Data
                 HouseNumber = 5,
                 StartDate = new DateTime(2018, 6, 20),
                 IsSystemManager = false,
+                FunctionName = "Cashier",
+                WorksAtBranchId = 1,
                 ManagerOfBranchId = null,
                 PhoneNumber = "+31 6 34567890",
                 UserName = "darlon.vandijk@hotmail.com",
@@ -256,6 +255,8 @@ namespace bumbo.Data
                 HouseNumber = 15,
                 StartDate = new DateTime(2010, 9, 5),
                 IsSystemManager = false,
+                FunctionName = "Manager",
+                WorksAtBranchId = 3,
                 ManagerOfBranchId = 3,
                 PhoneNumber = "+31 6 45678901",
                 UserName = "pasha.bakker@gmail.com",
@@ -278,6 +279,8 @@ namespace bumbo.Data
                 HouseNumber = 8,
                 StartDate = new DateTime(2017, 3, 15),
                 IsSystemManager = false,
+                FunctionName = "Stocker",
+                WorksAtBranchId = 3,
                 ManagerOfBranchId = null,
                 PhoneNumber = "+31 6 56789012",
                 UserName = "sarah.vanderven@hotmail.com",
@@ -300,6 +303,8 @@ namespace bumbo.Data
                 HouseNumber = 30,
                 StartDate = new DateTime(2020, 11, 1),
                 IsSystemManager = false,
+                FunctionName = "Manager",
+                WorksAtBranchId = 2,
                 ManagerOfBranchId = 2,
                 PhoneNumber = "+31 6 67890123",
                 UserName = "david.denboer@gmail.com",
@@ -322,6 +327,8 @@ namespace bumbo.Data
                 HouseNumber = 7,
                 StartDate = DateTime.Now,
                 IsSystemManager = false,
+                FunctionName = "Manager",
+                WorksAtBranchId = 1,
                 ManagerOfBranchId = 1,
                 PhoneNumber = "+31 6 12345678",
                 UserName = "anthony.ross@example.com",
@@ -344,6 +351,8 @@ namespace bumbo.Data
                 HouseNumber = 12,
                 StartDate = DateTime.Now,
                 IsSystemManager = false,
+                FunctionName = "Manager",
+                WorksAtBranchId = 2,
                 ManagerOfBranchId = 2,
                 PhoneNumber = "+31 6 87654321",
                 UserName = "douwe.jansen@example.com",
@@ -461,80 +470,15 @@ namespace bumbo.Data
             );
             //Relations
             // Relations
-            modelBuilder.Entity<BranchHasEmployee>()
-                .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.WorksAtBranch)
+                .WithMany(wab => wab.Employees)
+                .HasForeignKey(e => e.WorksAtBranchId);
 
-            modelBuilder.Entity<BranchHasEmployee>()
-                .HasOne(bhw => bhw.Branch)
-                .WithMany(b => b.BranchHasEmployees)
-                .HasForeignKey(bhw => bhw.BranchId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<BranchHasEmployee>()
-                .HasOne(bhw => bhw.Employee)
-                .WithMany(e => e.BranchEmployees)
-                .HasForeignKey(bhw => bhw.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<BranchHasEmployee>()
-                .HasOne(bhw => bhw.Function)
-                .WithMany()
-                .HasForeignKey(bhw => bhw.FunctionName)
-                .HasPrincipalKey(f => f.FunctionName)
-                .IsRequired(false);
-
-            var branchHasEmployeeOne = new BranchHasEmployee
-            {
-                BranchId = 2,
-                EmployeeId = david.Id,
-                StartDate = david.StartDate,
-                FunctionName = "Manager"
-            };
-            var branchHasEmployeeTwo = new BranchHasEmployee
-            {
-                BranchId = 3,
-                EmployeeId = pasha.Id,
-                StartDate = pasha.StartDate,
-                FunctionName = "Manager"
-            };
-            var branchHasEmployeeThree = new BranchHasEmployee
-            {
-                BranchId = 4,
-                EmployeeId = darlon.Id,
-                StartDate = darlon.StartDate,
-                FunctionName = "Stocker"
-            };
-            var branchHasEmployeeFour = new BranchHasEmployee
-            {
-                BranchId = 3,
-                EmployeeId = sarah.Id,
-                StartDate = sarah.StartDate,
-                FunctionName = "Cashier"
-            };
-            var branchHasEmployeeFive = new BranchHasEmployee
-            {
-                BranchId = 1,
-                EmployeeId = anthony.Id,
-                StartDate = anthony.StartDate,
-                FunctionName = "Cashier"
-            };
-            var branchHasEmployeeSix = new BranchHasEmployee
-            {
-                BranchId = 2,
-                EmployeeId = douwe.Id,
-                StartDate = douwe.StartDate,
-                FunctionName = "Stocker"
-            };
-
-            modelBuilder.Entity<BranchHasEmployee>().HasData(
-                branchHasEmployeeOne,
-                branchHasEmployeeTwo,
-                branchHasEmployeeThree,
-                branchHasEmployeeFour,
-                branchHasEmployeeFive,
-                branchHasEmployeeSix
-            );
-
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.ManagerOfBranch)
+                .WithMany(mob => mob.Employees)
+                .HasForeignKey(e => e.ManagerOfBranchId);
         }
     }
 }
