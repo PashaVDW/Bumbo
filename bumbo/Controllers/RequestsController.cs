@@ -156,6 +156,24 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
+        public IActionResult AddEmployee()
+        {
+            // TODO remove
+            Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
+
+            // TODO remove
+            var request = GetTestRequest(testEmp);
+            var branch = _branchesRepository.GetBranch(request.BranchId);
+            branch.Employees = _branchesRepository.GetEmployeesFromBranch(branch);
+
+            var viewModel = new RequestsAddEmployeeViewModel()
+            {
+                Branch = branch,
+                Employee = testEmp
+            };
+            return View(viewModel);
+        }
+
         public IActionResult UpdateRequest(RequestsUpdateViewModel model)
         {
             Console.WriteLine(model.Employee == null);

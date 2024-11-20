@@ -1,0 +1,50 @@
+﻿@using bumbo.ViewModels
+@{
+
+}
+
+@model RequestsAddEmployeeViewModel
+
+<div class="px-20 pt-5 flex">
+    <a href="#" onclick="history.back()" class="mr-6">
+        <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </a>
+    <h1 class="text-3xl font-semibold">Beschikbare medewerker van ander filiaal toevoegen</h1>
+</div>
+
+<div class='my-10 gap-4 flex items-center justify-center'>
+    <input type='text' name='searchTerm' placeholder='Zoek naar beschikbare medewerkers' class='w-96 border-gray-300 py-2 px-6 rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400' />
+    <button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>
+</div>
+
+<div class="flex flex-col justify-center">
+    @for (int i = 0; i < 4; i++)
+    {
+        <div class="border-gray-400 my-2 w-4/5 rounded-lg border">
+            <div class="p-4 bg-gray-100 flex cursor-pointer items-center justify-between" onclick="toggleEmployees(this)">
+                <p class="text-sm font-bold">@Model.Branch.Employees.Count medewerker(s)</p>
+                <p class="text-sm">@Model.Branch.Name</p>
+                <p class="text-sm">@Model.Branch.Street @Model.Branch.HouseNumber</p>
+                <p class="text-sm">@Model.Branch.CountryName</p>
+            </div>
+            <div class="bg-white hidden">
+                @for (int j = 0; j < 3; j++)
+                {
+                    <div class="p-3 flex items-center justify-between border-t">
+                        <p class="text-sm">@Model.Employee.FirstName @Model.Employee.MiddleName @Model.Employee.LastName</p>
+                        <button class="px-4 py-2 bg-blue-500 text-white rounded">Kiezen</button>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function toggleEmployees(header) {
+        const content = header.nextElementSibling;
+        content.classList.toggle('hidden'); // Toggle de verborgen werknemerslijst
+    }
+</script>
