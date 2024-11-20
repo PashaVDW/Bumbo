@@ -106,7 +106,7 @@ namespace bumbo.Data
                 new Country { Name = "Belgium" },
                 new Country { Name = "Germany" }
             );
-
+            
             modelBuilder.Entity<Branch>().HasData(
                 new Branch
                 {
@@ -115,7 +115,9 @@ namespace bumbo.Data
                     HouseNumber = "10",
                     Name = "Amsterdam Filiaal",
                     Street = "Damrak",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(9, 0, 0),
+                    ClosingTime = new TimeOnly(18, 0, 0)
                 },
                 new Branch
                 {
@@ -124,7 +126,9 @@ namespace bumbo.Data
                     HouseNumber = "20",
                     Name = "Brussels Filiaal",
                     Street = "Grote Markt",
-                    CountryName = "Belgium"
+                    CountryName = "Belgium",
+                    OpeningTime = new TimeOnly(8, 0, 0),
+                    ClosingTime = new TimeOnly(17, 0, 0)
                 },
                 new Branch
                 {
@@ -133,7 +137,9 @@ namespace bumbo.Data
                     HouseNumber = "2",
                     Name = "Alkmaar Filiaal",
                     Street = "Paardenmarkt",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(9, 0, 0),
+                    ClosingTime = new TimeOnly(21, 0, 0)
                 },
                 new Branch
                 {
@@ -142,7 +148,9 @@ namespace bumbo.Data
                     HouseNumber = "15",
                     Name = "Rotterdam Filiaal",
                     Street = "Botersloot",
-                    CountryName = "Netherlands"
+                    CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(9, 0, 0),
+                    ClosingTime = new TimeOnly(17, 0, 0)
                 }
             );
 
@@ -365,7 +373,7 @@ namespace bumbo.Data
             // Add employees to the model
 
             modelBuilder.Entity<Employee>().HasData(john, jane, darlon, pasha, sarah, david, anthony, douwe);
-            
+
             modelBuilder.Entity<Days>().HasData(
                 new Days()
                 {
@@ -398,27 +406,32 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Template>().HasData(
-                new Template {
+                new Template
+                {
                     Id = 1,
                     Name = "Basic Package",
                     BranchBranchId = 1
                 },
-                new Template {
+                new Template
+                {
                     Id = 2,
                     Name = "Standard Package",
                     BranchBranchId = 1
                 },
-                new Template {
+                new Template
+                {
                     Id = 3,
                     Name = "Premium Package",
                     BranchBranchId = 2
                 },
-                new Template {
+                new Template
+                {
                     Id = 4,
                     Name = "Family Package",
                     BranchBranchId = 2
                 },
-                new Template {
+                new Template
+                {
                     Id = 5,
                     Name = "Weekly Special",
                     BranchBranchId = 1
@@ -467,6 +480,12 @@ namespace bumbo.Data
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Saturday", CustomerAmount = 771, ContainerAmount = 36 },
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Sunday", CustomerAmount = 885, ContainerAmount = 52 }
             );
+
+            modelBuilder.Entity<Prognosis_has_days_has_Department>()
+                .HasOne(phdd => phdd.Prognosis_Has_Days)
+                .WithMany(phd => phd.Prognosis_Has_Days_Has_Department)
+                .HasForeignKey(phdd => new { phdd.Days_name, phdd.PrognosisId })
+                .OnDelete(DeleteBehavior.Restrict);
 
             var branchHasEmployeeOne = new BranchHasEmployee
             {

@@ -3,93 +3,93 @@
 @{
     ViewData["Title"] = "Medewerker bewerken";
     Layout = "_Layout";
-    ViewData["HideLayoutElements"] = true;
+    // ViewData["HideLayoutElements"] = true;
 }
 
-<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
-    <div class="absolute top-9 -left-24">
-        <a href="/medewerkers">
+<div class="mt-10 p-6 relative mx-auto max-w-2xl rounded">
+    <div class="flex">
+        <a href="/medewerkers" style="margin-right: 25px">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </a>
+
+        <h1 class="text-3xl font-semibold">Medewerker bewerken</h1>
     </div>
 
-    <h1 class="text-3xl font-semibold mb-6">Medewerker bewerken</h1>
-
-    <form asp-action="Update" method="post" class="space-y-6">
+    <form asp-action="Update" id="update-medewerker" method="post" class="space-y-6">
         <input type="hidden" asp-for="Id" />
 
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
             <div>
-                <label asp-for="FirstName" class="block text-sm font-medium text-gray-700">Voornaam</label>
-                <input asp-for="FirstName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="FirstName" class="text-sm text-red-600"></span>
+                <label asp-for="FirstName" class="text-gray-700 block text-sm font-medium">Voornaam</label>
+                <input asp-for="FirstName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="FirstName" class="text-red-600 text-sm"></span>
             </div>
 
             <div>
-                <label asp-for="MiddleName" class="block text-sm font-medium text-gray-700">Tussenvoegsel</label>
-                <input asp-for="MiddleName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="MiddleName" class="text-sm text-red-600"></span>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-                <label asp-for="LastName" class="block text-sm font-medium text-gray-700">Achternaam</label>
-                <input asp-for="LastName" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="LastName" class="text-sm text-red-600"></span>
-            </div>
-
-            <div>
-                <label asp-for="BirthDate" class="block text-sm font-medium text-gray-700">Geboorte datum</label>
-                <input asp-for="BirthDate" type="date" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="BirthDate" class="text-sm text-red-600"></span>
+                <label asp-for="MiddleName" class="text-gray-700 block text-sm font-medium">Tussenvoegsel</label>
+                <input asp-for="MiddleName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="MiddleName" class="text-red-600 text-sm"></span>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
             <div>
-                <label asp-for="PostalCode" class="block text-sm font-medium text-gray-700">Postcode</label>
-                <input asp-for="PostalCode" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="PostalCode" class="text-sm text-red-600"></span>
+                <label asp-for="LastName" class="text-gray-700 block text-sm font-medium">Achternaam</label>
+                <input asp-for="LastName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="LastName" class="text-red-600 text-sm"></span>
             </div>
 
             <div>
-                <label asp-for="HouseNumber" class="block text-sm font-medium text-gray-700">Huisnummer</label>
-                <input asp-for="HouseNumber" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="HouseNumber" class="text-sm text-red-600"></span>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-                <label asp-for="Email" class="block text-sm font-medium text-gray-700">E-mailadres</label>
-                <input asp-for="Email" type="email" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="Email" class="text-sm text-red-600"></span>
-            </div>
-
-            <div>
-                <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700">Telefoonnummer</label>
-                <input asp-for="PhoneNumber" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="PhoneNumber" class="text-sm text-red-600"></span>
+                <label asp-for="BirthDate" class="text-gray-700 block text-sm font-medium">Geboorte datum</label>
+                <input asp-for="BirthDate" type="date" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="BirthDate" class="text-red-600 text-sm"></span>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
             <div>
-                <label asp-for="BID" class="block text-sm font-medium text-gray-700"></label>
-                <input asp-for="BID" placeholder="123456789" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                <span asp-validation-for="BID" class="text-sm text-red-600"></span>
+                <label asp-for="PostalCode" class="text-gray-700 block text-sm font-medium">Postcode</label>
+                <input asp-for="PostalCode" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="PostalCode" class="text-red-600 text-sm"></span>
+            </div>
+
+            <div>
+                <label asp-for="HouseNumber" class="text-gray-700 block text-sm font-medium">Huisnummer</label>
+                <input asp-for="HouseNumber" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="HouseNumber" class="text-red-600 text-sm"></span>
+            </div>
+        </div>
+
+        <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
+            <div>
+                <label asp-for="Email" class="text-gray-700 block text-sm font-medium">E-mailadres</label>
+                <input asp-for="Email" type="email" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
+            </div>
+
+            <div>
+                <label asp-for="PhoneNumber" class="text-gray-700 block text-sm font-medium">Telefoonnummer</label>
+                <input asp-for="PhoneNumber" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="PhoneNumber" class="text-red-600 text-sm"></span>
+            </div>
+        </div>
+
+        <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
+            <div>
+                <label asp-for="BID" class="text-gray-700 block text-sm font-medium"></label>
+                <input asp-for="BID" placeholder="123456789" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <span asp-validation-for="BID" class="text-red-600 text-sm"></span>
             </div>
             @if (Model.UserManagerOfBranchId != null && Model.BranchAssignments.Any(b => b.BranchId == Model.UserManagerOfBranchId))
             {
                 <div>
-                    <label asp-for="SelectedFunction" class="block text-sm font-medium text-gray-700">Functie</label>
-                    <select asp-for="SelectedFunction" asp-items="Model.Functions" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    <label asp-for="SelectedFunction" class="text-gray-700 block text-sm font-medium">Functie</label>
+                    <select asp-for="SelectedFunction" asp-items="Model.Functions" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight">
                         <option value="">None</option>
                     </select>
-                    <span asp-validation-for="SelectedFunction" class="text-sm text-red-600"></span>
+                    <span asp-validation-for="SelectedFunction" class="text-red-600 text-sm"></span>
                 </div>
             }
 
@@ -97,23 +97,20 @@
 
         @if (Model.IsSystemManager)
         {
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
                 <div>
-                    <label asp-for="IsSystemManager" class="block text-sm font-medium text-gray-700">Systeembeheerder</label>
-                    <input asp-for="IsSystemManager" type="checkbox" class="mt-1 block shadow-sm sm:text-sm border-gray-300 rounded-md" />
-                    <span asp-validation-for="IsSystemManager" class="text-sm text-red-600"></span>
+                    <label asp-for="IsSystemManager" class="text-gray-700 block text-sm font-medium">Systeembeheerder</label>
+                    <input asp-for="IsSystemManager" type="checkbox" class="mt-1 border-gray-300 block rounded-md shadow-sm sm:text-sm" />
+                    <span asp-validation-for="IsSystemManager" class="text-red-600 text-sm"></span>
                 </div>
             </div>
         }
-
-        <div class="flex justify-end mt-6">
-            <default-button button-text="Opslaan" button-type="primary" typeof="submit"></default-button>
-        </div>
     </form>
 
-    <button type="button" class="text-sm text-red-500 underline hover:text-red-700 mt-2" style="background: none; border: none; padding: 0; cursor: pointer;" onclick="document.getElementById('deleteEmployeeModal').classList.remove('hidden')">
-        Medewerker verwijderen
-    </button>
+    <div class="mt-6 flex justify-end">
+        <default-button button-text="Medewerker verwijderen" button-type="delete" onclick="document.getElementById('deleteEmployeeModal').classList.remove('hidden')" style="margin-right: 10px"></default-button>
+        <default-button button-text="Opslaan" button-type="primary" onclick="document.getElementById('update-medewerker').submit()"></default-button>
+    </div>
 
     <custom-modal modal-id="deleteEmployeeModal" body-text="Weet je zeker dat je deze medewerker wilt verwijderen?">
         <form asp-action="DeleteEmployee" method="post" class="inline">
@@ -125,13 +122,13 @@
         <default-button button-text="Nee" button-type="secondary" on-click="document.getElementById('deleteEmployeeModal').classList.add('hidden')"></default-button>
     </custom-modal>
 
-    <h2 class="text-xl font-semibold mt-12 mb-4">Tijwijzingen filialen</h2>
+    <h2 class="mt-12 mb-4 text-xl font-semibold">Tijwijzingen filialen</h2>
     @if (Model.BranchAssignments != null && Model.BranchAssignments.Count > 0)
     {
         <div class="overflow-x-auto">
             <table class="min-w-full table-auto border-collapse">
                 <thead>
-                    <tr class="text-left text-gray-600 font-bold">
+                    <tr class="text-gray-600 text-left font-bold">
                         <th class="py-2 px-4">Filiaal</th>
                         <th class="py-2 px-4">Functie</th>
                         <th class="py-2 px-4">Startdatum</th>
@@ -154,13 +151,13 @@
                                 }
                             </td>
                             <td class="py-2 px-4">@assignment.StartDate.ToString("dd-MM-yyyy")</td>
-                            <td class="py-2 px-4">
+                            <td class="py-2 px-4 flex justify-end">
                                 @if (Model.UserManagerOfBranchId == assignment.BranchId)
                                 {
-                                    <form asp-action="RemoveBranchAssignment" method="post">
+                                    <form asp-action="RemoveBranchAssignment" method="post" id="RemoveBranchAssignment">
                                         <input type="hidden" name="EmployeeId" value="@Model.Id" />
                                         <input type="hidden" name="BranchId" value="@assignment.BranchId" />
-                                        <button type="submit" class="text-red-500 hover:text-red-700">Verwijderen</button>
+                                        <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('RemoveBranchAssignment').submit();"></default-button>
                                     </form>
                                 }
                             </td>

@@ -6,9 +6,13 @@
 @model ReadBranchViewModel
 
 <div class="ml-32 mt-16">
-    <div>
-        <h1 class="text-4xl"><strong><a asp-area="" asp-controller="Branches" asp-action="BranchesView"> < </a>@Model.Name</strong></h1>
-        <p class="ml-12">Bumbo > @Model.Name</p>
+    <div class="mb-6 flex">
+        <a href="/filialen" style="margin-right: 25px">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+        <h1 class="text-3xl font-semibold">@Model.Name</h1>
     </div>
 
     <div class="h-72 mb-4 flex justify-between">
@@ -20,6 +24,10 @@
             <div class="mt-4 flex flex-row justify-between">
                 <p class="font-bold">Aantal medewerkers:</p>
                 <p class="font-bold">@Model.Employees.Count</p>
+            </div>
+            <div class="mt-4 flex flex-row justify-between">
+                <p class="font-bold">Openingstijd:</p>
+                <p class="font-bold">@Model.OpeningTime - @Model.ClosingTime</p>
             </div>
             <div class="mt-4 flex flex-row justify-between">
                 <p class="font-bold">Postcode:</p>

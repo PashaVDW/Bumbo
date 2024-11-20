@@ -31,6 +31,13 @@ public class NormsController : Controller
 
     public async Task<IActionResult> Index(string searchTerm, int page = 1)
     {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null || user.ManagerOfBranchId == null)
+        {
+            return RedirectToAction("AccessDenied", "Home");
+        }
+
         List<ReadNormViewModel> list = new List<ReadNormViewModel>();
 
         List<NormOverviewDTO> norms = await _normsRepository.GetOverview();
@@ -78,6 +85,11 @@ public class NormsController : Controller
     {
         var user = await _userManager.GetUserAsync(User);
 
+        if (user == null || user.ManagerOfBranchId == null)
+        {
+            return RedirectToAction("AccessDenied", "Home");
+        }
+
         AddNormViewModel viewModel = new AddNormViewModel();
 
         if (lastWeek)
@@ -114,6 +126,7 @@ public class NormsController : Controller
         }
         return View(viewModel);
     }
+
     private async Task<AddNormViewModel> GetLastWeek(int branchId)
     {
         int week = LastWeek();
@@ -157,6 +170,11 @@ public class NormsController : Controller
     {
         var user = await _userManager.GetUserAsync(User);
 
+        if (user == null || user.ManagerOfBranchId == null)
+        {
+            return RedirectToAction("AccessDenied", "Home");
+        }
+
         Norm firstNorm = await _normsRepository.GetNorm(selectedNormId);
 
         List<Norm> selectedNorms = await _normsRepository.GetSelectedNorms(user.ManagerOfBranchId, firstNorm.year, firstNorm.week);
@@ -184,6 +202,11 @@ public class NormsController : Controller
     public async Task<IActionResult> Insert(AddNormViewModel viewModel)
     {
         var user = await _userManager.GetUserAsync(User);
+
+        if (user == null || user.ManagerOfBranchId == null)
+        {
+            return RedirectToAction("AccessDenied", "Home");
+        }
 
         try
         {
@@ -268,8 +291,16 @@ public class NormsController : Controller
             return View("Error");
         }
     }
+
     public async Task<IActionResult> InsertUpdate(UpdateNormViewModel viewModel)
     {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null || user.ManagerOfBranchId == null)
+        {
+            return RedirectToAction("AccessDenied", "Home");
+        }
+
         try
         {
             if (viewModel.UnloadColis < 0 ||viewModel.FillShelves < 0 || viewModel.Cashier < 0
@@ -285,8 +316,6 @@ public class NormsController : Controller
             }
             else
             {
-                var user = await _userManager.GetUserAsync(User);
-
                 List<Norm> norms = await _normsRepository.GetSelectedNorms(user.ManagerOfBranchId, viewModel.Year, viewModel.Week);
 
                 foreach (Norm norm in norms)

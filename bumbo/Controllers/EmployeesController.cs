@@ -25,16 +25,23 @@ namespace bumbo.Controllers
 
         public async Task<IActionResult> Index(string searchTerm, int page = 1, int pageSize = 25)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || (user.ManagerOfBranchId == null && !user.IsSystemManager))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             var headers = new List<string> { "Naam", "Achternaam", "Email", "Telefoonnummer",  };
             var tableBuilder = new TableHtmlBuilder<Employee>();
-            var htmlTable = tableBuilder.GenerateTable("", headers, _employeeRepository.GetAllEmployees(), "/medewerkers/aanmaken", item =>
+            var htmlTable = tableBuilder.GenerateTable("Medewerkers", headers, _employeeRepository.GetAllEmployees(), "/medewerkers/aanmaken", item =>
             {
                 return $@"
                     <td class='py-2 px-4'>{item.FirstName}</td>
                     <td class='py-2 px-4'>{item.LastName}</td>
                     <td class='py-2 px-4'>{item.Email}</td>
                     <td class='py-2 px-4'>{item.PhoneNumber}</td>
-                    <td class='py-2 px-4'>
+                    <td class='py-2 px-4 text-right'>
                     <button onclick = ""window.location.href='/medewerkers/bewerken?medewerkerId={item.Id}'"">✏️</button> 
                     <td>";
             }, searchTerm, page);
