@@ -126,7 +126,12 @@ namespace bumbo.Controllers
 
         public IActionResult UpdateRequest()
         {
-            return View("Update");
+            return Redirect("Index");
+        }
+
+        public IActionResult CreateRequest()
+        {
+            return Redirect("Index");
         }
 
         //TODO remove

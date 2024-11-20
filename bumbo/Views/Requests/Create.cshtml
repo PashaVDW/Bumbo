@@ -11,7 +11,7 @@
         </a>
         <h1 class="text-3xl font-semibold">Hulpverzoek toevoegen</h1>
     </div>
-    <form asp-action="UpdateRequest" class="mx-12">
+    <form asp-action="CreateRequest" class="mx-12">
         <div class="mb-6">
             <label class="font-semibold">Datum nodig</label>
             <input type="date" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
@@ -46,7 +46,7 @@
             <textarea class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 h-36 w-full appearance-none rounded border leading-tight"></textarea>
         </div>
         <div class="mt-6 flex justify-end">
-            <default-button button-text="Bewerken" button-type="primary"></default-button>
+            <default-button button-text="Toevoegen" button-type="primary"></default-button>
         </div>
     </form>
 
