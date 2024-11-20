@@ -13,6 +13,7 @@ namespace bumbo.Data
         {
         }
 
+        public DbSet<Availability> Availability { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Template> Templates { get; set; }
@@ -519,6 +520,14 @@ namespace bumbo.Data
 
             //Relations
             // Relations
+            modelBuilder.Entity<Availability>()
+                .HasKey(a => new { a.Date, a.EmployeeId });
+
+            modelBuilder.Entity<Availability>()
+                .HasOne(a => a.Employee)
+                .WithMany(e => e.Availabilitys)
+                .HasForeignKey(a => a.EmployeeId);
+
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
 

@@ -1,4 +1,5 @@
 ﻿using bumbo.Models;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -34,4 +35,5 @@ public class Employee : IdentityUser
     public Branch? ManagerOfBranch { get; set; }  // Nullable ManagerOfBranch
 
     public ICollection<BranchHasEmployee> BranchEmployees { get; set; }
+    public virtual ICollection<Availability> Availabilitys { get; set; }
 }
