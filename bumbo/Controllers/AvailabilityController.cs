@@ -24,12 +24,27 @@ namespace bumbo.Controllers
                 yearNumber = today.Year;
             }
 
+            if (weekNumber < 1)
+            {
+                yearNumber--;
+                weekNumber = ISOWeek.GetWeeksInYear(yearNumber.Value);
+            }
+            else if (weekNumber > ISOWeek.GetWeeksInYear(yearNumber.Value))
+            {
+                yearNumber++;
+                weekNumber = 1;
+            }
+
             DateTime startDate = FirstDateOfWeek((int)yearNumber, (int)weekNumber);
             DateTime endDate = LastDateOfWeek((int)yearNumber, (int)weekNumber);
 
             List<Availability> availabilities = availabilityRepository.GetAvailabilitiesBetweenDates(startDate, endDate);
 
             AvailabilityWeekView weekView = new AvailabilityWeekView();
+
+            weekView.Year = (int)yearNumber;
+            weekView.Month = startDate.ToString("MMMM", new CultureInfo("nl-NL"));
+            weekView.Week = (int)weekNumber;
 
             for (int i = 0; i < 7; i++)
             {
@@ -47,7 +62,7 @@ namespace bumbo.Controllers
                 });
             }
 
-            return View();
+            return View(weekView);
         }
 
         public static DateTime LastDateOfWeek(int year, int weekOfYear)
