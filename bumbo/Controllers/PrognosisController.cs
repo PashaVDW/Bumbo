@@ -15,12 +15,12 @@ namespace bumbo.Controllers
     public class PrognosisController : Controller
     {
 
-        List<Template> templates = new List<Template>();
         private readonly IPrognosisRepository _prognosisRepository;
         private readonly IPrognosisHasDaysRepository _prognosisHasDaysRepository;
         private readonly IPrognosisHasDaysHasDepartments _prognosisHasDaysHasDepartments;
         private readonly INormsRepository _normsRepository;
         private readonly IDaysRepositorySQL _daysRepository;
+        private readonly ITemplatesRepository _templatesRepository;
         private readonly DateHelper dateHelper;
         private readonly int _currentYear;
         private readonly int _currentWeek;
@@ -29,8 +29,10 @@ namespace bumbo.Controllers
             IPrognosisHasDaysRepository prognosisHasDaysRepository,
             INormsRepository normsRepository,
             IDaysRepositorySQL daysRepository,
-            IPrognosisHasDaysHasDepartments prognosisHasDaysHasDepartments)
+            IPrognosisHasDaysHasDepartments prognosisHasDaysHasDepartments,
+            ITemplatesRepository templatesRepository)
         {
+            _templatesRepository = templatesRepository;
             _prognosisRepository = prognosisRepository;
             _prognosisHasDaysRepository = prognosisHasDaysRepository;
             _normsRepository = normsRepository;
@@ -141,13 +143,13 @@ namespace bumbo.Controllers
                 days = prognosis.Prognosis_Has_Days
                 .OrderBy(d => d.Days_name switch
                 {
-                    "Maandag" => 1,
-                    "Dinsdag" => 2,
-                    "Woensdag" => 3,
-                    "Donderdag" => 4,
-                    "Vrijdag" => 5,
-                    "Zaterdag" => 6,
-                    "Zondag" => 7,
+                    "Monday" => 1,
+                    "Tuesday" => 2,
+                    "Wednesday" => 3,
+                    "Thursday" => 4,
+                    "Friday" => 5,
+                    "Saturday" => 6,
+                    "Sunday" => 7,
                     _ => 8
                 })
                 .Select((day, index) =>
@@ -248,19 +250,34 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(int? id)
+        public async Task<ActionResult> Create(int? id, int? templateId)
         {
             var viewModel = new PrognosisCreateViewModel
             {
                 Days = _daysRepository.getAllDays(),
                 CustomerAmount = new List<int>(),
-                PackagesAmount = new List<int>(), 
+                PackagesAmount = new List<int>(),
                 WeekNr = _currentWeek,
-                Year = _currentYear
+                Year = _currentYear,
+                TemplateName = string.Empty // Default leeg
             };
+
+            if (templateId.HasValue)
+            {
+                var template = await _templatesRepository.GetByIdAsync(templateId.Value);
+                if (template != null && template.TemplateHasDays != null)
+                {
+                    viewModel.Days = template.TemplateHasDays.Select(td => td.Days).ToList();
+                    viewModel.CustomerAmount = template.TemplateHasDays.Select(td => td.CustomerAmount).ToList();
+                    viewModel.PackagesAmount = template.TemplateHasDays.Select(td => td.ContainerAmount).ToList();
+                    viewModel.TemplateName = template.Name; // Vul de template-naam in het ViewModel
+                }
+            }
 
             return View(viewModel);
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -411,23 +428,9 @@ namespace bumbo.Controllers
 
         public ActionResult AddTemplate(string searchTerm, int page = 1)
         {
-            var headers = new List<string> { "Naam" };
+            List<Template> templates =  _templatesRepository.GetAllTemplates();
 
-            var tableBuilder = new TableHtmlBuilder<Template>();
-            var htmlTable = tableBuilder.GenerateTable("", headers, templates, "", item =>
-            {
-                return $@"
-                    <td class='py-2 px-4'>{item.Name}</td>
-                    <td class='py-2 px-4 text-right'>
-                        <button class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl' 
-                                onclick=""window.location.href='../prognosis/Create?id={item.Id}'"">
-                            Kies
-                        </button>
-                    </td>";
-            }, searchTerm, page);
-
-            ViewBag.HtmlTable = htmlTable;
-            return View();
+            return View(templates);
         }
     }
 
