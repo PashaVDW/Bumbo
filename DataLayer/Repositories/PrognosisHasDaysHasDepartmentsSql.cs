@@ -23,9 +23,9 @@ namespace DataLayer.Repositories
           int prognosisId,
           Dictionary<Days, int> cassiereHours,
           Dictionary<Days, int> versWorkersHours,
-          Dictionary<Days, int> colliUitLadenMinutes,
-          Dictionary<Days, int> stockingMinutes,
-          Dictionary<Days, int> spiegelenMinutes)
+          Dictionary<Days, int> stockingHours,
+          Dictionary<Days, int> cassieresNeeded,
+          Dictionary<Days, int> workersNeeded)
         {
             foreach (Days day in cassiereHours.Keys)
             {
@@ -38,7 +38,7 @@ namespace DataLayer.Repositories
                         PrognosisId = prognosisId,
                         Days_name = day.Name,
                         DepartmentName = "Kassa",
-                        AmountWorkersNeeded = cassiereHours[day] / divisor,
+                        AmountWorkersNeeded = cassieresNeeded[day],
                         HoursWorkNeeded = cassiereHours[day]
                     };
                     _context.prognosis_Has_Days_Has_Departments.Add(cassiereCalculation);
@@ -51,49 +51,23 @@ namespace DataLayer.Repositories
                         PrognosisId = prognosisId,
                         Days_name = day.Name,
                         DepartmentName = "Vers",
-                        AmountWorkersNeeded = versWorkersHours[day] / divisor,
+                        AmountWorkersNeeded = workersNeeded[day],
                         HoursWorkNeeded = versWorkersHours[day]
                     };
                     _context.prognosis_Has_Days_Has_Departments.Add(versWorkersCalculation);
-                }
+                }  
 
-                if (colliUitLadenMinutes.ContainsKey(day))
-                {
-                    var colliCalculation = new Prognosis_has_days_has_Department
-                    {
-                        PrognosisId = prognosisId,
-                        Days_name = day.Name,
-                        DepartmentName = "Coli uitladen",
-                        AmountWorkersNeeded = colliUitLadenMinutes[day] / divisor,
-                        HoursWorkNeeded = colliUitLadenMinutes[day]
-                    };
-                    _context.prognosis_Has_Days_Has_Departments.Add(colliCalculation);
-                }
-
-                if (stockingMinutes.ContainsKey(day))
+                if (stockingHours.ContainsKey(day))
                 {
                     var stockingCalculation = new Prognosis_has_days_has_Department
                     {
                         PrognosisId = prognosisId,
                         Days_name = day.Name,
                         DepartmentName = "Vakkenvullen",
-                        AmountWorkersNeeded = stockingMinutes[day] / divisor,
-                        HoursWorkNeeded = stockingMinutes[day]
+                        AmountWorkersNeeded = stockingHours[day] / divisor,
+                        HoursWorkNeeded = stockingHours[day]
                     };
                     _context.prognosis_Has_Days_Has_Departments.Add(stockingCalculation);
-                }
-
-                if (spiegelenMinutes.ContainsKey(day))
-                {
-                    var spiegelenCalculation = new Prognosis_has_days_has_Department
-                    {
-                        PrognosisId = prognosisId,
-                        Days_name = day.Name,
-                        DepartmentName = "Spiegelen",
-                        AmountWorkersNeeded = spiegelenMinutes[day] / divisor,
-                        HoursWorkNeeded = spiegelenMinutes[day]
-                    };
-                    _context.prognosis_Has_Days_Has_Departments.Add(spiegelenCalculation);
                 }
             }
 
