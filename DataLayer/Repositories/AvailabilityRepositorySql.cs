@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Repositories
 {
-    internal class AvailabilityRepositorySql : IAvailabilityRepository
+    public class AvailabilityRepositorySql : IAvailabilityRepository
     {
         private readonly BumboDBContext _context;
 

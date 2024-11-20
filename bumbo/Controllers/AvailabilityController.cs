@@ -29,7 +29,6 @@ namespace bumbo.Controllers
 
             List<Availability> availabilities = availabilityRepository.GetAvailabilitiesBetweenDates(startDate, endDate);
 
-            //leeg view mod
             AvailabilityWeekView weekView = new AvailabilityWeekView();
 
             for (int i = 0; i < 7; i++)

@@ -1,0 +1,21 @@
+﻿@model AvailabilityWeekView
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Dag</th>
+            <th>Datum</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var day in Model.Days)
+        {
+            <tr>
+                <td>@day.DayName</td>
+                <td>@day.Date.ToString("dd-MM-yyyy")</td>
+                <td>@day.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
