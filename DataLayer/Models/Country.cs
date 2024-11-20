@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DataLayer.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace bumbo.Models
 {

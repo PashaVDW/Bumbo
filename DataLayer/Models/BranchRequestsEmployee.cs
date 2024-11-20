@@ -1,8 +1,11 @@
 ﻿using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace bumbo.Models
 {
+    [PrimaryKey(nameof(BranchId), nameof(EmployeeId), nameof(RequestToBranchId))]
     public class BranchRequestsEmployee
     {
         [Required]
@@ -13,7 +16,7 @@ namespace bumbo.Models
         public Employee Employee { get; set; }
         [Required]
         public int RequestToBranchId { get; set; }
-        [Required]
+        [Required, StringLength(100)]
         public string RequestStatusName { get; set; }
         public RequestStatus RequestStatus { get; set; }
         [StringLength(300)]

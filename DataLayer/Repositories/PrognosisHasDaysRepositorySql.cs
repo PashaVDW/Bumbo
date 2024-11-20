@@ -15,7 +15,7 @@ namespace DataLayer.Repositories
 
         public List<PrognosisHasDays> GetPrognosis_has_days()
         {
-            return _context.Prognosis_Has_Days.ToList();
+            return _context.PrognosisHasDays.ToList();
         }
     }
 }

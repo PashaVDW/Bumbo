@@ -13,18 +13,26 @@ namespace bumbo.Data
         {
         }
 
+        public DbSet<Availability> Availability { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
+        public DbSet<BranchRequestsEmployee> BranchRequestsEmployee { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Days> Days { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeHasDepartment> EmployeeHasDepartment { get; set; }
+        public DbSet<Function> Functions { get; set; }
+        public DbSet<LabourRules> LabourRules { get; set; }
+        public DbSet<Norm> Norms { get; set; }
+        public DbSet<Prognosis> Prognoses { get; set; }
+        public DbSet<PrognosisHasDays> PrognosisHasDays { get; set; }
+        public DbSet<PrognosisHasDaysHasDepartment> PrognosisHasDaysHasDepartment { get; set; }
+        public DbSet<RequestStatus> RequestStatus { get; set; }
+        public DbSet<Schedule> Schedule { get; set; }
+        public DbSet<SchoolSchedule> SchoolSchedule { get; set; }
+        public DbSet<SwitchRequest> SwitchRequest { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<TemplateHasDays> TemplateHasDays { get; set; }
-        public DbSet<Days> Days { get; set; }
-        public DbSet<Prognosis> Prognoses { get; set; }
-        public DbSet<PrognosisHasDays> Prognosis_Has_Days { get; set; }
-        public DbSet<Norm> Norms { get; set; }
-        public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
-        public DbSet<Function> Functions { get; set; }
-        
-        public DbSet<Employee> Employees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -154,21 +162,21 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<PrognosisHasDays>().HasData(
-                new PrognosisHasDays { Days_name = "Maandag", PrognosisId = "1", CustomerAmount = 100, PackagesAmount = 50 },
-                new PrognosisHasDays { Days_name = "Dinsdag", PrognosisId = "1", CustomerAmount = 120, PackagesAmount = 60 },
-                new PrognosisHasDays { Days_name = "Woensdag", PrognosisId = "1", CustomerAmount = 130, PackagesAmount = 55 },
-                new PrognosisHasDays { Days_name = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
-                new PrognosisHasDays { Days_name = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
-                new PrognosisHasDays { Days_name = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
-                new PrognosisHasDays { Days_name = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 },
+                new PrognosisHasDays { DayName = "Maandag", PrognosisId = "1", CustomerAmount = 100, PackagesAmount = 50 },
+                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = "1", CustomerAmount = 120, PackagesAmount = 60 },
+                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = "1", CustomerAmount = 130, PackagesAmount = 55 },
+                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
+                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
+                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
+                new PrognosisHasDays { DayName = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 },
 
-                new PrognosisHasDays { Days_name = "Maandag", PrognosisId = "2", CustomerAmount = 90, PackagesAmount = 40 },
-                new PrognosisHasDays { Days_name = "Dinsdag", PrognosisId = "2", CustomerAmount = 115, PackagesAmount = 55 },
-                new PrognosisHasDays { Days_name = "Woensdag", PrognosisId = "2", CustomerAmount = 125, PackagesAmount = 50 },
-                new PrognosisHasDays { Days_name = "Donderdag", PrognosisId = "2", CustomerAmount = 105, PackagesAmount = 42 },
-                new PrognosisHasDays { Days_name = "Vrijdag", PrognosisId = "2", CustomerAmount = 140, PackagesAmount = 68 },
-                new PrognosisHasDays { Days_name = "Zaterdag", PrognosisId = "2", CustomerAmount = 150, PackagesAmount = 75 },
-                new PrognosisHasDays { Days_name = "Zondag", PrognosisId = "2", CustomerAmount = 130, PackagesAmount = 60 }
+                new PrognosisHasDays { DayName = "Maandag", PrognosisId = "2", CustomerAmount = 90, PackagesAmount = 40 },
+                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = "2", CustomerAmount = 115, PackagesAmount = 55 },
+                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = "2", CustomerAmount = 125, PackagesAmount = 50 },
+                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = "2", CustomerAmount = 105, PackagesAmount = 42 },
+                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = "2", CustomerAmount = 140, PackagesAmount = 68 },
+                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = "2", CustomerAmount = 150, PackagesAmount = 75 },
+                new PrognosisHasDays { DayName = "Zondag", PrognosisId = "2", CustomerAmount = 130, PackagesAmount = 60 }
             );
 
             modelBuilder.Entity<Function>().HasData(
@@ -459,29 +467,6 @@ namespace bumbo.Data
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Saturday", CustomerAmount = 771, ContainerAmount = 36 },
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Sunday", CustomerAmount = 885, ContainerAmount = 52 }
             );
-            //Relations
-            // Relations
-            modelBuilder.Entity<BranchHasEmployee>()
-                .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
-
-            modelBuilder.Entity<BranchHasEmployee>()
-                .HasOne(bhw => bhw.Branch)
-                .WithMany(b => b.BranchHasEmployees)
-                .HasForeignKey(bhw => bhw.BranchId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<BranchHasEmployee>()
-                .HasOne(bhw => bhw.Employee)
-                .WithMany(e => e.BranchEmployees)
-                .HasForeignKey(bhw => bhw.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<BranchHasEmployee>()
-                .HasOne(bhw => bhw.Function)
-                .WithMany()
-                .HasForeignKey(bhw => bhw.FunctionName)
-                .HasPrincipalKey(f => f.FunctionName)
-                .IsRequired(false);
 
             var branchHasEmployeeOne = new BranchHasEmployee
             {
@@ -534,6 +519,141 @@ namespace bumbo.Data
                 branchHasEmployeeFive,
                 branchHasEmployeeSix
             );
+            // Relations
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Branch)
+                .WithMany(b => b.BranchHasEmployees)
+                .HasForeignKey(bhw => bhw.BranchId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Employee)
+                .WithMany(e => e.BranchEmployees)
+                .HasForeignKey(bhw => bhw.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<BranchHasEmployee>()
+                .HasOne(bhw => bhw.Function)
+                .WithMany()
+                .HasForeignKey(bhw => bhw.FunctionName)
+                .HasPrincipalKey(f => f.FunctionName)
+                .IsRequired(false);
+
+            modelBuilder.Entity<EmployeeHasDepartment>()
+                .HasKey(ehd => new { ehd.DepartmentName, ehd.EmployeeId });
+
+            modelBuilder.Entity<EmployeeHasDepartment>()
+                .HasOne(ehd => ehd.Department)
+                .WithMany(d => d.EmployeeHasDepartment)
+                .HasForeignKey(ehd => ehd.DepartmentName);
+
+            modelBuilder.Entity<EmployeeHasDepartment>()
+                .HasOne(ehd => ehd.Employee)
+                .WithMany(e => e.EmployeeHasDepartment)
+                .HasForeignKey(ehd => ehd.EmployeeId);
+
+            modelBuilder.Entity<Availability>()
+                .HasKey(a => new { a.Date, a.EmployeeId });
+
+            modelBuilder.Entity<Availability>()
+                .HasOne(a => a.Employee)
+                .WithMany(e => e.Availabilitys)
+                .HasForeignKey(a => a.EmployeeId);
+
+            modelBuilder.Entity<SchoolSchedule>()
+                .HasKey(ss => new { ss.Date, ss.EmployeeId });
+
+            modelBuilder.Entity<SchoolSchedule>()
+                .HasOne(ss => ss.Employee)
+                .WithMany(e => e.SchoolSchedules)
+                .HasForeignKey(ss => ss.EmployeeId);
+
+            modelBuilder.Entity<Schedule>()
+                .HasKey(s => new { s.Date, s.EmployeeId, s.BranchId, s.DepartmentName });
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Employee)
+                .WithMany(e => e.Schedules)
+                .HasForeignKey(s => s.EmployeeId);
+
+            modelBuilder.Entity<Schedule>()
+                .HasKey(s => new { s.EmployeeId, s.BranchId, s.Date });
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Department)
+                .WithMany(d => d.Schedules)
+                .HasForeignKey(s => s.DepartmentName);
+
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Branch)
+                .WithMany(b => b.Schedules)
+                .HasForeignKey(s => s.BranchId);
+
+            modelBuilder.Entity<PrognosisHasDaysHasDepartment>()
+                .HasKey(phdhd => new { phdhd.DepartmentName, phdhd.DayName, phdhd.PrognosisId });
+
+            modelBuilder.Entity<PrognosisHasDaysHasDepartment>()
+                .HasOne(phdhd => phdhd.Department)
+                .WithMany(dn => dn.PrognosisHasDaysHasDepartment)
+                .HasForeignKey(phdhd => phdhd.DepartmentName);
+
+            modelBuilder.Entity<PrognosisHasDaysHasDepartment>()
+                .HasOne(phdhd => phdhd.PrognosisHasDays)
+                .WithMany(phd => phd.PrognosisHasDaysHasDepartment)
+                .HasForeignKey(phdhd => new { phdhd.DayName, phdhd.PrognosisId } );
+
+            modelBuilder.Entity<LabourRules>()
+                .HasOne(lr => lr.Country)
+                .WithMany(c => c.LabourRules)
+                .HasForeignKey(lr => lr.CountryName);
+
+            modelBuilder.Entity<Norm>()
+                .HasOne(n => n.Branch)
+                .WithMany(b => b.Norm)
+                .HasForeignKey(n => n.branchId);
+
+            modelBuilder.Entity<LabourRules>()
+                .HasKey(lr => lr.CountryName);
+
+            modelBuilder.Entity<SwitchRequest>()
+                .HasOne(sr => sr.Employee)
+                .WithMany(e => e.SwitchRequests)
+                .HasForeignKey(sr => sr.SendToEmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SwitchRequest>()
+                .HasOne(sr => sr.Schedule)
+                .WithMany(s => s.SwitchRequests)
+                .HasForeignKey(sr => new { sr.EmployeeId, sr.BranchId, sr.Date })
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BranchRequestsEmployee>()
+                .HasOne(bre => bre.Employee)
+                .WithMany(e => e.BranchRequestsEmployee)
+                .HasForeignKey(bre => bre.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BranchRequestsEmployee>()
+                .HasOne(bre => bre.Branch)
+                .WithMany(b => b.BranchRequestsEmployee)
+                .HasForeignKey(bre => bre.BranchId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BranchRequestsEmployee>()
+                .HasOne(bre => bre.Branch)
+                .WithMany(b => b.BranchRequestsEmployee)
+                .HasForeignKey(bre => bre.RequestToBranchId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BranchRequestsEmployee>()
+                .HasOne(bre => bre.RequestStatus)
+                .WithMany(rs => rs.BranchRequestsEmployee)
+                .HasForeignKey(bre => bre.RequestStatusName)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

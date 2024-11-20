@@ -1,22 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bumbo.Models
 {
-    [PrimaryKey("Days_name", "PrognosisId")]
+    [PrimaryKey(nameof(DayName), nameof(PrognosisId))]
     public class PrognosisHasDays
     {
         [StringLength(10)]
-        public string Days_name { get; set; }
+        public string DayName { get; set; }
 
-        [ForeignKey("Days_name")]
+        [ForeignKey(nameof(DayName))]
         public Days Days { get; set; }
 
         [StringLength(45)]
         public string PrognosisId { get; set; }
 
-        [ForeignKey("PrognosisId")]
+        [ForeignKey(nameof(PrognosisId))]
         public Prognosis Prognosis { get; set; }
 
         [Required]

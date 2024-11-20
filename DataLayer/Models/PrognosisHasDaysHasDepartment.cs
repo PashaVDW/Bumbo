@@ -13,7 +13,7 @@ namespace DataLayer.Models
         [Required, StringLength(50)]
         public string DepartmentName { get; set; }
         [Required, StringLength(10)]
-        public string dayName { get; set; }
+        public string DayName { get; set; }
         [Required, StringLength(45)]
         public string PrognosisId { get; set; }
         [Required]

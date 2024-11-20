@@ -1,6 +1,7 @@
 ﻿using bumbo.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using DataLayer.Models;
 
 public class Branch
 {
@@ -27,7 +28,9 @@ public class Branch
     [ForeignKey("CountryName")]
     public Country Country { get; set; }
     public ICollection<BranchHasEmployee> BranchHasEmployees { get; set; }
+    public ICollection<BranchRequestsEmployee> BranchRequestsEmployee { get; set; }
     public ICollection<Employee> Employees { get; set; }
+    public ICollection<Schedule> Schedules { get; set; }
     public virtual ICollection<Norm> Norm { get; set; }
 
 }
