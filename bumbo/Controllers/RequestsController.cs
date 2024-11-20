@@ -29,7 +29,7 @@ namespace bumbo.Controllers
             }
 
             // TODO remove
-            Employee testEmp = _branchesRepository.GetEmployeeById("289594c0-1d21-4276-b98c-3a7a9d18cb2b");
+            Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
 
             // TODO repo i.p.v. Testdata
             var requests = new List<Request>()
@@ -61,7 +61,7 @@ namespace bumbo.Controllers
             // Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
 
             // TODO remove
-            Employee testEmp = _branchesRepository.GetEmployeeById("289594c0-1d21-4276-b98c-3a7a9d18cb2b");
+            Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
 
             var request = new Request()
             {
