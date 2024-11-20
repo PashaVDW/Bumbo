@@ -39,13 +39,13 @@
             <div class="mr-5 flex w-1/2 flex-col">
                 <label asp-for="OpeningTime">Openingstijd</label>
                 <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="OpeningTime"
-                       title="Openingstijd moet een tijd zijn." type="time" />
+                       title="Openingstijd moet een tijd zijn." type="time" required />
                 <span asp-validation-for="OpeningTime" class="text-danger"></span>
             </div>
             <div class="flex w-1/2 flex-col">
                 <label asp-for="ClosingTime">Sluitingstijd</label>
                 <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="ClosingTime"
-                       title="Sluitingstijd moet een tijd zijn" type="time" />
+                       title="Sluitingstijd moet een tijd zijn" type="time" required />
                 <span asp-validation-for="ClosingTime" class="text-danger"></span>
             </div>
         </div>
