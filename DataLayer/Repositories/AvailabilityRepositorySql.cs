@@ -19,6 +19,16 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
+        public void AddAvailabilities(List<Availability> availabilities)
+        {
+            if (availabilities != null && availabilities.Any())
+            {
+                _context.Availability.AddRange(availabilities);
+                _context.SaveChanges();
+            }
+        }
+
+
         public List<Availability> GetAvailabilitiesBetweenDates(DateTime firsteDate, DateTime lastDate)
         {
             DateOnly firstDateOfWeek = DateOnly.FromDateTime(firsteDate);

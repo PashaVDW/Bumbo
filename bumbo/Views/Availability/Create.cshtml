@@ -1,0 +1,38 @@
+﻿@model AvailabilityInputViewModel
+
+<div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
+    <h1>Beschikbaarheid invoeren voor week @Model.Week - @Model.Year</h1>
+    <form asp-action="Create" method="post" class="space-y-4">
+        <input type="hidden" asp-for="Week" value="@Model.Week"/>
+        <input type="hidden" asp-for="Year" value="@Model.Year"/>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Dag</th>
+                    <th>Datum</th>
+                    <th>Starttijd</th>
+                    <th>Eindtijd</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Days.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.Days[i].DayName</td>
+                        <td>@Model.Days[i].Date.ToString("dd-MM-yyyy")</td>
+                        <input type="hidden" asp-for="Days[i].DayName" value="@Model.Days[i].DayName"/>
+                        <input type="hidden" asp-for="Days[i].Date" value="@Model.Days[i].Date"/>
+                        <td>
+                            <input type="time" asp-for="Days[i].StartTime" class="border rounded px-2 py-1" />
+                        </td>
+                        <td>
+                            <input type="time" asp-for="Days[i].EndTime" class="border rounded px-2 py-1" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded">Opslaan</button>
+    </form>
+</div>
