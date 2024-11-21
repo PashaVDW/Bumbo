@@ -124,8 +124,8 @@ namespace bumbo.Controllers
             var days = new List<DayOverviewViewModel>();
             if (prognosis != null)
             {
-                days = prognosis.Prognosis_Has_Days
-                    .OrderBy(d => d.Days_name switch
+                days = prognosis.PrognosisHasDays
+                    .OrderBy(d => d.DayName switch
                     {
                         "Maandag" => 1,
                         "Dinsdag" => 2,
@@ -138,7 +138,7 @@ namespace bumbo.Controllers
                     })
                     .Select((day, index) => new DayOverviewViewModel
                     {
-                        DayName = day.Days_name,
+                        DayName = day.DayName,
                         CustomerAmount = day.CustomerAmount,
                         PackagesAmount = day.PackagesAmount,
                         Date = firstDayOfWeek.AddDays(index)

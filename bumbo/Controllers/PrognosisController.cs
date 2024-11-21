@@ -122,8 +122,8 @@ namespace bumbo.Controllers
 
             if (prognosis != null)
             {
-                days = prognosis.Prognosis_Has_Days
-                .OrderBy(d => d.Days_name switch
+                days = prognosis.PrognosisHasDays
+                .OrderBy(d => d.DayName switch
                 {
                     "Maandag" => 1,
                     "Dinsdag" => 2,
@@ -136,19 +136,19 @@ namespace bumbo.Controllers
                 })
                 .Select((day, index) =>
                 {
-                    var departmentList = day.Prognosis_Has_Days_Has_Department.Select(dept => new Prognosis_has_days_has_Department
+                    var departmentList = day.PrognosisHasDaysHasDepartment.Select(dept => new PrognosisHasDaysHasDepartment
                     {
                         DepartmentName = dept.DepartmentName,
-                        AmountWorkersNeeded = dept.AmountWorkersNeeded,
-                        HoursWorkNeeded = dept.HoursWorkNeeded
+                        AmountOfWorkersNeeded = dept.AmountOfWorkersNeeded,
+                        HoursOfWorkNeeded = dept.HoursOfWorkNeeded
                     }).ToList();
 
-                    int totalWorkersNeeded = departmentList.Sum(d => d.AmountWorkersNeeded);
-                    int totalHoursWorkNeeded = departmentList.Sum(d => d.HoursWorkNeeded);
+                    int totalWorkersNeeded = departmentList.Sum(d => d.AmountOfWorkersNeeded);
+                    int totalHoursWorkNeeded = departmentList.Sum(d => d.HoursOfWorkNeeded);
 
                     return new PrognosisDay
                     {
-                        DayName = day.Days_name,
+                        DayName = day.DayName,
                         Date = firstDayOfWeek.AddDays(index),
                         DepartmentList = departmentList,
                         TotalWorkersNeeded = totalWorkersNeeded,

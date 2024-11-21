@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models
 {
-    public class Availability
+    public class SchoolSchedule
     {
         [Required]
         public string EmployeeId { get; set; }

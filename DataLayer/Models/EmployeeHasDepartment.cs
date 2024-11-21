@@ -7,16 +7,13 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Models
 {
-    public class Availability
+    public class EmployeeHasDepartment
     {
         [Required]
         public string EmployeeId { get; set; }
-        [Key]
-        public DateOnly Date { get; set; }
-        [Required]
-        public TimeOnly StartTime { get; set; }
-        [Required]
-        public TimeOnly EndTime { get; set; }
+        [Required, StringLength(50)]
+        public string DepartmentName { get; set; }
         public Employee Employee { get; set; }
+        public Department Department { get; set; }
     }
 }
