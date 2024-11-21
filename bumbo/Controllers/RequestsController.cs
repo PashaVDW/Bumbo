@@ -7,6 +7,9 @@ using System.Text;
 using bumbo.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
+using bumbo.Models;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace bumbo.Controllers
 {
@@ -15,12 +18,14 @@ namespace bumbo.Controllers
 
         private readonly UserManager<Employee> _userManager;
         private readonly IBranchesRepository _branchesRepository;
+        private readonly IBranchRequestsEmployeeRepository _branchRequestsEmployeeRepository;
 
-        public RequestsController(UserManager<Employee> userManager, IBranchesRepository branchesRepository)
+        public RequestsController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, IBranchRequestsEmployeeRepository branchRequestsEmployeeRepository)
         {
             _userManager = userManager;
             _branchesRepository = branchesRepository;
-        }
+            _branchRequestsEmployeeRepository = branchRequestsEmployeeRepository;
+    }
 
         public async Task<IActionResult> Index(RequestsViewModel oldModel, string searchTerm, int page = 1)
         {
@@ -95,9 +100,16 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult ReadOutgoing(int requestId)
+        public async Task<IActionResult> ReadOutgoing(int requestId)
         {
-            // var request = _requestsRepository.GetRequestById(requestId)
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            // var request = _branchRequestsEmployeeRepository.GetRequestById(requestId)
             // Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
 
             // TODO remove
@@ -115,11 +127,18 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Update(string empId, int branchId) 
+        public async Task<IActionResult> Update(string empId, int branchId) 
         {
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             // var request = _requestsRepository.GetRequestById(requestId)
             // Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
-            
+
             // TODO remove
             var request = GetTestRequest();
 
@@ -154,8 +173,14 @@ namespace bumbo.Controllers
             return View(viewModel);        
         }
 
-        public IActionResult Create(string empId, int branchId)
+        public async Task<IActionResult> Create(string empId, int branchId)
         {
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
             bool hasChosenEmp = false;
             Employee emp = new Employee();
@@ -163,9 +188,13 @@ namespace bumbo.Controllers
             {
                 emp = _branchesRepository.GetEmployeeById(empId);
                 hasChosenEmp = true;
-            } 
-            
+            }
+
             var branch = _branchesRepository.GetBranch(branchId);
+
+            Console.WriteLine(empId);
+            Console.WriteLine(emp.Id);
+            Console.WriteLine(emp.FirstName);
 
             var viewModel = new RequestsUpdateViewModel()
             {
@@ -208,25 +237,41 @@ namespace bumbo.Controllers
 
         public IActionResult CreateRequest(RequestsUpdateViewModel model)
         {
-            if (model.Employee == null)
+            if (model.EmployeeId == null)
             {
                 SetTempDataForToast("addEmployeeFail");
                 TempData["ToastMessage"] = "Je moet een medewerker toevoegen";
                 TempData["ToastType"] = "error";
                 return View("Create", model);
             }
-            Request request = new Request()
-            {
-                RequestToBranchId = model.Branch.BranchId,
-                EmployeeId = model.Employee.Id,
-                RequestStatusName = model.Request.RequestStatusName,
 
-                DateNeeded = model.Request.DateNeeded,  
-                Department = model.Request.Department,
+            model.Employee = _branchesRepository.GetEmployeeById(model.EmployeeId);
+
+            BranchRequestsEmployee request = new BranchRequestsEmployee()
+            {
+                Branch = model.Branch,
+                BranchId = model.Branch.BranchId,
+                Employee = model.Employee,
+                EmployeeId = model.Employee.Id,
                 Message = model.Request.Message,
-                StartTime = model.Request.StartTime,
-                EndTime = model.Request.EndTime,
+                RequestStatusName = model.Request.RequestStatusName,
+                RequestToBranchId = model.Branch.BranchId,
+
             };
+
+            _branchRequestsEmployeeRepository.AddRequest(request);
+            //Request request = new Request()
+            //{
+            //    RequestToBranchId = model.Branch.BranchId,
+            //    EmployeeId = model.Employee.Id,
+            //    RequestStatusName = model.Request.RequestStatusName,
+
+            //    DateNeeded = model.Request.DateNeeded,  
+            //    Department = model.Request.Department,
+            //    Message = model.Request.Message,
+            //    StartTime = model.Request.StartTime,
+            //    EndTime = model.Request.EndTime,
+            //};
 
             SetTempDataForToast("createRequest");
             TempData["ToastMessage"] = "Verzoek aangemaakt";

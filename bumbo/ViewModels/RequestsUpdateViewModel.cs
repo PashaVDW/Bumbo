@@ -9,5 +9,6 @@ namespace bumbo.ViewModels
         public Branch Branch { get; set; }
         public bool HasChosenEmployee { get; set; }
         public Department Department { get; set; }
+        public string EmployeeId { get; set; }
     }
 }

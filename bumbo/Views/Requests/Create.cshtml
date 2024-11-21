@@ -66,6 +66,9 @@
         <div class="mt-6 flex justify-end">
             <default-button button-text="Toevoegen" button-type="primary"></default-button>
         </div>
+        @if(Model.Employee != null){
+            <input type="hidden" asp-for="EmployeeId"/>
+        }
     </form>
 
     <!-- White Space -->
