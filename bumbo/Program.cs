@@ -23,6 +23,7 @@ builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
 builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeRepositorySql>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
 builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
 
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
@@ -56,6 +57,11 @@ app.MapControllerRoute(
     name: "prognosis",
     pattern: "prognoses",
     defaults: new { controller = "Prognosis", action = "Index" });
+
+app.MapControllerRoute(
+    name: "scheduleManager",
+    pattern: "roosterManager",
+    defaults: new { controller = "ScheduleManager", action = "Index" });
 
 app.MapControllerRoute(
     name: "forecasts",
