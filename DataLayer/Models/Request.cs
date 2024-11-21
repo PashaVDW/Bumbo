@@ -18,6 +18,7 @@ namespace DataLayer.Models
         public DateTime DateNeeded { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
+        public Department Department { get; set; }
 
     }
 }

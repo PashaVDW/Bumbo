@@ -138,9 +138,6 @@ namespace bumbo.Controllers
 
         public IActionResult Create(string empId, int branchId)
         {
-            // TODO remove
-            var request = new Request();
-            bool isTest = false;
 
             bool hasChosenEmp = false;
             Employee emp = new Employee();
@@ -148,32 +145,12 @@ namespace bumbo.Controllers
             {
                 emp = _branchesRepository.GetEmployeeById(empId);
                 hasChosenEmp = true;
-                Console.WriteLine(emp.FirstName);
-            } else
-            {
-                request = GetTestRequest();
-                isTest = true;
-            }
-
-            if(!isTest)
-            {
-                request = new Request()
-                {
-                    RequestStatusName = "Afgehandeld",
-                    EmployeeId = emp.Id,
-                    Message = "Ik wil op vakantie omdat ik de afgelopen maanden hard heb gewerkt en het gevoel heb dat ik een pauze nodig heb om op te laden. De stress van deadlines en lange werkdagen heeft me uitgeput, en ik wil de kans grijpen om te ontspannen en nieuwe energie op te doen. Bovendien heb ik altijd al de prachtige stranden van Bali willen bezoeken, waar ik kan genieten van de zon, de zee en de lokale cultuur. Het lijkt me heerlijk om even weg te zijn van de dagelijkse sleur en te genieten van een nieuwe omgeving. Daarom kan ik niet werken; ik heb deze tijd voor mezelf nodig om te herstellen en te genieten van het leven",
-                    DateNeeded = new DateTime(2024, 12, 22),
-                    BranchId = branchId,
-                    StartTime = new TimeOnly(13, 0),
-                    EndTime = new TimeOnly(15, 0),
-                };
-            }
+            } 
             
-            var branch = _branchesRepository.GetBranch(request.BranchId);
+            var branch = _branchesRepository.GetBranch(branchId);
 
             var viewModel = new RequestsUpdateViewModel()
             {
-                Request = request,
                 Employee = emp,
                 Branch = branch,
                 HasChosenEmployee = hasChosenEmp,
@@ -203,8 +180,32 @@ namespace bumbo.Controllers
             return Redirect("Index");
         }
 
-        public IActionResult CreateRequest()
+        public IActionResult CreateRequest(RequestsUpdateViewModel model)
         {
+            if (model.Employee == null)
+            {
+                SetTempDataForToast("addEmployeeFail");
+                TempData["ToastMessage"] = "Je moet een medewerker toevoegen";
+                TempData["ToastType"] = "error";
+                return View("Create", model);
+            }
+            Request request = new Request()
+            {
+                RequestToBranchId = model.Branch.BranchId,
+                EmployeeId = model.Employee.Id,
+                RequestStatusName = model.Request.RequestStatusName,
+
+                DateNeeded = model.Request.DateNeeded,  
+                Department = model.Request.Department,
+                Message = model.Request.Message,
+                StartTime = model.Request.StartTime,
+                EndTime = model.Request.EndTime,
+            };
+
+            SetTempDataForToast("createRequest");
+            TempData["ToastMessage"] = "Verzoek aangemaakt";
+            TempData["ToastType"] = "succes";
+
             return Redirect("Index");
         }
 
@@ -221,6 +222,13 @@ namespace bumbo.Controllers
                 StartTime = new TimeOnly(13, 0),
                 EndTime = new TimeOnly(15, 0),
             };
+        }
+
+        private void SetTempDataForToast(string toastId)
+        {
+            TempData["ToastId"] = toastId;
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
         }
 
     }
