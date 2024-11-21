@@ -33,6 +33,7 @@ namespace bumbo.Data
         public DbSet<SwitchRequest> SwitchRequest { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<TemplateHasDays> TemplateHasDays { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -106,7 +107,13 @@ namespace bumbo.Data
                 new Country { Name = "Belgium" },
                 new Country { Name = "Germany" }
             );
-            
+
+            modelBuilder.Entity<Department>().HasData(
+                new Department { DepartmentName = "Kassa" },
+                new Department { DepartmentName = "Vakkenvullen" },
+                new Department { DepartmentName = "Vers" }
+            );
+
             modelBuilder.Entity<Branch>().HasData(
                 new Branch
                 {
@@ -538,6 +545,169 @@ namespace bumbo.Data
                 branchHasEmployeeFive,
                 branchHasEmployeeSix
             );
+
+            modelBuilder.Entity<Schedule>().HasData(
+    // Maandag - Kassa
+    new Schedule
+    {
+        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(9, 0),
+        EndTime = new TimeOnly(13, 0),
+        DepartmentName = "Kassa",
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(13, 0),
+        EndTime = new TimeOnly(17, 0),
+        DepartmentName = "Kassa",
+        IsSick = false
+    },
+
+    // Maandag - Vakkenvullen
+    new Schedule
+    {
+        EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(8, 0),
+        EndTime = new TimeOnly(12, 0),
+        DepartmentName = "Vakkenvullen",
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(12, 0),
+        EndTime = new TimeOnly(16, 0),
+        DepartmentName = "Vakkenvullen",
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(16, 0),
+        EndTime = new TimeOnly(21, 30),
+        DepartmentName = "Vakkenvullen",
+        IsSick = false
+    },
+
+    // Maandag - Vers
+    new Schedule
+    {
+        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(8, 0),
+        EndTime = new TimeOnly(14, 0),
+        DepartmentName = "Vers",
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David den Boer
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(14, 0),
+        EndTime = new TimeOnly(18, 0),
+        DepartmentName = "Vers",
+        IsSick = false
+    },
+
+                // Dinsdag
+                new Schedule
+                {
+                    EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 19),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 19),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vers",
+                    IsSick = false
+                },
+
+                // Woensdag
+                new Schedule
+                {
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Kassa",
+                    IsSick = false
+                },
+
+                // Donderdag
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 21),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsSick = false
+                },
+
+                // Vrijdag
+                new Schedule
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 22),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(20, 0),
+                    DepartmentName = "Kassa",
+                    IsSick = false
+                },
+
+                // Zaterdag
+                new Schedule
+                {
+                    EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 23),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsSick = false
+                },
+
+                // Zondag
+                new Schedule
+                {
+                    EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 24),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Kassa",
+                    IsSick = false
+                }
+            );
+
+
+
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });

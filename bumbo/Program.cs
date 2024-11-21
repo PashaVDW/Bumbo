@@ -22,6 +22,7 @@ builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
 builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeRepositorySql>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
 builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
 
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
