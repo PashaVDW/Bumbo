@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,17 @@ namespace DataLayer.Repositories
                 .ToList();
 
             return schedules;
+        }
+
+        public List<Schedule> GetScheduleForBranchByDay(int branchId, DateOnly dayDate)
+        {
+            var schedule = _context.Schedule
+                .Include(s => s.Employee)
+                .Include(s => s.Department)
+                .Where(s => s.BranchId == branchId && s.Date == dayDate)
+                .ToList();
+
+            return schedule;
         }
 
         public List<string> GetDepartments()

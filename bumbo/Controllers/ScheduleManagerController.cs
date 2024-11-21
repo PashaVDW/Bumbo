@@ -1,8 +1,10 @@
 ﻿using bumbo.ViewModels;
 using DataLayer.Interfaces;
 using DataLayer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 
 namespace bumbo.Controllers
@@ -116,6 +118,65 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditDay(String? date)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null || date.IsNullOrEmpty())
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            int branchId = user.ManagerOfBranchId.Value;
+
+            if (DateTime.TryParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime))
+            {
+                string formattedDate = dateTime .ToString("ddd dd MMMM - yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                string dayTitle = $"{formattedDate.Substring(0, 2)} {formattedDate.Substring(4)}";
+
+                ViewBag.Day = dayTitle;
+            }
+            else
+            {
+                Console.WriteLine("Invalid date format.");
+            }
+
+            List<string> departments = _scheduleRepository.GetDepartments();
+            List<Schedule> schedules = _scheduleRepository.GetScheduleForBranchByDay(branchId, DateOnly.FromDateTime(dateTime));
+
+            int weekNumber = dateTime.GetWeekOfYear();
+            int year = dateTime.Year;
+
+            List<PrognosisHasDaysHasDepartment> prognosisDetails = _prognosisRepository.GetPrognosisDetailsByBranchWeekAndYear(branchId, weekNumber, year);
+
+            var viewModel = new ScheduleManagerEditViewModel
+            {
+                Date = dateTime,
+                Departments = departments.Select(department =>
+                {
+                    var schedulesForDepartment = schedules
+                        .Where(s => s.Date == DateOnly.FromDateTime(dateTime) && s.DepartmentName == department)
+                        .OrderBy(s => s.StartTime)
+                        .ToList();
+
+                    var hoursNeededForDepartment = prognosisDetails
+                        .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                        .Sum(pd => pd.HoursOfWorkNeeded);
+
+                    return new DepartmentScheduleViewModel
+                    {
+                        DepartmentName = department,
+                        Employees = BuildEmployeeAndGapList(schedulesForDepartment),
+                        TotalHours = schedulesForDepartment
+                            .Where(s => s.StartTime < s.EndTime)
+                            .Sum(s => (s.EndTime - s.StartTime).TotalHours),
+                        HoursNeeded = hoursNeededForDepartment
+                    };
+                }).ToList()
+            };
+
+            return View(viewModel);
+        }
 
         private List<EmployeeScheduleViewModel> BuildEmployeeAndGapList(List<Schedule> sortedSchedules)
         {

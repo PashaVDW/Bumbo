@@ -10,6 +10,7 @@ namespace DataLayer.Interfaces
     public interface IScheduleRepository
     {
         List<Schedule> GetSchedulesForBranchByWeek(int branchId, List<DateOnly> weekDates);
+        List<Schedule> GetScheduleForBranchByDay(int branchId, DateOnly dayDate);
         List<string> GetDepartments();
     }
 }
