@@ -2,7 +2,7 @@
 {
     public class RequestsAddEmployeeViewModel
     {
-        public Branch Branch { get; set; }
-        public Employee Employee { get; set; }
+        public List<Branch> AllBranches { get; set; }
+        public Employee ChosenEmployee { get; set; }
     }
 }

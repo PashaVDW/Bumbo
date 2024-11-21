@@ -163,13 +163,15 @@ namespace bumbo.Controllers
 
             // TODO remove
             var request = GetTestRequest(testEmp);
-            var branch = _branchesRepository.GetBranch(request.BranchId);
-            branch.Employees = _branchesRepository.GetEmployeesFromBranch(branch);
+            var branches = _branchesRepository.GetAllBranches();
+            foreach (var br in branches)
+            {
+                br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
+            }
 
             var viewModel = new RequestsAddEmployeeViewModel()
             {
-                Branch = branch,
-                Employee = testEmp
+                AllBranches = branches,
             };
             return View(viewModel);
         }
