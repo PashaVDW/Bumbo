@@ -13,9 +13,9 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public List<Prognosis_has_days> GetPrognosis_has_days()
+        public List<PrognosisHasDays> GetPrognosis_has_days()
         {
-            return _context.Prognosis_Has_Days.ToList();
+            return _context.PrognosisHasDays.ToList();
         }
     }
 }
