@@ -94,7 +94,8 @@ namespace bumbo.Controllers
                 model.Days.Add(new DayInputViewModel
                 {
                     DayName = currentDate.ToString("dddd", new CultureInfo("nl-NL")),
-                    Date = currentDate
+                    Date = currentDate,
+                    DayNumber = i
                 });
             }
 
@@ -120,25 +121,36 @@ namespace bumbo.Controllers
 
             if (ModelState.IsValid)
             {
+                List<Availability> allAvailabilities = new List<Availability>();
+
                 int currentWeek = model.StartWeek;
                 int currentYear = model.StartYear;
 
+                DateTime startDate = FirstDateOfWeek(currentYear, currentWeek);
+                DateTime endDate = LastDateOfWeek(model.EndYear, model.EndWeek);
+
                 while (currentYear < model.EndYear || (currentYear == model.EndYear && currentWeek <= model.EndWeek))
                 {
-                    DateTime startDate = FirstDateOfWeek(currentYear, currentWeek);
+                    DateTime currentDate = FirstDateOfWeek(currentYear, currentWeek);
 
-                    var availabilities = model.Days
-                        .Where(day => day.StartTime.HasValue && day.EndTime.HasValue)
-                        .Select(day => new Availability
+                    var availabilities = new List<Availability>();
+
+                    foreach (var availability in model.Days)
+                    {
+                        if (availability != null && availability.StartTime.HasValue && availability.EndTime.HasValue)
                         {
-                            Date = DateOnly.FromDateTime(startDate.AddDays((int)day.Date.DayOfWeek)),
-                            StartTime = day.StartTime.Value,
-                            EndTime = day.EndTime.Value,
-                            EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3"
-                        })
-                        .ToList();
+                            DateOnly availabilityDate = DateOnly.FromDateTime(currentDate.AddDays(availability.DayNumber));
+                            Console.WriteLine(availability.DayNumber);
+                            Console.WriteLine(availabilityDate);
+                            availabilities.Add(new Availability { Date = availabilityDate,
+                                StartTime = availability.StartTime.Value,
+                                EndTime = availability.EndTime.Value,
+                                EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3"
+                            });
+                        }
+                    }
 
-                    _availabilityRepository.AddAvailabilities(availabilities);
+                    allAvailabilities.AddRange(availabilities);
 
                     currentWeek++;
 
@@ -148,6 +160,8 @@ namespace bumbo.Controllers
                         currentYear++;
                     }
                 }
+
+                _availabilityRepository.AddAvailabilities(allAvailabilities, startDate, endDate);
 
                 return RedirectToAction("Index", new { weekNumber = model.StartWeek, yearNumber = model.StartYear });
             }

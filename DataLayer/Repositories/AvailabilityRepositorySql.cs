@@ -19,10 +19,32 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public void AddAvailabilities(List<Availability> availabilities)
+        public void AddAvailabilities(List<Availability> availabilities, DateTime periodStart, DateTime periodEnd)
         {
             if (availabilities != null && availabilities.Any())
             {
+                var employeeId = availabilities.First().EmployeeId;
+
+                var periodStartDateOnly = DateOnly.FromDateTime(periodStart);
+                var periodEndDateOnly = DateOnly.FromDateTime(periodEnd);
+
+                var existingAvailabilities = _context.Availability
+                   .Where(a => a.EmployeeId == employeeId
+                               && a.Date >= periodStartDateOnly
+                               && a.Date <= periodEndDateOnly)
+                   .ToList();
+
+                if (existingAvailabilities.Any())
+                {
+                    _context.Availability.RemoveRange(existingAvailabilities);
+                    _context.SaveChanges();
+                }
+
+                foreach (var a in availabilities)
+                {
+                    Console.WriteLine($"id: {a.EmployeeId}, date: {a.Date}, start: {a.StartTime}, eind: {a.EndTime}");
+                }
+
                 _context.Availability.AddRange(availabilities);
                 _context.SaveChanges();
             }

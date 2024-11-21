@@ -34,7 +34,7 @@ namespace bumbo.ViewModels
 
         [Required]
         public DateTime Date { get; set; }
-
+        public int DayNumber { get; set; }
         public TimeOnly? StartTime { get; set; }
         public TimeOnly? EndTime { get; set; }
     }

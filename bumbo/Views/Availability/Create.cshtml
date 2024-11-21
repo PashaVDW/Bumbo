@@ -52,6 +52,7 @@
                 {
                     <tr>
                         <td>@Model.Days[i].DayName</td>
+                        <input type="hidden" asp-for="Days[i].DayNumber" value="@Model.Days[i].DayNumber " class="border rounded px-2 py-1" />
                         <input type="hidden" asp-for="Days[i].DayName" value="@Model.Days[i].DayName" class="border rounded px-2 py-1" />
                         <td>
                             <input type="time" asp-for="Days[i].StartTime" class="border rounded px-2 py-1" />
