@@ -12,22 +12,24 @@ namespace bumbo.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IBranchesRepository _branchesRepository;
+        private readonly IPrognosisRepository _prognosisRepository;
 
         public ScheduleManagerController(
             UserManager<Employee> userManager,
             IScheduleRepository scheduleRepository,
-            IBranchesRepository branchesRepository)
+            IBranchesRepository branchesRepository,
+            IPrognosisRepository prognosisRepository)
         {
             _userManager = userManager;
             _scheduleRepository = scheduleRepository;
             _branchesRepository = branchesRepository;
+            _prognosisRepository = prognosisRepository;
         }
 
         public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
         {
             SetTempDataForEmployeeToast("scheduleManagerToast");
 
-            // Controleer of de gebruiker ingelogd is en gekoppeld is aan een branch
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
             {
@@ -36,7 +38,6 @@ namespace bumbo.Controllers
 
             int branchId = user.ManagerOfBranchId.Value;
 
-            // Week en jaar initialiseren als ze ontbreken
             if (!weekNumber.HasValue || !year.HasValue)
             {
                 DateTime today = DateTime.Now;
@@ -44,7 +45,6 @@ namespace bumbo.Controllers
                 year = today.Year;
             }
 
-            // Navigatie met pijlen
             if (weekInc.HasValue)
             {
                 weekNumber += weekInc.Value;
@@ -70,14 +70,13 @@ namespace bumbo.Controllers
                 }
             }
 
-            // Bereken de datums van de week
-            var dates = GetDatesOfWeek(year.Value, weekNumber.Value);
+            List<DateTime> dates = GetDatesOfWeek(year.Value, weekNumber.Value);
 
-            // Haal alle afdelingen op
-            var departments = _scheduleRepository.GetDepartments();
+            List<string> departments = _scheduleRepository.GetDepartments();
 
-            // Haal alle ingeplande medewerkers op voor de week
-            var schedules = _scheduleRepository.GetSchedulesForBranchByWeek(branchId, dates.Select(d => DateOnly.FromDateTime(d)).ToList());
+            List<Schedule> schedules = _scheduleRepository.GetSchedulesForBranchByWeek(branchId, dates.Select(d => DateOnly.FromDateTime(d)).ToList());
+
+            List<PrognosisHasDaysHasDepartment> prognosisDetails = _prognosisRepository.GetPrognosisDetailsByBranchWeekAndYear(branchId, weekNumber.Value, year.Value);
 
             var viewModel = new ScheduleManagerViewModel
             {
@@ -94,17 +93,23 @@ namespace bumbo.Controllers
                             .OrderBy(s => s.StartTime)
                             .ToList();
 
+                        var hoursNeededForDepartment = prognosisDetails
+                            .Where(pd => pd.DayName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
+                            .Sum(pd => pd.HoursOfWorkNeeded);
+
                         return new DepartmentScheduleViewModel
                         {
                             DepartmentName = department,
                             Employees = BuildEmployeeAndGapList(schedulesForDepartment),
                             TotalHours = schedulesForDepartment
                                 .Where(s => s.StartTime < s.EndTime)
-                                .Sum(s => (s.EndTime - s.StartTime).TotalHours)
+                                .Sum(s => (s.EndTime - s.StartTime).TotalHours),
+                            HoursNeeded = hoursNeededForDepartment
                         };
                     }).ToList()
                 }).ToList()
             };
+
 
 
 

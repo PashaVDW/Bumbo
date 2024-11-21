@@ -19,6 +19,7 @@
         public string DepartmentName { get; set; }
         public List<EmployeeScheduleViewModel> Employees { get; set; } = new List<EmployeeScheduleViewModel>();
         public double TotalHours { get; set; }
+        public double HoursNeeded { get; set; }
     }
 
     public class EmployeeScheduleViewModel
@@ -28,6 +29,6 @@
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public bool IsSick { get; set; }
-        public bool IsGap { get; set; } = false; // True if this represents a gap
+        public bool IsGap { get; set; } = false;
     }
 }

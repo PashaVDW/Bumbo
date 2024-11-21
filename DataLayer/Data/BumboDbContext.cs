@@ -706,6 +706,116 @@ namespace bumbo.Data
                 }
             );
 
+            // Seeddata for Prognosis
+            var prognosisId = "prognosis_week_47_2024"; // Unique ID for the prognosis
+            modelBuilder.Entity<Prognosis>().HasData(
+                new Prognosis
+                {
+                    PrognosisId = prognosisId,
+                    WeekNr = 47,
+                    Year = 2024,
+                    BranchId = 1 // Assuming branch 1
+                }
+            );
+
+            // Seeddata for PrognosisHasDays
+            modelBuilder.Entity<PrognosisHasDays>().HasData(
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Monday",
+                    CustomerAmount = 200,
+                    PackagesAmount = 300
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Tuesday",
+                    CustomerAmount = 150,
+                    PackagesAmount = 250
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Wednesday",
+                    CustomerAmount = 220,
+                    PackagesAmount = 280
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Thursday",
+                    CustomerAmount = 190,
+                    PackagesAmount = 270
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Friday",
+                    CustomerAmount = 210,
+                    PackagesAmount = 290
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Saturday",
+                    CustomerAmount = 250,
+                    PackagesAmount = 320
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Sunday",
+                    CustomerAmount = 180,
+                    PackagesAmount = 260
+                }
+            );
+
+            // Seeddata for PrognosisHasDaysHasDepartment
+            modelBuilder.Entity<PrognosisHasDaysHasDepartment>().HasData(
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Monday",
+                    DepartmentName = "Kassa",
+                    AmountOfWorkersNeeded = 3,
+                    HoursOfWorkNeeded = 24
+                },
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Monday",
+                    DepartmentName = "Vakkenvullen",
+                    AmountOfWorkersNeeded = 4,
+                    HoursOfWorkNeeded = 32
+                },
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Monday",
+                    DepartmentName = "Vers",
+                    AmountOfWorkersNeeded = 2,
+                    HoursOfWorkNeeded = 16
+                },
+                // Repeat for other days and departments as necessary
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Tuesday",
+                    DepartmentName = "Kassa",
+                    AmountOfWorkersNeeded = 2,
+                    HoursOfWorkNeeded = 16
+                },
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Tuesday",
+                    DepartmentName = "Vakkenvullen",
+                    AmountOfWorkersNeeded = 3,
+                    HoursOfWorkNeeded = 24
+                }
+            );
+
 
 
             // Relations
