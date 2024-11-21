@@ -1,0 +1,79 @@
+﻿@using bumbo.ViewModels
+@{
+
+}
+
+@model RequestsAddEmployeeViewModel
+
+<div class="px-20 pt-5 flex">
+    <a href="#" onclick="history.back()" class="mr-6">
+        <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </a>
+    <h1 class="text-3xl font-semibold">Beschikbare medewerker van ander filiaal toevoegen</h1>
+</div>
+
+<form asp-action="SearchForAvailableEmployees" class='my-16 gap-4 flex items-center justify-center'>
+    <input asp-for="SearchTerm" type='text' name='searchTerm' placeholder='Zoek naar beschikbare medewerkers' class='w-96 border-gray-300 py-2 px-6 rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400' />
+    <button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>
+</form>
+
+<div class="flex flex-col items-center">
+    @foreach (var branch in Model.AllBranches)
+    {
+        <div class="my-1 border-gray-300 w-4/5 border-2">
+            <div class="p-4 flex cursor-pointer items-center justify-between" onclick="toggleEmployees(this)">
+                <div class="gap-4 flex items-center">
+                    <div class="w-6 h-6 bg-gray-200 flex cursor-pointer items-center justify-center">
+                        <svg id="arrow" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                    <div class="bg-yellow-300 p-1 rounded text-center">
+                        <p class="text-sm font-semibold">@branch.Employees.Count</p>
+                        @if (branch.Employees.Count == 1)
+                        {
+                            <p class="text-xs font-semibold">Medewerker</p>
+                        }
+                        else
+                        {
+                            <p class="text-xs font-semibold">Medewerkers</p>
+                        }
+
+                    </div>
+                </div>
+                <p class="text-sm font-semibold">@branch.Name</p>
+                <p class="text-sm font-semibold">@branch.Street @branch.HouseNumber</p>
+                <p class="text-sm font-semibold">@branch.CountryName</p>
+            </div>
+            <div class="bg-white hidden">
+                @foreach (var emp in branch.Employees)
+                {
+                    <div class="p-3 bg-gray-100 flex items-center justify-between border-t">
+                        <p class="text-sm">@emp.FirstName @emp.MiddleName @emp.LastName</p>
+                        <a class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500"
+                           asp-action="Update" asp-route-empId="@emp.Id" asp-route-branchId="@branch.BranchId">Kiezen</a>
+                    </div>
+                }
+            </div>
+        </div>
+
+    }
+    @if (Model.AllBranches.Count == 0)
+    {
+        <div class="text-3xl">Geen medewerkers gevonden</div>
+    }
+</div>
+
+<div class="h-20"></div>
+
+<script>
+    function toggleEmployees(header) {
+        const content = header.nextElementSibling;
+        content.classList.toggle('hidden');
+
+        const arrow = header.querySelector('#arrow');
+        arrow.classList.toggle('rotate-180');
+    }
+</script>

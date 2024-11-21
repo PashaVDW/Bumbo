@@ -115,23 +115,41 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Update() 
+        public IActionResult Update(string empId, int branchId) 
         {
             // var request = _requestsRepository.GetRequestById(requestId)
             // Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
-
-            // TODO remove
-            Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
-
+            
             // TODO remove
             var request = GetTestRequest();
-            var branch = _branchesRepository.GetBranch(request.BranchId);
+
+            bool hasChosenEmp = false;
+            Employee emp = new Employee();
+
+            var branch = new Branch();
+
+            if (!empId.IsNullOrEmpty())
+            {
+                emp = _branchesRepository.GetEmployeeById(empId);
+                branch = _branchesRepository.GetBranch(branchId);
+                hasChosenEmp = true;
+
+                // TODO remove
+                request.BranchId = branchId;
+            } else
+            {
+                emp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
+            }
+            
+            request.EmployeeId = emp.Id;
+
 
             var viewModel = new RequestsUpdateViewModel()
             {
-                Request = request,
-                Employee = testEmp,
+                Employee = emp,
                 Branch = branch,
+                HasChosenEmployee = hasChosenEmp,
+                Request = request
             };
             return View(viewModel);        
         }
@@ -158,19 +176,27 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult AddEmployee()
+        public IActionResult AddEmployee() 
         {
-
             var branches = _branchesRepository.GetAllBranches();
             foreach (var br in branches)
             {
                 br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
             }
 
-            var viewModel = new RequestsAddEmployeeViewModel()
+            var viewModel = new RequestsAddEmployeeViewModel() { AllBranches = branches };
+            return View(viewModel);
+        }
+
+        public IActionResult AddEmployeeUpdate()
+        {
+            var branches = _branchesRepository.GetAllBranches();
+            foreach (var br in branches)
             {
-                AllBranches = branches,
-            };
+                br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
+            }
+
+            var viewModel = new RequestsAddEmployeeViewModel() { AllBranches = branches };
             return View(viewModel);
         }
 
