@@ -5,6 +5,8 @@ using DataLayer.Models;
 using bumbo.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
+using bumbo.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace bumbo.Controllers
 {
@@ -12,13 +14,15 @@ namespace bumbo.Controllers
     {
         private readonly UserManager<Employee> _userManager;
         private readonly IAvailabilityRepository _availabilityRepository;
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
+        private readonly IBranchesRepository _branchesRepository;
 
-        public AvailabilityController(IAvailabilityRepository availabilityRepository, IEmployeeRepository employeeRepository, UserManager<Employee> userManager)
+        public AvailabilityController(IAvailabilityRepository availabilityRepository, UserManager<Employee> userManager, IBranchHasEmployeeRepository branchHasEmployeeRepository, IBranchesRepository branchesRepository)
         {
             _availabilityRepository = availabilityRepository;
-            _employeeRepository = employeeRepository;
             _userManager = userManager;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
+            _branchesRepository = branchesRepository;
         }
 
         public async Task<IActionResult> Index(int? weekNumber, int? yearNumber)
@@ -90,6 +94,20 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
+            string employeeId = currentUser.Id;
+
+            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+
+            BranchHasEmployee branchHasEmployee = branches.FirstOrDefault();
+
+            if (branchHasEmployee == null)
+            {
+                TempData["Error"] = "U bent niet gekoppeld aan een filiaal. Neem contact op met uw beheerder voor ondersteuning.";
+                return RedirectToAction("Index", new { weekNumber = weekNumber, yearNumber = yearNumber });
+            }
+
+            Branch branch = _branchesRepository.GetBranch(branchHasEmployee.BranchId);
+
             if (weekNumber == null || yearNumber == null)
             {
                 DateTime today = DateTime.Now;
@@ -104,7 +122,9 @@ namespace bumbo.Controllers
                 StartWeek = weekNumber.Value,
                 StartYear = yearNumber.Value,
                 EndWeek = weekNumber.Value,
-                EndYear = yearNumber.Value
+                EndYear = yearNumber.Value,
+                OpeningTime = branch.OpeningTime,
+                ClosingTime = branch.ClosingTime
             };
 
             for (int i = 0; i < 7; i++)
@@ -168,11 +188,20 @@ namespace bumbo.Controllers
                         if (availability != null && availability.StartTime.HasValue && availability.EndTime.HasValue)
                         {
                             DateOnly availabilityDate = DateOnly.FromDateTime(currentDate.AddDays(availability.DayNumber));
-                            Console.WriteLine(availability.DayNumber);
-                            Console.WriteLine(availabilityDate);
                             availabilities.Add(new Availability { Date = availabilityDate,
                                 StartTime = availability.StartTime.Value,
                                 EndTime = availability.EndTime.Value,
+                                EmployeeId = employeeId
+                            });
+                        }
+                        else if (availability != null && availability.AllDay)
+                        {
+                            DateOnly availabilityDate = DateOnly.FromDateTime(currentDate.AddDays(availability.DayNumber));
+                            availabilities.Add(new Availability
+                            {
+                                Date = availabilityDate,
+                                StartTime = model.OpeningTime,
+                                EndTime = model.ClosingTime,
                                 EmployeeId = employeeId
                             });
                         }
@@ -198,7 +227,6 @@ namespace bumbo.Controllers
                 var errors = ModelState.SelectMany(x => x.Value.Errors)
                            .Select(x => x.ErrorMessage)
                            .ToList();
-                Console.WriteLine("Errors: " + string.Join(", ", errors));
 
                 ViewBag.Errors = errors;
 

@@ -24,6 +24,8 @@ namespace bumbo.ViewModels
         public int StartYear { get; set; }
         public int EndWeek { get; set; }
         public int EndYear { get; set; }
+        public TimeOnly OpeningTime { get; set; }
+        public TimeOnly ClosingTime { get; set; }
         public List<DayInputViewModel> Days { get; set; } = new List<DayInputViewModel>();
     }
 
@@ -37,6 +39,7 @@ namespace bumbo.ViewModels
         public int DayNumber { get; set; }
         public TimeOnly? StartTime { get; set; }
         public TimeOnly? EndTime { get; set; }
+        public bool AllDay { get; set; } = false;
     }
 
 

@@ -1,7 +1,7 @@
 ﻿@model AvailabilityInputViewModel
 
 <div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
-    <h1>Beschikbaarheid invoeren</h1>
+    <h1 class ="mt-8 text-2xl">Beschikbaarheid invoeren</h1>
     <h2>Beschikbaarheid toepassen voor de geselecteerde periode</h2>
 
     @if (ViewBag.Errors != null && ViewBag.Errors.Count > 0)
@@ -17,7 +17,7 @@
     }
 
     <form asp-action="Create" method="post" class="space-y-4">
-        <div class="flex space-x-4">
+        <div class="flex space-x-8">
             <div>
                 <label for="StartWeek" class="block font-medium">Beginweek</label>
                 <input type="number" asp-for="StartWeek" max="53" class="border rounded px-2 py-1 w-24" />
@@ -26,9 +26,6 @@
                 <label for="StartYear" class="block font-medium">Beginjaar</label>
                 <input type="number" asp-for="StartYear" class="border rounded px-2 py-1 w-24" />
             </div>
-        </div>
-
-        <div class="flex space-x-4">
             <div>
                 <label for="EndWeek" class="block font-medium">Eindweek</label>
                 <input type="number" asp-for="EndWeek" max="53" class="border rounded px-2 py-1 w-24" />
@@ -39,31 +36,42 @@
             </div>
         </div>
 
-        <table class="table mt-4">
-            <thead>
+        <input type="hidden" asp-for="OpeningTime" value="@Model.OpeningTime" />
+        <input type="hidden" asp-for="ClosingTime" value="@Model.ClosingTime" />
+
+        <table class="table-auto w-full border-collapse border border-gray-200 mt-4">
+            <thead class="bg-gray-100 text-left">
                 <tr>
-                    <th>Dag</th>
-                    <th>Starttijd</th>
-                    <th>Eindtijd</th>
+                    <th class="border border-gray-300 px-4 py-2">Dag</th>
+                    <th class="border border-gray-300 px-4 py-2">Starttijd</th>
+                    <th class="border border-gray-300 px-4 py-2">Eindtijd</th>
+                    <th class="border border-gray-300 px-4 py-2">Hele dag</th>
                 </tr>
             </thead>
             <tbody>
                 @for (int i = 0; i < Model.Days.Count; i++)
                 {
-                    <tr>
-                        <td>@Model.Days[i].DayName</td>
-                        <input type="hidden" asp-for="Days[i].DayNumber" value="@Model.Days[i].DayNumber " class="border rounded px-2 py-1" />
-                        <input type="hidden" asp-for="Days[i].DayName" value="@Model.Days[i].DayName" class="border rounded px-2 py-1" />
-                        <td>
-                            <input type="time" asp-for="Days[i].StartTime" class="border rounded px-2 py-1" />
+                    <tr class="hover:bg-gray-50">
+                        <td class="border border-gray-300 px-4 py-2">@Model.Days[i].DayName</td>
+                        <input type="hidden" asp-for="Days[i].DayNumber" value="@Model.Days[i].DayNumber" />
+                        <input type="hidden" asp-for="Days[i].DayName" value="@Model.Days[i].DayName" />
+                        <td class="border border-gray-300 px-4 py-2">
+                            <input type="time" asp-for="Days[i].StartTime" class="w-full border border-gray-300 rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-400" />
                         </td>
-                        <td>
-                            <input type="time" asp-for="Days[i].EndTime" class="border rounded px-2 py-1" />
+                        <td class="border border-gray-300 px-4 py-2">
+                            <input type="time" asp-for="Days[i].EndTime" class="w-full border border-gray-300 rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-400" />
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" asp-for="Days[i].AllDay" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+                                <span class="ml-2 text-sm">Hele dag</span>
+                            </label>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+
 
         <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded">Opslaan</button>
     </form>
