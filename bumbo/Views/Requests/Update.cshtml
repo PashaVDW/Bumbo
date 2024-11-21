@@ -42,7 +42,8 @@
             <div class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 flex w-full appearance-none items-center justify-between border leading-tight">
                 <p>@Model.Employee.FirstName @Model.Employee.MiddleName @Model.Employee.LastName</p>
                 <p>@Model.Branch.Name</p>
-                <default-button button-text="Wijzigen" button-type="secondary" on-click="window.location.href='AddEmployee'"></default-button>
+                <a class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500"
+                   href="AddEmployee">Wijzigen</a>
             </div>
         </div>
         <div class="mb-6">
