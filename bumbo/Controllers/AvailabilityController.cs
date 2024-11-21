@@ -71,7 +71,7 @@ namespace bumbo.Controllers
 
                 var availability = availabilities.FirstOrDefault(a => a.Date == DateOnly.FromDateTime(currentDate));
 
-                weekView.Days.Add(new DayOverview
+                weekView.Days.Add(new AvailabilityDayOverview
                 {
                     DayName = currentDate.ToString("dddd"),
                     Date = currentDate,
@@ -130,7 +130,7 @@ namespace bumbo.Controllers
             for (int i = 0; i < 7; i++)
             {
                 DateTime currentDate = startDate.AddDays(i);
-                model.Days.Add(new DayInputViewModel
+                model.Days.Add(new AvailabilityDayInputViewModel
                 {
                     DayName = currentDate.ToString("dddd", new CultureInfo("nl-NL")),
                     Date = currentDate,
@@ -174,8 +174,8 @@ namespace bumbo.Controllers
                 int currentWeek = model.StartWeek;
                 int currentYear = model.StartYear;
 
-                DateTime startDate = FirstDateOfWeek(currentYear, currentWeek);
-                DateTime endDate = LastDateOfWeek(model.EndYear, model.EndWeek);
+                DateTime periodStartDate = FirstDateOfWeek(currentYear, currentWeek);
+                DateTime periodEndDate = LastDateOfWeek(model.EndYear, model.EndWeek);
 
                 while (currentYear < model.EndYear || (currentYear == model.EndYear && currentWeek <= model.EndWeek))
                 {
@@ -218,7 +218,7 @@ namespace bumbo.Controllers
                     }
                 }
 
-                _availabilityRepository.AddAvailabilities(allAvailabilities, startDate, endDate);
+                _availabilityRepository.AddAvailabilities(allAvailabilities, periodStartDate, periodEndDate);
 
                 return RedirectToAction("Index", new { weekNumber = model.StartWeek, yearNumber = model.StartYear });
             }
