@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class firstCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,20 +72,14 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Norms",
+                name: "RequestStatus",
                 columns: table => new
                 {
-                    normId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    branchId = table.Column<int>(type: "int", nullable: false),
-                    week = table.Column<int>(type: "int", nullable: false),
-                    year = table.Column<int>(type: "int", nullable: false),
-                    activity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    normInSeconds = table.Column<int>(type: "int", nullable: false)
+                    RequestStatusName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Norms", x => x.normId);
+                    table.PrimaryKey("PK_RequestStatus", x => x.RequestStatusName);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,6 +100,37 @@ namespace DataLayer.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LabourRules",
+                columns: table => new
+                {
+                    CountryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AgeGroup = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    MaxHoursPerDay = table.Column<int>(type: "int", nullable: false),
+                    MaxEndTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    MaxHoursPerWeek = table.Column<int>(type: "int", nullable: false),
+                    MaxWorkDaysPerWeek = table.Column<int>(type: "int", nullable: false),
+                    MinRestDaysPerWeek = table.Column<int>(type: "int", nullable: false),
+                    NumHoursWorkedBeforeBreak = table.Column<int>(type: "int", nullable: false),
+                    SickPayPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OvertimePayPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MinutesOfBreak = table.Column<int>(type: "int", nullable: false),
+                    MaxHoursWithSchool = table.Column<int>(type: "int", nullable: false),
+                    MinRestHoursBetweenShifts = table.Column<int>(type: "int", nullable: false),
+                    MaxShiftDuration = table.Column<int>(type: "int", nullable: false),
+                    MaxOvertimeHoursPerWeek = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LabourRules", x => x.CountryName);
+                    table.ForeignKey(
+                        name: "FK_LabourRules_Countries_CountryName",
+                        column: x => x.CountryName,
+                        principalTable: "Countries",
+                        principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -169,12 +194,12 @@ namespace DataLayer.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PostalCode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     HouseNumber = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsSystemManager = table.Column<bool>(type: "bit", nullable: false),
                     ManagerOfBranchId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -212,6 +237,70 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Availability",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    StartTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    EndTime = table.Column<TimeOnly>(type: "time", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Availability", x => new { x.Date, x.EmployeeId });
+                    table.ForeignKey(
+                        name: "FK_Availability_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeHasDepartment",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DepartmentName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeHasDepartment", x => new { x.DepartmentName, x.EmployeeId });
+                    table.ForeignKey(
+                        name: "FK_EmployeeHasDepartment_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeeHasDepartment_Department_DepartmentName",
+                        column: x => x.DepartmentName,
+                        principalTable: "Department",
+                        principalColumn: "DepartmentName",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SchoolSchedule",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    StartTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    EndTime = table.Column<TimeOnly>(type: "time", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SchoolSchedule", x => new { x.Date, x.EmployeeId });
+                    table.ForeignKey(
+                        name: "FK_SchoolSchedule_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Branches",
                 columns: table => new
                 {
@@ -222,6 +311,7 @@ namespace DataLayer.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CountryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ShelfMeeters = table.Column<int>(type: "int", nullable: false),
                     OpeningTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     ClosingTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     PrognosisId = table.Column<string>(type: "nvarchar(45)", nullable: true)
@@ -269,6 +359,62 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BranchRequestsEmployee",
+                columns: table => new
+                {
+                    BranchId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RequestToBranchId = table.Column<int>(type: "int", nullable: false),
+                    RequestStatusName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BranchRequestsEmployee", x => new { x.BranchId, x.EmployeeId, x.RequestToBranchId });
+                    table.ForeignKey(
+                        name: "FK_BranchRequestsEmployee_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BranchRequestsEmployee_Branches_RequestToBranchId",
+                        column: x => x.RequestToBranchId,
+                        principalTable: "Branches",
+                        principalColumn: "BranchId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BranchRequestsEmployee_RequestStatus_RequestStatusName",
+                        column: x => x.RequestStatusName,
+                        principalTable: "RequestStatus",
+                        principalColumn: "RequestStatusName",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Norms",
+                columns: table => new
+                {
+                    normId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    branchId = table.Column<int>(type: "int", nullable: false),
+                    week = table.Column<int>(type: "int", nullable: false),
+                    year = table.Column<int>(type: "int", nullable: false),
+                    activity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    normInSeconds = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Norms", x => x.normId);
+                    table.ForeignKey(
+                        name: "FK_Norms_Branches_branchId",
+                        column: x => x.branchId,
+                        principalTable: "Branches",
+                        principalColumn: "BranchId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Prognoses",
                 columns: table => new
                 {
@@ -294,108 +440,164 @@ namespace DataLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Branch_branchId = table.Column<int>(type: "int", nullable: false),
+                    BranchBranchId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Templates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Templates_Branches_Branch_branchId",
-                        column: x => x.Branch_branchId,
+                        name: "FK_Templates_Branches_BranchBranchId",
+                        column: x => x.BranchBranchId,
                         principalTable: "Branches",
                         principalColumn: "BranchId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Prognosis_Has_Days",
+                name: "PrognosisHasDays",
                 columns: table => new
                 {
-                    Days_name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    DayName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     PrognosisId = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
                     CustomerAmount = table.Column<int>(type: "int", nullable: false),
                     PackagesAmount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prognosis_Has_Days", x => new { x.Days_name, x.PrognosisId });
+                    table.PrimaryKey("PK_PrognosisHasDays", x => new { x.DayName, x.PrognosisId });
                     table.ForeignKey(
-                        name: "FK_Prognosis_Has_Days_Days_Days_name",
-                        column: x => x.Days_name,
+                        name: "FK_PrognosisHasDays_Days_DayName",
+                        column: x => x.DayName,
                         principalTable: "Days",
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Prognosis_Has_Days_Prognoses_PrognosisId",
+                        name: "FK_PrognosisHasDays_Prognoses_PrognosisId",
                         column: x => x.PrognosisId,
                         principalTable: "Prognoses",
                         principalColumn: "PrognosisId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedule",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BranchId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    StartTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    EndTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    DepartmentName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IsSick = table.Column<bool>(type: "bit", nullable: false),
+                    TemplateId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedule", x => new { x.EmployeeId, x.BranchId, x.Date });
+                    table.ForeignKey(
+                        name: "FK_Schedule_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Schedule_Branches_BranchId",
+                        column: x => x.BranchId,
+                        principalTable: "Branches",
+                        principalColumn: "BranchId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Schedule_Department_DepartmentName",
+                        column: x => x.DepartmentName,
+                        principalTable: "Department",
+                        principalColumn: "DepartmentName",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Schedule_Templates_TemplateId",
+                        column: x => x.TemplateId,
+                        principalTable: "Templates",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "TemplateHasDays",
                 columns: table => new
                 {
-                    Templates_id = table.Column<int>(type: "int", nullable: false),
-                    Days_name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    TemplatesId = table.Column<int>(type: "int", nullable: false),
+                    DaysName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     CustomerAmount = table.Column<int>(type: "int", nullable: false),
                     ContainerAmount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TemplateHasDays", x => new { x.Templates_id, x.Days_name });
+                    table.PrimaryKey("PK_TemplateHasDays", x => new { x.TemplatesId, x.DaysName });
                     table.ForeignKey(
-                        name: "FK_TemplateHasDays_Days_Days_name",
-                        column: x => x.Days_name,
+                        name: "FK_TemplateHasDays_Days_DaysName",
+                        column: x => x.DaysName,
                         principalTable: "Days",
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TemplateHasDays_Templates_Templates_id",
-                        column: x => x.Templates_id,
+                        name: "FK_TemplateHasDays_Templates_TemplatesId",
+                        column: x => x.TemplatesId,
                         principalTable: "Templates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "prognosis_Has_Days_Has_Departments",
+                name: "PrognosisHasDaysHasDepartment",
                 columns: table => new
                 {
                     DepartmentName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Days_name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    DayName = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     PrognosisId = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
-                    AmountWorkersNeeded = table.Column<int>(type: "int", nullable: false),
-                    HoursWorkNeeded = table.Column<int>(type: "int", nullable: false)
+                    AmountOfWorkersNeeded = table.Column<int>(type: "int", nullable: false),
+                    HoursOfWorkNeeded = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_prognosis_Has_Days_Has_Departments", x => new { x.DepartmentName, x.Days_name, x.PrognosisId });
+                    table.PrimaryKey("PK_PrognosisHasDaysHasDepartment", x => new { x.DepartmentName, x.DayName, x.PrognosisId });
                     table.ForeignKey(
-                        name: "FK_prognosis_Has_Days_Has_Departments_Days_Days_name",
-                        column: x => x.Days_name,
-                        principalTable: "Days",
-                        principalColumn: "Name",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_prognosis_Has_Days_Has_Departments_Department_DepartmentName",
+                        name: "FK_PrognosisHasDaysHasDepartment_Department_DepartmentName",
                         column: x => x.DepartmentName,
                         principalTable: "Department",
                         principalColumn: "DepartmentName",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_prognosis_Has_Days_Has_Departments_Prognoses_PrognosisId",
-                        column: x => x.PrognosisId,
-                        principalTable: "Prognoses",
-                        principalColumn: "PrognosisId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_PrognosisHasDaysHasDepartment_PrognosisHasDays_DayName_PrognosisId",
+                        columns: x => new { x.DayName, x.PrognosisId },
+                        principalTable: "PrognosisHasDays",
+                        principalColumns: new[] { "DayName", "PrognosisId" },
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SwitchRequest",
+                columns: table => new
+                {
+                    SendToEmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EmployeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BranchId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Declined = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SwitchRequest", x => new { x.SendToEmployeeId, x.EmployeeId, x.BranchId, x.Date });
                     table.ForeignKey(
-                        name: "FK_prognosis_Has_Days_Has_Departments_Prognosis_Has_Days_Days_name_PrognosisId",
-                        columns: x => new { x.Days_name, x.PrognosisId },
-                        principalTable: "Prognosis_Has_Days",
-                        principalColumns: new[] { "Days_name", "PrognosisId" },
+                        name: "FK_SwitchRequest_AspNetUsers_SendToEmployeeId",
+                        column: x => x.SendToEmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SwitchRequest_Schedule_EmployeeId_BranchId_Date",
+                        columns: x => new { x.EmployeeId, x.BranchId, x.Date },
+                        principalTable: "Schedule",
+                        principalColumns: new[] { "EmployeeId", "BranchId", "Date" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -404,9 +606,9 @@ namespace DataLayer.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", 0, "B003", new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "4cfbfdb5-43b1-4213-b3b7-b3ef10b5757e", "darlon.vandijk@hotmail.com", true, "Darlon", 5, false, "van Dijk", false, null, null, "", "DARLON.VANDIJK@HOTMAIL.COM", "DARLON.VANDIJK@HOTMAIL.COM", "AQAAAAIAAYagAAAAEIoYKOu/bSQcWTVgQoOF+MROTTisAHIyEYiKqZ8EbEGyVBvbhs0zatasQrGQg1wC5g==", "+31 6 34567890", false, "8329 SK", "50787630-a8cf-4b46-a8f0-dd53bdaeae41", new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "darlon.vandijk@hotmail.com" },
-                    { "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", 0, "B005", new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "949cc05e-d77c-41d2-b19a-8a51122c9e59", "sarah.vanderven@hotmail.com", false, "Sarah", 8, false, "van der Ven", false, null, null, "", "SARAH.VANDERVEN@HOTMAIL.COM", "SARAH.VANDERVEN@HOTMAIL.COM", "AQAAAAIAAYagAAAAEASaO1kixiV4NKXzZzcqBSeEc1PQzubZoW2zCVZ8w8iP5F6yyWoFZk7KRBohJ14E6Q==", "+31 6 56789012", false, "2933 KJ", "814f1d95-6e4b-4a3c-852b-4b0b5af2b441", new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "sarah.vanderven@hotmail.com" },
-                    { "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "7f84b677-6f75-45d7-a52c-ef4bad434a30", "jane.smith@example.com", true, "Jane", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEGlQQXMjs0cU4TTEe9xCxHKi4CLQjr+HVzvW6KRxzv5+gaJLD5JiGjGvEEW/nUiLkw==", "06-12345678", false, "9271 GB", "a2619873-eaad-4714-9adb-62b5b2ca0ba1", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" }
+                    { "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", 0, "B003", new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "49bbc914-1f5d-4c82-885b-8b8f172c18e9", "darlon.vandijk@hotmail.com", true, "Darlon", 5, false, "van Dijk", false, null, null, "", "DARLON.VANDIJK@HOTMAIL.COM", "DARLON.VANDIJK@HOTMAIL.COM", "AQAAAAIAAYagAAAAEGjef33Ox2+KE/knOqhn79AGC0UZ/mKHGMzi4fdVo17Uga3xmQXL3DynmOfCt/Qfgg==", "+31 6 34567890", false, "8329 SK", "f921ef04-e3a6-4df7-9adb-f61104ac497c", new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "darlon.vandijk@hotmail.com" },
+                    { "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", 0, "B005", new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "5c62ba8b-a2d9-46c1-894e-7b2d2dba06b1", "sarah.vanderven@hotmail.com", false, "Sarah", 8, false, "van der Ven", false, null, null, "", "SARAH.VANDERVEN@HOTMAIL.COM", "SARAH.VANDERVEN@HOTMAIL.COM", "AQAAAAIAAYagAAAAEMe174vmgltCbPR7gXL/P0WaoLgkxL2WyDY6wQ2Ww2Wwmixvaznnb9IECF4yZPoZHw==", "+31 6 56789012", false, "2933 KJ", "ba4d6422-6b94-40f9-9ac8-f81761d2505c", new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "sarah.vanderven@hotmail.com" },
+                    { "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", 0, "B002", new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "4cc6d0fe-aed6-4981-bce6-71a08e808706", "jane.smith@example.com", true, "Jane", 22, false, "Smith", false, null, null, "B.", "JANE.SMITH@EXAMPLE.COM", "JANE.SMITH@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHYlnidKargHdjcjGMer3JyoJoY9nFuUOmI9T6E9m4zNXEMKOWS+g2uReslwQvz4HQ==", "06-12345678", false, "9271 GB", "d0328d34-9f97-4528-b4ed-67766160c3c0", new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "jane.smith@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -441,18 +643,6 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Department",
-                column: "DepartmentName",
-                values: new object[]
-                {
-                    "Coli uitladen",
-                    "Kassa",
-                    "Spiegelen ",
-                    "Vakkenvullen",
-                    "Vers"
-                });
-
-            migrationBuilder.InsertData(
                 table: "Functions",
                 column: "FunctionName",
                 values: new object[]
@@ -460,6 +650,38 @@ namespace DataLayer.Migrations
                     "Cashier",
                     "Manager",
                     "Stocker"
+                });
+
+            migrationBuilder.InsertData(
+                table: "Branches",
+                columns: new[] { "BranchId", "ClosingTime", "CountryName", "HouseNumber", "Name", "OpeningTime", "PostalCode", "PrognosisId", "ShelfMeeters", "Street" },
+                values: new object[,]
+                {
+                    { 1, new TimeOnly(18, 0, 0), "Netherlands", "10", "Amsterdam Filiaal", new TimeOnly(9, 0, 0), "1012 LG", null, 0, "Damrak" },
+                    { 2, new TimeOnly(17, 0, 0), "Belgium", "20", "Brussels Filiaal", new TimeOnly(8, 0, 0), "1000", null, 0, "Grote Markt" },
+                    { 3, new TimeOnly(21, 0, 0), "Netherlands", "2", "Alkmaar Filiaal", new TimeOnly(9, 0, 0), "1811 KH", null, 0, "Paardenmarkt" },
+                    { 4, new TimeOnly(17, 0, 0), "Netherlands", "15", "Rotterdam Filiaal", new TimeOnly(9, 0, 0), "3011 HE", null, 0, "Botersloot" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "a1b1c1d1-1111-2222-3333-4444abcdabcd", 0, "B012", new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "c346a113-7691-4fb7-9b53-3753dfea563c", "anthony.ross@example.com", true, "Anthony", 7, false, "Ross", false, null, 1, "", "ANTHONY.ROSS@EXAMPLE.COM", "ANTHONY.ROSS@EXAMPLE.COM", "AQAAAAIAAYagAAAAEKdVNRoTKscfX6dsFsaBuvHKV96fAOax1caUpFsfZ+vXg/LZyccladJUT2EhP5u6AA==", "+31 6 12345678", false, "2234 AB", "add62051-0077-4fd4-b547-dbadaebffa2e", new DateTime(2024, 11, 21, 9, 34, 7, 418, DateTimeKind.Local).AddTicks(2952), false, "anthony.ross@example.com" },
+                    { "b2c2d2e2-2222-3333-4444-5555abcdefab", 0, "B013", new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "a204cb37-b46c-43e4-9ecc-d5c56044161b", "douwe.jansen@example.com", true, "Douwe", 12, false, "Jansen", false, null, 2, "", "DOUWE.JANSEN@EXAMPLE.COM", "DOUWE.JANSEN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEFCGEbzYf1IUaPCmra4xTUxvfROoi5zbIrArrqXVmU6Q/yORNXh+QaBwjEXQQnjLYQ==", "+31 6 87654321", false, "3345 CD", "d5330fbc-ad8c-4d2a-8884-ce994e5f7718", new DateTime(2024, 11, 21, 9, 34, 7, 469, DateTimeKind.Local).AddTicks(6179), false, "douwe.jansen@example.com" },
+                    { "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", 0, "B004", new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "9f32a889-1bf1-4650-b649-b5d9f0fc09e7", "pasha.bakker@gmail.com", false, "Pasha", 15, false, "Bakker", false, null, 3, "", "PASHA.BAKKER@GMAIL.COM", "PASHA.BAKKER@GMAIL.COM", "AQAAAAIAAYagAAAAED112j2RLbYsHinx3dNvByP2U02TZ7myTvYUUdAbRDAxch34N9PD/9JOUGQPiRT5MQ==", "+31 6 45678901", false, "3894 HT", "f31255da-b0a3-4bc1-9342-407da3511072", new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "pasha.bakker@gmail.com" },
+                    { "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", 0, "B006", new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "a0098403-66c8-4110-9517-81fbbf2ae0ad", "david.denboer@gmail.com", false, "David", 30, false, "den Boer", false, null, 2, "", "DAVID.DENBOER@GMAIL.COM", "DAVID.DENBOER@GMAIL.COM", "AQAAAAIAAYagAAAAELEiQGA+M5v/12kvlD4lgM0diXUvuwo4CKscWMd2fRWPBKFzv2jJHbfXYB1tWvgQ6g==", "+31 6 67890123", false, "4293 BF", "b071f611-a32d-474a-b78e-42502b88ea44", new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "david.denboer@gmail.com" },
+                    { "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "df76a72e-9f54-4fae-a422-d972dbaab015", "john.doe@example.com", true, "John", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEIl5FPil3epObxBvqmbkhVRAW1Kj6IntCALNLVtC31XzUMfy5K64Km07D17YK0psiw==", "06-9876543", false, "12345", "614c5cac-fdf9-4a8b-a2a1-fd28d09d45e4", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BranchHasEmployees",
+                columns: new[] { "BranchId", "EmployeeId", "FunctionName", "StartDate" },
+                values: new object[,]
+                {
+                    { 3, "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", "Cashier", new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", "Stocker", new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -475,38 +697,6 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Branches",
-                columns: new[] { "BranchId", "ClosingTime", "CountryName", "HouseNumber", "Name", "OpeningTime", "PostalCode", "PrognosisId", "Street" },
-                values: new object[,]
-                {
-                    { 1, new TimeOnly(18, 0, 0), "Netherlands", "10", "Amsterdam Filiaal", new TimeOnly(9, 0, 0), "1012 LG", null, "Damrak" },
-                    { 2, new TimeOnly(17, 0, 0), "Belgium", "20", "Brussels Filiaal", new TimeOnly(8, 0, 0), "1000", null, "Grote Markt" },
-                    { 3, new TimeOnly(21, 0, 0), "Netherlands", "2", "Alkmaar Filiaal", new TimeOnly(9, 0, 0), "1811 KH", null, "Paardenmarkt" },
-                    { 4, new TimeOnly(17, 0, 0), "Netherlands", "15", "Rotterdam Filiaal", new TimeOnly(9, 0, 0), "3011 HE", null, "Botersloot" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "BID", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "HouseNumber", "IsSystemManager", "LastName", "LockoutEnabled", "LockoutEnd", "ManagerOfBranchId", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "StartDate", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "a1b1c1d1-1111-2222-3333-4444abcdabcd", 0, "B012", new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "f4774fee-4ff8-467f-8881-52f0d6743ac3", "anthony.ross@example.com", true, "Anthony", 7, false, "Ross", false, null, 1, "", "ANTHONY.ROSS@EXAMPLE.COM", "ANTHONY.ROSS@EXAMPLE.COM", "AQAAAAIAAYagAAAAEJD4yue0xG8XkRqHXTE+9qX1o5TAKPqSnCLOf3nHDMfid5NkcpkxnFskoWNfcB/hGw==", "+31 6 12345678", false, "2234 AB", "f3d5f9b1-e8a4-442b-a6dc-a05740492e80", new DateTime(2024, 11, 19, 10, 55, 48, 208, DateTimeKind.Local).AddTicks(7525), false, "anthony.ross@example.com" },
-                    { "b2c2d2e2-2222-3333-4444-5555abcdefab", 0, "B013", new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "cfcec7d2-b5cb-467a-8fdb-fcf9239cbecb", "douwe.jansen@example.com", true, "Douwe", 12, false, "Jansen", false, null, 2, "", "DOUWE.JANSEN@EXAMPLE.COM", "DOUWE.JANSEN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEIWssG9790NOuFWOwTySIZivgBIt2Muw8fJ6VY0MLLsNclM7J//GwUeNiyMgB2uPnQ==", "+31 6 87654321", false, "3345 CD", "947ea6ed-dde2-4009-99f2-4df9c2fe599a", new DateTime(2024, 11, 19, 10, 55, 48, 302, DateTimeKind.Local).AddTicks(4102), false, "douwe.jansen@example.com" },
-                    { "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", 0, "B004", new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "29c3aa10-c066-4595-991e-61c2ce20a814", "pasha.bakker@gmail.com", false, "Pasha", 15, false, "Bakker", false, null, 3, "", "PASHA.BAKKER@GMAIL.COM", "PASHA.BAKKER@GMAIL.COM", "AQAAAAIAAYagAAAAEAA1Q3CHcOk2tGmoHvbpTRcEPvXos6WMkRieyJp7MNaAwVfx8vBCcfMkeu5MbthN/A==", "+31 6 45678901", false, "3894 HT", "f7494b17-9c01-4806-a9a5-a6706b03777f", new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "pasha.bakker@gmail.com" },
-                    { "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", 0, "B006", new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "1fdc9b0e-31bb-4669-83ea-e80523a779bc", "david.denboer@gmail.com", false, "David", 30, false, "den Boer", false, null, 2, "", "DAVID.DENBOER@GMAIL.COM", "DAVID.DENBOER@GMAIL.COM", "AQAAAAIAAYagAAAAEPwRNEV+f6XutvPPl3uMTXqP/9iSjQ2PLhBOZ2RDDkyaaR912WvCE8XJGCaYe6nCeA==", "+31 6 67890123", false, "4293 BF", "a74b0c23-b775-472a-8e7e-73e0bbcc63ca", new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "david.denboer@gmail.com" },
-                    { "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", 0, "B001", new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "38906083-0ccd-4578-9db9-ad4e31cbeb40", "john.doe@example.com", true, "John", 10, true, "Doe", false, null, 1, "A.", "JOHN.DOE@EXAMPLE.COM", "JOHN.DOE@EXAMPLE.COM", "AQAAAAIAAYagAAAAEPQnfcq3u/HzLpu44UR9lFvaylrd/5K8ACAAnXCMMt3lZj7HvVVAOXDvzlY+0eUfkg==", "06-9876543", false, "12345", "03bc4421-9d5a-4b1d-b27d-52f65acdea46", new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "john.doe@example.com" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "BranchHasEmployees",
-                columns: new[] { "BranchId", "EmployeeId", "FunctionName", "StartDate" },
-                values: new object[,]
-                {
-                    { 3, "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", "Cashier", new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", "Stocker", new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Prognoses",
                 columns: new[] { "PrognosisId", "BranchId", "WeekNr", "Year" },
                 values: new object[,]
@@ -517,7 +707,7 @@ namespace DataLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Templates",
-                columns: new[] { "Id", "Branch_branchId", "Name" },
+                columns: new[] { "Id", "BranchBranchId", "Name" },
                 values: new object[,]
                 {
                     { 1, 1, "Basic Package" },
@@ -532,15 +722,15 @@ namespace DataLayer.Migrations
                 columns: new[] { "BranchId", "EmployeeId", "FunctionName", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "a1b1c1d1-1111-2222-3333-4444abcdabcd", "Cashier", new DateTime(2024, 11, 19, 10, 55, 48, 208, DateTimeKind.Local).AddTicks(7525) },
-                    { 2, "b2c2d2e2-2222-3333-4444-5555abcdefab", "Stocker", new DateTime(2024, 11, 19, 10, 55, 48, 302, DateTimeKind.Local).AddTicks(4102) },
+                    { 1, "a1b1c1d1-1111-2222-3333-4444abcdabcd", "Cashier", new DateTime(2024, 11, 21, 9, 34, 7, 418, DateTimeKind.Local).AddTicks(2952) },
+                    { 2, "b2c2d2e2-2222-3333-4444-5555abcdefab", "Stocker", new DateTime(2024, 11, 21, 9, 34, 7, 469, DateTimeKind.Local).AddTicks(6179) },
                     { 2, "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", "Manager", new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
                     { 3, "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", "Manager", new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
-                table: "Prognosis_Has_Days",
-                columns: new[] { "Days_name", "PrognosisId", "CustomerAmount", "PackagesAmount" },
+                table: "PrognosisHasDays",
+                columns: new[] { "DayName", "PrognosisId", "CustomerAmount", "PackagesAmount" },
                 values: new object[,]
                 {
                     { "Dinsdag", "1", 120, 60 },
@@ -561,7 +751,7 @@ namespace DataLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "TemplateHasDays",
-                columns: new[] { "Days_name", "Templates_id", "ContainerAmount", "CustomerAmount" },
+                columns: new[] { "DaysName", "TemplatesId", "ContainerAmount", "CustomerAmount" },
                 values: new object[,]
                 {
                     { "Friday", 1, 39, 1040 },
@@ -599,48 +789,6 @@ namespace DataLayer.Migrations
                     { "Thursday", 5, 41, 989 },
                     { "Tuesday", 5, 49, 935 },
                     { "Wednesday", 5, 29, 877 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "prognosis_Has_Days_Has_Departments",
-                columns: new[] { "Days_name", "DepartmentName", "PrognosisId", "AmountWorkersNeeded", "HoursWorkNeeded" },
-                values: new object[,]
-                {
-                    { "Dinsdag", "Coli uitladen", "1", 3, 25 },
-                    { "Donderdag", "Coli uitladen", "1", 3, 24 },
-                    { "Maandag", "Coli uitladen", "1", 3, 24 },
-                    { "Vrijdag", "Coli uitladen", "1", 4, 28 },
-                    { "Woensdag", "Coli uitladen", "1", 3, 26 },
-                    { "Zaterdag", "Coli uitladen", "1", 4, 30 },
-                    { "Zondag", "Coli uitladen", "1", 3, 27 },
-                    { "Dinsdag", "Kassa", "1", 5, 35 },
-                    { "Donderdag", "Kassa", "1", 5, 31 },
-                    { "Maandag", "Kassa", "1", 5, 32 },
-                    { "Vrijdag", "Kassa", "1", 6, 36 },
-                    { "Woensdag", "Kassa", "1", 5, 34 },
-                    { "Zaterdag", "Kassa", "1", 6, 38 },
-                    { "Zondag", "Kassa", "1", 5, 34 },
-                    { "Dinsdag", "Spiegelen", "1", 3, 22 },
-                    { "Donderdag", "Spiegelen", "1", 3, 19 },
-                    { "Maandag", "Spiegelen", "1", 3, 20 },
-                    { "Vrijdag", "Spiegelen", "1", 4, 24 },
-                    { "Woensdag", "Spiegelen", "1", 3, 21 },
-                    { "Zaterdag", "Spiegelen", "1", 4, 26 },
-                    { "Zondag", "Spiegelen", "1", 3, 22 },
-                    { "Dinsdag", "Vakkenvullen", "1", 4, 30 },
-                    { "Donderdag", "Vakkenvullen", "1", 4, 27 },
-                    { "Maandag", "Vakkenvullen", "1", 4, 28 },
-                    { "Vrijdag", "Vakkenvullen", "1", 5, 32 },
-                    { "Woensdag", "Vakkenvullen", "1", 4, 29 },
-                    { "Zaterdag", "Vakkenvullen", "1", 5, 35 },
-                    { "Zondag", "Vakkenvullen", "1", 4, 30 },
-                    { "Dinsdag", "Vers", "1", 2, 18 },
-                    { "Donderdag", "Vers", "1", 2, 15 },
-                    { "Maandag", "Vers", "1", 2, 16 },
-                    { "Vrijdag", "Vers", "1", 3, 20 },
-                    { "Woensdag", "Vers", "1", 2, 17 },
-                    { "Zaterdag", "Vers", "1", 3, 22 },
-                    { "Zondag", "Vers", "1", 2, 18 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -688,6 +836,11 @@ namespace DataLayer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Availability_EmployeeId",
+                table: "Availability",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Branches_CountryName",
                 table: "Branches",
                 column: "CountryName");
@@ -708,6 +861,26 @@ namespace DataLayer.Migrations
                 column: "FunctionName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BranchRequestsEmployee_EmployeeId",
+                table: "BranchRequestsEmployee",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BranchRequestsEmployee_RequestStatusName",
+                table: "BranchRequestsEmployee",
+                column: "RequestStatusName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BranchRequestsEmployee_RequestToBranchId",
+                table: "BranchRequestsEmployee",
+                column: "RequestToBranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeHasDepartment_EmployeeId",
+                table: "EmployeeHasDepartment",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Norms_branchId_year_week_activity",
                 table: "Norms",
                 columns: new[] { "branchId", "year", "week", "activity" },
@@ -719,29 +892,49 @@ namespace DataLayer.Migrations
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prognosis_Has_Days_PrognosisId",
-                table: "Prognosis_Has_Days",
+                name: "IX_PrognosisHasDays_PrognosisId",
+                table: "PrognosisHasDays",
                 column: "PrognosisId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_prognosis_Has_Days_Has_Departments_Days_name_PrognosisId",
-                table: "prognosis_Has_Days_Has_Departments",
-                columns: new[] { "Days_name", "PrognosisId" });
+                name: "IX_PrognosisHasDaysHasDepartment_DayName_PrognosisId",
+                table: "PrognosisHasDaysHasDepartment",
+                columns: new[] { "DayName", "PrognosisId" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_prognosis_Has_Days_Has_Departments_PrognosisId",
-                table: "prognosis_Has_Days_Has_Departments",
-                column: "PrognosisId");
+                name: "IX_Schedule_BranchId",
+                table: "Schedule",
+                column: "BranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TemplateHasDays_Days_name",
+                name: "IX_Schedule_DepartmentName",
+                table: "Schedule",
+                column: "DepartmentName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Schedule_TemplateId",
+                table: "Schedule",
+                column: "TemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SchoolSchedule_EmployeeId",
+                table: "SchoolSchedule",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SwitchRequest_EmployeeId_BranchId_Date",
+                table: "SwitchRequest",
+                columns: new[] { "EmployeeId", "BranchId", "Date" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TemplateHasDays_DaysName",
                 table: "TemplateHasDays",
-                column: "Days_name");
+                column: "DaysName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Templates_Branch_branchId",
+                name: "IX_Templates_BranchBranchId",
                 table: "Templates",
-                column: "Branch_branchId");
+                column: "BranchBranchId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUserClaims_AspNetUsers_UserId",
@@ -805,13 +998,31 @@ namespace DataLayer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Availability");
+
+            migrationBuilder.DropTable(
                 name: "BranchHasEmployees");
+
+            migrationBuilder.DropTable(
+                name: "BranchRequestsEmployee");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeHasDepartment");
+
+            migrationBuilder.DropTable(
+                name: "LabourRules");
 
             migrationBuilder.DropTable(
                 name: "Norms");
 
             migrationBuilder.DropTable(
-                name: "prognosis_Has_Days_Has_Departments");
+                name: "PrognosisHasDaysHasDepartment");
+
+            migrationBuilder.DropTable(
+                name: "SchoolSchedule");
+
+            migrationBuilder.DropTable(
+                name: "SwitchRequest");
 
             migrationBuilder.DropTable(
                 name: "TemplateHasDays");
@@ -820,22 +1031,28 @@ namespace DataLayer.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Functions");
 
             migrationBuilder.DropTable(
-                name: "Functions");
+                name: "RequestStatus");
+
+            migrationBuilder.DropTable(
+                name: "PrognosisHasDays");
+
+            migrationBuilder.DropTable(
+                name: "Schedule");
+
+            migrationBuilder.DropTable(
+                name: "Days");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Department");
 
             migrationBuilder.DropTable(
-                name: "Prognosis_Has_Days");
-
-            migrationBuilder.DropTable(
                 name: "Templates");
-
-            migrationBuilder.DropTable(
-                name: "Days");
 
             migrationBuilder.DropTable(
                 name: "Branches");

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DataLayer.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace bumbo.Models
 {
@@ -10,5 +11,6 @@ namespace bumbo.Models
 
         // Een Country kan meerdere branches hebben
         public ICollection<Branch> Branches { get; set; }
+        public ICollection<LabourRules> LabourRules { get; set; }
     }
 }
