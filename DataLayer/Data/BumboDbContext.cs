@@ -481,10 +481,10 @@ namespace bumbo.Data
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Sunday", CustomerAmount = 885, ContainerAmount = 52 }
             );
 
-            modelBuilder.Entity<Prognosis_has_days_has_Department>()
-                .HasOne(phdd => phdd.Prognosis_Has_Days)
-                .WithMany(phd => phd.Prognosis_Has_Days_Has_Department)
-                .HasForeignKey(phdd => new { phdd.Days_name, phdd.PrognosisId })
+            modelBuilder.Entity<PrognosisHasDaysHasDepartment>()
+                .HasOne(phdd => phdd.PrognosisHasDays)
+                .WithMany(phd => phd.PrognosisHasDaysHasDepartment)
+                .HasForeignKey(phdd => new { phdd.DayName, phdd.PrognosisId })
                 .OnDelete(DeleteBehavior.Restrict);
 
             var branchHasEmployeeOne = new BranchHasEmployee
