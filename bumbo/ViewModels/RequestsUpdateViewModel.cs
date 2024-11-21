@@ -7,6 +7,7 @@ namespace bumbo.ViewModels
         public Request Request { get; set; }
         public Employee Employee { get; set; }
         public Branch Branch { get; set; }
+        public bool HasChosenEmployee { get; set; }
         public Department Department { get; set; }
     }
 }

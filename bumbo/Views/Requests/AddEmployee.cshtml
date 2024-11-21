@@ -48,7 +48,8 @@
                 {
                     <div class="p-3 bg-gray-100 flex items-center justify-between border-t">
                         <p class="text-sm">@emp.FirstName @emp.MiddleName @emp.LastName</p>
-                        <default-button button-type="secondary" button-text="Kiezen"></default-button>
+                        <a class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500"
+                           asp-action="Create" asp-route-empId="@emp.Id" asp-route-branchId="@branch.BranchId">Kiezen</a>
                     </div>
                 }
             </div>

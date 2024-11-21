@@ -6,6 +6,7 @@ using DataLayer.Interfaces;
 using System.Text;
 using bumbo.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace bumbo.Controllers
 {
@@ -36,7 +37,7 @@ namespace bumbo.Controllers
             // TODO repo i.p.v. Testdata
             var requests = new List<Request>()
             {
-                GetTestRequest(testEmp)
+                GetTestRequest()
             };
 
             var headers = new List<string> { "Naam aanvrager", "Bericht", "Nodige Medewerker", "Datum Nodige", "Tijd Nodige", "Acties" };
@@ -103,7 +104,7 @@ namespace bumbo.Controllers
             Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
 
             // TODO remove
-            var request = GetTestRequest(testEmp);
+            var request = GetTestRequest();
 
             var viewModel = new RequestsReadViewModel()
             {
@@ -123,7 +124,7 @@ namespace bumbo.Controllers
             Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
 
             // TODO remove
-            var request = GetTestRequest(testEmp);
+            var request = GetTestRequest();
             var branch = _branchesRepository.GetBranch(request.BranchId);
 
             var viewModel = new RequestsUpdateViewModel()
@@ -135,34 +136,54 @@ namespace bumbo.Controllers
             return View(viewModel);        
         }
 
-        public IActionResult Create()
+        public IActionResult Create(string empId, int branchId)
         {
-            // var request = _requestsRepository.GetRequestById(requestId)
-            // Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
-
             // TODO remove
-            Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
+            var request = new Request();
+            bool isTest = false;
 
-            // TODO remove
-            var request = GetTestRequest(testEmp);
+            bool hasChosenEmp = false;
+            Employee emp = new Employee();
+            if (!empId.IsNullOrEmpty())
+            {
+                emp = _branchesRepository.GetEmployeeById(empId);
+                hasChosenEmp = true;
+                Console.WriteLine(emp.FirstName);
+            } else
+            {
+                request = GetTestRequest();
+                isTest = true;
+            }
+
+            if(!isTest)
+            {
+                request = new Request()
+                {
+                    RequestStatusName = "Afgehandeld",
+                    EmployeeId = emp.Id,
+                    Message = "Ik wil op vakantie omdat ik de afgelopen maanden hard heb gewerkt en het gevoel heb dat ik een pauze nodig heb om op te laden. De stress van deadlines en lange werkdagen heeft me uitgeput, en ik wil de kans grijpen om te ontspannen en nieuwe energie op te doen. Bovendien heb ik altijd al de prachtige stranden van Bali willen bezoeken, waar ik kan genieten van de zon, de zee en de lokale cultuur. Het lijkt me heerlijk om even weg te zijn van de dagelijkse sleur en te genieten van een nieuwe omgeving. Daarom kan ik niet werken; ik heb deze tijd voor mezelf nodig om te herstellen en te genieten van het leven",
+                    DateNeeded = new DateTime(2024, 12, 22),
+                    BranchId = branchId,
+                    StartTime = new TimeOnly(13, 0),
+                    EndTime = new TimeOnly(15, 0),
+                };
+            }
+            
             var branch = _branchesRepository.GetBranch(request.BranchId);
 
             var viewModel = new RequestsUpdateViewModel()
             {
                 Request = request,
-                Employee = testEmp,
+                Employee = emp,
                 Branch = branch,
+                HasChosenEmployee = hasChosenEmp,
             };
             return View(viewModel);
         }
 
         public IActionResult AddEmployee()
         {
-            // TODO remove
-            Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
 
-            // TODO remove
-            var request = GetTestRequest(testEmp);
             var branches = _branchesRepository.GetAllBranches();
             foreach (var br in branches)
             {
@@ -188,12 +209,12 @@ namespace bumbo.Controllers
         }
 
         //TODO remove
-        private Request GetTestRequest(Employee emp)
+        private Request GetTestRequest()
         {
             return new Request()
             {
                 RequestStatusName = "Afgehandeld",
-                EmployeeId = emp.Id,
+                EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                 Message = "Ik wil op vakantie omdat ik de afgelopen maanden hard heb gewerkt en het gevoel heb dat ik een pauze nodig heb om op te laden. De stress van deadlines en lange werkdagen heeft me uitgeput, en ik wil de kans grijpen om te ontspannen en nieuwe energie op te doen. Bovendien heb ik altijd al de prachtige stranden van Bali willen bezoeken, waar ik kan genieten van de zon, de zee en de lokale cultuur. Het lijkt me heerlijk om even weg te zijn van de dagelijkse sleur en te genieten van een nieuwe omgeving. Daarom kan ik niet werken; ik heb deze tijd voor mezelf nodig om te herstellen en te genieten van het leven",
                 DateNeeded = new DateTime(2024, 12, 22),
                 BranchId = 4,
