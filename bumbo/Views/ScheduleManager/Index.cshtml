@@ -1,0 +1,92 @@
+﻿@model bumbo.ViewModels.ScheduleManagerViewModel
+
+<div class="max-w-full mx-auto mt-10 p-6 bg-white">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <!-- Navigatiepijlen -->
+        <div class="flex items-center space-x-4">
+            <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNumber, year = Model.Year, weekInc = -1 })';"
+                    class="p-2">
+                <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNumber, year = Model.Year, weekInc = 1 })';"
+                    class="p-2">
+                <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="transform rotate-180">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Zoekformulier -->
+        <form id="weekForm" method="get" class="flex items-end space-x-4">
+            <div>
+                <label for="weekInput" class="block text-sm font-medium text-gray-700">Week</label>
+                <input type="number"
+                       id="weekInput"
+                       name="weekNumber"
+                       value="@Model.WeekNumber"
+                       placeholder="Week"
+                       min="1"
+                       max="52"
+                       class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 rounded border leading-tight w-20" />
+            </div>
+            <div>
+                <label for="yearInput" class="block text-sm font-medium text-gray-700">Jaar</label>
+                <input type="number"
+                       id="yearInput"
+                       name="year"
+                       value="@Model.Year"
+                       placeholder="Jaar"
+                       class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 rounded border leading-tight w-24" />
+            </div>
+            <default-button button-text="Zoeken" button-type="primary" typeof="submit"></default-button>
+        </form>
+
+        <!-- Definitief maken knop -->
+        <div>
+            <default-button button-text="Definitief maken" button-type="primary"></default-button>
+        </div>
+    </div>
+
+    <!-- Grid met dagen -->
+    <div class="grid grid-cols-7 gap-4">
+        @foreach (var date in Model.Dates)
+        {
+            <div class="bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-4 text-center">
+                <h2 class="text-lg font-medium">@date.ToString("dddd")</h2>
+                <p class="text-gray-600">@date.ToString("dd MMMM yyyy")</p>
+                <div class="mt-4 bg-white border border-gray-300 rounded p-2">
+                    <p class="text-sm text-gray-500">Geen gegevens beschikbaar</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    document.getElementById("weekForm").addEventListener("submit", function(event) {
+        const weekInput = document.getElementById("weekInput").value;
+            if (weekInput > 52 || weekInput < 1) {
+            alert("Het weeknummer moet tussen 1 en 52 liggen.");
+            event.preventDefault();
+            }
+        });
+</script>
+
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                    showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}

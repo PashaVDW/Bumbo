@@ -57,6 +57,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Prognosis", action = "Index" });
 
 app.MapControllerRoute(
+    name: "scheduleManager",
+    pattern: "roosterManager",
+    defaults: new { controller = "ScheduleManager", action = "Index" });
+
+app.MapControllerRoute(
     name: "forecasts",
     pattern: "prognoses",
     defaults: new { controller = "Forecasts", action = "Index" });
