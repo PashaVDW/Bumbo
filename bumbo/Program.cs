@@ -48,7 +48,7 @@ app.UseAuthorization();
 // Routing for the default pages
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 // Custom routes for specific pages
 app.MapControllerRoute(
