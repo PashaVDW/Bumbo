@@ -1,10 +1,10 @@
-﻿@model AvailabilityWeekView
+﻿@model SchoolRosterViewModel
 
-<!--localhost:7135/Availability-->
+<!--localhost:7135/schoolRoster-->
 
-<div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
+<div class="max-w-4xl mx-auto p-4">
     <div class="text-center">
-        <h1 class="text-3xl font-bold mb-2">Beschikbaarheid</h1>
+        <h1 class="text-3xl font-bold mb-2">Schoolrooster</h1>
         <h2 class="text-lg text-gray-600">@Model.Month @Model.Year - Week @Model.Week</h2>
     </div>
 
@@ -15,19 +15,23 @@
         <button type="submit" class="bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-gray-800">Filter</button>
     </form>
 
-    <div class="flex justify-between items-center mb-6 space-x-40">
-        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week - 1, yearNumber = Model.Year })';"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+    <div class="flex justify-between items-center mb-6">
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week - 1, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
             Vorige week
         </button>
-
-        <button onclick="window.location.href='@Url.Action("Create", new { weekNumber = Model.Week, yearNumber = Model.Year })';"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
-            Beschikbaarheid aanmaken
-        </button>
-
-        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week + 1, yearNumber = Model.Year })';"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+        @if (Model.Edit)
+        {
+            <button onclick="window.location.href='@Url.Action("update", new { weekNumber = Model.Week, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+                Schoolrooster bewerken
+            </button>
+        }
+        else
+        {
+            <button onclick="window.location.href='@Url.Action("Create", new { weekNumber = Model.Week, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+                Schoolrooster aanmaken
+            </button>
+        }
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week + 1, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
             Volgende week
         </button>
     </div>

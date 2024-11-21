@@ -24,6 +24,7 @@ builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeReposi
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
 builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
+builder.Services.AddScoped<ISchoolRosterRepository, SchoolRosterRepositorySql>();
 
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
@@ -117,5 +118,10 @@ app.MapControllerRoute(
     name: "availability",
     pattern: "beschikbaarheid",
     defaults: new { controller = "Availability", action = "Index" });
+
+app.MapControllerRoute(
+    name: "schoolRoster",
+    pattern: "schoolRooster",
+    defaults: new { controller = "SchoolRoster", action = "Index" });
 
 app.Run();
