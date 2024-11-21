@@ -4,22 +4,34 @@ using System.Globalization;
 using DataLayer.Models;
 using bumbo.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 
 namespace bumbo.Controllers
 {
     public class AvailabilityController : Controller
     {
+        private readonly UserManager<Employee> _userManager;
         private readonly IAvailabilityRepository _availabilityRepository;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public AvailabilityController(IAvailabilityRepository availabilityRepository, IEmployeeRepository employeeRepository)
+        public AvailabilityController(IAvailabilityRepository availabilityRepository, IEmployeeRepository employeeRepository, UserManager<Employee> userManager)
         {
             _availabilityRepository = availabilityRepository;
             _employeeRepository = employeeRepository;
+            _userManager = userManager;
         }
 
-        public IActionResult Index(int? weekNumber, int? yearNumber)
+        public async Task<IActionResult> Index(int? weekNumber, int? yearNumber)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            string employeeId = currentUser.Id;
+
             if (weekNumber == null || yearNumber == null)
             {
                 DateTime today = DateTime.Now;
@@ -41,7 +53,7 @@ namespace bumbo.Controllers
             DateTime startDate = FirstDateOfWeek((int)yearNumber, (int)weekNumber);
             DateTime endDate = LastDateOfWeek((int)yearNumber, (int)weekNumber);
 
-            List<Availability> availabilities = _availabilityRepository.GetAvailabilitiesBetweenDates(startDate, endDate);
+            List<Availability> availabilities = _availabilityRepository.GetAvailabilitiesBetweenDates(startDate, endDate, employeeId);
 
             AvailabilityWeekView weekView = new AvailabilityWeekView();
 
@@ -69,8 +81,15 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create(int? weekNumber, int? yearNumber)
+        public async Task<IActionResult> Create(int? weekNumber, int? yearNumber)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             if (weekNumber == null || yearNumber == null)
             {
                 DateTime today = DateTime.Now;
@@ -103,8 +122,17 @@ namespace bumbo.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AvailabilityInputViewModel model)
+        public async Task<IActionResult> Create(AvailabilityInputViewModel model)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            string employeeId = currentUser.Id;
+
             if (model.EndYear < model.StartYear ||
                 (model.EndYear == model.StartYear && model.EndWeek < model.StartWeek))
             {
@@ -145,7 +173,7 @@ namespace bumbo.Controllers
                             availabilities.Add(new Availability { Date = availabilityDate,
                                 StartTime = availability.StartTime.Value,
                                 EndTime = availability.EndTime.Value,
-                                EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3"
+                                EmployeeId = employeeId
                             });
                         }
                     }

@@ -10,6 +10,6 @@ namespace DataLayer.Interfaces
     public interface IAvailabilityRepository
     {
         void AddAvailabilities(List<Availability> availabilities, DateTime periodStart, DateTime periodEnd);
-        List<Availability> GetAvailabilitiesBetweenDates(DateTime firsteDate, DateTime lastDate);
+        List<Availability> GetAvailabilitiesBetweenDates(DateTime firsteDate, DateTime lastDate, string employeeId);
     }
 }

@@ -51,13 +51,13 @@ namespace DataLayer.Repositories
         }
 
 
-        public List<Availability> GetAvailabilitiesBetweenDates(DateTime firsteDate, DateTime lastDate)
+        public List<Availability> GetAvailabilitiesBetweenDates(DateTime firsteDate, DateTime lastDate, string employeeId)
         {
             DateOnly firstDateOfWeek = DateOnly.FromDateTime(firsteDate);
             DateOnly lastDateOfWeek = DateOnly.FromDateTime(lastDate);
 
             return _context.Availability
-                .Where(a => a.Date >= firstDateOfWeek && a.Date <= lastDateOfWeek)
+                .Where(a => a.Date >= firstDateOfWeek && a.Date <= lastDateOfWeek && a.EmployeeId == employeeId)
                 .OrderBy(a => a.Date)
                 .ToList();
         }
