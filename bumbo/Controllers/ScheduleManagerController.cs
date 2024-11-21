@@ -166,7 +166,7 @@ namespace bumbo.Controllers
                     return new DepartmentScheduleViewModel
                     {
                         DepartmentName = department,
-                        Employees = BuildEmployeeAndGapList(schedulesForDepartment),
+                        Employees = BuildEmployeeList(schedulesForDepartment, department),
                         TotalHours = schedulesForDepartment
                             .Where(s => s.StartTime < s.EndTime)
                             .Sum(s => (s.EndTime - s.StartTime).TotalHours),
@@ -253,6 +253,29 @@ namespace bumbo.Controllers
             return result;
         }
 
+        private List<EmployeeScheduleViewModel> BuildEmployeeList(List<Schedule> sortedSchedules, string department)
+        {
+            List<EmployeeScheduleViewModel> result = new List<EmployeeScheduleViewModel>();
+
+            var workDayStart = new TimeOnly(8, 0);
+            var workDayEnd = new TimeOnly(21, 30);
+
+            for (int i = 0; i < sortedSchedules.Count; i++)
+            {
+                var schedule = sortedSchedules[i];
+                result.Add(new EmployeeScheduleViewModel
+                {
+                    EmployeeId = schedule.EmployeeId,
+                    EmployeeName = $"{schedule.Employee.FirstName} {schedule.Employee.LastName}",
+                    StartTime = schedule.StartTime,
+                    EndTime = schedule.EndTime,
+                    IsSick = schedule.IsSick,
+                    DepartmentName = department
+                });
+            }
+
+            return result;
+        }
 
         private List<DateTime> GetDatesOfWeek(int year, int weekNumber)
         {

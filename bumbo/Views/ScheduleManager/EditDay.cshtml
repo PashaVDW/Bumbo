@@ -14,5 +14,45 @@
         <h1 class="text-3xl font-semibold">@Html.Raw(ViewBag.Day)</h1>
     </div>
 
+    @foreach (var department in Model.Departments)
+    {
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold">@department.DepartmentName</h2>
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <span class="mr-4 font-bold">Benodigde uren: @department.HoursNeeded</span>
+                    <span class="font-bold">Ingeplande uren: @department.TotalHours</span>
+                </div>
+            </div>
 
+            @foreach (var employee in department.Employees)
+            {
+                <div class="flex items-center mb-2">
+                    <span class="mr-4">@employee.EmployeeName</span>
+
+                    <select name="selectedDepartment"
+                            asp-for="@employee.DepartmentName"
+                            asp-items="@(new SelectList(Model.Departments, "DepartmentName", "DepartmentName", employee.DepartmentName))"
+                            class="form-select">
+                    </select>
+
+                    <input type="time" class="mr-4" value="@employee.StartTime.ToString("hh\\:mm")" />
+                    <input type="time" class="mr-4" value="@employee.EndTime.ToString("hh\\:mm")" />
+
+                    <button class="text-red-500" title="Delete">
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            }
+
+            <button class="flex justify-center items-center border border-dashed border-gray-400 rounded p-4 w-full mt-4">
+                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+                <span class="ml-2">Medewerker toevoegen</span>
+            </button>
+        </div>
+    }
 </div>
