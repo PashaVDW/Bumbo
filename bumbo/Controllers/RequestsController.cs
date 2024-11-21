@@ -209,6 +209,35 @@ namespace bumbo.Controllers
             return Redirect("Index");
         }
 
+        public IActionResult SearchForAvailableEmployees(string searchTerm)
+        {
+            var branches = _branchesRepository.GetAllBranches();
+            if (searchTerm.IsNullOrEmpty())
+            {
+                foreach (var br in branches)
+                {
+                    br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
+                }
+            } else
+            {
+                foreach (var br in branches)
+                {
+                    br.Employees = _branchesRepository.GetEmployeesFromBranch(br).Where(e =>
+                        (!string.IsNullOrEmpty(e.FirstName) && e.FirstName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ||
+                        (!string.IsNullOrEmpty(e.MiddleName) && e.MiddleName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ||
+                        (!string.IsNullOrEmpty(e.LastName) && e.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
+                        .ToList();
+                }
+                branches = branches.Where(b => b.Employees.Count > 0).ToList();
+            }
+            
+            var viewModel = new RequestsAddEmployeeViewModel()
+            {
+                AllBranches = branches,
+            };
+            return View("AddEmployee", viewModel);
+        }
+
         //TODO remove
         private Request GetTestRequest()
         {

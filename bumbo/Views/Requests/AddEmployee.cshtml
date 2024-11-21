@@ -14,10 +14,10 @@
     <h1 class="text-3xl font-semibold">Beschikbare medewerker van ander filiaal toevoegen</h1>
 </div>
 
-<div class='my-16 gap-4 flex items-center justify-center'>
-    <input type='text' name='searchTerm' placeholder='Zoek naar beschikbare medewerkers' class='w-96 border-gray-300 py-2 px-6 rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400' />
+<form asp-action="SearchForAvailableEmployees" class='my-16 gap-4 flex items-center justify-center'>
+    <input asp-for="SearchTerm" type='text' name='searchTerm' placeholder='Zoek naar beschikbare medewerkers' class='w-96 border-gray-300 py-2 px-6 rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400' />
     <button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>
-</div>
+</form>
 
 <div class="flex flex-col items-center">
     @foreach (var branch in Model.AllBranches)
@@ -32,11 +32,15 @@
                     </div>
                     <div class="bg-yellow-300 p-1 rounded text-center">
                         <p class="text-sm font-semibold">@branch.Employees.Count</p>
-                        @if(branch.Employees.Count == 1)
-                        { <p class="text-xs font-semibold">Medewerker</p> } 
-                        else 
-                        { <p class="text-xs font-semibold">Medewerkers</p> }
-                    
+                        @if (branch.Employees.Count == 1)
+                        {
+                            <p class="text-xs font-semibold">Medewerker</p>
+                        }
+                        else
+                        {
+                            <p class="text-xs font-semibold">Medewerkers</p>
+                        }
+
                     </div>
                 </div>
                 <p class="text-sm font-semibold">@branch.Name</p>
@@ -49,11 +53,16 @@
                     <div class="p-3 bg-gray-100 flex items-center justify-between border-t">
                         <p class="text-sm">@emp.FirstName @emp.MiddleName @emp.LastName</p>
                         <a class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500"
-                           asp-action="Create" asp-route-empId="@emp.Id" asp-route-branchId="@branch.BranchId">Kiezen</a>
+                            asp-action="Create" asp-route-empId="@emp.Id" asp-route-branchId="@branch.BranchId">Kiezen</a>
                     </div>
                 }
             </div>
         </div>
+        
+    }
+    @if (Model.AllBranches.Count == 0)
+    {
+        <div class="text-3xl">Geen medewerkers gevonden</div>
     }
 </div>
 
