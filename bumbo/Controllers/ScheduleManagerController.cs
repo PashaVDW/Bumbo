@@ -18,7 +18,8 @@ namespace bumbo.Controllers
             UserManager<Employee> userManager,
             IScheduleRepository scheduleRepository,
             IBranchesRepository branchesRepository,
-            IPrognosisRepository prognosisRepository)
+            IPrognosisRepository prognosisRepository,
+            IBranchesRepository branchRepository)
         {
             _userManager = userManager;
             _scheduleRepository = scheduleRepository;
@@ -78,6 +79,8 @@ namespace bumbo.Controllers
 
             List<PrognosisHasDaysHasDepartment> prognosisDetails = _prognosisRepository.GetPrognosisDetailsByBranchWeekAndYear(branchId, weekNumber.Value, year.Value);
 
+            Branch branch = _branchesRepository.GetBranch(branchId);
+
             var viewModel = new ScheduleManagerViewModel
             {
                 Year = year.Value,
@@ -93,14 +96,14 @@ namespace bumbo.Controllers
                             .OrderBy(s => s.StartTime)
                             .ToList();
 
-                        var hoursNeededForDepartment = prognosisDetails
+                        double hoursNeededForDepartment = prognosisDetails
                             .Where(pd => pd.DayName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
                             .Sum(pd => pd.HoursOfWorkNeeded);
 
                         return new DepartmentScheduleViewModel
                         {
                             DepartmentName = department,
-                            Employees = BuildEmployeeAndGapList(schedulesForDepartment),
+                            Employees = BuildEmployeeAndGapList(schedulesForDepartment, branch),
                             TotalHours = schedulesForDepartment
                                 .Where(s => s.StartTime < s.EndTime && !s.IsSick)
                                 .Sum(s => (s.EndTime - s.StartTime).TotalHours),
@@ -113,12 +116,12 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        private List<EmployeeScheduleViewModel> BuildEmployeeAndGapList(List<Schedule> sortedSchedules)
+        private List<EmployeeScheduleViewModel> BuildEmployeeAndGapList(List<Schedule> sortedSchedules, Branch branch)
         {
             List<EmployeeScheduleViewModel> result = new List<EmployeeScheduleViewModel>();
 
-            TimeOnly workDayStart = new TimeOnly(8, 0);
-            TimeOnly workDayEnd = new TimeOnly(21, 30);
+            TimeOnly workDayStart = branch.OpeningTime;
+            TimeOnly workDayEnd = branch.ClosingTime;
 
             if (sortedSchedules.Count == 0)
             {
@@ -132,14 +135,15 @@ namespace bumbo.Controllers
                 return result;
             }
 
-            Schedule firstSchedule = sortedSchedules.First();
-            if (firstSchedule.StartTime > workDayStart)
+            List<Schedule> availableSchedules = sortedSchedules.Where(s => !s.IsSick).OrderBy(s => s.StartTime).ToList();
+
+            if (!availableSchedules.Any() || availableSchedules.First().StartTime > workDayStart)
             {
                 result.Add(new EmployeeScheduleViewModel
                 {
                     EmployeeName = "Gat",
                     StartTime = workDayStart,
-                    EndTime = firstSchedule.StartTime,
+                    EndTime = availableSchedules.Any() ? availableSchedules.First().StartTime : workDayEnd,
                     IsGap = true
                 });
             }
@@ -156,45 +160,35 @@ namespace bumbo.Controllers
                     EndTime = schedule.EndTime,
                     IsSick = schedule.IsSick
                 });
+            }
 
-                TimeOnly currentEnd = schedule.EndTime;
+            for (int i = 0; i < availableSchedules.Count; i++)
+            {
+                Schedule currentSchedule = availableSchedules[i];
 
-                if (schedule.IsSick)
+                if (i < availableSchedules.Count - 1)
                 {
-                    result.Add(new EmployeeScheduleViewModel
-                    {
-                        EmployeeName = "Gat",
-                        StartTime = schedule.StartTime,
-                        EndTime = schedule.EndTime,
-                        IsGap = true
-                    });
-                }
-
-                if (i < sortedSchedules.Count - 1)
-                {
-                    Schedule nextSchedule = sortedSchedules[i + 1];
-                    TimeOnly nextStart = nextSchedule.StartTime;
-
-                    if (currentEnd < nextStart)
+                    Schedule nextSchedule = availableSchedules[i + 1];
+                    if (currentSchedule.EndTime < nextSchedule.StartTime)
                     {
                         result.Add(new EmployeeScheduleViewModel
                         {
                             EmployeeName = "Gat",
-                            StartTime = currentEnd,
-                            EndTime = nextStart,
+                            StartTime = currentSchedule.EndTime,
+                            EndTime = nextSchedule.StartTime,
                             IsGap = true
                         });
                     }
                 }
             }
 
-            Schedule lastSchedule = sortedSchedules.Last();
-            if (lastSchedule.EndTime < workDayEnd)
+            Schedule lastAvailableSchedule = availableSchedules.LastOrDefault();
+            if (lastAvailableSchedule != null && lastAvailableSchedule.EndTime < workDayEnd)
             {
                 result.Add(new EmployeeScheduleViewModel
                 {
                     EmployeeName = "Gat",
-                    StartTime = lastSchedule.EndTime,
+                    StartTime = lastAvailableSchedule.EndTime,
                     EndTime = workDayEnd,
                     IsGap = true
                 });
@@ -202,9 +196,6 @@ namespace bumbo.Controllers
 
             return result;
         }
-
-
-
 
         private List<DateTime> GetDatesOfWeek(int year, int weekNumber)
         {
@@ -221,7 +212,7 @@ namespace bumbo.Controllers
 
             DateTime startOfWeek = firstMonday.AddDays(weekNumber * 7);
 
-            var dates = new List<DateTime>();
+            List<DateTime> dates = new List<DateTime>();
             for (int i = 0; i < 7; i++)
             {
                 dates.Add(startOfWeek.AddDays(i));
@@ -242,7 +233,7 @@ namespace bumbo.Controllers
     {
         public static int GetWeekOfYear(this DateTime dateTime)
         {
-            var gc = new GregorianCalendar();
+            GregorianCalendar gc = new GregorianCalendar();
             return gc.GetWeekOfYear(dateTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
     }

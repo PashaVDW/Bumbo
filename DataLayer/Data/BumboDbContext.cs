@@ -585,7 +585,7 @@ namespace bumbo.Data
         EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
         BranchId = 1,
         Date = new DateOnly(2024, 11, 18),
-        StartTime = new TimeOnly(12, 0),
+        StartTime = new TimeOnly(10, 0),
         EndTime = new TimeOnly(16, 0),
         DepartmentName = "Vakkenvullen",
         IsSick = false
