@@ -1,6 +1,7 @@
 ﻿using bumbo.Data;
 using bumbo.Models;
 using DataLayer.Interfaces;
+using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories
@@ -39,6 +40,17 @@ namespace DataLayer.Repositories
                 .ToList();
 
             return prognosis.FirstOrDefault();
+        }
+
+        public List<PrognosisHasDaysHasDepartment> GetPrognosisDetailsByBranchWeekAndYear(int branchId, int weekNumber, int year)
+        {
+            return _context.PrognosisHasDaysHasDepartment
+                .Include(phdd => phdd.PrognosisHasDays)
+                    .ThenInclude(phd => phd.Prognosis)
+                .Where(phdd => phdd.PrognosisHasDays.Prognosis.BranchId == branchId
+                            && phdd.PrognosisHasDays.Prognosis.WeekNr == weekNumber
+                            && phdd.PrognosisHasDays.Prognosis.Year == year)
+                .ToList();
         }
 
     }
