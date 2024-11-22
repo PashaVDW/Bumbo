@@ -1,10 +1,6 @@
 ﻿using DataLayer.Models;
-using System.Collections.Generic;
 
-namespace DataLayer.Interfaces
+public interface ISchoolScheduleRepository
 {
-    public interface ISchoolScheduleRepository
-    {
-
-    }
+    void AddSchoolSchedulesForEmployee(string employeeId, List<SchoolSchedule> schedules);
 }

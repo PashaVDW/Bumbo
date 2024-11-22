@@ -6,12 +6,13 @@
     </div>
 
     <form asp-action="AddSchoolSchedule" method="post" class="space-y-6">
+        <div asp-validation-summary="All" class="text-red-600 text-sm mb-4"></div>
         <div>
             <h2 class="text-lg font-medium mb-4">Periode</h2>
             <div class="grid grid-cols-2 gap-6">
                 <div>
                     <label for="StartWeek" class="block text-sm font-medium text-gray-700">Start week</label>
-                    <input asp-for="StartWeek" type="number" min="1" max="52" placeholder="Bijv. 24"
+                    <input asp-for="StartWeek" type="number" min="1" max="53" placeholder="Bijv. 24"
                            class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                     <span asp-validation-for="StartWeek" class="text-sm text-red-600"></span>
                 </div>
@@ -24,7 +25,7 @@
 
                 <div>
                     <label for="EndWeek" class="block text-sm font-medium text-gray-700">Eind week</label>
-                    <input asp-for="EndWeek" type="number" min="1" max="52" placeholder="Bijv. 26"
+                    <input asp-for="EndWeek" type="number" min="1" max="53" placeholder="Bijv. 26"
                            class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                     <span asp-validation-for="EndWeek" class="text-sm text-red-600"></span>
                 </div>
@@ -45,6 +46,8 @@
                     <div class="grid grid-cols-5 gap-6 items-center">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">@Model.Days[i].DayName</label>
+                            <!-- Hidden input for DayName -->
+                            <input type="hidden" name="Days[@i].DayName" value="@Model.Days[i].DayName" />
                         </div>
                         <div>
                             <label asp-for="@Model.Days[i].StartHour" class="block text-sm font-medium text-gray-700">Startuur</label>
@@ -72,7 +75,6 @@
                         </div>
                     </div>
                 }
-
             </div>
         </div>
 
@@ -82,3 +84,20 @@
         </div>
     </form>
 </div>
+
+
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}
+

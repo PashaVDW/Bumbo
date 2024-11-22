@@ -61,24 +61,49 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
+            SetTempDataForSchoolScheduleToast("addSchoolScheduleToast");
+
+            for (int i = 0; i < viewModel.Days.Count; i++)
+            {
+                DaySchoolScheduleViewModel day = viewModel.Days[i];
+                if (day.StartHour.HasValue && day.StartMinute.HasValue && day.EndHour.HasValue && day.EndMinute.HasValue)
+                {
+                    TimeOnly startTime = new TimeOnly(day.StartHour.Value, day.StartMinute.Value);
+                    TimeOnly endTime = new TimeOnly(day.EndHour.Value, day.EndMinute.Value);
+
+                    if (startTime > endTime)
+                    {
+                        ModelState.AddModelError($"Days[{i}].EndHour", "Eindtijd mag niet eerder zijn dan begintijd.");
+                    }
+                }
+            }
+
+            // Validatie van de ingevoerde periode
+            if (!IsValidPeriod(viewModel.StartWeek, viewModel.StartYear, viewModel.EndWeek, viewModel.EndYear))
+            {
+                ModelState.AddModelError("", "De ingevoerde periode is ongeldig. Controleer de weken en jaren.");
+            }
+
             if (!ModelState.IsValid)
             {
+                TempData["ToastMessage"] = "Rooster niet toegevoegd! Controleer de invoer en probeer opnieuw.";
+                TempData["ToastType"] = "error";
                 return View(viewModel);
             }
 
-            var schoolSchedules = new List<SchoolSchedule>();
-            var startDate = GetFirstDateOfWeek(viewModel.StartYear, viewModel.StartWeek);
-            var endDate = GetFirstDateOfWeek(viewModel.EndYear, viewModel.EndWeek).AddDays(6);
+            List<SchoolSchedule> schoolSchedules = new List<SchoolSchedule>();
+            DateTime startDate = GetFirstDateOfWeek(viewModel.StartYear, viewModel.StartWeek);
+            DateTime endDate = GetFirstDateOfWeek(viewModel.EndYear, viewModel.EndWeek).AddDays(6);
 
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
+            for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
-                var dayName = date.ToString("dddd", new CultureInfo("nl-NL"));
+                string dayName = date.ToString("dddd", new CultureInfo("nl-NL"));
                 var daySchedule = viewModel.Days.FirstOrDefault(d => d.DayName.Equals(dayName, StringComparison.OrdinalIgnoreCase));
 
                 if (daySchedule != null && daySchedule.StartHour.HasValue && daySchedule.StartMinute.HasValue
                     && daySchedule.EndHour.HasValue && daySchedule.EndMinute.HasValue)
                 {
-                    var schoolSchedule = new SchoolSchedule
+                    SchoolSchedule schoolSchedule = new SchoolSchedule
                     {
                         EmployeeId = user.Id,
                         Date = DateOnly.FromDateTime(date),
@@ -90,22 +115,23 @@ namespace bumbo.Controllers
                 }
             }
 
-            //_schoolScheduleRepository.AddSchoolSchedulesForEmployee(user.Id, schoolSchedules);
+            _schoolScheduleRepository.AddSchoolSchedulesForEmployee(user.Id, schoolSchedules);
 
-            // Redirect naar een succespagina of een overzicht
             TempData["ToastMessage"] = "Schoolrooster succesvol toegevoegd!";
             TempData["ToastType"] = "success";
-            return RedirectToAction("Index");
+            return View(viewModel);
         }
+
+
 
         private DateTime GetFirstDateOfWeek(int year, int week)
         {
-            var jan1 = new DateTime(year, 1, 1);
-            var daysOffset = DayOfWeek.Monday - jan1.DayOfWeek;
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Monday - jan1.DayOfWeek;
 
-            var firstMonday = jan1.AddDays(daysOffset);
+            DateTime firstMonday = jan1.AddDays(daysOffset);
             var calendar = CultureInfo.CurrentCulture.Calendar;
-            var firstWeek = calendar.GetWeekOfYear(jan1, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            int firstWeek = calendar.GetWeekOfYear(jan1, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
 
             if (firstWeek <= 1)
             {
@@ -121,6 +147,34 @@ namespace bumbo.Controllers
             var currentDate = DateTime.Now;
             var culture = CultureInfo.CurrentCulture;
             return culture.Calendar.GetWeekOfYear(currentDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
+        private bool IsValidWeekAndYear(int week, int year)
+        {
+            if (week < 1 || week > 53) return false;
+
+            if (week == 53)
+            {
+                DateTime dec31 = new DateTime(year, 12, 31);
+                return dec31.DayOfWeek == DayOfWeek.Thursday;
+            }
+
+            return true;
+        }
+
+        private bool IsValidPeriod(int startWeek, int startYear, int endWeek, int endYear)
+        {
+            if (startYear > endYear) return false;
+            if (startYear == endYear && startWeek > endWeek) return false;
+
+            return IsValidWeekAndYear(startWeek, startYear) && IsValidWeekAndYear(endWeek, endYear);
+        }
+
+        private void SetTempDataForSchoolScheduleToast(string toastId)
+        {
+            TempData["ToastId"] = toastId;
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 5000;
         }
     }
 }
