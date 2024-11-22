@@ -33,11 +33,16 @@ namespace DataLayer.Repositories
 
         public List<BranchRequestsEmployee> GetAllIncomingRequests(int branchId)
         {
-            return _context.BranchRequestsEmployee.ToList();
+            return _context.BranchRequestsEmployee
+                .Where(r => r.BranchId != branchId)
+                .Where(r => r.RequestStatusName.Equals("In Afwachting"))
+                .ToList();
         }
         public List<BranchRequestsEmployee> GetAllOutgoingRequests(int branchId)
         {
-            return _context.BranchRequestsEmployee.ToList();
+            return _context.BranchRequestsEmployee
+                .Where(r => r.BranchId == branchId)
+                .ToList();
         }
     }
 }

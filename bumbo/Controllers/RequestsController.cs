@@ -35,22 +35,21 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            // TODO remove
-            Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
-            Employee testNeededEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
+            int branchId = user.ManagerOfBranchId.Value;
 
-            // TODO repo i.p.v. Testdata
-            var requests = new List<BranchRequestsEmployee>()
-            {
-                GetTestRequest()
-            };
+            List<BranchRequestsEmployee> incomingRequests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
+            List<BranchRequestsEmployee> outgoingRequests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(branchId);
 
             var headers = new List<string> { "Naam aanvrager", "Bericht", "Nodige Medewerker", "Datum Nodige", "Tijd Nodige", "Acties" };
             var tableBuilder = new TableHtmlBuilder<BranchRequestsEmployee>();
-            var htmlTable = tableBuilder.GenerateTable("Inkomende Aanvragen", headers, requests, "", item =>
+            var htmlTable = tableBuilder.GenerateTable("Inkomende Aanvragen", headers, incomingRequests, "", item =>
             {
                 var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
-                var messageFirstPart = item.Message.Substring(0, 50) + "...";
+                var messageFirstPart = item.Message;
+                if (messageFirstPart.Length > 30)
+                {
+                    messageFirstPart = item.Message.Substring(0, 30) + "...";
+                }
                 return $@"
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
                  <td class='py-2 px-4'>{messageFirstPart}</td>
@@ -71,10 +70,14 @@ namespace bumbo.Controllers
 
             var headersTwo = new List<string> { "Nodige Medewerker", "Van Filiaal", "Bericht", "Datum Nodige", "Tijd Nodige", "Status", "Acties" };
             var tableBuilderTwo = new TableHtmlBuilder<BranchRequestsEmployee>();
-            var htmlTableTwo = tableBuilderTwo.GenerateTable("Uitgaande Aanvragen", headersTwo, requests, "../Requests/Create", item =>
+            var htmlTableTwo = tableBuilderTwo.GenerateTable("Uitgaande Aanvragen", headersTwo, outgoingRequests, "../Requests/Create", item =>
             {
                 var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
-                var messageFirstPart = item.Message.Substring(0, 50) + "...";
+                var messageFirstPart = item.Message;
+                if (messageFirstPart.Length > 30)
+                {
+                    messageFirstPart = item.Message.Substring(0, 30) + "...";
+                }
                 var branch = _branchesRepository.GetBranch(item.BranchId);
                 return $@"
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
@@ -84,7 +87,7 @@ namespace bumbo.Controllers
                  <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                  <td class='py-2 px-4'>{item.RequestStatusName}</td>
                  <td class='py-2 px-4 text-right'>
-                 <button onclick=""window.location.href='../Requests/ReadOutgoing?requestId={item.RequestToBranchId}'"">✏️</button> 
+                 <button onclick=""window.location.href='../Requests/ReadOutgoing?requestId={item.}'"">✏️</button> 
                  </td>";
 
             }, searchTerm, page);
@@ -93,8 +96,8 @@ namespace bumbo.Controllers
 
             var viewModel = new RequestsViewModel()
             {
-                IncomingRequests = requests,
-                OutgoingRequests = requests
+                IncomingRequests = incomingRequests,
+                OutgoingRequests = outgoingRequests
             };
 
             return View(viewModel);
@@ -255,7 +258,6 @@ namespace bumbo.Controllers
             model.Branch = _branchesRepository.GetBranch(model.BranchId);
             int thisBranchId = user.ManagerOfBranchId.Value;
 
-
             BranchRequestsEmployee request = new BranchRequestsEmployee()
             {
                 Branch = model.Branch,
@@ -268,7 +270,6 @@ namespace bumbo.Controllers
                 RequestToBranchId = model.Branch.BranchId,
 
                 DateNeeded = model.Request.DateNeeded,
-                Department = model.Request.Department,
                 StartTime = model.Request.StartTime,
                 EndTime = model.Request.EndTime,
             };

@@ -27,7 +27,5 @@ namespace bumbo.Models
         public TimeOnly StartTime { get; set; }
         [Required]
         public TimeOnly EndTime { get; set; }
-        [Required]
-        public Department Department { get; set; }
     }
 }

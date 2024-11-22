@@ -545,6 +545,31 @@ namespace bumbo.Data
                 new RequestStatus() { RequestStatusName = "Geaccepteerd" }
             );
 
+            modelBuilder.Entity<BranchRequestsEmployee>().HasData(
+                new BranchRequestsEmployee
+                {
+                    BranchId = 1,
+                    EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
+                    RequestToBranchId = 2,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Overplaatsing nodig vanwege projectdeadline.",
+                    DateNeeded = DateTime.Now.AddDays(7),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 2,
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                    RequestToBranchId = 1,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Terugkeer naar oorspronkelijke vestiging.",
+                    DateNeeded = DateTime.Now.AddDays(14),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                }
+            );
+
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
