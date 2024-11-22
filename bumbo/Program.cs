@@ -16,6 +16,7 @@ builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
 
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
+builder.Services.AddScoped<ISchoolScheduleRepository, SchoolScheduleRepositorySql>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
@@ -66,6 +67,11 @@ app.MapControllerRoute(
     name: "forecasts",
     pattern: "prognoses",
     defaults: new { controller = "Forecasts", action = "Index" });
+
+app.MapControllerRoute(
+    name: "schoolSchedule",
+    pattern: "schoolrooster/toevoegen",
+    defaults: new { controller = "SchoolSchedule", action = "AddSchoolSchedule" });
 
 app.MapControllerRoute(
     name: "norms",
