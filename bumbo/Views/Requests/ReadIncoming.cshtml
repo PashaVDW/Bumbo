@@ -1,0 +1,55 @@
+﻿@using bumbo.ViewModels
+@{
+
+}
+
+@model RequestsReadViewModel
+
+<div class="mx-24 mt-12 mx-auto max-w-2xl">
+    <div class="mb-12 flex">
+        <a href="/verzoeken" class="mr-6">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+        <h1 class="text-3xl font-semibold">Inkomende hulpverzoek bekijken</h1>
+    </div>
+    <div class="mx-12">
+        <div class="mb-6">
+            <p class="font-semibold">Naam aanvrager</p>
+            <p>@Model.Employee.FirstName @Model.Employee.MiddleName @Model.Employee.LastName</p>
+        </div class="mb-6">
+        <div class="mb-6">
+            <p class="font-semibold">Omschrijving</p>
+            <p>@Model.Request.Message</p>
+        </div>
+        <div class="mb-6">
+            <p class="font-semibold">Datum nodige</p>
+            <p>@Model.Request.DateNeeded.Day-@Model.Request.DateNeeded.Month-@Model.Request.DateNeeded.Year</p>
+        </div>
+        <div class="mb-6">
+            <p class="font-semibold">Tijd nodige</p>
+            <p>@Model.Request.StartTime - @Model.Request.EndTime</p>
+        </div>
+        <div class="mb-6">
+            <p class="font-semibold">Status</p>
+            <p>@Model.Request.RequestStatusName</p>
+        </div>
+    </div>
+
+    <div class='mx-12 mt-2 gap-4 flex w-11/12 justify-start'>
+        <form method="post" asp-action="RejectRequest">
+            <input type="hidden" asp-for="RequestId"/>
+            <button class='bg-red-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-500'>Weigeren</button>
+        </form>
+        <form method="post" asp-action="AcceptRequest">
+            <input type="hidden" asp-for="RequestId"/>
+            <button class='bg-green-500 text-white py-2 px-6 rounded-xl font-semibold hover:bg-green-400'>Accepteren</button>
+        </form>
+    </div>
+
+
+    <!-- Extra -->
+    <div class="h-20"></div>
+
+</div>

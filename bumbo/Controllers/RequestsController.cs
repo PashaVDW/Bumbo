@@ -57,10 +57,7 @@ namespace bumbo.Controllers
                  <td class='py-2 px-4'>{item.DateNeeded.Day}-{item.DateNeeded.Month}-{item.DateNeeded.Year}</td>
                  <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                  <td class='py-2 px-4 text-right'>
-                 <div class='gap-4 flex w-11/12 justify-end'>
-                    <button class='bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-6 rounded-xl'>Weigeren</button>
-                    <button class='bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-6 rounded-xl'>Accepteren</button>
-                 </div>
+                 <button onclick=""window.location.href='../Requests/ReadIncoming?id={item.Id}'"">✏️</button> 
                  </td>
                 ";
 
@@ -87,7 +84,7 @@ namespace bumbo.Controllers
                  <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                  <td class='py-2 px-4'>{item.RequestStatusName}</td>
                  <td class='py-2 px-4 text-right'>
-                 <button onclick=""window.location.href='../Requests/ReadOutgoing?requestId={item.}'"">✏️</button> 
+                 <button onclick=""window.location.href='../Requests/ReadOutgoing?id={item.Id}'"">✏️</button> 
                  </td>";
 
             }, searchTerm, page);
@@ -103,7 +100,7 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> ReadOutgoing(int requestId)
+        public async Task<IActionResult> ReadOutgoing(int id)
         {
 
             var user = await _userManager.GetUserAsync(User);
@@ -112,19 +109,41 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            // var request = _branchRequestsEmployeeRepository.GetRequestById(requestId)
-            // Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
+            var branchId = user.ManagerOfBranchId.Value;
 
-            // TODO remove
-            Employee testEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
-
-            // TODO remove
-            var request = GetTestRequest();
+            var requests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(branchId);
+            var request = requests.Where(r => r.Id == id).SingleOrDefault();
+            Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
 
             var viewModel = new RequestsReadViewModel()
             {
                 Request = request,
-                Employee = testEmp
+                Employee = emp,
+                RequestId = id,
+            };
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> ReadIncoming(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var branchId = user.ManagerOfBranchId.Value;
+
+            var requests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
+            var request = requests.Where(r => r.Id == id).SingleOrDefault();
+            Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
+
+            var viewModel = new RequestsReadViewModel()
+            {
+                Request = request,
+                Employee = emp,
+                RequestId = id,
             };
 
             return View(viewModel);
@@ -310,6 +329,44 @@ namespace bumbo.Controllers
                 AllBranches = branches,
             };
             return View("AddEmployee", viewModel);
+        }
+
+        public async Task<IActionResult> AcceptRequest(RequestsReadViewModel model)
+        {
+            int id = model.RequestId;
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var branchId = user.ManagerOfBranchId.Value;
+
+            var requests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
+            var request = requests.Where(r => r.Id == id).SingleOrDefault();
+
+            _branchRequestsEmployeeRepository.AcceptRequest(request);
+
+            return Redirect("Index");
+        }
+
+        public async Task<IActionResult> RejectRequest(RequestsReadViewModel model)
+        {
+            int id = model.RequestId;
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var branchId = user.ManagerOfBranchId.Value;
+
+            var requests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
+            var request = requests.Where(r => r.Id == id).SingleOrDefault();
+
+            _branchRequestsEmployeeRepository.RejectRequest(request);
+
+            return Redirect("Index");
         }
 
         //TODO remove

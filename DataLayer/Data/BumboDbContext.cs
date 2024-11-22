@@ -563,7 +563,7 @@ namespace bumbo.Data
                     EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                     RequestToBranchId = 1,
                     RequestStatusName = "In Afwachting",
-                    Message = "Terugkeer naar oorspronkelijke vestiging.",
+                    Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
                     DateNeeded = DateTime.Now.AddDays(14),
                     StartTime = new TimeOnly(12, 0),
                     EndTime = new TimeOnly(16, 0),
