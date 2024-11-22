@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Repositories
 {
-    public class SchoolRosterRepositorySql : ISchoolRosterRepository
+    public class SchoolScheduleRepositorySql : ISchoolScheduleRepository
     {
-        private readonly BumboDBContext _context;
 
-        public SchoolRosterRepositorySql(BumboDBContext context)
+        readonly BumboDBContext _context;
+
+        public SchoolScheduleRepositorySql(BumboDBContext context)
         {
             _context = context;
         }

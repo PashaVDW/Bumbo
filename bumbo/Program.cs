@@ -17,6 +17,7 @@ builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
 builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepositorySql>();
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
+builder.Services.AddScoped<ISchoolScheduleRepository, SchoolScheduleRepositorySql>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
@@ -24,8 +25,6 @@ builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeReposi
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
 builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
-builder.Services.AddScoped<ISchoolRosterRepository, SchoolRosterRepositorySql>();
-
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
@@ -68,6 +67,11 @@ app.MapControllerRoute(
     name: "forecasts",
     pattern: "prognoses",
     defaults: new { controller = "Forecasts", action = "Index" });
+
+app.MapControllerRoute(
+    name: "schoolSchedule",
+    pattern: "schoolrooster/toevoegen",
+    defaults: new { controller = "SchoolSchedule", action = "AddSchoolSchedule" });
 
 app.MapControllerRoute(
     name: "norms",
@@ -118,10 +122,5 @@ app.MapControllerRoute(
     name: "availability",
     pattern: "beschikbaarheid",
     defaults: new { controller = "Availability", action = "Index" });
-
-app.MapControllerRoute(
-    name: "schoolRoster",
-    pattern: "schoolRooster",
-    defaults: new { controller = "SchoolRoster", action = "Index" });
 
 app.Run();

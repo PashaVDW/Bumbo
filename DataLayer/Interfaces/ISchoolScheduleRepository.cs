@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Interfaces
 {
-    public interface ISchoolRosterRepository
+    public interface ISchoolScheduleRepository
     {
         List<SchoolSchedule> getSchedulesBetweenDates(DateTime startDate, DateTime endDate, string employeeId);
     }

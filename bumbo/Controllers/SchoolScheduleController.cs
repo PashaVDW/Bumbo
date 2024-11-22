@@ -7,15 +7,15 @@ using System.Globalization;
 
 namespace bumbo.Controllers
 {
-    public class SchoolRosterController : Controller
+    public class SchoolScheduleController : Controller
     {
+        private readonly ISchoolScheduleRepository _schoolScheduleRepository;
         private readonly UserManager<Employee> _userManager;
-        private readonly ISchoolRosterRepository _schoolRosterRepository;
 
-        public SchoolRosterController(UserManager<Employee> userManager, ISchoolRosterRepository schoolRosterRepository)
+        public SchoolScheduleController(ISchoolScheduleRepository schoolScheduleRepository, UserManager<Employee> userManager)
         {
+            _schoolScheduleRepository = schoolScheduleRepository;
             _userManager = userManager;
-            _schoolRosterRepository = schoolRosterRepository;
         }
 
         public async Task<IActionResult> Index(int? weekNumber, int? yearNumber)
@@ -54,7 +54,7 @@ namespace bumbo.Controllers
 
             List<SchoolSchedule> roster = _schoolRosterRepository.getSchedulesBetweenDates(startDate, endDate, employeeId);
 
-            SchoolRosterViewModel viewModel = new SchoolRosterViewModel();
+            SchoolScheduleViewModel viewModel = new SchoolScheduleViewModel();
 
             viewModel.Year = (int)yearNumber;
             viewModel.Month = startDate.ToString("MMMM", new CultureInfo("nl-NL"));
@@ -71,7 +71,7 @@ namespace bumbo.Controllers
 
                 var schedule = roster.FirstOrDefault(a => a.Date == DateOnly.FromDateTime(currentDate));
 
-                viewModel.Days.Add(new SchoolRosterDayOverview
+                viewModel.Days.Add(new SchoolScheduleDayOverview
                 {
                     DayName = currentDate.ToString("dddd"),
                     Date = currentDate,
