@@ -4,8 +4,10 @@ using DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace bumbo.Controllers
 {
@@ -175,7 +177,17 @@ namespace bumbo.Controllers
                 }).ToList()
             };
 
+            Console.WriteLine();
+
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult EditDay(string date, string employeeId)
+        {
+
+
+            return View();
         }
 
         public async Task<IActionResult> ChooseEmployee(string date)
@@ -187,6 +199,42 @@ namespace bumbo.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveEmployeeFromDay(string specificDate, string employeeId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null || specificDate.IsNullOrEmpty() || employeeId.IsNullOrEmpty())
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            DateTime.TryParseExact(specificDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime);
+
+            int branchId = user.ManagerOfBranchId.Value;
+
+            if (_scheduleRepository.CanRemoveEmployeeFromDay(DateOnly.FromDateTime(dateTime), employeeId, branchId))
+            {
+                _scheduleRepository.RemoveEmployeeFromDay(DateOnly.FromDateTime(dateTime), employeeId, branchId);
+
+                TempData["ToastMessage"] = "Employee succesfully removed from this day!";
+                TempData["ToastType"] = "success";
+                TempData["ToastId"] = "templateToast";
+                TempData["AutoHide"] = "yes";
+                TempData["MilSecHide"] = 3000;
+            }
+            else
+            {
+                TempData["ToastMessage"] = "Employee doesn't exist, isn't part of your branch or isn't scheduled today!";
+                TempData["ToastType"] = "error";
+
+                TempData["ToastId"] = "templateToast";
+                TempData["AutoHide"] = "yes";
+                TempData["MilSecHide"] = 3000;
+            }
+
+            return RedirectToAction("EditDay", "ScheduleManager", new { date = specificDate });
         }
 
         private List<EmployeeScheduleViewModel> BuildEmployeeAndGapList(List<Schedule> sortedSchedules)

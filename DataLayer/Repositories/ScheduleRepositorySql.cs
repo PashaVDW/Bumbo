@@ -50,5 +50,24 @@ namespace DataLayer.Repositories
             return departments;
         }
 
+        public bool CanRemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId)
+        {
+            var exists = _context.Schedule
+                .Any(s => s.BranchId == branchId && s.Date == dayDate && s.EmployeeId == employeeId);
+
+            return exists;
+        }
+
+        public void RemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId)
+        {
+            var schedule = _context.Schedule
+                .FirstOrDefault(s => s.BranchId == branchId && s.Date == dayDate && s.EmployeeId == employeeId);
+
+            if (schedule != null)
+            {
+                _context.Schedule.Remove(schedule);
+                _context.SaveChanges();
+            }
+        }
     }
 }
