@@ -8,6 +8,6 @@
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public string DepartmentName { get; set; }
-        public int isSick { get; set; }
+        public bool IsSick { get; set; }
     }
 }
