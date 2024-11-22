@@ -1,11 +1,11 @@
-﻿using DataLayer.Models;
+﻿using bumbo.Models;
 
 namespace bumbo.ViewModels
 {
     public class RequestsViewModel
     {
-        public List<Request> IncomingRequests { get; set; }
-        public List<Request> OutgoingRequests { get; set; }
+        public List<BranchRequestsEmployee> IncomingRequests { get; set; }
+        public List<BranchRequestsEmployee> OutgoingRequests { get; set; }
 
     }
 }

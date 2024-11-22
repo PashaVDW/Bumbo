@@ -40,13 +40,13 @@ namespace bumbo.Controllers
             Employee testNeededEmp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
 
             // TODO repo i.p.v. Testdata
-            var requests = new List<Request>()
+            var requests = new List<BranchRequestsEmployee>()
             {
                 GetTestRequest()
             };
 
             var headers = new List<string> { "Naam aanvrager", "Bericht", "Nodige Medewerker", "Datum Nodige", "Tijd Nodige", "Acties" };
-            var tableBuilder = new TableHtmlBuilder<Request>();
+            var tableBuilder = new TableHtmlBuilder<BranchRequestsEmployee>();
             var htmlTable = tableBuilder.GenerateTable("Inkomende Aanvragen", headers, requests, "", item =>
             {
                 var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
@@ -70,7 +70,7 @@ namespace bumbo.Controllers
             ViewBag.HtmlTable = htmlTable;
 
             var headersTwo = new List<string> { "Nodige Medewerker", "Van Filiaal", "Bericht", "Datum Nodige", "Tijd Nodige", "Status", "Acties" };
-            var tableBuilderTwo = new TableHtmlBuilder<Request>();
+            var tableBuilderTwo = new TableHtmlBuilder<BranchRequestsEmployee>();
             var htmlTableTwo = tableBuilderTwo.GenerateTable("Uitgaande Aanvragen", headersTwo, requests, "../Requests/Create", item =>
             {
                 var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
@@ -192,15 +192,13 @@ namespace bumbo.Controllers
 
             var branch = _branchesRepository.GetBranch(branchId);
 
-            Console.WriteLine(empId);
-            Console.WriteLine(emp.Id);
-            Console.WriteLine(emp.FirstName);
-
             var viewModel = new RequestsUpdateViewModel()
             {
                 Employee = emp,
                 Branch = branch,
                 HasChosenEmployee = hasChosenEmp,
+                EmployeeId = empId,
+                BranchId = branchId,
             };
             return View(viewModel);
         }
@@ -246,6 +244,7 @@ namespace bumbo.Controllers
             }
 
             model.Employee = _branchesRepository.GetEmployeeById(model.EmployeeId);
+            model.Branch = _branchesRepository.GetBranch(model.BranchId);
 
             BranchRequestsEmployee request = new BranchRequestsEmployee()
             {
@@ -253,25 +252,18 @@ namespace bumbo.Controllers
                 BranchId = model.Branch.BranchId,
                 Employee = model.Employee,
                 EmployeeId = model.Employee.Id,
+
                 Message = model.Request.Message,
-                RequestStatusName = model.Request.RequestStatusName,
+                RequestStatusName = "In Afwachting",
                 RequestToBranchId = model.Branch.BranchId,
 
+                DateNeeded = model.Request.DateNeeded,
+                Department = model.Request.Department,
+                StartTime = model.Request.StartTime,
+                EndTime = model.Request.EndTime,
             };
 
             _branchRequestsEmployeeRepository.AddRequest(request);
-            //Request request = new Request()
-            //{
-            //    RequestToBranchId = model.Branch.BranchId,
-            //    EmployeeId = model.Employee.Id,
-            //    RequestStatusName = model.Request.RequestStatusName,
-
-            //    DateNeeded = model.Request.DateNeeded,  
-            //    Department = model.Request.Department,
-            //    Message = model.Request.Message,
-            //    StartTime = model.Request.StartTime,
-            //    EndTime = model.Request.EndTime,
-            //};
 
             SetTempDataForToast("createRequest");
             TempData["ToastMessage"] = "Verzoek aangemaakt";
@@ -310,9 +302,9 @@ namespace bumbo.Controllers
         }
 
         //TODO remove
-        private Request GetTestRequest()
+        private BranchRequestsEmployee GetTestRequest()
         {
-            return new Request()
+            return new BranchRequestsEmployee()
             {
                 RequestStatusName = "Afgehandeld",
                 EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",

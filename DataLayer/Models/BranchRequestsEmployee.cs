@@ -21,5 +21,13 @@ namespace bumbo.Models
         public RequestStatus RequestStatus { get; set; }
         [StringLength(300)]
         public string Message { get; set; }
+        [Required]
+        public DateTime DateNeeded { get; set; }
+        [Required]
+        public TimeOnly StartTime { get; set; }
+        [Required]
+        public TimeOnly EndTime { get; set; }
+        [Required]
+        public Department Department { get; set; }
     }
 }
