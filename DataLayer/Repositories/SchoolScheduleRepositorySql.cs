@@ -19,24 +19,21 @@ namespace DataLayer.Repositories
 
         public void AddSchoolSchedulesForEmployee(string employeeId, List<SchoolSchedule> schedules)
         {
-            // Verkrijg alle datums uit de nieuwe schema's
-            var scheduleDates = schedules.Select(ns => ns.Date).ToList();
+            var validSchedules = schedules
+                .Where(s => s.StartTime != s.EndTime)
+                .ToList();
 
-            // Vind de bestaande schema's op basis van deze datums
+            var scheduleDates = validSchedules.Select(ns => ns.Date).ToList();
+
             List<SchoolSchedule> existingSchedules = _context.SchoolSchedule
                 .Where(s => s.EmployeeId == employeeId && scheduleDates.Contains(s.Date))
                 .ToList();
 
-            // Verwijder de bestaande schema's
             _context.SchoolSchedule.RemoveRange(existingSchedules);
 
-            // Voeg de nieuwe schema's toe
-            _context.SchoolSchedule.AddRange(schedules);
+            _context.SchoolSchedule.AddRange(validSchedules);
 
-            // Sla wijzigingen op
             _context.SaveChanges();
         }
-
-
     }
 }

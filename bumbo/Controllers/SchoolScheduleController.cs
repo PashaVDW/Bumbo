@@ -119,7 +119,7 @@ namespace bumbo.Controllers
 
             TempData["ToastMessage"] = "Schoolrooster succesvol toegevoegd!";
             TempData["ToastType"] = "success";
-            return View(viewModel);
+            return RedirectToAction("Index");
         }
 
 
