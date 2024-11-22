@@ -183,11 +183,30 @@ namespace bumbo.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditDay(string date, string employeeId)
+        public IActionResult EditDay(ScheduleManagerEditViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                // Process the data from the model
+                foreach (var department in model.Departments)
+                {
+                    foreach (var employee in department.Employees)
+                    {
+                        // Update the employee's schedule with their selected department, start time, and end time
+                        // You might want to save this data to the database or perform other logic here
 
+                        // For example:
+                        // - Update employee's department if it has changed
+                        // - Save the updated start and end times
+                    }
+                }
 
-            return View();
+                // After processing the form data, redirect to another page or return to the same page
+                return RedirectToAction("Index"); // Example redirect
+            }
+
+            // If the model is invalid, return the same view with validation errors
+            return View(model);
         }
 
         public async Task<IActionResult> ChooseEmployee(string date)
