@@ -18,6 +18,7 @@
             <span>Vandaag ziek melden</span>
         </button>
     </div>
+   
  
     <div class="flex items-center justify-between">
         <a href="@Url.Action("Index", new { weekNumber = Model.SelectedWeek -1, yearNumber = Model.Year })" class="text-2xl md:mr-4">&lt;</a>
@@ -60,7 +61,7 @@
                                 <div class="text-sm text-gray-600">@schedule.StartTime - @schedule.EndTime</div>
                             </div>
                         }
-                        @if (daySchedules.Schedules.Any(s => s.IsSick == true))
+                        @if (daySchedules.Schedules.Any(s => s.IsSick == true) && calcDate == Model.Today.Day && calc.Month == Model.Today.Month && calc.Year == Model.Today.Year)
                         {
                             <default-button button-text="Beter melden" button-type="secondary" custom-style="my-4" on-click="window.location.href='/EmployeeSchedule/CallBetter'"></default-button>
                         }
