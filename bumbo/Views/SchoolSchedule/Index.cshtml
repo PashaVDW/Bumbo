@@ -19,18 +19,9 @@
         <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week - 1, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
             Vorige week
         </button>
-        @if (Model.Edit)
-        {
-            <button onclick="window.location.href='@Url.Action("update", new { weekNumber = Model.Week, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
-                Schoolrooster bewerken
-            </button>
-        }
-        else
-        {
-            <button onclick="window.location.href='@Url.Action("Create", new { weekNumber = Model.Week, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
-                Schoolrooster aanmaken
-            </button>
-        }
+        <button onclick="window.location.href='@Url.Action("AddSchoolSchedule", new { weekNumber = Model.Week, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+            Schoolrooster aanmaken/bewerken
+        </button>
         <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week + 1, yearNumber = Model.Year })';" class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
             Volgende week
         </button>

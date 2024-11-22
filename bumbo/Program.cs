@@ -70,8 +70,8 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "schoolSchedule",
-    pattern: "schoolrooster/toevoegen",
-    defaults: new { controller = "SchoolSchedule", action = "AddSchoolSchedule" });
+    pattern: "schoolrooster",
+    defaults: new { controller = "SchoolSchedule", action = "Index" });
 
 app.MapControllerRoute(
     name: "norms",

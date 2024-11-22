@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Interfaces
 {
-public interface ISchoolScheduleRepository
-{
-    void AddSchoolSchedulesForEmployee(string employeeId, List<SchoolSchedule> schedules);
+    public interface ISchoolScheduleRepository
+    {
+        void AddSchoolSchedulesForEmployee(string employeeId, List<SchoolSchedule> schedules);
         List<SchoolSchedule> getSchedulesBetweenDates(DateTime startDate, DateTime endDate, string employeeId);
     }
 }
