@@ -65,7 +65,6 @@ namespace DataLayer.Repositories
         {
             request.RequestStatusName = "Geaccepteerd";
             _context.Entry(request).Property(e => e.RequestStatusName).IsModified = true;
-            //_context.Update(request);
             _context.SaveChanges();
         }
 

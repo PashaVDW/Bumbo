@@ -149,50 +149,76 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Update(string empId, int branchId) 
+        public async Task<IActionResult> Update(int id, string empId, int branchId) 
         {
 
+            //var user = await _userManager.GetUserAsync(User);
+            //if (user == null || user.ManagerOfBranchId == null)
+            //{
+            //    return RedirectToAction("AccessDenied", "Home");
+            //}
+
+            //// var request = _requestsRepository.GetRequestById(requestId)
+            //// Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
+
+            //// TODO remove
+            //var request = GetTestRequest();
+
+            //bool hasChosenEmp = false;
+            //Employee emp = new Employee();
+
+            //var branch = new Branch();
+
+            //if (!empId.IsNullOrEmpty())
+            //{
+            //    emp = _branchesRepository.GetEmployeeById(empId);
+            //    branch = _branchesRepository.GetBranch(branchId);
+            //    hasChosenEmp = true;
+
+            //    // TODO remove
+            //    request.BranchId = branchId;
+            //} else
+            //{
+            //    emp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
+            //}
+
+            //request.EmployeeId = emp.Id;
+
+
+            //var viewModel = new RequestsUpdateViewModel()
+            //{
+            //    Employee = emp,
+            //    Branch = branch,
+            //    HasChosenEmployee = hasChosenEmp,
+            //    Request = request
+            //};
+            //return View(viewModel);
+           
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            // var request = _requestsRepository.GetRequestById(requestId)
-            // Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
-
-            // TODO remove
-            var request = GetTestRequest();
-
             bool hasChosenEmp = false;
             Employee emp = new Employee();
-
-            var branch = new Branch();
-
             if (!empId.IsNullOrEmpty())
             {
                 emp = _branchesRepository.GetEmployeeById(empId);
-                branch = _branchesRepository.GetBranch(branchId);
                 hasChosenEmp = true;
-
-                // TODO remove
-                request.BranchId = branchId;
-            } else
-            {
-                emp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
             }
-            
-            request.EmployeeId = emp.Id;
 
+            var branch = _branchesRepository.GetBranch(branchId);
 
             var viewModel = new RequestsUpdateViewModel()
             {
                 Employee = emp,
                 Branch = branch,
                 HasChosenEmployee = hasChosenEmp,
-                Request = request
+                EmployeeId = empId,
+                BranchId = branchId,
             };
-            return View(viewModel);        
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Create(string empId, int branchId)
@@ -203,7 +229,6 @@ namespace bumbo.Controllers
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
-            Console.WriteLine(user.ManagerOfBranchId.Value);
 
             bool hasChosenEmp = false;
             Employee emp = new Employee();
