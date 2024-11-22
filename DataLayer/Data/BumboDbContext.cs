@@ -538,6 +538,13 @@ namespace bumbo.Data
                 branchHasEmployeeFive,
                 branchHasEmployeeSix
             );
+
+            modelBuilder.Entity<RequestStatus>().HasData(
+                new RequestStatus() { RequestStatusName = "In Afwachting" },
+                new RequestStatus() { RequestStatusName = "Afgewezen" },
+                new RequestStatus() { RequestStatusName = "Geaccepteerd" }
+            );
+
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });

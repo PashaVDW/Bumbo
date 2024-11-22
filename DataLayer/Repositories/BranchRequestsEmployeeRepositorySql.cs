@@ -31,11 +31,11 @@ namespace DataLayer.Repositories
             _context.SaveChanges();
         }
 
-        public List<BranchRequestsEmployee> GetAllIncomingRequests()
+        public List<BranchRequestsEmployee> GetAllIncomingRequests(int branchId)
         {
             return _context.BranchRequestsEmployee.ToList();
         }
-        public List<BranchRequestsEmployee> GetAllOutgoingRequests()
+        public List<BranchRequestsEmployee> GetAllOutgoingRequests(int branchId)
         {
             return _context.BranchRequestsEmployee.ToList();
         }

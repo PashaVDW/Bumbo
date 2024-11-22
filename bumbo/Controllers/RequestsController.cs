@@ -30,7 +30,7 @@ namespace bumbo.Controllers
         public async Task<IActionResult> Index(RequestsViewModel oldModel, string searchTerm, int page = 1)
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null || !user.IsSystemManager)
+            if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
@@ -104,7 +104,7 @@ namespace bumbo.Controllers
         {
 
             var user = await _userManager.GetUserAsync(User);
-            if (user == null || !user.IsSystemManager)
+            if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
@@ -131,7 +131,7 @@ namespace bumbo.Controllers
         {
 
             var user = await _userManager.GetUserAsync(User);
-            if (user == null || !user.IsSystemManager)
+            if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
@@ -175,12 +175,13 @@ namespace bumbo.Controllers
 
         public async Task<IActionResult> Create(string empId, int branchId)
         {
-
+           
             var user = await _userManager.GetUserAsync(User);
-            if (user == null || !user.IsSystemManager)
+            if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
+            Console.WriteLine(user.ManagerOfBranchId.Value);
 
             bool hasChosenEmp = false;
             Employee emp = new Employee();
@@ -233,8 +234,15 @@ namespace bumbo.Controllers
             return Redirect("Index");
         }
 
-        public IActionResult CreateRequest(RequestsUpdateViewModel model)
+        public async Task<IActionResult> CreateRequest(RequestsUpdateViewModel model)
         {
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             if (model.EmployeeId == null)
             {
                 SetTempDataForToast("addEmployeeFail");
@@ -245,11 +253,13 @@ namespace bumbo.Controllers
 
             model.Employee = _branchesRepository.GetEmployeeById(model.EmployeeId);
             model.Branch = _branchesRepository.GetBranch(model.BranchId);
+            int thisBranchId = user.ManagerOfBranchId.Value;
+
 
             BranchRequestsEmployee request = new BranchRequestsEmployee()
             {
                 Branch = model.Branch,
-                BranchId = model.Branch.BranchId,
+                BranchId = thisBranchId,
                 Employee = model.Employee,
                 EmployeeId = model.Employee.Id,
 
