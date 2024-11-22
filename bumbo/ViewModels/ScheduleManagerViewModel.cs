@@ -30,6 +30,5 @@
         public TimeOnly EndTime { get; set; }
         public bool IsSick { get; set; }
         public bool IsGap { get; set; } = false;
-        public string DepartmentName { get; set; }
     }
 }

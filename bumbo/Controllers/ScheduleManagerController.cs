@@ -119,7 +119,7 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditDay(String? date)
+        public async Task<IActionResult> EditDay(string date)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null || date.IsNullOrEmpty())
@@ -151,7 +151,7 @@ namespace bumbo.Controllers
 
             var viewModel = new ScheduleManagerEditViewModel
             {
-                Date = dateTime,
+                Date = date,
                 Departments = departments.Select(department =>
                 {
                     var schedulesForDepartment = schedules
@@ -163,7 +163,7 @@ namespace bumbo.Controllers
                         .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                         .Sum(pd => pd.HoursOfWorkNeeded);
 
-                    return new DepartmentScheduleViewModel
+                    return new DepartmentScheduleEditViewModel
                     {
                         DepartmentName = department,
                         Employees = BuildEmployeeList(schedulesForDepartment, department),
@@ -176,6 +176,17 @@ namespace bumbo.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> ChooseEmployee(string date)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null || date.IsNullOrEmpty())
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            return View();
         }
 
         private List<EmployeeScheduleViewModel> BuildEmployeeAndGapList(List<Schedule> sortedSchedules)
@@ -253,9 +264,9 @@ namespace bumbo.Controllers
             return result;
         }
 
-        private List<EmployeeScheduleViewModel> BuildEmployeeList(List<Schedule> sortedSchedules, string department)
+        private List<EmployeeScheduleEditViewModel> BuildEmployeeList(List<Schedule> sortedSchedules, string department)
         {
-            List<EmployeeScheduleViewModel> result = new List<EmployeeScheduleViewModel>();
+            List<EmployeeScheduleEditViewModel> result = new List<EmployeeScheduleEditViewModel>();
 
             var workDayStart = new TimeOnly(8, 0);
             var workDayEnd = new TimeOnly(21, 30);
@@ -263,13 +274,12 @@ namespace bumbo.Controllers
             for (int i = 0; i < sortedSchedules.Count; i++)
             {
                 var schedule = sortedSchedules[i];
-                result.Add(new EmployeeScheduleViewModel
+                result.Add(new EmployeeScheduleEditViewModel
                 {
                     EmployeeId = schedule.EmployeeId,
                     EmployeeName = $"{schedule.Employee.FirstName} {schedule.Employee.LastName}",
                     StartTime = schedule.StartTime,
                     EndTime = schedule.EndTime,
-                    IsSick = schedule.IsSick,
                     DepartmentName = department
                 });
             }

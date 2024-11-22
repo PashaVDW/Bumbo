@@ -4,7 +4,7 @@
     ViewData["Title"] = "EditDay";
 }
 
-<div class="max-w-full mx-auto mt-10 p-6">
+<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
     <div class="mb-6 flex">
         <a href="/roosterManager" style="margin-right: 25px">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,8 +32,7 @@
 
                     <select name="selectedDepartment"
                             asp-for="@employee.DepartmentName"
-                            asp-items="@(new SelectList(Model.Departments, "DepartmentName", "DepartmentName", employee.DepartmentName))"
-                            class="form-select">
+                            asp-items="@(new SelectList(Model.Departments, "DepartmentName", "DepartmentName", employee.DepartmentName))">
                     </select>
 
                     <input type="time" class="mr-4" value="@employee.StartTime.ToString("hh\\:mm")" />
@@ -47,12 +46,12 @@
                 </div>
             }
 
-            <button class="flex justify-center items-center border border-dashed border-gray-400 rounded p-4 w-full mt-4">
+            <a class="flex justify-center items-center border border-dashed border-gray-400 rounded p-4 w-full mt-4" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { date =  Model.Date })">
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                 </svg>
                 <span class="ml-2">Medewerker toevoegen</span>
-            </button>
+            </a>
         </div>
     }
 </div>
