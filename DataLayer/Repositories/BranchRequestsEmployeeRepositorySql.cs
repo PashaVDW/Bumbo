@@ -20,6 +20,12 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
+        public void DeleteRequest(BranchRequestsEmployee request)
+        {
+            _context.BranchRequestsEmployee.Remove(request);
+            _context.SaveChanges();
+        }
+
         public void AddRequest(BranchRequestsEmployee request)
         {
             _context.BranchRequestsEmployee.Add(request);

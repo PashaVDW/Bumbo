@@ -11,6 +11,7 @@ namespace DataLayer.Interfaces
     {
         public void AddRequest(BranchRequestsEmployee request);
         public void UpdateRequest(BranchRequestsEmployee request);
+        public void DeleteRequest(BranchRequestsEmployee request);
         public List<BranchRequestsEmployee> GetAllIncomingRequests(int branchId);
         public List<BranchRequestsEmployee> GetAllOutgoingRequests(int branchId);
         public void AcceptRequest(BranchRequestsEmployee request);

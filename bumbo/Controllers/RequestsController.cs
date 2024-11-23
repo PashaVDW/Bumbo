@@ -10,6 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using bumbo.Models;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Azure.Core;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace bumbo.Controllers
 {
@@ -75,7 +77,7 @@ namespace bumbo.Controllers
                 {
                     messageFirstPart = item.Message.Substring(0, 30) + "...";
                 }
-                var branch = _branchesRepository.GetBranch(item.BranchId);
+                var branch = _branchesRepository.GetBranch(item.RequestToBranchId);
                 return $@"
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
                  <td class='py-2 px-4'>{branch.Name}</td>
@@ -149,50 +151,8 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Update(int id, string empId, int branchId) 
+        public async Task<IActionResult> Update(int requestId, string empId, int branchId) 
         {
-
-            //var user = await _userManager.GetUserAsync(User);
-            //if (user == null || user.ManagerOfBranchId == null)
-            //{
-            //    return RedirectToAction("AccessDenied", "Home");
-            //}
-
-            //// var request = _requestsRepository.GetRequestById(requestId)
-            //// Employee emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
-
-            //// TODO remove
-            //var request = GetTestRequest();
-
-            //bool hasChosenEmp = false;
-            //Employee emp = new Employee();
-
-            //var branch = new Branch();
-
-            //if (!empId.IsNullOrEmpty())
-            //{
-            //    emp = _branchesRepository.GetEmployeeById(empId);
-            //    branch = _branchesRepository.GetBranch(branchId);
-            //    hasChosenEmp = true;
-
-            //    // TODO remove
-            //    request.BranchId = branchId;
-            //} else
-            //{
-            //    emp = _branchesRepository.GetEmployeeById("b2c2d2e2-2222-3333-4444-5555abcdefab");
-            //}
-
-            //request.EmployeeId = emp.Id;
-
-
-            //var viewModel = new RequestsUpdateViewModel()
-            //{
-            //    Employee = emp,
-            //    Branch = branch,
-            //    HasChosenEmployee = hasChosenEmp,
-            //    Request = request
-            //};
-            //return View(viewModel);
            
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
@@ -200,12 +160,21 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            bool hasChosenEmp = false;
+            var thisBranchId = user.ManagerOfBranchId.Value;
+            var requests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(thisBranchId);
+            var request = requests.Where(r => r.Id == requestId).SingleOrDefault();
+
             Employee emp = new Employee();
             if (!empId.IsNullOrEmpty())
             {
                 emp = _branchesRepository.GetEmployeeById(empId);
-                hasChosenEmp = true;
+                request.EmployeeId = empId;
+                request.Employee = emp;
+            } else
+            {
+                emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
+                empId = request.EmployeeId;
+                branchId = request.RequestToBranchId;
             }
 
             var branch = _branchesRepository.GetBranch(branchId);
@@ -214,9 +183,9 @@ namespace bumbo.Controllers
             {
                 Employee = emp,
                 Branch = branch,
-                HasChosenEmployee = hasChosenEmp,
                 EmployeeId = empId,
                 BranchId = branchId,
+                Request = request,
             };
             return View(viewModel);
         }
@@ -263,7 +232,7 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult AddEmployeeUpdate()
+        public IActionResult AddEmployeeUpdate(int requestId)
         {
             var branches = _branchesRepository.GetAllBranches();
             foreach (var br in branches)
@@ -271,13 +240,46 @@ namespace bumbo.Controllers
                 br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
             }
 
-            var viewModel = new RequestsAddEmployeeViewModel() { AllBranches = branches };
+            var viewModel = new RequestsAddEmployeeViewModel() { AllBranches = branches, RequestId = requestId };
             return View(viewModel);
         }
 
-        public IActionResult UpdateRequest(RequestsUpdateViewModel model)
+        public async Task<IActionResult> UpdateRequest(RequestsUpdateViewModel model)
         {
-            Console.WriteLine(model.Employee == null);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var branchId = user.ManagerOfBranchId.Value;
+
+            var allRequests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(branchId);
+            var request = allRequests.Where(r => r.Id == model.Request.Id).SingleOrDefault();
+
+            var newRequest = new BranchRequestsEmployee
+            {
+                StartTime = model.Request.StartTime,
+                EndTime = model.Request.EndTime,
+                BranchId = branchId,
+                DateNeeded = model.Request.DateNeeded,
+                Message = model.Request.Message,
+                EmployeeId = model.Request.EmployeeId,
+                RequestStatusName = model.Request.RequestStatusName,
+                RequestToBranchId = model.Request.RequestToBranchId
+            };
+
+            //request.StartTime = model.Request.StartTime;
+            //request.EndTime = model.Request.EndTime;
+            //request.BranchId = branchId;
+            //request.DateNeeded = model.Request.DateNeeded;
+            //request.Message = model.Request.Message;
+            //request.EmployeeId = model.Request.EmployeeId;
+            //request.RequestStatusName = model.Request.RequestStatusName;
+            //request.RequestToBranchId = model.Request.RequestToBranchId;
+
+            _branchRequestsEmployeeRepository.DeleteRequest(request);
+            _branchRequestsEmployeeRepository.AddRequest(newRequest);
             return Redirect("Index");
         }
 
@@ -392,21 +394,6 @@ namespace bumbo.Controllers
             _branchRequestsEmployeeRepository.RejectRequest(request);
 
             return Redirect("Index");
-        }
-
-        //TODO remove
-        private BranchRequestsEmployee GetTestRequest()
-        {
-            return new BranchRequestsEmployee()
-            {
-                RequestStatusName = "Afgehandeld",
-                EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
-                Message = "Ik wil op vakantie omdat ik de afgelopen maanden hard heb gewerkt en het gevoel heb dat ik een pauze nodig heb om op te laden. De stress van deadlines en lange werkdagen heeft me uitgeput, en ik wil de kans grijpen om te ontspannen en nieuwe energie op te doen. Bovendien heb ik altijd al de prachtige stranden van Bali willen bezoeken, waar ik kan genieten van de zon, de zee en de lokale cultuur. Het lijkt me heerlijk om even weg te zijn van de dagelijkse sleur en te genieten van een nieuwe omgeving. Daarom kan ik niet werken; ik heb deze tijd voor mezelf nodig om te herstellen en te genieten van het leven",
-                DateNeeded = new DateTime(2024, 12, 22),
-                BranchId = 4,
-                StartTime = new TimeOnly(13, 0),
-                EndTime = new TimeOnly(15, 0),
-            };
         }
 
         private void SetTempDataForToast(string toastId)

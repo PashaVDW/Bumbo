@@ -7,7 +7,7 @@
 
 <div class="mx-24 mt-12 mx-auto max-w-2xl">
     <div class="mb-12 flex">
-        <a href="ReadOutgoing" class="mr-6">
+        <a asp-action="ReadOutgoing" asp-route-id="@Model.Request.Id" class="mr-6">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -17,16 +17,19 @@
     <form asp-action="UpdateRequest" class="mx-12">
         <div class="mb-6">
             <label class="font-semibold">Datum nodig</label>
-            <input asp-for="Request.DateNeeded" type="date" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            <input asp-for="Request.DateNeeded" type="date" required
+                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
         </div>
         <div class="mb-6 flex justify-between">
             <div class="w-64">
                 <label class="font-semibold">Begintijd nodig</label>
-                <input asp-for="Request.StartTime" type="time" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="Request.StartTime" type="time" required
+                    class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
             </div>
             <div class="w-64">
                 <label class="font-semibold">Eindtijd nodig</label>
-                <input asp-for="Request.EndTime" type="time" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="Request.EndTime" type="time" required
+                    class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
             </div>
         </div>
         <div class="mb-6">
@@ -43,16 +46,25 @@
                 <p>@Model.Employee.FirstName @Model.Employee.MiddleName @Model.Employee.LastName</p>
                 <p>@Model.Branch.Name</p>
                 <a class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500"
-                   href="AddEmployeeUpdate">Wijzigen</a>
+                   asp-action="AddEmployeeUpdate" asp-route-requestId="@Model.Request.Id">Wijzigen</a>
             </div>
         </div>
         <div class="mb-6">
             <label class="font-semibold">Omschrijving</label>
-            <textarea asp-for="Request.Message" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 h-36 w-full appearance-none rounded border leading-tight"></textarea>
+            <textarea asp-for="Request.Message" required
+                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 h-36 w-full appearance-none rounded border leading-tight"></textarea>
         </div>
         <div class="mt-6 flex justify-end">
             <default-button button-text="Bewerken" button-type="primary"></default-button>
         </div>
+
+        <input type="hidden" asp-for="Request.EmployeeId" />
+        <input type="hidden" asp-for="Request.BranchId" />
+        <input type="hidden" asp-for="Request.RequestStatusName" />
+        <input type="hidden" asp-for="Request.RequestToBranchId" />
+        <input type="hidden" asp-for="Request.EmployeeId" />
+        <input type="hidden" asp-for="Request.Id" />
+
     </form>
 
     <!-- White Space -->
