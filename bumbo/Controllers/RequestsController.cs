@@ -153,7 +153,7 @@ namespace bumbo.Controllers
 
         public async Task<IActionResult> Update(int requestId, string empId, int branchId) 
         {
-           
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
             {
@@ -170,6 +170,7 @@ namespace bumbo.Controllers
                 emp = _branchesRepository.GetEmployeeById(empId);
                 request.EmployeeId = empId;
                 request.Employee = emp;
+                request.RequestToBranchId = branchId;
             } else
             {
                 emp = _branchesRepository.GetEmployeeById(request.EmployeeId);
