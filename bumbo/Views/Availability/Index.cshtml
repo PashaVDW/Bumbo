@@ -2,34 +2,41 @@
 
 <!--localhost:7135/Availability-->
 
-<div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
-    <div class="text-center">
-        <h1 class="text-3xl font-bold mb-2">Beschikbaarheid</h1>
-        <h2 class="text-lg text-gray-600">@Model.Month @Model.Year - Week @Model.Week</h2>
-    </div>
+<div class="max-w-6xl mx-auto p-6 space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold">Beschikbaarheid</h1>
+            <h2 class="text-lg text-gray-600">@Model.Month @Model.Year - Week @Model.Week</h2>
+        </div>
 
-    <form id="weekForm" method="get" class="flex items-center justify-center gap-4 mt-6 mb-8">
-        <p>Filter op week / jaar</p>
-        <input type="number" id="weekInput" name="weekNumber" placeholder="Week" class="w-24 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-yellow-500" />
-        <input type="number" id="yearInput" name="yearNumber" placeholder="Jaar" class="w-28 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-yellow-500" />
-        <button type="submit" class="bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-gray-800">Filter</button>
-    </form>
-
-    <div class="flex justify-between items-center mb-6 space-x-40">
-        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week - 1, yearNumber = Model.Year })';"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
-            Vorige week
-        </button>
+        <form id="weekForm" class="flex items-center gap-2">
+            <label class="text-sm font-medium text-gray-600 whitespace-nowrap">Filter op week / jaar</label>
+            <input type="number"
+                   id="weekInput"
+                   name="weekNumber"
+                   placeholder="Week"
+                   class="w-20 border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-gray-400 text-center" />
+            <input type="number"
+                   id="yearInput"
+                   name="yearNumber"
+                   placeholder="Jaar"
+                   class="w-20 border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-gray-400 text-center" />
+            <button type="submit"
+                    class="bg-gray-700 text-white font-medium py-2 px-4 rounded-md hover:bg-gray-800">
+                Filter
+            </button>
+        </form>
 
         <button onclick="window.location.href='@Url.Action("Create", new { weekNumber = Model.Week, yearNumber = Model.Year })';"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
+                class="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-6 rounded-md">
             Beschikbaarheid aanmaken
         </button>
 
-        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week + 1, yearNumber = Model.Year })';"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl">
-            Volgende week
-        </button>
+    </div>
+
+    <div class="flex items-center justify-between">
+        <a href="@Url.Action("Index", new { weekNumber = Model.Week -1, yearNumber = Model.Year })" class="text-2xl md:mr-4">&lt;</a>
+        <a href="@Url.Action("Index", new { weekNumber = Model.Week +1, yearNumber = Model.Year })" class="text-2xl md:ml-4">&gt;</a>
     </div>
 
     @if (TempData["Error"] != null)
@@ -39,21 +46,21 @@
         </div>
     }
 
-    <table class="w-full text-left border-collapse border border-gray-200">
-        <thead class="bg-gray-100 text-gray-700">
-            <tr>
-                <th class="border border-gray-300 px-4 py-2">Dag</th>
-                <th class="border border-gray-300 px-4 py-2">Datum</th>
-                <th class="border border-gray-300 px-4 py-2">Status</th>
-            </tr>
-        </thead>
+    <table class="w-full border-collapse text-gray-700">
         <tbody>
             @foreach (var day in Model.Days)
             {
-                <tr class="hover:bg-gray-50">
-                    <td class="border border-gray-300 px-4 py-2">@day.DayName</td>
-                    <td class="border border-gray-300 px-4 py-2">@day.Date.ToString("dd-MM-yyyy")</td>
-                    <td class="border border-gray-300 px-4 py-2">@day.Status</td>
+                <tr class="border-b border-gray-200 hover:bg-gray-50 flex justify-between items-center">
+                    <!-- Dag en Datum -->
+                    <td class="py-4 px-6 flex flex-col">
+                        <span class="text-lg font-medium text-gray-800">@day.Date.ToString("dd")</span>
+                        <span class="text-sm text-gray-500">@day.DayName</span>
+                    </td>
+
+                    <!-- Status -->
+                    <td class="py-4 px-6 text-right text-lg font-medium text-gray-700">
+                        @day.Status
+                    </td>
                 </tr>
             }
         </tbody>
