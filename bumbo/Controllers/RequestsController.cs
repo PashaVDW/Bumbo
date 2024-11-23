@@ -221,9 +221,19 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult AddEmployee() 
+        public async Task<IActionResult> AddEmployee() 
         {
-            var branches = _branchesRepository.GetAllBranches();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var branchId = user.ManagerOfBranchId.Value;
+
+            var branches = _branchesRepository.GetAllBranches()
+                            .Where(b => b.BranchId != branchId)
+                            .ToList();
             foreach (var br in branches)
             {
                 br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
@@ -233,9 +243,19 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult AddEmployeeUpdate(int requestId)
+        public async Task<IActionResult> AddEmployeeUpdate(int requestId)
         {
-            var branches = _branchesRepository.GetAllBranches();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var branchId = user.ManagerOfBranchId.Value;
+
+            var branches = _branchesRepository.GetAllBranches()
+                .Where(b => b.BranchId != branchId)
+                .ToList();
             foreach (var br in branches)
             {
                 br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
