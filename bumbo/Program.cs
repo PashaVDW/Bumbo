@@ -14,7 +14,7 @@ builder.Services.AddDbContext<BumboDBContext>(options =>
 
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
-
+builder.Services.AddScoped<IPrognosisHasDaysHasDepartments, PrognosisHasDaysHasDepartmentsSql>();
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
 builder.Services.AddScoped<IDaysRepositorySQL, DaysRepositorySQL>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();

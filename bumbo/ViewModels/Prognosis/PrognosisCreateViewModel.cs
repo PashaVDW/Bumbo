@@ -9,5 +9,7 @@ namespace bumbo.ViewModels.Prognosis
         public List<int> PackagesAmount { get; set; }
         public int WeekNr { get; set; }
         public int Year { get; set; }
+        public string TemplateName { get; set; }
+
     }
 }
