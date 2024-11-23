@@ -1,42 +1,47 @@
-﻿@model SchoolScheduleViewModel
-
-<!-- localhost:7135/schoolRoster -->
-
-<div class="max-w-6xl mx-auto p-6 space-y-6">
-    <div class="flex items-center justify-between">
-        <div>
+﻿<div class="max-w-6xl mx-auto p-6 space-y-6">
+    <div class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 text-center md:text-left">
+        <div class="flex-1 min-w-[200px]">
             <h1 class="text-3xl font-bold">Schoolrooster</h1>
             <h2 class="text-lg text-gray-600">@Model.Month @Model.Year - Week @Model.Week</h2>
         </div>
 
-        <form id="weekForm" class="flex items-center gap-2">
+        <form id="weekForm" class="flex flex-col md:flex-row items-center gap-2">
             <label class="text-sm font-medium text-gray-600 whitespace-nowrap">Filter op week / jaar</label>
-            <input type="number"
-                   id="weekInput"
-                   name="weekNumber"
-                   placeholder="Week"
-                   class="w-20 border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-gray-400 text-center" />
-            <input type="number"
-                   id="yearInput"
-                   name="yearNumber"
-                   placeholder="Jaar"
-                   class="w-20 border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-gray-400 text-center" />
+            <div class="flex gap-2">
+                <input type="number"
+                       id="weekInput"
+                       name="weekNumber"
+                       placeholder="Week"
+                       class="w-20 border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-gray-400 text-center" />
+                <input type="number"
+                       id="yearInput"
+                       name="yearNumber"
+                       placeholder="Jaar"
+                       class="w-20 border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-gray-400 text-center" />
+            </div>
             <button type="submit"
-                    class="bg-gray-700 text-white font-medium py-2 px-4 rounded-md hover:bg-gray-800">
+                    class="bg-gray-700 text-white font-medium py-2 px-4 rounded-md hover:bg-gray-800 whitespace-nowrap">
                 Filter
             </button>
         </form>
 
         <button onclick="window.location.href='@Url.Action("AddSchoolSchedule", new { weekNumber = Model.Week, yearNumber = Model.Year })';"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-6 rounded-md">
+                class="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap">
             Schoolrooster toevoegen / overschrijven
         </button>
     </div>
 
     <!-- Navigatie -->
-    <div class="flex items-center justify-between">
-        <a href="@Url.Action("Index", new { weekNumber = Model.Week -1, yearNumber = Model.Year })" class="text-2xl md:mr-4">&lt;</a>
-        <a href="@Url.Action("Index", new { weekNumber = Model.Week +1, yearNumber = Model.Year })" class="text-2xl md:ml-4">&gt;</a>
+    <div class="flex items-center justify-between mt-4">
+        <a href="@Url.Action("Index", new { weekNumber = Model.Week - 1, yearNumber = Model.Year })"
+           class="text-2xl text-gray-600 hover:text-gray-800 flex-shrink-0">
+            &lt;
+        </a>
+
+        <a href="@Url.Action("Index", new { weekNumber = Model.Week + 1, yearNumber = Model.Year })"
+           class="text-2xl text-gray-600 hover:text-gray-800 flex-shrink-0">
+            &gt;
+        </a>
     </div>
 
     <!-- Rooster lijst -->
@@ -59,5 +64,4 @@
             }
         </tbody>
     </table>
-
 </div>
