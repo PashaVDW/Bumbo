@@ -55,7 +55,7 @@ namespace bumbo.Controllers
                 }
                 return $@"
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
-                 <td class='py-2 px-4'>{messageFirstPart}</td>
+                 <td class='py-2 px-4 cursor-pointer bg-gray-100 font-semibold hover:bg-gray-200' onclick=""window.location.href='../Requests/ReadIncoming?id={item.Id}'"">{messageFirstPart}</td>
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
                  <td class='py-2 px-4'>{item.DateNeeded.Day}-{item.DateNeeded.Month}-{item.DateNeeded.Year}</td>
                  <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
