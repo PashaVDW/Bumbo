@@ -45,6 +45,7 @@ namespace bumbo.Data
                 .HasIndex(norm => new { norm.branchId, norm.year, norm.week, norm.activity })
                 .IsUnique();
 
+            //seeddata
             var weekFourtyOneColi = new Norm
             {
                 normId = 1,
@@ -547,81 +548,81 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Schedule>().HasData(
-    // Maandag - Kassa
-    new Schedule
-    {
-        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
-        BranchId = 1,
-        Date = new DateOnly(2024, 11, 18),
-        StartTime = new TimeOnly(9, 0),
-        EndTime = new TimeOnly(13, 0),
-        DepartmentName = "Kassa",
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
-        BranchId = 1,
-        Date = new DateOnly(2024, 11, 18),
-        StartTime = new TimeOnly(13, 0),
-        EndTime = new TimeOnly(17, 0),
-        DepartmentName = "Kassa",
-        IsSick = false
-    },
+                // Maandag - Kassa
+                new Schedule
+                {
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 18),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(13, 0),
+                    DepartmentName = "Kassa",
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 18),
+                    StartTime = new TimeOnly(13, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Kassa",
+                    IsSick = false
+                },
 
-    // Maandag - Vakkenvullen
-    new Schedule
-    {
-        EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
-        BranchId = 1,
-        Date = new DateOnly(2024, 11, 18),
-        StartTime = new TimeOnly(8, 0),
-        EndTime = new TimeOnly(12, 0),
-        DepartmentName = "Vakkenvullen",
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
-        BranchId = 1,
-        Date = new DateOnly(2024, 11, 18),
-        StartTime = new TimeOnly(12, 0),
-        EndTime = new TimeOnly(16, 0),
-        DepartmentName = "Vakkenvullen",
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
-        BranchId = 1,
-        Date = new DateOnly(2024, 11, 18),
-        StartTime = new TimeOnly(16, 0),
-        EndTime = new TimeOnly(21, 30),
-        DepartmentName = "Vakkenvullen",
-        IsSick = false
-    },
+                // Maandag - Vakkenvullen
+                new Schedule
+                {
+                    EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 18),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 18),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 18),
+                    StartTime = new TimeOnly(16, 0),
+                    EndTime = new TimeOnly(21, 30),
+                    DepartmentName = "Vakkenvullen",
+                    IsSick = false
+                },
 
-    // Maandag - Vers
-    new Schedule
-    {
-        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
-        BranchId = 1,
-        Date = new DateOnly(2024, 11, 18),
-        StartTime = new TimeOnly(8, 0),
-        EndTime = new TimeOnly(14, 0),
-        DepartmentName = "Vers",
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David den Boer
-        BranchId = 1,
-        Date = new DateOnly(2024, 11, 18),
-        StartTime = new TimeOnly(14, 0),
-        EndTime = new TimeOnly(18, 0),
-        DepartmentName = "Vers",
-        IsSick = false
-    },
+                // Maandag - Vers
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 18),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David den Boer
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 18),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Vers",
+                    IsSick = false
+                },
 
                 // Dinsdag
                 new Schedule
@@ -816,7 +817,62 @@ namespace bumbo.Data
                 }
             );
 
-
+            modelBuilder.Entity<LabourRules>().HasData(
+                new LabourRules
+                {
+                    CountryName = "Netherlands",
+                    AgeGroup = "<16",
+                    MaxHoursPerDay = 8,
+                    MaxEndTime = new TimeSpan(19, 0, 0),
+                    MaxHoursPerWeek = 40,
+                    MaxWorkDaysPerWeek = 5,
+                    MaxHoursWithSchool = 12,
+                    MinRestDaysPerWeek = 2,
+                    NumHoursWorkedBeforeBreak = 4,
+                    MinutesOfBreak = 30,
+                    SickPayPercentage = 70m,
+                    OvertimePayPercentage = 0m,
+                    MinRestHoursBetweenShifts = 12,
+                    MaxShiftDuration = 8,
+                    MaxOvertimeHoursPerWeek = 0
+                },
+                new LabourRules
+                {
+                    CountryName = "Netherlands",
+                    AgeGroup = "16-17",
+                    MaxHoursPerDay = 9,
+                    MaxEndTime = new TimeSpan(22, 0, 0),
+                    MaxHoursPerWeek = 40,
+                    MaxWorkDaysPerWeek = 5,
+                    MaxHoursWithSchool = 40,
+                    MinRestDaysPerWeek = 2,
+                    NumHoursWorkedBeforeBreak = 4,
+                    MinutesOfBreak = 30,
+                    SickPayPercentage = 70m,
+                    OvertimePayPercentage = 0m,
+                    MinRestHoursBetweenShifts = 12,
+                    MaxShiftDuration = 9,
+                    MaxOvertimeHoursPerWeek = 0
+                },
+                new LabourRules
+                {
+                    CountryName = "Netherlands",
+                    AgeGroup = "<17",
+                    MaxHoursPerDay = 12,
+                    MaxEndTime = new TimeSpan(24, 0, 0),
+                    MaxHoursPerWeek = 60,
+                    MaxWorkDaysPerWeek = 6,
+                    MaxHoursWithSchool = 0,
+                    MinRestDaysPerWeek = 1,
+                    NumHoursWorkedBeforeBreak = 4,
+                    MinutesOfBreak = 30,
+                    SickPayPercentage = 70m,
+                    OvertimePayPercentage = 150m,
+                    MinRestHoursBetweenShifts = 11,
+                    MaxShiftDuration = 12,
+                    MaxOvertimeHoursPerWeek = 20
+                }
+            );
 
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
@@ -886,7 +942,6 @@ namespace bumbo.Data
                 .WithMany(d => d.Schedules)
                 .HasForeignKey(s => s.DepartmentName);
 
-
             modelBuilder.Entity<Schedule>()
                 .HasOne(s => s.Branch)
                 .WithMany(b => b.Schedules)
@@ -906,17 +961,25 @@ namespace bumbo.Data
                 .HasForeignKey(phdhd => new { phdhd.DayName, phdhd.PrognosisId } );
 
             modelBuilder.Entity<LabourRules>()
-                .HasOne(lr => lr.Country)
+                .HasKey(l => new { l.CountryName, l.AgeGroup });
+
+            modelBuilder.Entity<LabourRules>()
+                .HasOne(l => l.Country)
                 .WithMany(c => c.LabourRules)
-                .HasForeignKey(lr => lr.CountryName);
+                .HasForeignKey(l => l.CountryName);
+
+            modelBuilder.Entity<LabourRules>()
+               .Property(lr => lr.SickPayPercentage)
+               .HasPrecision(5, 2);
+
+            modelBuilder.Entity<LabourRules>()
+                .Property(lr => lr.OvertimePayPercentage)
+                .HasPrecision(5, 2);
 
             modelBuilder.Entity<Norm>()
                 .HasOne(n => n.Branch)
                 .WithMany(b => b.Norm)
                 .HasForeignKey(n => n.branchId);
-
-            modelBuilder.Entity<LabourRules>()
-                .HasKey(lr => lr.CountryName);
 
             modelBuilder.Entity<SwitchRequest>()
                 .HasOne(sr => sr.Employee)
@@ -953,7 +1016,6 @@ namespace bumbo.Data
                 .WithMany(rs => rs.BranchRequestsEmployee)
                 .HasForeignKey(bre => bre.RequestStatusName)
                 .OnDelete(DeleteBehavior.Restrict);
-
         }
     }
 }

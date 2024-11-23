@@ -177,8 +177,6 @@ namespace bumbo.Controllers
                 }).ToList()
             };
 
-            Console.WriteLine();
-
             return View(viewModel);
         }
 
@@ -187,7 +185,6 @@ namespace bumbo.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Process the data from the model
                 foreach (var department in model.Departments)
                 {
                     foreach (var employee in department.Employees)
