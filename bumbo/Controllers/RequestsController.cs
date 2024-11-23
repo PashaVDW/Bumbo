@@ -12,6 +12,7 @@ using Microsoft.CodeAnalysis.Operations;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Azure.Core;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace bumbo.Controllers
 {
@@ -29,7 +30,7 @@ namespace bumbo.Controllers
             _branchRequestsEmployeeRepository = branchRequestsEmployeeRepository;
     }
 
-        public async Task<IActionResult> Index(RequestsViewModel oldModel, string searchTerm, int page = 1)
+        public async Task<IActionResult> Index(string searchTerm, int page = 1)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
@@ -93,13 +94,7 @@ namespace bumbo.Controllers
 
             ViewBag.HtmlTableTwo = htmlTableTwo;
 
-            var viewModel = new RequestsViewModel()
-            {
-                IncomingRequests = incomingRequests,
-                OutgoingRequests = outgoingRequests
-            };
-
-            return View(viewModel);
+            return View();
         }
 
         public async Task<IActionResult> ReadOutgoing(int id)
@@ -290,15 +285,6 @@ namespace bumbo.Controllers
                 RequestToBranchId = model.Request.RequestToBranchId
             };
 
-            //request.StartTime = model.Request.StartTime;
-            //request.EndTime = model.Request.EndTime;
-            //request.BranchId = branchId;
-            //request.DateNeeded = model.Request.DateNeeded;
-            //request.Message = model.Request.Message;
-            //request.EmployeeId = model.Request.EmployeeId;
-            //request.RequestStatusName = model.Request.RequestStatusName;
-            //request.RequestToBranchId = model.Request.RequestToBranchId;
-
             _branchRequestsEmployeeRepository.DeleteRequest(request);
             _branchRequestsEmployeeRepository.AddRequest(newRequest);
             return Redirect("Index");
@@ -416,6 +402,8 @@ namespace bumbo.Controllers
 
             return Redirect("Index");
         }
+
+        // Private methodes
 
         private void SetTempDataForToast(string toastId)
         {
