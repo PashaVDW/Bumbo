@@ -11,6 +11,7 @@ namespace DataLayer.Interfaces
     {
        
         Branch GetBranch(int id);
+        string GetBranchCountryName(int branchId);
         List<Branch> GetAllBranches();
         void AddBranch(Branch branch);
         void UpdateBranch(Branch branch);

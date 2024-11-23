@@ -181,10 +181,19 @@ namespace bumbo.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditDay(ScheduleManagerEditViewModel model)
+        public async Task<IActionResult> EditDay(ScheduleManagerEditViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null || user.ManagerOfBranchId == null)
+                {
+                    return RedirectToAction("AccessDenied", "Home");
+                }
+
+                int branchId = user.ManagerOfBranchId.Value;
+                string countryName = _branchesRepository.GetBranchCountryName(branchId);
+
                 foreach (var department in model.Departments)
                 {
                     foreach (var employee in department.Employees)
@@ -195,14 +204,14 @@ namespace bumbo.Controllers
                         // For example:
                         // - Update employee's department if it has changed
                         // - Save the updated start and end times
+
+
                     }
                 }
-
-                // After processing the form data, redirect to another page or return to the same page
-                return RedirectToAction("Index"); // Example redirect
+                
+                return RedirectToAction("Index");
             }
 
-            // If the model is invalid, return the same view with validation errors
             return View(model);
         }
 
