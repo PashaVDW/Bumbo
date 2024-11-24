@@ -20,6 +20,7 @@ namespace bumbo.Controllers
         private readonly IAvailabilityRepository _availabilityRepository;
         private readonly ISchoolScheduleRepository _schoolScheduleRepository;
         private readonly ILabourRulesRepository _labourRulesRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
         public ScheduleManagerController(
             UserManager<Employee> userManager,
@@ -29,7 +30,8 @@ namespace bumbo.Controllers
             IBranchesRepository branchRepository,
             IAvailabilityRepository availabilityRepository,
             ISchoolScheduleRepository schoolScheduleRepository,
-            ILabourRulesRepository labourRulesRepository)
+            ILabourRulesRepository labourRulesRepository,
+            IEmployeeRepository employeeRepository)
         {
             _userManager = userManager;
             _scheduleRepository = scheduleRepository;
@@ -38,6 +40,7 @@ namespace bumbo.Controllers
             _availabilityRepository = availabilityRepository;
             _schoolScheduleRepository = schoolScheduleRepository;
             _labourRulesRepository = labourRulesRepository;
+            _employeeRepository = employeeRepository;
         }
 
         public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
@@ -211,19 +214,48 @@ namespace bumbo.Controllers
                     foreach (var employee in department.Employees)
                     {
                         string employeeId = employee.EmployeeId;
+                        var fullEmployeeData = _employeeRepository.GetEmployeeById(employeeId);
+
+                        var today = DateTime.Today;
+                        int employeeBirthDate = fullEmployeeData.BirthDate.Year;
+                        int employeeAge = today.Year - employeeBirthDate;
+
+                        if (fullEmployeeData.BirthDate > today.AddYears(-employeeAge))
+                        {
+                            employeeAge--;
+                        }
+
+                        string labourRulesToUseString;
+
+                        switch (employeeAge)
+                        {
+                            case < 16:
+                                labourRulesToUseString = "<16";
+                                break;
+
+                            case 16:
+                                labourRulesToUseString = "16-17";
+                                break;
+
+                            case 17:
+                                labourRulesToUseString = "16-17";
+                                break;
+
+                            case > 17:
+                                labourRulesToUseString = ">17";
+                                break;
+                        }
+
+                        var LabourRulesToUse = labourRules
+                            .Where(l => l.AgeGroup.Equals(labourRulesToUseString));
 
                         var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
                         var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
 
-
-                        // Update the employee's schedule with their selected department, start time, and end time
-                        // You might want to save this data to the database or perform other logic here
-
-                        // For example:
-                        // - Update employee's department if it has changed
-                        // - Save the updated start and end times
-
-
+                        bool isAvailable = checkAvailabilityEmployee(employeeAvailability, employee);
+                        bool isFreeFromSchool = checkSchoolScheduleEmployee(employeeSchoolSchedule, employee);
+                        bool isWithinLabourRules = checkLabourRulesEmployee(employee);
+                        
                     }
                 }
                 
@@ -231,6 +263,51 @@ namespace bumbo.Controllers
             }
 
             return View(model);
+        }
+
+        private bool checkAvailabilityEmployee(Availability employeeDayAvailability, EmployeeScheduleEditViewModel employee)
+        {
+            if(employeeDayAvailability != null)
+            {
+                if(employeeDayAvailability.StartTime < employee.StartTime)
+                {
+                    if(employeeDayAvailability.EndTime > employee.EndTime)
+                    {
+                        if(employeeDayAvailability.StartTime < employeeDayAvailability.EndTime)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool checkSchoolScheduleEmployee(SchoolSchedule employeeDaySchoolSchedule, EmployeeScheduleEditViewModel employee)
+        {
+            if (employeeDaySchoolSchedule == null)
+            {
+                return true;
+            }
+            else
+            {
+                if (employee.StartTime < employeeDaySchoolSchedule.StartTime)
+                {
+                    if (employee.EndTime < employeeDaySchoolSchedule.StartTime) { return true; }
+                }
+                else if (employee.StartTime > employeeDaySchoolSchedule.EndTime)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool checkLabourRulesEmployee(EmployeeScheduleEditViewModel employee)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IActionResult> ChooseEmployee(string date)

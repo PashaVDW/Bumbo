@@ -857,7 +857,7 @@ namespace bumbo.Data
                 new LabourRules
                 {
                     CountryName = "Netherlands",
-                    AgeGroup = "<17",
+                    AgeGroup = ">17",
                     MaxHoursPerDay = 12,
                     MaxEndTime = new TimeSpan(24, 0, 0),
                     MaxHoursPerWeek = 60,
