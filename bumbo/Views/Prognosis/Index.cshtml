@@ -23,6 +23,9 @@
         @if (ViewBag.Message != null)
         {
             <div class="text-red-500">@ViewBag.Message</div>
+            <a asp-action="Create" asp-route-weekNumber=@Model.WeekNr asp-route-yearNumber="@Model.Year">
+                <default-button button-text="Maak prognose" button-type="primary"></default-button>
+            </a>
         }
 
         <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })';" class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500">
@@ -88,9 +91,35 @@
                     }
                 </tbody>
             </table>
+            @if (Model.Year <= Model.currentYear && Model.WeekNr <= Model.currentWeek)
+            {
+                <div class="opacity-25">
+                    <default-button button-text="Bewerken" button-type="primary"></default-button>
+                </div>
+            }
+            else
+            {
+                <a asp-action="Edit" asp-route-prognosisId=@Model.PrognosisId>
+                    <default-button button-text="Bewerken" button-type="primary"></default-button>
+                </a>
+            }
         </div>
     }
 </div>
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+                });
+        </script>
+    }
+}
 
 <script type="text/javascript">
     document.getElementById("weekForm").addEventListener("submit", function (event) {
