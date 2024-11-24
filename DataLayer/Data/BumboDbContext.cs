@@ -679,7 +679,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(12, 0),
                     EndTime = new TimeOnly(20, 0),
                     DepartmentName = "Kassa",
-                    IsSick = false
+                    IsSick = true
                 },
 
                 // Zaterdag

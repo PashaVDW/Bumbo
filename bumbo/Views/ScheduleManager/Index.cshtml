@@ -76,6 +76,13 @@
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
                                         }
+                                        else if (employee.IsSick)
+                                        {
+                                            <li class="flex justify-between items-center text-sm text-red-500 font-semibold">
+                                                <span>@employee.EmployeeName (Ziek)</span>
+                                                <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
+                                            </li>
+                                        }
                                         else
                                         {
                                             <li class="flex justify-between items-center text-sm">
