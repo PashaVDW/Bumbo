@@ -14,5 +14,7 @@ namespace DataLayer.Interfaces
         List<string> GetDepartments();
         bool CanRemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId);
         void RemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId);
+        List<Schedule> GetWeekScheduleForEmployee(string? employeeId, DateTime monday, DateTime sunday);
+        void UpdateEmployeeDaySchedule(string employeeId, DateTime date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
     }
 }

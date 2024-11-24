@@ -26,8 +26,11 @@
     </div>
 
     <form asp-action="EditDay" method="post" id="editDayForm">
-        @foreach (var department in Model.Departments)
+        <input type="hidden" asp-for="Date" />
+
+        @for (var departmentIndex = 0; departmentIndex < Model.Departments.Count; departmentIndex++)
         {
+            var department = Model.Departments[departmentIndex];
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold">@department.DepartmentName</h2>
                 <div class="flex justify-between items-center mb-4">
@@ -37,38 +40,30 @@
                     </div>
                 </div>
 
-                @foreach (var employee in department.Employees)
+                @for (var employeeIndex = 0; employeeIndex < department.Employees.Count; employeeIndex++)
                 {
+                    var employee = department.Employees[employeeIndex];
+                    <input type="hidden" name="Departments[@departmentIndex].Employees[@employeeIndex].EmployeeId" value="@employee.EmployeeId" />
+                    <input type="hidden" name="Departments[@departmentIndex].DepartmentName" value="@department.DepartmentName" />
+                    <input type="hidden" name="Departments[@departmentIndex].Employees[@employeeIndex].EmployeeName" value="@employee.EmployeeName" />
+
                     <div class="grid grid-cols-10 items-center gap-4 mb-2 p-5 rounded border border-gray-400">
                         <span class="mr-4 col-span-2">@employee.EmployeeName</span>
 
-                        <select name="selectedDepartment" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 rounded border leading-tight col-span-3"
-                                asp-for="@employee.DepartmentName"
-                                asp-items="@(new SelectList(Model.Departments, "DepartmentName", "DepartmentName", employee.DepartmentName))">
+                        <select asp-for="Departments[@departmentIndex].Employees[@employeeIndex].DepartmentName"
+                                asp-items="@(new SelectList(Model.Departments, "DepartmentName", "DepartmentName", employee.DepartmentName))"
+                                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 rounded border leading-tight col-span-3">
                         </select>
 
-                        <input type="time" value="@employee.StartTime.ToString("HH\\:mm")" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 appearance-none rounded border leading-tight col-span-2" />
-                        <input type="time" value="@employee.EndTime.ToString("HH\\:mm")" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 appearance-none rounded border leading-tight col-span-2" />
+                        <input type="time"
+                               asp-for="Departments[@departmentIndex].Employees[@employeeIndex].StartTime"
+                               class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 appearance-none rounded border leading-tight col-span-2" />
 
-                        <a class="text-red-500 justify-self-end" title="Delete" href="javascript:void(0);" onclick="
-                            document.getElementById('removeEmployeeFromDay').classList.remove('hidden');
-                            document.getElementById('removeEmployee').onclick = function() {
-                                window.location.href = '@Url.Action("RemoveEmployeeFromDay", "ScheduleManager", new { specificDate = Model.Date, EmployeeId = employee.EmployeeId})';
-                            };
-                        ">
-                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </a>
+                        <input type="time"
+                               asp-for="Departments[@departmentIndex].Employees[@employeeIndex].EndTime"
+                               class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 appearance-none rounded border leading-tight col-span-2" />
                     </div>
                 }
-
-                <a class="flex justify-center items-center border border-dashed border-gray-400 rounded p-4 w-full mt-4" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { date =  Model.Date, department = department.DepartmentName })">
-                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-                    </svg>
-                    <span class="ml-2">Medewerker toevoegen</span>
-                </a>
             </div>
         }
     </form>

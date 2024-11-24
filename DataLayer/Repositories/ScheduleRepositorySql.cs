@@ -69,5 +69,32 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public List<Schedule> GetWeekScheduleForEmployee(string employeeId, DateTime monday, DateTime sunday)
+        {
+            var dateOnlyMonday = DateOnly.FromDateTime(monday);
+            var dateOnlySunday = DateOnly.FromDateTime(sunday);
+            return _context.Schedule.Where(s => s.EmployeeId == employeeId && s.Date >= dateOnlyMonday && s.Date <= dateOnlySunday).ToList();
+        }
+
+        public void UpdateEmployeeDaySchedule(string employeeId, DateTime date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName)
+        {
+            var existingSchedule = _context.Schedule
+                .FirstOrDefault(s => s.EmployeeId == employeeId && s.Date == DateOnly.FromDateTime(date));
+
+            if (existingSchedule != null)
+            {
+                existingSchedule.StartTime = startTime;
+                existingSchedule.EndTime = endTime;
+                existingSchedule.DepartmentName = departmentName;
+
+                _context.Schedule.Update(existingSchedule);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidOperationException("Schedule entry does not exist for the specified employee and date.");
+            }
+        }
     }
 }

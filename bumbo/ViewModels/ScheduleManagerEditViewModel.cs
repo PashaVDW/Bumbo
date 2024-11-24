@@ -2,7 +2,7 @@
 {
     public class ScheduleManagerEditViewModel
     {
-        public string Date { get; set; } = String.Empty;
+        public string Date { get; set; }
         public List<DepartmentScheduleEditViewModel> Departments { get; set; } = new List<DepartmentScheduleEditViewModel>();
     }
 
@@ -16,7 +16,7 @@
 
     public class EmployeeScheduleEditViewModel
     {
-        public string? EmployeeId { get; set; }
+        public string EmployeeId { get; set; } 
         public string EmployeeName { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
