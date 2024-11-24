@@ -874,6 +874,251 @@ namespace bumbo.Data
                 }
             );
 
+            modelBuilder.Entity<Availability>().HasData(
+                // John Doe
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+                new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+
+                // Jane Smith
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+
+                // Darlon van Dijk
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+
+                // Pasha Bakker
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(8, 30), EndTime = new TimeOnly(12, 30) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(10, 30), EndTime = new TimeOnly(14, 30) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(8, 30), EndTime = new TimeOnly(12, 30) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(10, 30), EndTime = new TimeOnly(14, 30) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+                new Availability { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+
+                // Sarah van der Ven
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(9, 30), EndTime = new TimeOnly(13, 30) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(15, 30) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(8, 30), EndTime = new TimeOnly(12, 30) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(9, 30), EndTime = new TimeOnly(13, 30) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(15, 30) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(8, 30), EndTime = new TimeOnly(12, 30) },
+                new Availability { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+
+                // David den Boer
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+                new Availability { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+
+                // Anthony Ross
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(15, 30) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(9, 30), EndTime = new TimeOnly(13, 30) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(8, 30), EndTime = new TimeOnly(12, 30) },
+
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(15, 30) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(9, 30), EndTime = new TimeOnly(13, 30) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(8, 30), EndTime = new TimeOnly(12, 30) },
+
+                // Douwe Jansen
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) }
+            );
+
+            modelBuilder.Entity<SchoolSchedule>().HasData(
+                // John Doe
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(15, 0), EndTime = new TimeOnly(18, 0) },
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(16, 0), EndTime = new TimeOnly(19, 0) },
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 0), EndTime = new TimeOnly(18, 0) },
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(16, 0), EndTime = new TimeOnly(19, 0) },
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+
+                // Jane Smith
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+
+                // Darlon van Dijk
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(15, 0), EndTime = new TimeOnly(18, 0) },
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(16, 0), EndTime = new TimeOnly(19, 0) },
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 0), EndTime = new TimeOnly(18, 0) },
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(16, 0), EndTime = new TimeOnly(19, 0) },
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+
+                // Pasha Bakker
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+
+                // Sarah van der Ven
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(15, 0), EndTime = new TimeOnly(18, 0) },
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(16, 0), EndTime = new TimeOnly(19, 0) },
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 0), EndTime = new TimeOnly(18, 0) },
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(16, 0), EndTime = new TimeOnly(19, 0) },
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+
+                // David den Boer
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+
+                // Anthony van Vliet
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(15, 0), EndTime = new TimeOnly(18, 0) },
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(16, 0), EndTime = new TimeOnly(19, 0) },
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 0), EndTime = new TimeOnly(18, 0) },
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(16, 0), EndTime = new TimeOnly(19, 0) },
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(17, 0) },
+
+                // Douwe Jansen
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 19), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
+                new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) }
+            );
+
+
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
