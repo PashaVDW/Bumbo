@@ -17,18 +17,27 @@ namespace bumbo.Controllers
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IBranchesRepository _branchesRepository;
         private readonly IPrognosisRepository _prognosisRepository;
+        private readonly IAvailabilityRepository _availabilityRepository;
+        private readonly ISchoolScheduleRepository _schoolScheduleRepository;
+        private readonly ILabourRulesRepository _labourRulesRepository;
 
         public ScheduleManagerController(
             UserManager<Employee> userManager,
             IScheduleRepository scheduleRepository,
             IBranchesRepository branchesRepository,
             IPrognosisRepository prognosisRepository,
-            IBranchesRepository branchRepository)
+            IBranchesRepository branchRepository,
+            IAvailabilityRepository availabilityRepository,
+            ISchoolScheduleRepository schoolScheduleRepository,
+            ILabourRulesRepository labourRulesRepository)
         {
             _userManager = userManager;
             _scheduleRepository = scheduleRepository;
             _branchesRepository = branchesRepository;
             _prognosisRepository = prognosisRepository;
+            _availabilityRepository = availabilityRepository;
+            _schoolScheduleRepository = schoolScheduleRepository;
+            _labourRulesRepository = labourRulesRepository;
         }
 
         public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
@@ -193,11 +202,20 @@ namespace bumbo.Controllers
 
                 int branchId = user.ManagerOfBranchId.Value;
                 string countryName = _branchesRepository.GetBranchCountryName(branchId);
+                
+                DateTime.TryParseExact(model.Date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime);
+                var labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(countryName);
 
                 foreach (var department in model.Departments)
                 {
                     foreach (var employee in department.Employees)
                     {
+                        string employeeId = employee.EmployeeId;
+
+                        var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
+                        var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
+
+
                         // Update the employee's schedule with their selected department, start time, and end time
                         // You might want to save this data to the database or perform other logic here
 

@@ -11,5 +11,6 @@ namespace DataLayer.Interfaces
     {
         void AddAvailabilities(List<Availability> availabilities, DateTime periodStart, DateTime periodEnd);
         List<Availability> GetAvailabilitiesBetweenDates(DateTime firsteDate, DateTime lastDate, string employeeId);
+        Availability GetEmployeeDayAvailability(DateTime date, string employeeId);
     }
 }
