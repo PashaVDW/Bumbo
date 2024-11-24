@@ -5,13 +5,13 @@ namespace bumbo.ViewModels
 {
     public class AvailabilityWeekView
     {
-        public List<DayOverview> Days { get; set; } = new List<DayOverview>();
+        public List<AvailabilityDayOverview> Days { get; set; } = new List<AvailabilityDayOverview>();
         public int Year { get; set; }
         public string Month { get; set; }
         public int Week { get; set; }
     }
 
-    public class DayOverview
+    public class AvailabilityDayOverview
     {
         public string DayName { get; set; }
         public DateTime Date { get; set; }
@@ -26,11 +26,11 @@ namespace bumbo.ViewModels
         public int EndYear { get; set; }
         public TimeOnly OpeningTime { get; set; }
         public TimeOnly ClosingTime { get; set; }
-        public List<DayInputViewModel> Days { get; set; } = new List<DayInputViewModel>();
+        public List<AvailabilityDayInputViewModel> Days { get; set; } = new List<AvailabilityDayInputViewModel>();
     }
 
 
-    public class DayInputViewModel
+    public class AvailabilityDayInputViewModel
     {
         public string DayName { get; set; }
 
