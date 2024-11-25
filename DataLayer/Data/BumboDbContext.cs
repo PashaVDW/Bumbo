@@ -33,6 +33,7 @@ namespace bumbo.Data
         public DbSet<SwitchRequest> SwitchRequest { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<TemplateHasDays> TemplateHasDays { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -106,7 +107,13 @@ namespace bumbo.Data
                 new Country { Name = "Belgium" },
                 new Country { Name = "Germany" }
             );
-            
+
+            modelBuilder.Entity<Department>().HasData(
+                new Department { DepartmentName = "Kassa" },
+                new Department { DepartmentName = "Vakkenvullen" },
+                new Department { DepartmentName = "Vers" }
+            );
+
             modelBuilder.Entity<Branch>().HasData(
                 new Branch
                 {
@@ -591,6 +598,278 @@ namespace bumbo.Data
                     EndTime = new TimeOnly(16, 0),
                 }
             );
+
+            modelBuilder.Entity<Schedule>().HasData(
+    // Maandag - Kassa
+    new Schedule
+    {
+        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(9, 0),
+        EndTime = new TimeOnly(13, 0),
+        DepartmentName = "Kassa",
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(13, 0),
+        EndTime = new TimeOnly(17, 0),
+        DepartmentName = "Kassa",
+        IsSick = false
+    },
+
+    // Maandag - Vakkenvullen
+    new Schedule
+    {
+        EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(8, 0),
+        EndTime = new TimeOnly(12, 0),
+        DepartmentName = "Vakkenvullen",
+        IsSick = true
+    },
+    new Schedule
+    {
+        EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(10, 0),
+        EndTime = new TimeOnly(16, 0),
+        DepartmentName = "Vakkenvullen",
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(16, 0),
+        EndTime = new TimeOnly(21, 30),
+        DepartmentName = "Vakkenvullen",
+        IsSick = false
+    },
+
+    // Maandag - Vers
+    new Schedule
+    {
+        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(8, 0),
+        EndTime = new TimeOnly(14, 0),
+        DepartmentName = "Vers",
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David den Boer
+        BranchId = 1,
+        Date = new DateOnly(2024, 11, 18),
+        StartTime = new TimeOnly(14, 0),
+        EndTime = new TimeOnly(18, 0),
+        DepartmentName = "Vers",
+        IsSick = false
+    },
+
+                // Dinsdag
+                new Schedule
+                {
+                    EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 19),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 19),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vers",
+                    IsSick = false
+                },
+
+                // Woensdag
+                new Schedule
+                {
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Kassa",
+                    IsSick = false
+                },
+
+                // Donderdag
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 21),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsSick = false
+                },
+
+                // Vrijdag
+                new Schedule
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 22),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(20, 0),
+                    DepartmentName = "Kassa",
+                    IsSick = true
+                },
+
+                // Zaterdag
+                new Schedule
+                {
+                    EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 23),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsSick = false
+                },
+
+                // Zondag
+                new Schedule
+                {
+                    EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 24),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Kassa",
+                    IsSick = false
+                }
+            );
+
+            // Seeddata for Prognosis
+            var prognosisId = "prognosis_week_47_2024"; // Unique ID for the prognosis
+            modelBuilder.Entity<Prognosis>().HasData(
+                new Prognosis
+                {
+                    PrognosisId = prognosisId,
+                    WeekNr = 47,
+                    Year = 2024,
+                    BranchId = 1 // Assuming branch 1
+                }
+            );
+
+            // Seeddata for PrognosisHasDays
+            modelBuilder.Entity<PrognosisHasDays>().HasData(
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Monday",
+                    CustomerAmount = 200,
+                    PackagesAmount = 300
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Tuesday",
+                    CustomerAmount = 150,
+                    PackagesAmount = 250
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Wednesday",
+                    CustomerAmount = 220,
+                    PackagesAmount = 280
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Thursday",
+                    CustomerAmount = 190,
+                    PackagesAmount = 270
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Friday",
+                    CustomerAmount = 210,
+                    PackagesAmount = 290
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Saturday",
+                    CustomerAmount = 250,
+                    PackagesAmount = 320
+                },
+                new PrognosisHasDays
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Sunday",
+                    CustomerAmount = 180,
+                    PackagesAmount = 260
+                }
+            );
+
+            // Seeddata for PrognosisHasDaysHasDepartment
+            modelBuilder.Entity<PrognosisHasDaysHasDepartment>().HasData(
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Monday",
+                    DepartmentName = "Kassa",
+                    AmountOfWorkersNeeded = 3,
+                    HoursOfWorkNeeded = 24
+                },
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Monday",
+                    DepartmentName = "Vakkenvullen",
+                    AmountOfWorkersNeeded = 4,
+                    HoursOfWorkNeeded = 32
+                },
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Monday",
+                    DepartmentName = "Vers",
+                    AmountOfWorkersNeeded = 2,
+                    HoursOfWorkNeeded = 16
+                },
+                // Repeat for other days and departments as necessary
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Tuesday",
+                    DepartmentName = "Kassa",
+                    AmountOfWorkersNeeded = 2,
+                    HoursOfWorkNeeded = 16
+                },
+                new PrognosisHasDaysHasDepartment
+                {
+                    PrognosisId = prognosisId,
+                    DayName = "Tuesday",
+                    DepartmentName = "Vakkenvullen",
+                    AmountOfWorkersNeeded = 3,
+                    HoursOfWorkNeeded = 24
+                }
+            );
+
+
 
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
