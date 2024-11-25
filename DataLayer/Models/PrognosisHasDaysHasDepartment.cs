@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DataLayer.Models
 {
     [PrimaryKey("DepartmentName", "Days_name", "PrognosisId")]
-    public class Prognosis_has_days_has_Department
+    public class PrognosisHasDaysHasDepartment
     {
         [StringLength(50)]
         public string DepartmentName { get; set; }
@@ -22,6 +22,6 @@ namespace DataLayer.Models
         public Prognosis Prognosis { get; set; }
         public int AmountWorkersNeeded { get; set; }
         public int HoursWorkNeeded { get; set; }
-        public Prognosis_has_days Prognosis_Has_Days { get; set; }
+        public PrognosisHasDays Prognosis_Has_Days { get; set; }
     }
 }

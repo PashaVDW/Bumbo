@@ -18,18 +18,23 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public List<Days> getAllDays()
+        public List<Days> getAllDaysOrdered()
         {
             return _context.Days
                 .OrderBy(day =>
-                    day.Name == "Monday" ? 1 :
-                    day.Name == "Tuesday" ? 2 :
-                    day.Name == "Wednesday" ? 3 :
-                    day.Name == "Thursday" ? 4 :
-                    day.Name == "Friday" ? 5 :
-                    day.Name == "Saturday" ? 6 :
-                    day.Name == "Sunday" ? 7 : 8)
+                    day.Name == "Maandag" ? 1 :
+                    day.Name == "Dinsdag" ? 2 :
+                    day.Name == "Woensdag" ? 3 :
+                    day.Name == "Donderdag" ? 4 :
+                    day.Name == "Vrijdag" ? 5 :
+                    day.Name == "Zaterdag" ? 6 :
+                    day.Name == "Zondag" ? 7 : 8)
                 .ToList();
+        }
+
+        public List<Days> getAllDaysUnordered()
+        {
+            return _context.Days.ToList();
         }
     }
 }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using bumbo.Models;
 
 [PrimaryKey(nameof(Days_name), nameof(PrognosisId))]
-public class Prognosis_has_days
+public class PrognosisHasDays
 {
     [StringLength(10)]
     public string Days_name { get; set; }
@@ -23,6 +23,6 @@ public class Prognosis_has_days
 
     [Required]
     public int PackagesAmount { get; set; }
-    public ICollection<Prognosis_has_days_has_Department> Prognosis_Has_Days_Has_Department { get; set; }
+    public ICollection<PrognosisHasDaysHasDepartment> PrognosisHasDaysHasDepartment { get; set; }
 }
 

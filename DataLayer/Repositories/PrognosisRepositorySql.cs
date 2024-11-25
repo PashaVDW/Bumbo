@@ -37,7 +37,7 @@ namespace DataLayer.Repositories
                         throw new InvalidOperationException($"Day '{day.Name}' does not exist in the Days table.");
                     }
 
-                    var prognosisHasDays = new Prognosis_has_days
+                    var prognosisHasDays = new PrognosisHasDays
                     {
                         Days_name = day.Name,
                         PrognosisId = prognosis.PrognosisId,
@@ -45,7 +45,7 @@ namespace DataLayer.Repositories
                         PackagesAmount = PackagesAmount[days.IndexOf(day)]
                     };
 
-                    _context.Prognosis_Has_Days.Add(prognosisHasDays);
+                    _context.PrognosisHasDays.Add(prognosisHasDays);
                     _context.SaveChanges();
                 }
             }
@@ -64,7 +64,7 @@ namespace DataLayer.Repositories
         {
             List<Prognosis> prognosis = _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
-                    .ThenInclude(phd => phd.Prognosis_Has_Days_Has_Department)
+                    .ThenInclude(phd => phd.PrognosisHasDaysHasDepartment)
                 .OrderByDescending(p => p.Year)
                 .ThenByDescending(p => p.WeekNr)
                 .ToList<Prognosis>();
@@ -75,7 +75,7 @@ namespace DataLayer.Repositories
         {
             List<Prognosis> prognosis = _context.Prognoses
                 .Include(p => p.Prognosis_Has_Days)
-                    .ThenInclude(phd => phd.Prognosis_Has_Days_Has_Department)
+                    .ThenInclude(phd => phd.PrognosisHasDaysHasDepartment)
                 .Where(p => p.WeekNr == weekNumber && p.Year == year)
                 .ToList();
 
@@ -84,7 +84,7 @@ namespace DataLayer.Repositories
 
         public void UpdatePrognosis(int prognosisId, List<int> CustomerAmount, List<int> PackagesAmount)
         {
-            var prognosisDays = _context.Prognosis_Has_Days.Where(p => p.PrognosisId == prognosisId).ToList();
+            var prognosisDays = _context.PrognosisHasDays.Where(p => p.PrognosisId == prognosisId).ToList();
             if (prognosisDays.Count == CustomerAmount.Count && prognosisDays.Count == PackagesAmount.Count)
             {
                 for (int i = 0; i < prognosisDays.Count; i++)

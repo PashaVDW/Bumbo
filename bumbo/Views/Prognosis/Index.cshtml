@@ -93,15 +93,17 @@
             </table>
             @if (Model.Year <= Model.currentYear && Model.WeekNr <= Model.currentWeek)
             {
-                <div class="opacity-25">
+                <div class="opacity-25 mt-6 flex justify-end ">
                     <default-button button-text="Bewerken" button-type="primary"></default-button>
                 </div>
             }
             else
             {
-                <a asp-action="Edit" asp-route-prognosisId=@Model.PrognosisId>
-                    <default-button button-text="Bewerken" button-type="primary"></default-button>
-                </a>
+                <div class="mt-6 flex justify-end ">
+                    <a asp-action="Edit" asp-route-prognosisId=@Model.PrognosisId>
+                        <default-button button-text="Bewerken" button-type="primary"></default-button>
+                    </a>
+                </div>
             }
         </div>
     }
