@@ -567,6 +567,28 @@ namespace bumbo.Data
                     DateNeeded = DateTime.Now.AddDays(14),
                     StartTime = new TimeOnly(12, 0),
                     EndTime = new TimeOnly(16, 0),
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 3,
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
+                    RequestToBranchId = 4,
+                    RequestStatusName = "Afgewezen",
+                    Message = "Hulp nodig vanwege ziekte van een collega.",
+                    DateNeeded = DateTime.Now.AddDays(10),
+                    StartTime = new TimeOnly(8, 30),
+                    EndTime = new TimeOnly(17, 30),
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 1,
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
+                    RequestToBranchId = 3,
+                    RequestStatusName = "Geaccepteerd",
+                    Message = "Overplaatsing voor trainingssessies.",
+                    DateNeeded = DateTime.Now.AddDays(20),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(16, 0),
                 }
             );
 
