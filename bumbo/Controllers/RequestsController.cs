@@ -13,6 +13,8 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using Azure.Core;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Newtonsoft.Json;
+using System;
 
 namespace bumbo.Controllers
 {
@@ -177,6 +179,13 @@ namespace bumbo.Controllers
             var requests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(thisBranchId);
             var request = requests.Where(r => r.Id == requestId).SingleOrDefault();
 
+            var model = new RequestsUpdateViewModel();
+            if (TempData["UpdateVMUpdate"] != null)
+            {
+                model = JsonConvert.DeserializeObject<RequestsUpdateViewModel>((string)TempData["UpdateVMUpdate"]);
+                request = model.Request;
+            }
+
             Employee emp = new Employee();
             if (!empId.IsNullOrEmpty())
             {
@@ -206,7 +215,12 @@ namespace bumbo.Controllers
 
         public async Task<IActionResult> Create(string empId, int branchId)
         {
-           
+            var model = new RequestsUpdateViewModel();
+            if (TempData["UpdateVMCreate"] != null)
+            {
+                model = JsonConvert.DeserializeObject<RequestsUpdateViewModel>((string)TempData["UpdateVMCreate"]);
+            }
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
             {
@@ -230,12 +244,14 @@ namespace bumbo.Controllers
                 HasChosenEmployee = hasChosenEmp,
                 EmployeeId = empId,
                 BranchId = branchId,
+                Request = model.Request
             };
             return View(viewModel);
         }
 
         public async Task<IActionResult> AddEmployee(string previousPage, int requestId) 
         {
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
             {
@@ -260,12 +276,31 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> UpdateRequest(RequestsUpdateViewModel model)
+        public async Task<IActionResult> UpdateRequest(RequestsUpdateViewModel model, string action)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
+            }
+
+            model.Employee = _branchesRepository.GetEmployeeById(model.EmployeeId);
+            model.Branch = _branchesRepository.GetBranch(model.BranchId);
+
+            if (action.Equals("addEmployee"))
+            {
+                TempData["UpdateVMUpdate"] = JsonConvert.SerializeObject(model,
+                    new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                return RedirectToAction("AddEmployee", new { previousPage = "Update" });
+            }
+
+            if (model.Request.Message == null || model.Request.DateNeeded == DateTime.MinValue ||
+                model.Request.StartTime == TimeOnly.MinValue || model.Request.EndTime == TimeOnly.MinValue)
+            {
+                SetTempDataForToast("formFail");
+                TempData["ToastMessage"] = "Nog niet alles is ingevuld";
+                TempData["ToastType"] = "error";
+                return View("Update", model);
             }
 
             var branchId = user.ManagerOfBranchId.Value;
@@ -290,13 +325,32 @@ namespace bumbo.Controllers
             return Redirect("Index");
         }
 
-        public async Task<IActionResult> CreateRequest(RequestsUpdateViewModel model)
+        public async Task<IActionResult> CreateRequest(RequestsUpdateViewModel model, string action)
         {
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
+            }
+
+            model.Employee = _branchesRepository.GetEmployeeById(model.EmployeeId);
+            model.Branch = _branchesRepository.GetBranch(model.BranchId);
+
+            if (action.Equals("addEmployee"))
+            {
+                TempData["UpdateVMCreate"] = JsonConvert.SerializeObject(model, 
+                    new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                return RedirectToAction("AddEmployee",  new { previousPage = "Create" });
+            }
+
+            if (model.Request.Message == null || model.Request.DateNeeded == DateTime.MinValue || 
+                model.Request.StartTime == TimeOnly.MinValue || model.Request.EndTime == TimeOnly.MinValue)
+            {
+                SetTempDataForToast("formFail");
+                TempData["ToastMessage"] = "Nog niet alles is ingevuld";
+                TempData["ToastType"] = "error";
+                return View("Create", model);
             }
 
             if (model.EmployeeId == null)
