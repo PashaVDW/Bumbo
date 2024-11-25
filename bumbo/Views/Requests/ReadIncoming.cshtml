@@ -37,10 +37,10 @@
         </div>
     </div>
 
-    <div class='mx-12 mt-2 gap-4 flex w-11/12 justify-start'>
+    <div class='mx-12 mt-4 gap-4 flex w-11/12 justify-start'>
         <form method="post" asp-action="RejectRequest">
             <input type="hidden" asp-for="RequestId"/>
-            <button class='bg-red-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-500'>Weigeren</button>
+            <button class='py-2 px-2 font-semibold'>Weigeren</button>
         </form>
         <form method="post" asp-action="AcceptRequest">
             <input type="hidden" asp-for="RequestId"/>

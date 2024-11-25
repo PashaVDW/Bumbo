@@ -55,12 +55,24 @@ namespace bumbo.Controllers
                 }
                 return $@"
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
-                 <td class='py-2 px-4 cursor-pointer bg-gray-100 font-semibold hover:bg-gray-200' onclick=""window.location.href='../Requests/ReadIncoming?id={item.Id}'"">{messageFirstPart}</td>
+                 <td class='py-2 px-4'>{messageFirstPart}</td>
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
                  <td class='py-2 px-4'>{item.DateNeeded.Day}-{item.DateNeeded.Month}-{item.DateNeeded.Year}</td>
                  <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                  <td class='py-2 px-4 text-right'>
-                 <button onclick=""window.location.href='../Requests/ReadIncoming?id={item.Id}'"">✏️</button> 
+
+                 <div class='gap-3 flex'>
+                     <form method=""post"" action='/Requests/RejectRequest'>
+                         <input type=""hidden"" name='RequestId' value='{item.Id}'/>
+                         <button class='py-2 px-2 font-semibold'>Weigeren</button>
+                     </form>
+                     <form method=""post"" action='/Requests/AcceptRequest'>
+                         <input type=""hidden"" name='RequestId' value='{item.Id}'/>
+                         <button class='bg-green-500 text-white py-2 px-6 rounded-xl font-semibold hover:bg-green-400'>Accepteren</button>
+                     </form>
+                 
+                    <button class='text-xl' onclick=""window.location.href='../Requests/ReadIncoming?id={item.Id}'"">→</button> 
+                 </div>
                  </td>
                 ";
 
@@ -90,7 +102,7 @@ namespace bumbo.Controllers
                  <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                  <td class='py-2 px-4'>{item.RequestStatusName}</td>
                  <td class='py-2 px-4 text-right'>
-                 <button onclick=""window.location.href='../Requests/ReadOutgoing?id={item.Id}'"">✏️</button> 
+                 <button onclick=""window.location.href='../Requests/ReadOutgoing?id={item.Id}'"">✏</button> 
                  </td>";
 
             }, searchTerm, page);
