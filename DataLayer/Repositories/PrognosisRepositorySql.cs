@@ -52,6 +52,5 @@ namespace DataLayer.Repositories
                             && phdd.PrognosisHasDays.Prognosis.Year == year)
                 .ToList();
         }
-
     }
 }
