@@ -3,6 +3,7 @@
     public class ScheduleManagerEditViewModel
     {
         public string Date { get; set; }
+        public string titleDate { get; set; }
         public List<DepartmentScheduleEditViewModel> Departments { get; set; } = new List<DepartmentScheduleEditViewModel>();
     }
 
@@ -21,5 +22,7 @@
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public string DepartmentName { get; set; }
+
+        public List<string> ValidationErrors { get; set; } = new List<string>();
     }
 }

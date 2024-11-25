@@ -22,6 +22,7 @@ namespace bumbo.Controllers
         private readonly ISchoolScheduleRepository _schoolScheduleRepository;
         private readonly ILabourRulesRepository _labourRulesRepository;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IDepartmentsRepository _departmentRepository;
 
         public ScheduleManagerController(
             UserManager<Employee> userManager,
@@ -32,7 +33,8 @@ namespace bumbo.Controllers
             IAvailabilityRepository availabilityRepository,
             ISchoolScheduleRepository schoolScheduleRepository,
             ILabourRulesRepository labourRulesRepository,
-            IEmployeeRepository employeeRepository)
+            IEmployeeRepository employeeRepository,
+            IDepartmentsRepository departmentRepository)
         {
             _userManager = userManager;
             _scheduleRepository = scheduleRepository;
@@ -42,6 +44,7 @@ namespace bumbo.Controllers
             _schoolScheduleRepository = schoolScheduleRepository;
             _labourRulesRepository = labourRulesRepository;
             _employeeRepository = employeeRepository;
+            _departmentRepository = departmentRepository;
         }
 
         public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
@@ -144,17 +147,15 @@ namespace bumbo.Controllers
 
             int branchId = user.ManagerOfBranchId.Value;
 
-            if (DateTime.TryParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime))
+            ScheduleManagerEditViewModel? viewModel = null;
+            if (TempData["EditDayModel"] is string serializedModel)
             {
-                string formattedDate = dateTime .ToString("ddd dd MMMM - yyyy", System.Globalization.CultureInfo.InvariantCulture);
-                string dayTitle = $"{formattedDate.Substring(0, 2)} {formattedDate.Substring(4)}";
+                viewModel = System.Text.Json.JsonSerializer.Deserialize<ScheduleManagerEditViewModel>(serializedModel);
+            }
 
-                ViewBag.Day = dayTitle;
-            }
-            else
-            {
-                Console.WriteLine("Invalid date format.");
-            }
+            DateTime.TryParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime);
+            string formattedDate = dateTime.ToString("ddd dd MMMM - yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            string dayTitle = $"{formattedDate.Substring(0, 2)} {formattedDate.Substring(4)}";
 
             List<string> departments = _scheduleRepository.GetDepartments();
             List<Schedule> schedules = _scheduleRepository.GetScheduleForBranchByDay(branchId, DateOnly.FromDateTime(dateTime));
@@ -164,10 +165,43 @@ namespace bumbo.Controllers
 
             List<PrognosisHasDaysHasDepartment> prognosisDetails = _prognosisRepository.GetPrognosisDetailsByBranchWeekAndYear(branchId, weekNumber, year);
 
-            var viewModel = new ScheduleManagerEditViewModel
+            if (viewModel == null)
             {
-                Date = date,
-                Departments = departments.Select(department =>
+                viewModel = new ScheduleManagerEditViewModel
+                {
+                    Date = date,
+                    titleDate = dayTitle,
+                    Departments = departments.Select(department =>
+                    {
+                        var schedulesForDepartment = schedules
+                            .Where(s => s.Date == DateOnly.FromDateTime(dateTime) && s.DepartmentName == department)
+                            .OrderBy(s => s.StartTime)
+                            .ToList();
+
+                        var hoursNeededForDepartment = prognosisDetails
+                            .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                            .Sum(pd => pd.HoursOfWorkNeeded);
+
+                        return new DepartmentScheduleEditViewModel
+                        {
+                            DepartmentName = department,
+                            Employees = BuildEmployeeList(schedulesForDepartment, department, new Dictionary<string, List<string>>()),
+                            TotalHours = schedulesForDepartment
+                                .Where(s => s.StartTime < s.EndTime)
+                                .Sum(s => (s.EndTime - s.StartTime).TotalHours),
+                            HoursNeeded = hoursNeededForDepartment
+                        };
+                    }).ToList()
+                };
+            }
+            else
+            {
+                var existingErrors = viewModel.Departments
+                    .SelectMany(d => d.Employees)
+                    .ToDictionary(e => e.EmployeeId, e => e.ValidationErrors);
+
+                // Rebuild departments
+                viewModel.Departments = departments.Select(department =>
                 {
                     var schedulesForDepartment = schedules
                         .Where(s => s.Date == DateOnly.FromDateTime(dateTime) && s.DepartmentName == department)
@@ -181,14 +215,14 @@ namespace bumbo.Controllers
                     return new DepartmentScheduleEditViewModel
                     {
                         DepartmentName = department,
-                        Employees = BuildEmployeeList(schedulesForDepartment, department),
+                        Employees = BuildEmployeeList(schedulesForDepartment, department, existingErrors),
                         TotalHours = schedulesForDepartment
                             .Where(s => s.StartTime < s.EndTime)
                             .Sum(s => (s.EndTime - s.StartTime).TotalHours),
                         HoursNeeded = hoursNeededForDepartment
                     };
-                }).ToList()
-            };
+                }).ToList();
+            }
 
             return View(viewModel);
         }
@@ -196,11 +230,15 @@ namespace bumbo.Controllers
         [HttpPost]
         public async Task<IActionResult> EditDay(ScheduleManagerEditViewModel model)
         {
+            bool hasValidDepartmentName;
             bool isAvailable;
             bool isFreeFromSchool;
             bool isWithinLabourRules;
+            bool hasUpdatedAnEmployee;
 
             string date = model.Date;
+
+            
 
             if (ModelState.IsValid)
             {
@@ -259,11 +297,12 @@ namespace bumbo.Controllers
                         var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
                         var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
 
+                        hasValidDepartmentName = _departmentRepository.IsValidDepartmentName(employee.DepartmentName);
                         isAvailable = CheckAvailabilityEmployee(employeeAvailability, employee);
                         isFreeFromSchool = CheckSchoolScheduleEmployee(employeeSchoolSchedule, employee);
                         isWithinLabourRules = CheckLabourRulesEmployee(labourRulesToUse, employeeSchoolSchedule, employee, labourRulesToUseString, dateTime);
-                        
-                        if (isAvailable && isFreeFromSchool && isWithinLabourRules)
+
+                        if (hasValidDepartmentName && isAvailable && isFreeFromSchool && isWithinLabourRules)
                         {
                             _scheduleRepository.UpdateEmployeeDaySchedule(
                                 employeeId,
@@ -273,28 +312,48 @@ namespace bumbo.Controllers
                                 branchId,
                                 employee.DepartmentName
                             );
+
+                            hasUpdatedAnEmployee = true;
                         }
+                        else
+                        {
+                            if (!hasValidDepartmentName)
+                            {
+                                employee.ValidationErrors.Add("De afdeling moet één van de keuzes zijn!");
+                            }
+                            if (!isAvailable)
+                            {
+                                employee.ValidationErrors.Add("De medewerker mag niet eerder starten dan zijn/haar beschikbaarheid van " + employeeAvailability.StartTime.ToString() + " en mag niet tot later werken dan zijn/haar beschikbaarheid van " + employeeAvailability.EndTime.ToString() + "!");
+                            }
+                            if (!isFreeFromSchool)
+                            {
+                                employee.ValidationErrors.Add("De medewerker mag niet werken tijdens schooltijd van " + employeeSchoolSchedule.StartTime.ToString() + " tot " + employeeSchoolSchedule.EndTime.ToString() + "!");
+                            }
+                            if (!isWithinLabourRules)
+                            {
+                                employee.ValidationErrors.Add("De medewerker voldoet niet aan de arbeidstijdenwet!");
+                            }
+                        }
+
                     }
                 }
 
-                TempData["ToastMessage"] = "Medewerker data succesvol geupdatet";
+                TempData["ToastMessage"] = "Een of meerdere medewerkers succesvol geupdatet!";
                 TempData["ToastType"] = "success";
                 TempData["ToastId"] = "scheduleToast";
                 TempData["AutoHide"] = "yes";
                 TempData["MilSecHide"] = 3000;
 
+                TempData["EditDayModel"] = System.Text.Json.JsonSerializer.Serialize(model);
+                TempData.Keep("EditDayModel");
+
                 return RedirectToAction("EditDay", new { date });
             }
-            else
-            {
-                // debug the ModelState errors
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-            }
 
-            TempData["ToastMessage"] = "Medewerker niet geupdatet wegens foutieve data!";
+            TempData["EditDayModel"] = System.Text.Json.JsonSerializer.Serialize(model);
+            TempData.Keep("EditDayModel");
+
+            TempData["ToastMessage"] = "Medewerkers niet geupdatet wegens foutieve data!";
             TempData["ToastType"] = "error";
             TempData["ToastId"] = "scheduleToast";
             TempData["AutoHide"] = "yes";
@@ -334,9 +393,9 @@ namespace bumbo.Controllers
             {
                 if (employee.StartTime < employeeDaySchoolSchedule.StartTime)
                 {
-                    if (employee.EndTime < employeeDaySchoolSchedule.StartTime) { return true; }
+                    if (employee.EndTime <= employeeDaySchoolSchedule.StartTime) { return true; }
                 }
-                else if (employee.StartTime > employeeDaySchoolSchedule.EndTime)
+                else if (employee.StartTime >= employeeDaySchoolSchedule.EndTime)
                 {
                     return true;
                 }
@@ -584,28 +643,33 @@ namespace bumbo.Controllers
             return result;
         }
 
-        private List<EmployeeScheduleEditViewModel> BuildEmployeeList(List<Schedule> sortedSchedules, string department)
+        private List<EmployeeScheduleEditViewModel> BuildEmployeeList(List<Schedule> sortedSchedules, string department, Dictionary<string, List<string>>? existingErrors)
         {
             List<EmployeeScheduleEditViewModel> result = new List<EmployeeScheduleEditViewModel>();
 
-            var workDayStart = new TimeOnly(8, 0);
-            var workDayEnd = new TimeOnly(21, 30);
 
-            for (int i = 0; i < sortedSchedules.Count; i++)
+            foreach (var schedule in sortedSchedules)
             {
-                var schedule = sortedSchedules[i];
-                result.Add(new EmployeeScheduleEditViewModel
+                var employeeModel = new EmployeeScheduleEditViewModel
                 {
                     EmployeeId = schedule.EmployeeId,
                     EmployeeName = $"{schedule.Employee.FirstName} {schedule.Employee.LastName}",
                     StartTime = schedule.StartTime,
                     EndTime = schedule.EndTime,
                     DepartmentName = department
-                });
+                };
+
+                if (existingErrors != null && existingErrors.TryGetValue(schedule.EmployeeId, out var errors))
+                {
+                    employeeModel.ValidationErrors.AddRange(errors);
+                }
+
+                result.Add(employeeModel);
             }
 
             return result;
         }
+
 
         private List<DateTime> GetDatesOfWeek(int year, int weekNumber)
         {

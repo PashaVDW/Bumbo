@@ -18,7 +18,7 @@
                     <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </a>
-            <h1 class="text-3xl font-semibold">@Html.Raw(ViewBag.Day)</h1>
+            <h1 class="text-3xl font-semibold">@Model.titleDate</h1>
         </div>
         <div>
             <default-button button-text="Opslaan" button-type="primary" on-click="document.getElementById('editDayForm').submit();"></default-button>
@@ -27,6 +27,7 @@
 
     <form asp-action="EditDay" method="post" id="editDayForm">
         <input type="hidden" asp-for="Date" />
+        <input type="hidden" asp-for="titleDate" />
 
         @for (var departmentIndex = 0; departmentIndex < Model.Departments.Count; departmentIndex++)
         {
@@ -74,6 +75,15 @@
                             </svg>
                         </a>
                     </div>
+                    @if (employee.ValidationErrors.Any())
+                    {
+                        <ul class="text-sm text-red-600">
+                            @foreach (var error in employee.ValidationErrors)
+                            {
+                                <li>@error</li>
+                            }
+                        </ul>
+                    }
                 }
             <a class="border-gray-400 p-4 mt-4 flex w-full items-center justify-center rounded border border-dashed" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { date =  Model.Date, department = department.DepartmentName })">
                     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
