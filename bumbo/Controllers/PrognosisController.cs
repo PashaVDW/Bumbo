@@ -294,7 +294,7 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Create(int? id, int? templateId)
+        public async Task<ActionResult> Create(int? id, int? templateId, int? weekNumber, int? yearNumber)
         {
             var viewModel = new PrognosisCreateViewModel
             {
@@ -305,6 +305,12 @@ namespace bumbo.Controllers
                 Year = _currentYear,
                 TemplateName = string.Empty // Default leeg
             };
+
+            if (weekNumber.HasValue && yearNumber.HasValue)
+            {
+                viewModel.WeekNr = weekNumber.Value;
+                viewModel.Year = yearNumber.Value;
+            }
 
             if (templateId.HasValue)
             {
@@ -320,6 +326,7 @@ namespace bumbo.Controllers
 
             return View(viewModel);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -555,11 +562,18 @@ namespace bumbo.Controllers
         }
 
 
-        public ActionResult AddTemplate(string searchTerm, int page = 1)
+        public ActionResult AddTemplate(string searchTerm, int? templateId, int? weekNumber, int? yearNumber, int page = 1)
         {
-            List<Template> templates = _TemplatesRepository.GetAllTemplates();
+            AddTemplateViewModel viewmodel = new AddTemplateViewModel();
 
-            return View(templates);
+            viewmodel.Templates = _TemplatesRepository.GetAllTemplates();
+            if (weekNumber != null && yearNumber != null)
+            {
+                viewmodel.WeekNr = weekNumber;
+                viewmodel.YearNr = yearNumber;
+            }
+
+            return View(viewmodel);
         }
     }
 

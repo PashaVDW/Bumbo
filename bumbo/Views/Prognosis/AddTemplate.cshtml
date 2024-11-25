@@ -1,4 +1,4 @@
-﻿@model List<bumbo.Models.Template>
+﻿@model bumbo.ViewModels.Prognosis.AddTemplateViewModel
 
 @{
     ViewData["Title"] = "Add Template";
@@ -8,7 +8,7 @@
     <h1 class="text-lg font-semibold mb-6">Kies een standaard template</h1>
 
     <div class="w-full max-w-md space-y-4" id="templateList">
-        @foreach (var template in Model)
+        @foreach (var template in Model.Templates)
         {
             <div class="flex items-center justify-between bg-white border rounded-md shadow-sm px-4 py-2 template-item" data-template-id="@template.Id">
                 <span>@template.Name</span>
@@ -20,10 +20,10 @@
     </div>
 
     <div class="flex space-x-4 mt-6">
-        <a asp-action="Create" asp-controller="Prognosis" class="px-6 py-2 text-gray-800 bg-white border border-gray-400 rounded hover:bg-gray-100">
+        <a asp-action="Create" asp-controller="Prognosis" class="px-6 py-2 text-gray-800 bg-white border border-gray-400 rounded hover:bg-gray-100" asp-route-weekNumber=@Model.WeekNr asp-route-yearNumber="@Model.YearNr">
             Terug
         </a>
-        <button id="importButton" class="px-6 py-2 text-white bg-gray-800 rounded hover:bg-gray-900 disabled:opacity-50" disabled>
+        <button id="importButton" class="px-6 py-2 text-white bg-gray-800 rounded hover:bg-gray-900 disabled:opacity-50" disabled asp-route-weekNumber=@Model.WeekNr asp-route-yearNumber="@Model.YearNr">
             Importeren
         </button>
     </div>
@@ -48,8 +48,15 @@
 
     document.getElementById('importButton').addEventListener('click', function () {
         if (selectedTemplateId) {
-            const url = `/Prognosis/Create?templateId=${selectedTemplateId}`;
-            window.location.href = url;
-        }
-    });
+            const weekNumber = "@Model.WeekNr";
+            const yearNumber = "@Model.YearNr";
+
+            let url = `/Prognosis/Create?templateId=${selectedTemplateId}`;
+                if (weekNumber && yearNumber) {
+                            url += `&weekNumber=${weekNumber}&yearNumber=${yearNumber}`;
+                }
+
+                window.location.href = url;
+            }
+        });
 </script>
