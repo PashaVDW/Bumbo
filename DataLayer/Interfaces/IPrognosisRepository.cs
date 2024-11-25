@@ -1,4 +1,6 @@
 ﻿using bumbo.Models;
+using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Interfaces
 {

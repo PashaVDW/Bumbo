@@ -26,7 +26,7 @@ namespace DataLayer.Repositories
         public void DeleteByTemplateId(int templateId)
         {
             var entries = _context.TemplateHasDays
-                .Where(thd => thd.Templates_id == templateId)
+                .Where(thd => thd.TemplatesId == templateId)
                 .ToList();
 
             _context.TemplateHasDays.RemoveRange(entries);

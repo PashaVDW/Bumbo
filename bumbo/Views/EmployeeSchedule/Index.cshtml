@@ -1,0 +1,80 @@
+﻿@model bumbo.ViewModels.EmployeeSchedulesViewModel
+@{
+    ViewData["Title"] = "EmployeeSchedule";
+}
+<main class="p-8">
+    <custom-modal modal-id="callSickModel" body-text="Weet je zeker dat je je ziek wilt melden voor vandaag?">
+        <div class="py-6 text-sm text-gray-600"> Je krijgt 70% doorbetaald tijdens ziekte!</div>
+        <default-button button-text="Ja, meld ziek" button-type="delete" on-click="window.location.href='/EmployeeSchedule/CallSick'"></default-button>
+        <default-button button-text="Nee, anuleer" button-type="secondary" on-click="document.getElementById('callSickModel').classList.add('hidden')"></default-button>
+    </custom-modal>
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold">Rooster</h1>
+            <p>Week @Model.SelectedWeek of @Model.Year</p>
+        </div>
+        <button onclick="document.getElementById('callSickModel').classList.remove('hidden')" class="border-dashed border-2 m-4 border-gray-400 p-4 gap-2 rounded-xl mb-4 flex items-center">
+            <img src="media/hospital.svg" alt="Alternate Text" />
+            <span>Vandaag ziek melden</span>
+        </button>
+    </div>
+   
+ 
+    <div class="flex items-center justify-between">
+        <a href="@Url.Action("Index", new { weekNumber = Model.SelectedWeek -1, yearNumber = Model.Year })" class="text-2xl md:mr-4">&lt;</a>
+        <a href="@Url.Action("Index", new { weekNumber = Model.SelectedWeek +1, yearNumber = Model.Year })" class="text-2xl md:ml-4">&gt;</a>
+    </div>
+    <div class="xl:flex xl:items-center xl:w-full justify-between gap-4 mt-8 flex-wrap md:flex-nowrap">
+            @{
+                var days = new string[] { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" };
+            }
+            @for (int i = 0; i < 7; i++)
+            {
+                var daySchedules = Model.Schedules.FirstOrDefault(g => g.Date == Model.StartOfWeek.AddDays(i));
+                var calc = Model.StartOfWeek.AddDays(i);
+                var calcDate = calc.Day;
+
+            <div class="text-center md:w-1/8 w-full xl:h-screen py-8 px-4 rounded-xl mb-4 md:mb-0 @(calcDate == Model.Today.Day && calc.Month == Model.Today.Month && calc.Year == Model.Today.Year ? "active-day" : "")">
+                    <div class="text-lg">@calcDate</div>
+                    <div class="text-sm text-gray-600">@days[i]</div>
+               
+                    @if (daySchedules != null && daySchedules.Schedules.Any())
+                    {
+                    <div class="@(daySchedules.Schedules.Any(s => s.IsSick == true) ?  "bg-red-200 p-4 rounded-xl mt-2" : "")">
+                        @if (daySchedules.Schedules.Any(s => s.IsSick == true))
+                        {
+                            <svg class='mb-4 text-red-300 w-12 h-12 mx-auto' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'>
+                                <path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z' />
+                            </svg>
+                            <h1 class="text-2xl text-center font-bold">Ziek</h1>
+                            <div class="text-gray-600">Je hebt je ziek gemeld voor deze dag!! En krijgt 70% doorbetaald.</div>
+                        }
+                        @foreach (var schedule in daySchedules.Schedules)
+                        {
+                            <div class="bg-gray-300 p-4 rounded-xl mt-2">
+                                <div>@schedule.DepartmentName</div>
+                                <div>
+                                    @{
+                                        var hours = schedule.EndTime - schedule.StartTime;
+                                    } @hours.Hours uur @hours.Minutes minuten
+                                </div>
+                                <div class="text-sm text-gray-600">@schedule.StartTime - @schedule.EndTime</div>
+                            </div>
+                        }
+                        @if (daySchedules.Schedules.Any(s => s.IsSick == true) && calcDate == Model.Today.Day && calc.Month == Model.Today.Month && calc.Year == Model.Today.Year)
+                        {
+                            <default-button button-text="Beter melden" button-type="secondary" custom-style="my-4" on-click="window.location.href='/EmployeeSchedule/CallBetter'"></default-button>
+                        }
+                    </div>
+                    }
+                    
+                    else
+                    {
+                        <div class="bg-gray-200 p-4 rounded-xl mt-2">
+                            <div>Geen dienst</div>
+                        </div>
+                    }
+                </div>
+            }
+    </div>
+</main>
