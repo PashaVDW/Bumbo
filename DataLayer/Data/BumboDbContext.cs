@@ -874,6 +874,276 @@ namespace bumbo.Data
                 }
             );
 
+            modelBuilder.Entity<Availability>().HasData(
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 11, 25),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 11, 25),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 11, 25),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 11, 26),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(20, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 11, 26),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(22, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 11, 27),
+                    StartTime = new TimeOnly(7, 0),
+                    EndTime = new TimeOnly(15, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 11, 28),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 11, 28),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 11, 29),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(20, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 11, 30),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 12, 1),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 12, 1),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 12, 2),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(20, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 12, 2),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 12, 3),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 12, 3),
+                    StartTime = new TimeOnly(7, 0),
+                    EndTime = new TimeOnly(15, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 12, 4),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(22, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 12, 5),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(20, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 12, 5),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 12, 6),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 12, 6),
+                    StartTime = new TimeOnly(13, 0),
+                    EndTime = new TimeOnly(21, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 12, 7),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(19, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 12, 8),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 12, 9),
+                    StartTime = new TimeOnly(7, 0),
+                    EndTime = new TimeOnly(15, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 12, 9),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 12, 10),
+                    StartTime = new TimeOnly(15, 0),
+                    EndTime = new TimeOnly(23, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 12, 11),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(20, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    Date = new DateOnly(2024, 12, 11),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah
+                    Date = new DateOnly(2024, 12, 12),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", // Darlon
+                    Date = new DateOnly(2024, 12, 12),
+                    StartTime = new TimeOnly(13, 0),
+                    EndTime = new TimeOnly(21, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David
+                    Date = DateOnly.FromDateTime(DateTime.Today), // Today
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(13, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David
+                    Date = DateOnly.FromDateTime(DateTime.Today.AddDays(1)), // Tomorrow
+                    StartTime = new TimeOnly(8, 30),
+                    EndTime = new TimeOnly(16, 30)
+                },
+                new Availability
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David
+                    Date = DateOnly.FromDateTime(DateTime.Today.AddDays(2)), // In 2 days
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(20, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David
+                    Date = DateOnly.FromDateTime(DateTime.Today.AddDays(3)), // In 3 days
+                    StartTime = new TimeOnly(6, 30),
+                    EndTime = new TimeOnly(14, 30)
+                },
+                new Availability
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David
+                    Date = DateOnly.FromDateTime(DateTime.Today.AddDays(4)), // In 4 days
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David
+                    Date = DateOnly.FromDateTime(DateTime.Today.AddDays(5)), // In 5 days
+                    StartTime = new TimeOnly(7, 0),
+                    EndTime = new TimeOnly(15, 0)
+                },
+                new Availability
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David
+                    Date = DateOnly.FromDateTime(DateTime.Today.AddDays(6)), // In 6 days
+                    StartTime = new TimeOnly(14, 30),
+                    EndTime = new TimeOnly(22, 30)
+                },
+                new Availability
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David
+                    Date = DateOnly.FromDateTime(DateTime.Today.AddDays(7)), // In 7 days
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0)
+                }
+            );
+
+
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });

@@ -1,4 +1,5 @@
 ﻿using bumbo.ViewModels;
+using bumbo.ViewModels.ScheduleManager;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Http;
@@ -17,17 +18,26 @@ namespace bumbo.Controllers
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IBranchesRepository _branchesRepository;
         private readonly IPrognosisRepository _prognosisRepository;
+        private readonly IEmployeeRepository _employeesRepository;
+        private readonly ISchoolScheduleRepository _schoolSchedulesRepository;
+        private readonly IAvailabilityRepository _availabilityRepository;
 
         public ScheduleManagerController(
             UserManager<Employee> userManager,
             IScheduleRepository scheduleRepository,
             IBranchesRepository branchesRepository,
-            IPrognosisRepository prognosisRepository)
+            IPrognosisRepository prognosisRepository,
+            IEmployeeRepository employeesRepository,
+            ISchoolScheduleRepository schoolSchedulesRepository,
+            IAvailabilityRepository availabilityRepository)
         {
             _userManager = userManager;
             _scheduleRepository = scheduleRepository;
             _branchesRepository = branchesRepository;
             _prognosisRepository = prognosisRepository;
+            _employeesRepository = employeesRepository;
+            _schoolSchedulesRepository = schoolSchedulesRepository;
+            _availabilityRepository = availabilityRepository;
         }
 
         public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
@@ -215,10 +225,35 @@ namespace bumbo.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ChooseEmployee(string date)
+        public async Task<IActionResult> ChooseEmployee(string dateString)
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null || user.ManagerOfBranchId == null || date.IsNullOrEmpty())
+
+            if (dateString != null)
+            {
+                DateOnly date = DateOnly.ParseExact(dateString, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+
+                EmployeeSelector viewmodel = new EmployeeSelector();
+
+                List<Employee> employees = await _employeesRepository.GetEmployeesOfBranch(user.ManagerOfBranchId);
+
+                List<Employee> availableEmployees = new List<Employee>();
+
+
+                foreach (Employee employee in employees)
+                {
+                    List<Availability> availability = await _availabilityRepository.GetAvailabilityOfEmployee(employee.Id);
+                    foreach (Availability a in availability)
+                    {
+                        if (a.Date.Equals(date))
+                        {
+
+                        }
+                    }
+                }
+            }
+
+            if (user == null || user.ManagerOfBranchId == null || dateString.IsNullOrEmpty())
             {
                 return RedirectToAction("AccessDenied", "Home");
             }

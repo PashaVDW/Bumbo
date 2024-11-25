@@ -63,7 +63,7 @@
                     </div>
                 }
 
-                <a class="flex justify-center items-center border border-dashed border-gray-400 rounded p-4 w-full mt-4" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { date =  Model.Date, department = department.DepartmentName })">
+                <a class="flex justify-center items-center border border-dashed border-gray-400 rounded p-4 w-full mt-4" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { dateString =  Model.Date, department = department.DepartmentName })">
                     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                     </svg>
