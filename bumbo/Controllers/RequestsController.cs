@@ -336,8 +336,15 @@ namespace bumbo.Controllers
             return Redirect("Index");
         }
 
-        public IActionResult SearchForAvailableEmployees(string searchTerm)
+        public async Task<IActionResult> SearchForAvailableEmployees(string searchTerm, string previousPage)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+            int thisBranchId = user.ManagerOfBranchId.Value;
+
             var branches = _branchesRepository.GetAllBranches();
             if (searchTerm.IsNullOrEmpty())
             {
@@ -345,6 +352,7 @@ namespace bumbo.Controllers
                 {
                     br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
                 }
+                branches = branches.Where(b => b.Employees.Count > 0).Where(b => b.BranchId != thisBranchId).ToList();
             } else
             {
                 foreach (var br in branches)
@@ -355,12 +363,13 @@ namespace bumbo.Controllers
                         (!string.IsNullOrEmpty(e.LastName) && e.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
                         .ToList();
                 }
-                branches = branches.Where(b => b.Employees.Count > 0).ToList();
+                branches = branches.Where(b => b.Employees.Count > 0).Where(b => b.BranchId != thisBranchId).ToList();
             }
             
             var viewModel = new RequestsAddEmployeeViewModel()
             {
                 AllBranches = branches,
+                PreviousPage = previousPage
             };
             return View("AddEmployee", viewModel);
         }
