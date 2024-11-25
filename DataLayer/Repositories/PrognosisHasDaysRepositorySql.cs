@@ -15,29 +15,29 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public List<Prognosis_has_days> GetPrognosisHasDays()
+        public List<PrognosisHasDays> GetPrognosisHasDays()
         {
             return _context.PrognosisHasDays.ToList();
         }
 
-        public List<Prognosis_has_days> GetLatestPrognosis_has_days()
+        public List<PrognosisHasDays> GetLatestPrognosis_has_days()
         {
-            var latestPrognosisId = _context.Prognosis_Has_Days.Max(p => p.PrognosisId);
-            return _context.Prognosis_Has_Days
+            var latestPrognosisId = _context.PrognosisHasDays.Max(p => p.PrognosisId);
+            return _context.PrognosisHasDays
                 .Where(p => p.PrognosisId == latestPrognosisId)
                 .ToList();
         }
 
-        public List<Prognosis_has_days> GetPrognosisHasDaysByPrognosisId(int prognosisId)
+        public List<PrognosisHasDays> GetPrognosisHasDaysByPrognosisId(int prognosisId)
         {
-            return _context.Prognosis_Has_Days
+            return _context.PrognosisHasDays
                 .Where(p => p.PrognosisId == prognosisId)
                 .ToList();
         }
 
-        public void UpdatePrognosisHasDays(List<Prognosis_has_days> prognosisDayList)
+        public void UpdatePrognosisHasDays(List<PrognosisHasDays> prognosisDayList)
         {
-            _context.Prognosis_Has_Days.UpdateRange(prognosisDayList);
+            _context.PrognosisHasDays.UpdateRange(prognosisDayList);
 
             _context.SaveChanges();
         }

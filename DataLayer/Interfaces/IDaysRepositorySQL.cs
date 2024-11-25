@@ -9,6 +9,7 @@ namespace DataLayer.Interfaces
 {
     public interface IDaysRepositorySQL
     {
-        public List<Days> getAllDays();
+        public List<Days> getAllDaysOrdered();
+        List<Days> getAllDaysUnordered();
     }
 }

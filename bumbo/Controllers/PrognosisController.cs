@@ -6,7 +6,6 @@ using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Framework;
 using System.Globalization;
 
 namespace bumbo.Controllers
@@ -14,12 +13,13 @@ namespace bumbo.Controllers
     public class PrognosisController : Controller
     {
 
+        List<Template> templates = new List<Template>();
         private readonly IPrognosisRepository _prognosisRepository;
         private readonly IPrognosisHasDaysRepository _prognosisHasDaysRepository;
-        private readonly IPrognosisHasDaysHasDepartments _prognosisHasDaysHasDepartments;
         private readonly INormsRepository _normsRepository;
         private readonly IDaysRepositorySQL _daysRepository;
-        private readonly ITemplatesRepository _templatesRepository;
+        private readonly ITemplatesRepository _TemplatesRepository;
+        private readonly IPrognosisHasDaysHasDepartments _prognosisHasDaysHasDepartments;
         private readonly DateHelper dateHelper;
         private readonly int _currentYear;
         private readonly int _currentWeek;
@@ -28,19 +28,60 @@ namespace bumbo.Controllers
             IPrognosisHasDaysRepository prognosisHasDaysRepository,
             INormsRepository normsRepository,
             IDaysRepositorySQL daysRepository,
-            IPrognosisHasDaysHasDepartments prognosisHasDaysHasDepartments,
             ITemplatesRepository templatesRepository)
         {
-            _templatesRepository = templatesRepository;
             _prognosisRepository = prognosisRepository;
             _prognosisHasDaysRepository = prognosisHasDaysRepository;
             _normsRepository = normsRepository;
             _daysRepository = daysRepository;
-            _prognosisHasDaysHasDepartments = prognosisHasDaysHasDepartments;
 
             dateHelper = new DateHelper();
             _currentYear = dateHelper.GetCurrentYear();
             _currentWeek = dateHelper.GetCurrentWeek();
+            _TemplatesRepository = templatesRepository;
+        }
+
+        private List<DailyCalculationResult> CalculateUrenAndMedewerkers(
+            List<PrognosisHasDays> prognosisDays,
+            List<Norm> norms)
+        {
+            var results = new List<DailyCalculationResult>();
+
+            foreach (var day in prognosisDays)
+            {
+                var dayResult = new DailyCalculationResult
+                {
+                    DayName = day.Days_name,
+                    DepartmentCalculations = new List<DepartmentCalculationResult>()
+                };
+
+                var activities = new List<(string activity, int amount)>
+            {
+                ("Coli uitladen", day.PackagesAmount),
+                ("Vakkenvullen", day.PackagesAmount),
+                ("Kassa", day.CustomerAmount),
+                ("Vers", day.PackagesAmount),
+                ("Spiegelen", day.PackagesAmount)
+            };
+                ViewBag.Activities = activities;
+                foreach (var (activity, amount) in activities)
+                {
+                    double totalSeconds = amount * GetNormInSeconds(activity, norms);
+                    int uren = (int)Math.Ceiling(totalSeconds / 3600);
+                    int medewerkersNeeded = (int)Math.Ceiling(uren / 8.0);
+
+                    dayResult.DepartmentCalculations.Add(new DepartmentCalculationResult
+                    {
+                        Activity = activity,
+                        Uren = uren,
+                        MedewerkersNeeded = medewerkersNeeded
+                    });
+                }
+
+                results.Add(dayResult);
+            }
+
+            return results;
         }
         
         public async Task<ActionResult> Index(int? weekNumber, int? year, int? weekInc)
@@ -149,13 +190,13 @@ namespace bumbo.Controllers
                 days = prognosis.PrognosisHasDays
                 .OrderBy(d => d.DayName switch
                 {
-                    "Monday" => 1,
-                    "Tuesday" => 2,
-                    "Wednesday" => 3,
-                    "Thursday" => 4,
-                    "Friday" => 5,
-                    "Saturday" => 6,
-                    "Sunday" => 7,
+                    "Maandag" => 1,
+                    "Dinsdag" => 2,
+                    "Woensdag" => 3,
+                    "Donderdag" => 4,
+                    "Vrijdag" => 5,
+                    "Zaterdag" => 6,
+                    "Zondag" => 7,
                     _ => 8
                 })
                 .Select((day, index) =>
@@ -197,12 +238,12 @@ namespace bumbo.Controllers
 
             var viewModel = new PrognosisViewModel
             {
-                PrognosisId = prognosis.PrognosisId,
-                currentYear = _currentYear,
-                currentWeek = _currentWeek,
                 Year = prognosis.Year,
                 WeekNr = prognosis.WeekNr,
-                Days = days // Vul het model met de berekende dagen
+                Days = days, // Vul het model met de berekende dagen
+                PrognosisId = prognosis.PrognosisId,
+                currentWeek = _currentWeek,
+                currentYear = _currentYear
             };
 
             return View(viewModel);
@@ -263,7 +304,7 @@ namespace bumbo.Controllers
         {
             var viewModel = new PrognosisCreateViewModel
             {
-                Days = _daysRepository.getAllDays(),
+                Days = _daysRepository.getAllDaysOrdered(),
                 CustomerAmount = new List<int>(),
                 PackagesAmount = new List<int>(),
                 WeekNr = _currentWeek,
@@ -273,7 +314,7 @@ namespace bumbo.Controllers
 
             if (templateId.HasValue)
             {
-                var template = await _templatesRepository.GetByIdAsync(templateId.Value);
+                var template = await _TemplatesRepository.GetByIdAsync(templateId.Value);
                 if (template != null && template.TemplateHasDays != null)
                 {
                     viewModel.Days = template.TemplateHasDays.Select(td => td.Days).ToList();
@@ -286,13 +327,11 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreatePrognosis(PrognosisCreateViewModel model)
         {
-            var prognosisDays = model.Days.Select((day, index) => new Prognosis_has_days
+            var prognosisDays = model.Days.Select((day, index) => new PrognosisHasDays
             {
                 Days = day,
                 CustomerAmount = model.CustomerAmount[index],
@@ -315,7 +354,6 @@ namespace bumbo.Controllers
 
             return RedirectToAction("Index");
         }
-
         public void CalculatePrognosis(PrognosisCreateViewModel model)
         {
             List<Norm> norms = _normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result;
@@ -374,7 +412,6 @@ namespace bumbo.Controllers
             _prognosisHasDaysHasDepartments.createCalculation(prognosisId, cassiereHours, versWorkersHours, stockingHours, cassieresNeeded, workersNeeded);
         }
 
-
         // GET: Prognosis/Edit/1
         [HttpGet]
         public ActionResult Edit(int prognosisId)
@@ -383,24 +420,23 @@ namespace bumbo.Controllers
 
             Prognosis prognosis = _prognosisRepository.GetPrognosisById(prognosisId);
 
-            List<Prognosis_has_days> hasDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(prognosisId);
+            List<PrognosisHasDays> hasDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(prognosisId);
 
             List<string> day_names = new List<string>();
             List<int> customerAmount = new List<int>();
             List<int> packagesAmount = new List<int>();
 
-            List<Days> days = _daysRepository.getAllDays();
+            List<Days> days = _daysRepository.getAllDaysOrdered();
 
             foreach (Days day in days)
             {
-                foreach (Prognosis_has_days dayName in hasDays)
+                foreach (PrognosisHasDays dayName in hasDays)
                 {
                     if (day.Name == dayName.Days_name)
                     {
                         day_names.Add(dayName.Days_name);
                         customerAmount.Add(dayName.CustomerAmount);
                         packagesAmount.Add(dayName.PackagesAmount);
-
                     }
                 }
             }
@@ -435,22 +471,30 @@ namespace bumbo.Controllers
 
         public ActionResult Update(PrognosisUpdateViewModel updatedViewModel)
         {
+            List<Days> daysOrdered = _daysRepository.getAllDaysOrdered();
+            List<Days> daysUnordered = _daysRepository.getAllDaysUnordered();
             Prognosis prognosis = _prognosisRepository.GetPrognosisById(updatedViewModel.PrognosisId);
-            List<Prognosis_has_days> prognosisDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(updatedViewModel.PrognosisId);
+            List<PrognosisHasDays> prognosisDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(updatedViewModel.PrognosisId);
 
             int highestValue = 0;
             bool negativeNumber = false;
             for (int i = 0; i < prognosisDays.Count; i++)
             {
-                prognosisDays[i].CustomerAmount = updatedViewModel.CustomerAmount[i];
-                prognosisDays[i].PackagesAmount = updatedViewModel.PackagesAmount[i];
+                for (int j = 0; j < daysUnordered.Count; j++)
+                {
+                    if (daysOrdered[i] == daysUnordered[j])
+                    {
+                        prognosisDays[j].CustomerAmount = updatedViewModel.CustomerAmount[i];
+                        prognosisDays[j].PackagesAmount = updatedViewModel.PackagesAmount[i];
 
-                if (highestValue < updatedViewModel.CustomerAmount[i])
-                    highestValue = updatedViewModel.CustomerAmount[i];
-                if (highestValue < updatedViewModel.PackagesAmount[i])
-                    highestValue = updatedViewModel.PackagesAmount[i];
-                if (updatedViewModel.CustomerAmount[i] < 0 || updatedViewModel.PackagesAmount[i] < 0)
-                    negativeNumber = true;
+                        if (highestValue < updatedViewModel.CustomerAmount[i])
+                            highestValue = updatedViewModel.CustomerAmount[i];
+                        if (highestValue < updatedViewModel.PackagesAmount[i])
+                            highestValue = updatedViewModel.PackagesAmount[i];
+                        if (updatedViewModel.CustomerAmount[i] < 0 || updatedViewModel.PackagesAmount[i] < 0)
+                            negativeNumber = true;
+                    }
+                }
             }
 
             if (prognosis.Year <= _currentYear && prognosis.WeekNr <= _currentWeek)
@@ -519,7 +563,7 @@ namespace bumbo.Controllers
 
         public ActionResult AddTemplate(string searchTerm, int page = 1)
         {
-            List<Template> templates =  _templatesRepository.GetAllTemplates();
+            List<Template> templates = _TemplatesRepository.GetAllTemplates();
 
             return View(templates);
         }
@@ -538,67 +582,3 @@ namespace bumbo.Controllers
         public int MedewerkersNeeded { get; set; }
     }
 }
-        //        // GET: PrognosisController/Edit/5 PARAMETER INT ID MUST BE ADDED
-        //        public ActionResult Edit()
-        //        {
-        //            ViewBag.CurrentWeek = _currentWeek;
-        //            ViewBag.CurrentYear = _currentYear;
-        //            return View();
-        //        }
-
-        //        // POST: PrognosisController/Edit/5
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Edit(int id, IFormCollection collection)
-        //        {
-        //            try
-        //            {
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }
-
-        //        // GET: PrognosisController/Delete/5
-        //        public ActionResult Delete(int id)
-        //        {
-        //            return View();
-        //        }
-
-        //        // POST: PrognosisController/Delete/5
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Delete(int id, IFormCollection collection)
-        //        {
-        //            try
-        //            {
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }
-        //        public ActionResult AddTemplate(string searchTerm, int page = 1)
-        //        {
-        //            var headers = new List<string> { "Naam" };
-
-
-        //            var tableBuilder = new TableHtmlBuilder<Template>();
-        //            var htmlTable = tableBuilder.GenerateTable("", headers, templates, "", item =>
-        //            {
-        //                return $@"
-        //        <td class='py-2 px-4'>{item.TemplateName}</td>
-        //        <td class='py-2 px-4 text-right'>
-        //            <button class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl' 
-        //                    onclick=""window.location.href='../prognosis/Create?id={item.TemplateId}'"">
-        //                Kies
-        //            </button>
-        //        </td>";
-        //            }, searchTerm, page);
-
-        //            ViewBag.HtmlTable = htmlTable;
-        //            return View();
-        //        }

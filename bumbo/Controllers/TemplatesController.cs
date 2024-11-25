@@ -88,13 +88,13 @@ namespace bumbo.Controllers
             {
                 Days = new List<DayData>
                 {
-                    new DayData { DayName = "Monday" },
-                    new DayData { DayName = "Tuesday" },
-                    new DayData { DayName = "Wednesday" },
-                    new DayData { DayName = "Thursday" },
-                    new DayData { DayName = "Friday" },
-                    new DayData { DayName = "Saturday" },
-                    new DayData { DayName = "Sunday" }
+                    new DayData { DayName = "Maandag" },
+                    new DayData { DayName = "Dinsdag" },
+                    new DayData { DayName = "Woensdag" },
+                    new DayData { DayName = "Donderdag" },
+                    new DayData { DayName = "Vrijdag" },
+                    new DayData { DayName = "Zaterdag" },
+                    new DayData { DayName = "Zondag" }
                 }
             };
             return View(model);
@@ -251,7 +251,7 @@ namespace bumbo.Controllers
             List<TemplateHasDays> templateHasDays = _templatesHasDaysRepository.GetAllTemplateHasDays();
             List<Template> templates = _templatesRepository.GetAllTemplates();
 
-            var dayOrder = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            var dayOrder = new[] { "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag" };
 
             List<TemplatesViewModel> templateViewModel = templates.Select(template => new TemplatesViewModel
             {

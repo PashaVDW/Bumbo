@@ -33,7 +33,7 @@ namespace DataLayer.Repositories
 
                 if (cassiereHours.ContainsKey(day))
                 {
-                    var cassiereCalculation = new Prognosis_has_days_has_Department
+                    var cassiereCalculation = new PrognosisHasDaysHasDepartment
                     {
                         PrognosisId = prognosisId,
                         Days_name = day.Name,
@@ -41,12 +41,12 @@ namespace DataLayer.Repositories
                         AmountWorkersNeeded = cassieresNeeded[day],
                         HoursWorkNeeded = cassiereHours[day]
                     };
-                    _context.prognosis_Has_Days_Has_Departments.Add(cassiereCalculation);
+                    _context.PrognosisHasDaysHasDepartments.Add(cassiereCalculation);
                 }
 
                 if (versWorkersHours.ContainsKey(day))
                 {
-                    var versWorkersCalculation = new Prognosis_has_days_has_Department
+                    var versWorkersCalculation = new PrognosisHasDaysHasDepartment
                     {
                         PrognosisId = prognosisId,
                         Days_name = day.Name,
@@ -54,12 +54,12 @@ namespace DataLayer.Repositories
                         AmountWorkersNeeded = workersNeeded[day],
                         HoursWorkNeeded = versWorkersHours[day]
                     };
-                    _context.prognosis_Has_Days_Has_Departments.Add(versWorkersCalculation);
+                    _context.PrognosisHasDaysHasDepartments.Add(versWorkersCalculation);
                 }  
 
                 if (stockingHours.ContainsKey(day))
                 {
-                    var stockingCalculation = new Prognosis_has_days_has_Department
+                    var stockingCalculation = new PrognosisHasDaysHasDepartment
                     {
                         PrognosisId = prognosisId,
                         Days_name = day.Name,
@@ -67,7 +67,7 @@ namespace DataLayer.Repositories
                         AmountWorkersNeeded = stockingHours[day] / divisor,
                         HoursWorkNeeded = stockingHours[day]
                     };
-                    _context.prognosis_Has_Days_Has_Departments.Add(stockingCalculation);
+                    _context.PrognosisHasDaysHasDepartments.Add(stockingCalculation);
                 }
             }
 
