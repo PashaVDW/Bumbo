@@ -80,5 +80,32 @@ namespace DataLayer.Repositories
             _context.Entry(request).Property(e => e.RequestStatusName).IsModified = true;
             _context.SaveChanges();
         }
+
+        public List<Employee> GetAllAvailableEmployees()
+        {
+            List<BranchRequestsEmployee> requests = _context.BranchRequestsEmployee.ToList();
+            List<Employee> employees = _context.Employees.ToList();
+
+            var employeeIdsWithRequests = requests.Select(req => req.EmployeeId);
+
+            List<Employee> availableEmployees = employees
+                .Where(emp => !employeeIdsWithRequests.Contains(emp.Id))
+                .Distinct() 
+                .ToList();
+
+            //List<Employee> availableEmployees = new List<Employee>();
+            //foreach (var emp in employees)
+            //{
+            //    foreach (var req in requests) 
+            //    {
+            //        if (emp.Id == req.EmployeeId && !availableEmployees.Contains(emp))
+            //        {
+            //            availableEmployees.Add(emp);
+            //        }
+            //    }
+            //}
+
+            return availableEmployees;
+        }
     }
 }

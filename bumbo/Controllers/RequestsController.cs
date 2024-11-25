@@ -268,6 +268,17 @@ namespace bumbo.Controllers
                 br.Employees = _branchesRepository.GetEmployeesFromBranch(br);
             }
 
+            List<Employee> employees = _branchRequestsEmployeeRepository.GetAllAvailableEmployees();
+            List<Employee> availableEmployees = new List<Employee>();
+
+            foreach (var br in branches)
+            {
+                br.Employees = br.Employees
+                .Where(e => employees.Contains(e))
+                .ToList();
+            }
+            
+
             var viewModel = new RequestsAddEmployeeViewModel() {
                 AllBranches = branches,
                 PreviousPage = previousPage,

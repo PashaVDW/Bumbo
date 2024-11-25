@@ -16,5 +16,6 @@ namespace DataLayer.Interfaces
         public List<BranchRequestsEmployee> GetAllOutgoingRequests(int branchId);
         public void AcceptRequest(BranchRequestsEmployee request);
         public void RejectRequest(BranchRequestsEmployee request);
+        public List<Employee> GetAllAvailableEmployees();
     }
 }
