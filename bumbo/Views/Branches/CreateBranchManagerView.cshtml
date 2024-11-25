@@ -22,18 +22,3 @@
         <p class="text-center font-bold">Geen Medewerkers in dit Filaal</p>
     }
 </div>
-
-@{
-    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
-    {
-        <toast-message toast-id="@TempData["ToastId"]"
-                       message="@TempData["ToastMessage"]"
-                       message-type="@TempData["ToastType"]">
-        </toast-message>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
-            });
-        </script>
-    }
-}

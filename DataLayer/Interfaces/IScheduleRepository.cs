@@ -11,6 +11,10 @@ namespace DataLayer.Interfaces
     {
         List<Schedule> GetSchedulesForBranchByWeek(int branchId, List<DateOnly> weekDates);
         List<Schedule> GetScheduleForBranchByDay(int branchId, DateOnly dayDate);
+        List<Schedule> GetSchedulesForEmployeeByDay(string employeeId, DateOnly date);
+        List<Schedule> SetSchedulesSick(List<Schedule> sickSchedules);
+        List<Schedule> SetSchedulesBetter(List<Schedule> sickSchedules);
+        List<Schedule> GetSchedulesForEmployeeByWeek(string employeeId, List<DateOnly> weekDates);
         List<string> GetDepartments();
         bool CanRemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId);
         void RemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId);

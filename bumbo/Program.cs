@@ -28,7 +28,6 @@ builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
 builder.Services.AddScoped<ILabourRulesRepository, LabourRulesRepositorySql>();
 builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepositorySql>();
 
-
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
     .AddDefaultTokenProviders();
@@ -73,8 +72,8 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "schoolSchedule",
-    pattern: "schoolrooster/toevoegen",
-    defaults: new { controller = "SchoolSchedule", action = "AddSchoolSchedule" });
+    pattern: "schoolrooster",
+    defaults: new { controller = "SchoolSchedule", action = "Index" });
 
 app.MapControllerRoute(
     name: "norms",

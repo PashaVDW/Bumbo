@@ -28,6 +28,41 @@ namespace DataLayer.Repositories
 
             return schedules;
         }
+        
+        public List<Schedule> GetSchedulesForEmployeeByDay(string employeeId, DateOnly date)
+        {
+            var schedules = _context.Schedule
+                .Include(s => s.Employee)
+                .Where(s => s.EmployeeId == employeeId && s.Date == date)
+                .ToList();
+
+            return schedules;
+        }
+
+        public List<Schedule> SetSchedulesSick(List<Schedule> sickSchedules)
+        {
+            sickSchedules.ForEach(s => s.IsSick = true);
+            _context.SaveChanges();
+            return sickSchedules;
+        
+        }
+        public List<Schedule> SetSchedulesBetter(List<Schedule> sickSchedules)
+        {
+            sickSchedules.ForEach(s => s.IsSick = false);
+            _context.SaveChanges();
+            return sickSchedules;
+        }
+
+        public List<Schedule> GetSchedulesForEmployeeByWeek(string employeeId, List<DateOnly> weekDates)
+        {
+            var schedules = _context.Schedule
+                .Include(s => s.Employee)
+                .Include(s => s.Department)
+                .Where(s => s.EmployeeId == employeeId && weekDates.Contains(s.Date))
+                .ToList();
+
+            return schedules;
+        }
 
         public List<Schedule> GetScheduleForBranchByDay(int branchId, DateOnly dayDate)
         {
@@ -39,7 +74,7 @@ namespace DataLayer.Repositories
 
             return schedule;
         }
-
+        
         public List<string> GetDepartments()
         {
             var departments = _context.Departments

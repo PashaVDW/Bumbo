@@ -1,7 +1,16 @@
 ﻿using DataLayer.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public interface ISchoolScheduleRepository
+namespace DataLayer.Interfaces
 {
-    void AddSchoolSchedulesForEmployee(string employeeId, List<SchoolSchedule> schedules);
-    SchoolSchedule GetEmployeeDaySchoolSchedule(DateTime date, string employeeId);
+    public interface ISchoolScheduleRepository
+    {
+        void AddSchoolSchedulesForEmployee(string employeeId, List<SchoolSchedule> schedules);
+        List<SchoolSchedule> getSchedulesBetweenDates(DateTime startDate, DateTime endDate, string employeeId);
+        SchoolSchedule GetEmployeeDaySchoolSchedule(DateTime date, string employeeId);
+    }
 }
