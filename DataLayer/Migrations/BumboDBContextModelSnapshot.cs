@@ -155,21 +155,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("DepartmentName");
 
-                    b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            DepartmentName = "Kassa"
-                        },
-                        new
-                        {
-                            DepartmentName = "Vakkenvullen"
-                        },
-                        new
-                        {
-                            DepartmentName = "Vers"
-                        });
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("DataLayer.Models.EmployeeHasDepartment", b =>
@@ -292,48 +278,6 @@ namespace DataLayer.Migrations
                     b.HasIndex("DayName", "PrognosisId");
 
                     b.ToTable("PrognosisHasDaysHasDepartment");
-
-                    b.HasData(
-                        new
-                        {
-                            DepartmentName = "Kassa",
-                            DayName = "Monday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            AmountOfWorkersNeeded = 3,
-                            HoursOfWorkNeeded = 24
-                        },
-                        new
-                        {
-                            DepartmentName = "Vakkenvullen",
-                            DayName = "Monday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            AmountOfWorkersNeeded = 4,
-                            HoursOfWorkNeeded = 32
-                        },
-                        new
-                        {
-                            DepartmentName = "Vers",
-                            DayName = "Monday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            AmountOfWorkersNeeded = 2,
-                            HoursOfWorkNeeded = 16
-                        },
-                        new
-                        {
-                            DepartmentName = "Kassa",
-                            DayName = "Tuesday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            AmountOfWorkersNeeded = 2,
-                            HoursOfWorkNeeded = 16
-                        },
-                        new
-                        {
-                            DepartmentName = "Vakkenvullen",
-                            DayName = "Tuesday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            AmountOfWorkersNeeded = 3,
-                            HoursOfWorkNeeded = 24
-                        });
                 });
 
             modelBuilder.Entity("DataLayer.Models.Schedule", b =>
@@ -373,148 +317,6 @@ namespace DataLayer.Migrations
                     b.HasIndex("TemplateId");
 
                     b.ToTable("Schedule");
-
-                    b.HasData(
-                        new
-                        {
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 18),
-                            DepartmentName = "Kassa",
-                            EndTime = new TimeOnly(13, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 18),
-                            DepartmentName = "Kassa",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(13, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 18),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(12, 0, 0),
-                            IsSick = true,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 18),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(10, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 18),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(21, 30, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(16, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 18),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(14, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 18),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(18, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(14, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 19),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(18, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(10, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 19),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(12, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 20),
-                            DepartmentName = "Kassa",
-                            EndTime = new TimeOnly(15, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 21),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 22),
-                            DepartmentName = "Kassa",
-                            EndTime = new TimeOnly(20, 0, 0),
-                            IsSick = true,
-                            StartTime = new TimeOnly(12, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 23),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 11, 24),
-                            DepartmentName = "Kassa",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        });
                 });
 
             modelBuilder.Entity("DataLayer.Models.SchoolSchedule", b =>
@@ -1096,14 +898,14 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             FunctionName = "Cashier",
-                            StartDate = new DateTime(2024, 11, 24, 20, 43, 48, 524, DateTimeKind.Local).AddTicks(8687)
+                            StartDate = new DateTime(2024, 11, 25, 18, 41, 57, 551, DateTimeKind.Local).AddTicks(9385)
                         },
                         new
                         {
                             BranchId = 2,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2024, 11, 24, 20, 43, 48, 581, DateTimeKind.Local).AddTicks(5726)
+                            StartDate = new DateTime(2024, 11, 25, 18, 41, 57, 649, DateTimeKind.Local).AddTicks(7925)
                         });
                 });
 
@@ -1403,13 +1205,6 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             WeekNr = 20,
                             Year = 2024
-                        },
-                        new
-                        {
-                            PrognosisId = "prognosis_week_47_2024",
-                            BranchId = 1,
-                            WeekNr = 47,
-                            Year = 2024
                         });
                 });
 
@@ -1533,55 +1328,6 @@ namespace DataLayer.Migrations
                             PrognosisId = "2",
                             CustomerAmount = 130,
                             PackagesAmount = 60
-                        },
-                        new
-                        {
-                            DayName = "Monday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            CustomerAmount = 200,
-                            PackagesAmount = 300
-                        },
-                        new
-                        {
-                            DayName = "Tuesday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            CustomerAmount = 150,
-                            PackagesAmount = 250
-                        },
-                        new
-                        {
-                            DayName = "Wednesday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            CustomerAmount = 220,
-                            PackagesAmount = 280
-                        },
-                        new
-                        {
-                            DayName = "Thursday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            CustomerAmount = 190,
-                            PackagesAmount = 270
-                        },
-                        new
-                        {
-                            DayName = "Friday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            CustomerAmount = 210,
-                            PackagesAmount = 290
-                        },
-                        new
-                        {
-                            DayName = "Saturday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            CustomerAmount = 250,
-                            PackagesAmount = 320
-                        },
-                        new
-                        {
-                            DayName = "Sunday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            CustomerAmount = 180,
-                            PackagesAmount = 260
                         });
                 });
 

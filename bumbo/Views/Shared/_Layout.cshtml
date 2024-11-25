@@ -8,22 +8,9 @@
     <link rel="stylesheet" href="~/bumbo.styles.css" asp-append-version="true" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body>  
 
-    @{
-        if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
-        {
-            <toast-message toast-id="@TempData["ToastId"]"
-                           message="@TempData["ToastMessage"]"
-                           message-type="@TempData["ToastType"]">
-            </toast-message>
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
-                });
-            </script>
-        }
-    }
+      
     @if (ViewData["HideLayoutElements"] == null || !(bool)ViewData["HideLayoutElements"])
     {
         @await Component.InvokeAsync("NavBar")
