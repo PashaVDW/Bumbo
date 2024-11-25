@@ -5,7 +5,7 @@
 }
 
 
-<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
+<div class="mt-10 p-6 relative mx-auto max-w-2xl rounded">
     <custom-modal modal-id="removeEmployeeFromDay" body-text="Weet je zeker dat je de medewerker van deze dag wil halen?">
         <default-button id="removeEmployee" button-text="Delete" button-type="delete" onclick=""></default-button>
         <default-button button-text="Cancel" button-type="secondary" on-click="document.getElementById('removeEmployeeFromDay').classList.add('hidden')"></default-button>
@@ -33,7 +33,7 @@
             var department = Model.Departments[departmentIndex];
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold">@department.DepartmentName</h2>
-                <div class="flex justify-between items-center mb-4">
+                <div class="mb-4 flex items-center justify-between">
                     <div>
                         <span class="mr-4 font-bold">Benodigde uren: @department.HoursNeeded</span>
                         <span class="font-bold">Ingeplande uren: @department.TotalHours</span>
@@ -43,27 +43,44 @@
                 @for (var employeeIndex = 0; employeeIndex < department.Employees.Count; employeeIndex++)
                 {
                     var employee = department.Employees[employeeIndex];
-                    <input type="hidden" name="Departments[@departmentIndex].Employees[@employeeIndex].EmployeeId" value="@employee.EmployeeId" />
                     <input type="hidden" name="Departments[@departmentIndex].DepartmentName" value="@department.DepartmentName" />
+                    <input type="hidden" name="Departments[@departmentIndex].Employees[@employeeIndex].EmployeeId" value="@employee.EmployeeId" />
                     <input type="hidden" name="Departments[@departmentIndex].Employees[@employeeIndex].EmployeeName" value="@employee.EmployeeName" />
 
-                    <div class="grid grid-cols-10 items-center gap-4 mb-2 p-5 rounded border border-gray-400">
+                    <div class="gap-4 mb-2 p-5 border-gray-400 grid grid-cols-10 items-center rounded border">
                         <span class="mr-4 col-span-2">@employee.EmployeeName</span>
 
                         <select asp-for="Departments[@departmentIndex].Employees[@employeeIndex].DepartmentName"
                                 asp-items="@(new SelectList(Model.Departments, "DepartmentName", "DepartmentName", employee.DepartmentName))"
-                                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 rounded border leading-tight col-span-3">
+                                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 col-span-3 rounded border leading-tight">
                         </select>
 
                         <input type="time"
                                asp-for="Departments[@departmentIndex].Employees[@employeeIndex].StartTime"
-                               class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 appearance-none rounded border leading-tight col-span-2" />
+                               class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 col-span-2 appearance-none rounded border leading-tight" />
 
                         <input type="time"
                                asp-for="Departments[@departmentIndex].Employees[@employeeIndex].EndTime"
-                               class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 appearance-none rounded border leading-tight col-span-2" />
+                               class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 col-span-2 appearance-none rounded border leading-tight" />
+
+                        <a class="text-red-500 justify-self-end" title="Delete" href="javascript:void(0);" onclick="
+                            document.getElementById('removeEmployeeFromDay').classList.remove('hidden');
+                            document.getElementById('removeEmployee').onclick = function() {
+                                window.location.href = '@Url.Action("RemoveEmployeeFromDay", "ScheduleManager", new { specificDate = Model.Date, EmployeeId = employee.EmployeeId})';
+                            };
+                                ">
+                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </a>
                     </div>
                 }
+            <a class="border-gray-400 p-4 mt-4 flex w-full items-center justify-center rounded border border-dashed" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { date =  Model.Date, department = department.DepartmentName })">
+                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    <span class="ml-2">Medewerker toevoegen</span>
+                </a>
             </div>
         }
     </form>

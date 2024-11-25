@@ -373,6 +373,11 @@ namespace bumbo.Controllers
                         {
                             return false;
                         }
+
+                        if (employee.EndTime.ToTimeSpan() > labourRulesToUse.MaxEndTime)
+                        {
+                            return false;
+                        }
                     }
                     else if (labourRulesToUseString == ">17")
                     {
@@ -381,11 +386,6 @@ namespace bumbo.Controllers
                             return false;
                         }
                     }
-                }
-
-                if (employee.EndTime.ToTimeSpan() > labourRulesToUse.MaxEndTime)
-                {
-                    return false;
                 }
 
                 int daysToMonday = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
