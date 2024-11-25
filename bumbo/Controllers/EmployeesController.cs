@@ -29,6 +29,13 @@ namespace bumbo.Controllers
 
         public async Task<IActionResult> Index(string searchTerm, int page = 1, int pageSize = 25)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || (user.ManagerOfBranchId == null && !user.IsSystemManager))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             var headers = new List<string> { "Naam", "Achternaam", "Email", "Telefoonnummer",  };
             var tableBuilder = new TableHtmlBuilder<Employee>();
             var htmlTable = tableBuilder.GenerateTable("Medewerkers", headers, _employeeRepository.GetAllEmployees(), "/medewerkers/aanmaken", item =>

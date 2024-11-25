@@ -24,20 +24,20 @@ namespace DataLayer.Repositories
         {
             return await _context.Templates
                     .FirstOrDefaultAsync(t => t.Name.ToLower() == name.ToLower()
-                    && t.Branch_branchId == branchId);
+                    && t.BranchBranchId == branchId);
         }
 
         public Template GetByIdAndBranch(int templateId, int branchId)
         {
             return _context.Templates
-                .FirstOrDefault(t => t.Id == templateId && t.Branch_branchId == branchId);
+                .FirstOrDefault(t => t.Id == templateId && t.BranchBranchId == branchId);
         }
 
         public async Task<Template> GetByNameAndBranchAndIdAsync(string name, int branchId, int templateId)
         {
             return await _context.Templates
                     .FirstOrDefaultAsync(t => t.Name.ToLower() == name.ToLower()
-                    && t.Branch_branchId == branchId
+                    && t.BranchBranchId == branchId
                     && t.Id != templateId);
         }
 

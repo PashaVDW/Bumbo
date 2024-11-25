@@ -11,6 +11,7 @@ using System.Reflection;
 using Microsoft.IdentityModel.Tokens;
 using DataLayer.Interfaces;
 using System.Text;
+using Microsoft.Data.SqlClient;
 
 namespace bumbo.Controllers
 {
@@ -61,19 +62,37 @@ namespace bumbo.Controllers
             return View();
         }
 
-        public IActionResult CreateBranchView()
+        public async Task<IActionResult> CreateBranchView()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             return View();
         }
 
-        public IActionResult UpdateBranchView(int branchId)
+        public async Task<IActionResult> UpdateBranchView(int branchId)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             var branch = _branchesRepository.GetBranch(branchId);
             return View(branch);
         }
 
-        public IActionResult ReadBranchView(int branchId)
+        public async Task<IActionResult> ReadBranchView(int branchId)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             var branch = _branchesRepository.GetBranch(branchId);
             var viewModel = GetReadBranchViewModel(branch);
 
@@ -88,8 +107,13 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult CreateBranchManagerView(int branchId, string searchTerm, int page = 1)
+        public async Task<IActionResult> CreateBranchManagerView(int branchId, string searchTerm, int page = 1)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
             var newBranch = _branchesRepository.GetBranch(branchId);
             newBranch.Employees = _branchesRepository.GetAllEmployees().Where(e => e.ManagerOfBranchId == null).ToList();
@@ -115,11 +139,25 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public IActionResult AddBranch(Branch branch)
+        public async Task<IActionResult> AddBranch(Branch branch)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             SetTempDataForToast("createBranchToast");
             try
             {
+                if (branch.ClosingTime <= branch.OpeningTime)
+                {
+                    TempData["ToastMessage"] = "Sluitingstijd moet later zijn dan openingstijd";
+                    TempData["ToastType"] = "error";
+
+                    return View("CreateBranchView");
+                }
+
                 _branchesRepository.AddBranch(branch);
 
                 TempData["ToastMessage"] = "Filiaal is aangemaakt";
@@ -137,7 +175,7 @@ namespace bumbo.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateBranch(Branch branch)
+        public async Task<IActionResult> UpdateBranch(Branch branch)
         {
             SetTempDataForToast("updateBranchToast");
             try
@@ -159,30 +197,53 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteBranch(int branchId)
+        public async Task<IActionResult> DeleteBranch(int branchId)
         {
-            SetTempDataForToast("updateBranchToast");
-
-            var newBranch = _branchesRepository.GetBranch(branchId);
-
-            if(newBranch == null)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
             {
-                TempData["ToastMessage"] = "Filiaal verwijderen mislukt";
-                TempData["ToastType"] = "error";
-
-                return View("UpdateBranchView", branchId);
+                return RedirectToAction("AccessDenied", "Home");
             }
 
-            _branchesRepository.DeleteBranch(newBranch);
+            try
+            {
+                SetTempDataForToast("deleteBranchToast");
 
-            TempData["ToastMessage"] = "Filiaal is verwijderd";
-            TempData["ToastType"] = "success";
+                var newBranch = _branchesRepository.GetBranch(branchId);
 
-            return RedirectToAction("BranchesView");
+                if (newBranch == null)
+                {
+                    TempData["ToastMessage"] = "Filiaal verwijderen mislukt";
+                    TempData["ToastType"] = "error";
+
+                    return View("UpdateBranchView", newBranch);
+                }
+
+                _branchesRepository.DeleteBranch(newBranch);
+
+                TempData["ToastMessage"] = "Filiaal is verwijderd";
+                TempData["ToastType"] = "success";
+
+                return RedirectToAction("BranchesView");
+            }
+            catch (DbUpdateException)
+            {
+                TempData["ToastMessage"] = "Filiaal heeft nog een of meerdere filiaalmanager(s)";
+                TempData["ToastType"] = "error";
+
+                var newBranch = _branchesRepository.GetBranch(branchId);
+                return View("UpdateBranchView", newBranch);
+            }
+            
         }
 
-        public IActionResult AddBranchManager(string employeeId, int branchId)
+        public async Task<IActionResult> AddBranchManager(string employeeId, int branchId)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
             var branch = _branchesRepository.GetBranch(branchId);
 
@@ -197,8 +258,13 @@ namespace bumbo.Controllers
             return View("ReadBranchView", viewModel);
         }
 
-        public IActionResult DeleteBranchManager(string employeeId, int branchId)
+        public async Task<IActionResult> DeleteBranchManager(string employeeId, int branchId)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || !user.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
             var branch = _branchesRepository.GetBranch(branchId);
 
@@ -223,6 +289,8 @@ namespace bumbo.Controllers
                 Name = branch.Name,
                 PostalCode = branch.PostalCode,
                 Street = branch.Street,
+                OpeningTime = branch.OpeningTime,
+                ClosingTime = branch.ClosingTime,
                 Employees = _branchesRepository.GetEmployeesFromBranch(branch),
                 Managers = _branchesRepository.GetManagersOfBranch(branch)
             };
