@@ -46,7 +46,8 @@
                 <p>@Model.Employee.FirstName @Model.Employee.MiddleName @Model.Employee.LastName</p>
                 <p>@Model.Branch.Name</p>
                 <a class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500"
-                   asp-action="AddEmployeeUpdate" asp-route-requestId="@Model.Request.Id">Wijzigen</a>
+                   asp-action="AddEmployee" asp-route-previousPage="Update" 
+                   asp-route-requestId="@Model.Request.Id">Wijzigen</a>
             </div>
         </div>
         <div class="mb-6">
