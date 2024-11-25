@@ -5,7 +5,6 @@ using bumbo.Models;  // Ensure the namespace matches your Employee model
 using DataLayer;
 using DataLayer.Interfaces;
 using DataLayer.Repositories;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +14,8 @@ builder.Services.AddDbContext<BumboDBContext>(options =>
 
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
-builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepositorySql>();
+
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
-builder.Services.AddScoped<ISchoolScheduleRepository, SchoolScheduleRepositorySql>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
@@ -25,7 +23,7 @@ builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeReposi
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
 builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
 builder.Services.AddScoped<IBranchRequestsEmployeeRepository, BranchRequestsEmployeeRepositorySql>();
-builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
+
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
@@ -60,19 +58,9 @@ app.MapControllerRoute(
     defaults: new { controller = "Prognosis", action = "Index" });
 
 app.MapControllerRoute(
-    name: "scheduleManager",
-    pattern: "roosterManager",
-    defaults: new { controller = "ScheduleManager", action = "Index" });
-
-app.MapControllerRoute(
     name: "forecasts",
     pattern: "prognoses",
     defaults: new { controller = "Forecasts", action = "Index" });
-
-app.MapControllerRoute(
-    name: "schoolSchedule",
-    pattern: "schoolrooster",
-    defaults: new { controller = "SchoolSchedule", action = "Index" });
 
 app.MapControllerRoute(
     name: "norms",
@@ -123,10 +111,5 @@ app.MapControllerRoute(
     name: "login",
     pattern: "inloggen",
     defaults: new { controller = "Account", action = "Login" });
-
-app.MapControllerRoute(
-    name: "availability",
-    pattern: "beschikbaarheid",
-    defaults: new { controller = "Availability", action = "Index" });
 
 app.Run();
