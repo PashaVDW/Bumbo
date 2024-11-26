@@ -610,6 +610,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(13, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -620,6 +621,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(13, 0),
                     EndTime = new TimeOnly(17, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -632,16 +634,18 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(12, 0),
                     DepartmentName = "Vakkenvullen",
-                    IsSick = false
+                    IsFinal = true,
+                    IsSick = true
                 },
                 new Schedule
                 {
                     EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
                     BranchId = 1,
                     Date = new DateOnly(2024, 11, 18),
-                    StartTime = new TimeOnly(12, 0),
+                    StartTime = new TimeOnly(10, 0),
                     EndTime = new TimeOnly(16, 0),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -652,6 +656,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(16, 0),
                     EndTime = new TimeOnly(21, 30),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -664,6 +669,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(14, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -674,6 +680,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(14, 0),
                     EndTime = new TimeOnly(18, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -686,6 +693,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(10, 0),
                     EndTime = new TimeOnly(18, 0),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -696,6 +704,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(12, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -708,6 +717,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(15, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = false,
                     IsSick = false
                 },
 
@@ -720,6 +730,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(17, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -732,6 +743,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(12, 0),
                     EndTime = new TimeOnly(20, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = true
                 },
 
@@ -744,6 +756,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(17, 0),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -756,6 +769,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(16, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = false
                 }
             );
