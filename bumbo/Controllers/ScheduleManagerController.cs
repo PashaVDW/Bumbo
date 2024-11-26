@@ -23,6 +23,7 @@ namespace bumbo.Controllers
         private readonly ILabourRulesRepository _labourRulesRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IDepartmentsRepository _departmentRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
 
         public ScheduleManagerController(
             UserManager<Employee> userManager,
@@ -34,7 +35,8 @@ namespace bumbo.Controllers
             ISchoolScheduleRepository schoolScheduleRepository,
             ILabourRulesRepository labourRulesRepository,
             IEmployeeRepository employeeRepository,
-            IDepartmentsRepository departmentRepository)
+            IDepartmentsRepository departmentRepository,
+            IBranchHasEmployeeRepository branchHasEmployeeRepository)
         {
             _userManager = userManager;
             _scheduleRepository = scheduleRepository;
@@ -45,6 +47,7 @@ namespace bumbo.Controllers
             _labourRulesRepository = labourRulesRepository;
             _employeeRepository = employeeRepository;
             _departmentRepository = departmentRepository;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
         }
 
         public async Task<IActionResult> Index(int? weekNumber, int? year, int? weekInc)
@@ -369,6 +372,30 @@ namespace bumbo.Controllers
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
+
+            return View();
+        }
+
+        public async Task<IActionResult> AddEmployee(string date, string employeeId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if(user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var fullEmployeeData = _employeeRepository.GetEmployeeById(employeeId);
+            var employeeBranches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+            
+            foreach(var branch in employeeBranches)
+            {
+                if(branch.BranchId != user.ManagerOfBranchId)
+                {
+                    return RedirectToAction("AccessDenied", "Home");
+                }
+            }
+
+
 
             return View();
         }
