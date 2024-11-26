@@ -58,6 +58,7 @@ namespace bumbo.Controllers
 
             var scheduleViewModels = _scheduleRepository
                 .GetSchedulesForEmployeeByWeek(currentUser.Id, days)
+                .Where(schedule => schedule.IsFinal)
                 .Select(schedule => new ScheduleViewModel
                 {
                     BranchId = schedule.BranchId,

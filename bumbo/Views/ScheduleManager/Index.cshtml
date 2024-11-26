@@ -28,9 +28,12 @@
             <default-button button-text="Zoeken" button-type="primary" typeof="submit"></default-button>
         </form>
 
-        <div>
-            <default-button button-text="Definitief maken" button-type="primary"></default-button>
-        </div>
+
+        <form method="post" action="@Url.Action("FinalizeSchedule", "ScheduleManager")" class="flex items-end">
+            <input type="hidden" name="weekNumber" value="@Model.WeekNumber" />
+            <input type="hidden" name="year" value="@Model.Year" />
+            <default-button button-text="Definitief maken" button-type="primary" typeof="submit"></default-button>
+        </form>
     </div>
 
     <div class="grid grid-cols-7 gap-4">
@@ -80,6 +83,13 @@
                                         {
                                             <li class="flex justify-between items-center text-sm text-red-500 font-semibold">
                                                 <span>@employee.EmployeeName (Ziek)</span>
+                                                <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
+                                            </li>
+                                        }
+                                        else if (employee.IsFinal != false)
+                                        {
+                                            <li class="flex justify-between items-center text-sm bg-green-100 border border-green-500 rounded p-1">
+                                                <span>@employee.EmployeeName <span class="text-green-700 font-bold">(D)</span></span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
                                         }
