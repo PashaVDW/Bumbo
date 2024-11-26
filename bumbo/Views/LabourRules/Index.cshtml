@@ -21,38 +21,14 @@
             </a>
         }
     </div>
-    @if (Model.GeneralLabourRules.Any())
-    {
-        <h2 class="text-xl font-semibold mb-2">
-            Algemeen
-        </h2>
-        <h3 class="text-lg font-semibold mb-2">
-            Regels
-        </h3>
-        @foreach (var rule in Model.GeneralLabourRules)
-        {
-            foreach (var property in rule.GetType().GetProperties())
-            {
-                var value = property.GetValue(rule);
-
-                <div class="bg-white p-4 rounded shadow mb-4">
-                    <h2 class="text-xl font-semibold mb-2">
-                        @value
-                    </h2>
-                    <div class="grid grid-cols-6 gap-4">
-                    </div>
-                </div>
-            }
-        }
-    }
-    @if (Model.AgeLabourRules.Any())
+    @if (Model.LabourRules.Any())
     {
         int i = 1;
         <h2 class="text-xl font-semibold mb-2">
             Leeftijd gebonden
         </h2>
        
-        @foreach (var rule in Model.AgeLabourRules)
+        @foreach (var rule in Model.LabourRules)
         {
             <div class="flex">
             <h3 class="mx-4">
@@ -72,125 +48,14 @@
                         </div>
                     </div>
             }
+                    <a asp-action="Edit" asp-route-countryName="@Model.ActiveCountry" asp-route-ageGroup="@rule.AgeGroup" class="bg-gray-700 text-white px-4 py-2 rounded">
+                        Bewerken
+                    </a>
             </div>
+            
             </div>
             i++;
         }
         
     }
-    <h2 class="text-xl font-semibold mb-2">
-        Algemeen
-    </h2>
-    <div class="grid grid-cols-6 gap-4 mb-8">
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                30
-            </div>
-            <div>
-                Min. Pauze per 4,5 uur
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                12
-            </div>
-            <div>
-                Max. uur per dienst
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                60
-            </div>
-            <div>
-                Max. uur per week
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                70
-            </div>
-            <div>
-                % loon bij ziekte
-            </div>
-        </div>
-    </div>
-    <h2 class="text-xl font-semibold mb-2">
-        Leeftijd gebonden
-    </h2>
-    <div class="grid grid-cols-6 gap-4 mb-4">
-        <div class="bg-white p-4 rounded shadow border-1 border-light text-center">
-            <div class="text-2xl font-bold">
-                &lt; 16
-            </div>
-            <div>
-                Leeftijd
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                8
-            </div>
-            <div>
-                Max. uren per dag (i)
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                19:00
-            </div>
-            <div>
-                Max eindtijd
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                5
-            </div>
-            <div>
-                Max dagen per week
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                12
-            </div>
-            <div>
-                Max schoolweek uren
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                40
-            </div>
-            <div>
-                Max. uur per week
-            </div>
-        </div>
-    </div>
-    <div class="grid grid-cols-6 gap-4">
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                16, 17
-            </div>
-            <div>
-                Leeftijd
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                9
-            </div>
-            <div>
-                Max. uren per dag (i)
-            </div>
-        </div>
-        <div class="bg-white p-4 rounded shadow text-center">
-            <div class="text-2xl font-bold">
-                40
-            </div>
-            <div>
-                Max. gem. uren over 4 weken
-            </div>
-        </div>
-      </div>
+</div>

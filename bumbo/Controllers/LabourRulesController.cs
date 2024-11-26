@@ -1,5 +1,6 @@
 ﻿using bumbo.ViewModels;
 using DataLayer.Interfaces;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Reflection;
@@ -43,50 +44,56 @@ namespace bumbo.Controllers
                 MaxShiftDuration = labourRule.MaxShiftDuration,
                 MaxOvertimeHoursPerWeek = labourRule.MaxOvertimeHoursPerWeek
             }).ToList();
-
-            var groupedByProperties = labourRulesViewModel
-                 .Where(lr => labourRules.All(r =>
-                     r.MaxHoursPerDay == lr.MaxHoursPerDay &&
-                     r.MaxEndTime == lr.MaxEndTime &&
-                     r.MaxHoursPerWeek == lr.MaxHoursPerWeek &&
-                     r.MaxWorkDaysPerWeek == lr.MaxWorkDaysPerWeek &&
-                     r.MinRestDaysPerWeek == lr.MinRestDaysPerWeek &&
-                     r.NumHoursWorkedBeforeBreak == lr.NumHoursWorkedBeforeBreak &&
-                     r.SickPayPercentage == lr.SickPayPercentage &&
-                     r.OvertimePayPercentage == lr.OvertimePayPercentage &&
-                     r.MinutesOfBreak == lr.MinutesOfBreak &&
-                     r.MaxHoursWithSchool == lr.MaxHoursWithSchool &&
-                     r.MinRestHoursBetweenShifts == lr.MinRestHoursBetweenShifts &&
-                     r.MaxShiftDuration == lr.MaxShiftDuration &&
-                     r.MaxOvertimeHoursPerWeek == lr.MaxOvertimeHoursPerWeek
-                 ))
-                 .GroupBy(lr => new
-                 {
-                     lr.MaxHoursPerDay,
-                     lr.MaxEndTime,
-                     lr.MaxHoursPerWeek,
-                     lr.MaxWorkDaysPerWeek,
-                     lr.MinRestDaysPerWeek,
-                     lr.NumHoursWorkedBeforeBreak,
-                     lr.SickPayPercentage,
-                     lr.OvertimePayPercentage,
-                     lr.MinutesOfBreak,
-                     lr.MaxHoursWithSchool,
-                     lr.MinRestHoursBetweenShifts,
-                     lr.MaxShiftDuration,
-                     lr.MaxOvertimeHoursPerWeek
-                 })
-                 .Where(group => group.Count() == labourRules.Count())
-                 .Select(group => group.ToList())
-                 .ToList();
             var LabourRulesViewModel = new LabourRulesGroupViewModel
             {
                 Countries = _countryRepository.GetCountries(),
                 ActiveCountry = activeCountry,
-                GeneralLabourRules = labourRulesViewModel,
-                AgeLabourRules = labourRulesViewModel.Where(r => r.AgeGroup != null).ToList()
+                LabourRules = labourRulesViewModel
             };
             return View(LabourRulesViewModel);
+        }
+        public IActionResult Edit(string countryName, string ageGroup)
+        {
+            var labourRule = _labourRulesRepository.GetLabourRuleByCountyAndAgeGroup(countryName, ageGroup);
+            var labourRulesViewModel = new LabourRulesViewModel
+            {
+                AgeGroup = labourRule.AgeGroup,
+                MaxHoursPerDay = labourRule.MaxHoursPerDay,
+                MaxEndTime = labourRule.MaxEndTime,
+                MaxHoursPerWeek = labourRule.MaxHoursPerWeek,
+                MaxWorkDaysPerWeek = labourRule.MaxWorkDaysPerWeek,
+                MinRestDaysPerWeek = labourRule.MinRestDaysPerWeek,
+                NumHoursWorkedBeforeBreak = labourRule.NumHoursWorkedBeforeBreak,
+                SickPayPercentage = labourRule.SickPayPercentage,
+                OvertimePayPercentage = labourRule.OvertimePayPercentage,
+                MinutesOfBreak = labourRule.MinutesOfBreak,
+                MaxHoursWithSchool = labourRule.MaxHoursWithSchool,
+                MinRestHoursBetweenShifts = labourRule.MinRestHoursBetweenShifts,
+                MaxShiftDuration = labourRule.MaxShiftDuration,
+                MaxOvertimeHoursPerWeek = labourRule.MaxOvertimeHoursPerWeek
+            };
+            return View(labourRulesViewModel);
+        }
+        [HttpPost]
+        public IActionResult HandleEdit(LabourRulesViewModel labourRulesViewModel)
+        {
+            var lbr = _labourRulesRepository.GetLabourRuleByCountyAndAgeGroup(labourRulesViewModel.CountryName, labourRulesViewModel.AgeGroup);
+            //lbr.AgeGroup = labourRulesViewModel.AgeGroup;
+            //lbr.MaxHoursPerDay = labourRulesViewModel.MaxHoursPerDay;
+            //lbr.MaxEndTime = labourRulesViewModel.MaxEndTime;
+            //lbr.MaxHoursPerWeek = labourRulesViewModel.MaxHoursPerWeek;
+            //lbr.MaxWorkDaysPerWeek = labourRulesViewModel.MaxWorkDaysPerWeek;
+            //lbr.MinRestDaysPerWeek = labourRulesViewModel.MinRestDaysPerWeek;
+            //lbr.NumHoursWorkedBeforeBreak = labourRulesViewModel.NumHoursWorkedBeforeBreak;
+            //lbr.SickPayPercentage = labourRulesViewModel.SickPayPercentage;
+            //lbr.OvertimePayPercentage = labourRulesViewModel.OvertimePayPercentage;
+            //lbr.MinutesOfBreak = labourRulesViewModel.MinutesOfBreak;
+            //lbr.MaxHoursWithSchool = labourRulesViewModel.MaxHoursWithSchool;
+            //lbr.MinRestHoursBetweenShifts = labourRulesViewModel.MinRestHoursBetweenShifts;
+            //lbr.MaxShiftDuration = labourRulesViewModel.MaxShiftDuration;
+            //lbr.MaxOvertimeHoursPerWeek = labourRulesViewModel.MaxOvertimeHoursPerWeek;
+            _labourRulesRepository.UpdateLabourRule(lbr);
+            return RedirectToAction("Index", new { activeCountry = labourRulesViewModel.CountryName });
         }
     }
 }

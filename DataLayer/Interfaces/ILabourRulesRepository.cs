@@ -11,5 +11,7 @@ namespace DataLayer.Interfaces
     {
         void CreateDefaultLabourRulesForCountry(string activeCountry);
         List<LabourRules> GetAllLabourRulesForCountry(string countryName);
+        LabourRules GetLabourRuleByCountyAndAgeGroup(string countryName, string ageGroup);
+        void UpdateLabourRule(LabourRules labourRule);
     }
 }

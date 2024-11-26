@@ -1,0 +1,80 @@
+﻿@model bumbo.ViewModels.LabourRulesViewModel
+<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
+    <form asp-action="HandleEdit" method="post">
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 w-full flex flex-col">
+                <label for="AgeGroup">Age Group</label>
+                <input name="AgeGroup" asp-for="@Model.AgeGroup" id="AgeGroup" type="text" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" required />
+            </div>
+        </div>
+        <div class="mt-6 flex">
+            <div class="mr-2 w-full flex flex-col">
+                <label for="MaxHoursPerDay">Max Hours Per Day</label>
+                <input name="MaxHoursPerDay" asp-for="@Model.MaxHoursPerDay" id="MaxHoursPerDay" type="number" min="0" max="24" step="0.5" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" required />
+            </div>
+            <div class="mr-2 w-full flex flex-col">
+                <label for="MaxEndTime">Max End Time</label>
+                <input name="MaxEndTime" asp-for="@Model.MaxEndTime" id="MaxEndTime" type="time" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" required />
+            </div> 
+        </div>
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 w-full flex flex-col">
+                <label for="MaxHoursPerWeek">Max Hours Per Week</label>
+                <input name="MaxHoursPerWeek" asp-for="@Model.MaxHoursPerWeek" id="MaxHoursPerWeek" type="number" min="0" max="168" step="0.5" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" required />
+            </div>
+        </div>
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 w-full flex flex-col">
+                <label for="MaxWorkDaysPerWeek">Max Work Days Per Week</label>
+                <input name="MaxWorkDaysPerWeek" asp-for="@Model.MaxWorkDaysPerWeek" id="MaxWorkDaysPerWeek" type="number" min="0" max="7" step="1" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" required />
+            </div>
+            <div class="mr-5 w-full flex flex-col">
+                <label for="MinRestDaysPerWeek">Min Rest Days Per Week</label>
+                <input name="MinRestDaysPerWeek" asp-for="@Model.MinRestDaysPerWeek" id="MinRestDaysPerWeek" type="number" min="0" max="7" step="1" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" required />
+            </div>
+        </div>
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 w-full flex flex-col">
+                <label for="NumHoursWorkedBeforeBreak">Num Hours Worked Before Break</label>
+                <input name="NumHoursWorkedBeforeBreak" asp-for="@Model.NumHoursWorkedBeforeBreak" id="NumHoursWorkedBeforeBreak" type="number" min="0" max="7" step="1" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" required />
+            </div>
+            <div class="mr-5 w-full flex flex-col">
+                <label for="MinutesOfBreak">Minutes Of Break</label>
+                <input name="MinutesOfBreak" asp-for="@Model.MinutesOfBreak" id="MinutesOfBreak" type="number" min="0" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" required />
+            </div>
+        </div>
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 w-full flex flex-col">
+                <label for="SickPayPercentage">Sick Pay Percentage</label>
+                <input name="SickPayPercentage" asp-for="@Model.SickPayPercentage" id="SickPayPercentage" type="number" min="0" max="100" step="0.1" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            </div>
+            <div class="mr-5 w-full flex flex-col">
+                <label for="OvertimePayPercentage">Overtime Pay Percentage</label>
+                <input name="OvertimePayPercentage" asp-for="@Model.OvertimePayPercentage" id="OvertimePayPercentage" type="number" min="0" max="100" step="0.1" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            </div>
+        </div>
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 w-full flex flex-col">
+                <label for="MaxHoursWithSchool">Max Hours With School</label>
+                <input name="MaxHoursWithSchool" asp-for="@Model.MaxHoursWithSchool" id="MaxHoursWithSchool" type="number" min="0" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            </div>
+            <div class="mr-5 w-full flex flex-col">
+                <label for="MinRestHoursBetweenShifts">Min Rest Hours Between Shifts</label>
+                <input name="MinRestHoursBetweenShifts" asp-for="@Model.MinRestHoursBetweenShifts" id="MinRestHoursBetweenShifts" type="number" min="0" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            </div>
+        </div>
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 w-full flex flex-col">
+                <label for="MaxShiftDuration">Max Shift Duration</label>
+                <input name="MaxShiftDuration" asp-for="@Model.MaxShiftDuration" id="MaxShiftDuration" type="number" min="0" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            </div>
+            <div class="mr-5 w-full flex flex-col">
+                <label for="MaxOvertimeHoursPerWeek">Max Overtime Hours Per Week</label>
+                <input name="MaxOvertimeHoursPerWeek" asp-for="@Model.MaxOvertimeHoursPerWeek" id="MaxOvertimeHoursPerWeek" type="number" min="0" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            </div>
+        </div>
+        <div class="flex justify-end mt-6">
+            <default-button button-text="Bewerken" button-type="primary" on-click=""></default-button>
+        </div>
+    </form>
+</div>

@@ -16,5 +16,6 @@
         public int? MinRestHoursBetweenShifts { get; set; }
         public int? MaxShiftDuration { get; set; }
         public int? MaxOvertimeHoursPerWeek { get; set; }
+        public string? CountryName { get; set; }
     }
 }
