@@ -10,19 +10,18 @@
             <div class="space-x-6 flex">
                 @if (Model.IsBranchManager)
                 {
-                    <div class="max-h-6 group">
-                        <p class="group-hover:pl-1">Prognoses</p>
-                        <ul class="group-hover:block hidden">
-                            <li class="p-1 border-b-2"><a href="/prognoses" class="hover:text-gray-600">Prognoses</a></li>
-                            <li class="p-1 border-b-2"><a href="/normeringen" class="hover:text-gray-600">Normeringen</a></li>
-                            <li class="p-1"><a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a></li>
-                        </ul>
-                    </div>
-                    <!--<a href="/prognoses" class="hover:text-gray-600">Prognoses</a>
-                    <a href="/normeringen" class="hover:text-gray-600">Normeringen</a>-->
-                    <a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a>
-                    <a href="/standaard-templates" class="hover:text-gray-600">Standaard templates</a>
-                    <!--<a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a>-->
+                <div class="max-h-6 group relative hover:mr-1">
+                    <p class="">Prognoses</p>
+                    <ul class="group-hover:block bg-gray-100 left-[-12px] absolute top-full z-50 hidden">
+                        <li class="p-3 pt-6 border-b-2"><a href="/prognoses" class="hover:text-gray-600">Prognoses</a></li>
+                        <li class="p-3 border-b-2"><a href="/normeringen" class="hover:text-gray-600">Normeringen</a></li>
+                        <li class="p-3 border-b-2"><a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a></li>
+                        <li class="p-3"><a href="/standaard-templates" class="hover:text-gray-600">Standaard templates</a></li>
+                    </ul>
+                </div>
+
+                <a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a>
+
                 }
                 @if (Model.IsSystemManager)
                 {
