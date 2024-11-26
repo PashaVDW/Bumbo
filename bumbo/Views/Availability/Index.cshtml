@@ -35,8 +35,17 @@
     </div>
 
     <div class="flex items-center justify-between">
-        <a href="@Url.Action("Index", new { weekNumber = Model.Week -1, yearNumber = Model.Year })" class="text-2xl md:mr-4">&lt;</a>
-        <a href="@Url.Action("Index", new { weekNumber = Model.Week +1, yearNumber = Model.Year })" class="text-2xl md:ml-4">&gt;</a>
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week -1, yearNumber = Model.Year })';" class="p-2">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+
+        <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.Week +1, yearNumber = Model.Year })';" class="p-2">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="transform rotate-180">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
     </div>
 
     @if (TempData["Error"] != null)
