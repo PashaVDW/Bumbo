@@ -320,6 +320,10 @@ namespace bumbo.Controllers
                         }
                         else
                         {
+                            if (!isStartTimeBeforeEndTime)
+                            {
+                                employee.ValidationErrors.Add("De starttijd moet eerder dan de eindtijd zijn!");
+                            }
                             if (!hasValidDepartmentName)
                             {
                                 employee.ValidationErrors.Add("De afdeling moet één van de keuzes zijn!");
