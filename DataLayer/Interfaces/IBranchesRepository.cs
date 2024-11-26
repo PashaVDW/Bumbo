@@ -21,6 +21,7 @@ namespace DataLayer.Interfaces
         List<Employee> GetManagersOfBranch(Branch branch);
         List<Employee> GetEmployeesFromBranch(Branch branch);
         List<Employee> GetAllEmployees();
+        Employee GetEmployeeById(string id);
 
     }
 }
