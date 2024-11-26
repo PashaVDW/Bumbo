@@ -47,10 +47,32 @@
             }
         </div>
     </div>
-
+    @if (Model.IsAuthenticated && !Model.IsBranchManager && !Model.IsSystemManager)
+        { 
+            <div class="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:bg-white max-md:border-t max-md:border-gray-300">
+                <div class="flex gap-6 justify-around p-2">
+                    <div class="max-md:flex max-md:flex-col max-md:items-center">
+                        <i class="fas fa-calendar-alt text-xl"></i>
+                        <a asp-controller="EmployeeSchedule" asp-action="Index" class="max-md:text-xs">Rooster</a>
+                    </div>
+                    <div class="max-md:flex max-md:flex-col max-md:items-center ">
+                        <i class="fas fa-user-clock text-xl"></i>
+                        <a asp-controller="Availability" asp-action="Index" class="max-md:text-xs">Beschikbaarheid</a>
+                    </div>
+                    <div class="max-md:flex max-md:flex-col max-md:items-center">
+                        <i class="fas fa-exchange-alt text-xl"></i>
+                        <a asp-controller="SwapSchedule" asp-action="Index" class="max-md:text-xs">Dienstuil</a>
+                    </div>
+                    <div class="max-md:flex max-md:flex-col max-md:items-center">
+                        <i class="fas fa-school text-xl"></i>
+                        <a asp-controller="SchoolSchedule" asp-action="Index" class="max-md:text-xs">Schoolrooster</a>
+                    </div>
+                </div>
+            </div>
+        }
     <div class="space-x-4 flex items-center">
         @if (Model.IsAuthenticated)
-        {
+        { 
             <div class="text-right">
                 <div class="text-gray-700">@Model.FirstName</div>
                 <div class="text-gray-500 text-sm">@Model.Email</div>
