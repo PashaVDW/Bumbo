@@ -547,6 +547,59 @@ namespace bumbo.Data
                 branchHasEmployeeSix
             );
 
+            modelBuilder.Entity<RequestStatus>().HasData(
+                new RequestStatus() { RequestStatusName = "In Afwachting" },
+                new RequestStatus() { RequestStatusName = "Afgewezen" },
+                new RequestStatus() { RequestStatusName = "Geaccepteerd" }
+            );
+
+            modelBuilder.Entity<BranchRequestsEmployee>().HasData(
+                new BranchRequestsEmployee
+                {
+                    BranchId = 1,
+                    EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
+                    RequestToBranchId = 2,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Overplaatsing nodig vanwege projectdeadline.",
+                    DateNeeded = DateTime.Now.AddDays(7),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 2,
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                    RequestToBranchId = 1,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
+                    DateNeeded = DateTime.Now.AddDays(14),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 3,
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
+                    RequestToBranchId = 4,
+                    RequestStatusName = "Afgewezen",
+                    Message = "Hulp nodig vanwege ziekte van een collega.",
+                    DateNeeded = DateTime.Now.AddDays(10),
+                    StartTime = new TimeOnly(8, 30),
+                    EndTime = new TimeOnly(17, 30),
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 1,
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
+                    RequestToBranchId = 3,
+                    RequestStatusName = "Geaccepteerd",
+                    Message = "Overplaatsing voor trainingssessies.",
+                    DateNeeded = DateTime.Now.AddDays(20),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(16, 0),
+                }
+            );
+
             modelBuilder.Entity<Schedule>().HasData(
                 // Maandag - Kassa
                 new Schedule
