@@ -1,6 +1,7 @@
 ﻿using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace bumbo.Models
@@ -21,5 +22,13 @@ namespace bumbo.Models
         public RequestStatus RequestStatus { get; set; }
         [StringLength(300)]
         public string Message { get; set; }
+        [Required]
+        public DateTime DateNeeded { get; set; }
+        [Required]
+        public TimeOnly StartTime { get; set; }
+        [Required]
+        public TimeOnly EndTime { get; set; }
+        [NotMapped]
+        public int Id { get; set; }
     }
 }
