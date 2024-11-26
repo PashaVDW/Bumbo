@@ -362,159 +362,6 @@ namespace bumbo.Controllers
             return RedirectToAction("EditDay", new { date });
         }
 
-        private bool CheckAvailabilityEmployee(Availability employeeDayAvailability, EmployeeScheduleEditViewModel employee)
-        {
-            if(employeeDayAvailability == null)
-            {
-                return false;
-            }
-
-            if (employeeDayAvailability.StartTime <= employee.StartTime)
-            {
-                if (employeeDayAvailability.EndTime >= employee.EndTime)
-                {
-                    if (employeeDayAvailability.StartTime < employeeDayAvailability.EndTime)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private bool CheckSchoolScheduleEmployee(SchoolSchedule employeeDaySchoolSchedule, EmployeeScheduleEditViewModel employee)
-        {
-            if (employeeDaySchoolSchedule == null)
-            {
-                return true;
-            }
-            else
-            {
-                if (employee.StartTime < employeeDaySchoolSchedule.StartTime)
-                {
-                    if (employee.EndTime <= employeeDaySchoolSchedule.StartTime) { return true; }
-                }
-                else if (employee.StartTime >= employeeDaySchoolSchedule.EndTime)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool CheckLabourRulesEmployee(LabourRules labourRulesToUse, SchoolSchedule employeeDaySchoolSchedule, EmployeeScheduleEditViewModel employee, string labourRulesToUseString, DateTime date)
-        {
-            if (labourRulesToUse != null)
-            {
-                var shiftDuration = employee.EndTime.ToTimeSpan() - employee.StartTime.ToTimeSpan();
-
-                if (shiftDuration.TotalHours > labourRulesToUse.MaxShiftDuration)
-                {
-                    return false;
-                }
-
-                if (employee.StartTime < employee.EndTime)
-                {
-                    double schoolHours = 0;
-                    if (employeeDaySchoolSchedule != null)
-                    {
-                        var schoolDuration = employeeDaySchoolSchedule.EndTime.ToTimeSpan() - employeeDaySchoolSchedule.StartTime.ToTimeSpan();
-                        schoolHours = schoolDuration.TotalHours;
-                    }
-
-                    if (labourRulesToUseString.Equals("<16") || labourRulesToUseString.Equals("16-17"))
-                    {
-                        double totalWorkAndSchoolHours = shiftDuration.TotalHours + schoolHours;
-
-                        if(totalWorkAndSchoolHours > labourRulesToUse.MaxHoursPerDay)
-                        {
-                            return false;
-                        }
-
-                        if (employee.EndTime.ToTimeSpan() > labourRulesToUse.MaxEndTime)
-                        {
-                            return false;
-                        }
-                    }
-                    else if (labourRulesToUseString == ">17")
-                    {
-                        if (shiftDuration.TotalHours > labourRulesToUse.MaxHoursPerDay)
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                int daysToMonday = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
-                if (daysToMonday < 0)
-                {
-                    daysToMonday += 7;
-                }
-
-                DateTime monday = date.AddDays(-daysToMonday);
-
-                int daysToSunday = (int)DayOfWeek.Sunday - (int)date.DayOfWeek;
-                if (daysToSunday < 0)
-                {
-                    daysToSunday += 7;
-                }
-
-                DateTime sunday = date.AddDays(daysToSunday);
-
-                var weekScheduleEmployee = _scheduleRepository.GetWeekScheduleForEmployee(employee.EmployeeId, monday, sunday);
-
-                double totalWeeklyHours = CalculateEmployeeWeeklyHours(weekScheduleEmployee);
-
-                if (totalWeeklyHours + shiftDuration.TotalHours > labourRulesToUse.MaxHoursPerWeek)
-                {
-                    return false;
-                }
-
-                int totalWorkDaysThisWeek = CalculateEmployeeWorkDaysThisWeek(weekScheduleEmployee);
-                if (totalWorkDaysThisWeek > labourRulesToUse.MaxWorkDaysPerWeek)
-                {
-                    return false;
-                }
-
-                int totalRestDaysThisWeek = CalculateEmployeeRestDaysThisWeek(weekScheduleEmployee);
-                if (totalRestDaysThisWeek < labourRulesToUse.MinRestDaysPerWeek)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private double CalculateEmployeeWeeklyHours(List<Schedule> weekSchedule)
-        {
-            double totalHours = 0;
-
-            foreach (var schedule in weekSchedule)
-            {
-                var shiftDuration = schedule.EndTime.ToTimeSpan() - schedule.StartTime.ToTimeSpan();
-                totalHours += shiftDuration.TotalHours;
-            }
-
-            return totalHours;
-        }
-
-        private int CalculateEmployeeWorkDaysThisWeek(List<Schedule> weekSchedule)
-        {
-            var workDays = weekSchedule.Select(s => s.Date).Distinct().Count();
-            return workDays;
-        }
-
-        private int CalculateEmployeeRestDaysThisWeek(List<Schedule> weekSchedule)
-        {
-            int totalWorkDays = CalculateEmployeeWorkDaysThisWeek(weekSchedule);
-            return 7 - totalWorkDays;
-        }
-
         public async Task<IActionResult> ChooseEmployee(string date)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -670,7 +517,6 @@ namespace bumbo.Controllers
             return result;
         }
 
-
         private List<DateTime> GetDatesOfWeek(int year, int weekNumber)
         {
             DateTime jan1 = new DateTime(year, 1, 1);
@@ -700,6 +546,159 @@ namespace bumbo.Controllers
             TempData["ToastId"] = toastId;
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 5000;
+        }
+
+        private bool CheckAvailabilityEmployee(Availability employeeDayAvailability, EmployeeScheduleEditViewModel employee)
+        {
+            if (employeeDayAvailability == null)
+            {
+                return false;
+            }
+
+            if (employeeDayAvailability.StartTime <= employee.StartTime)
+            {
+                if (employeeDayAvailability.EndTime >= employee.EndTime)
+                {
+                    if (employeeDayAvailability.StartTime < employeeDayAvailability.EndTime)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckSchoolScheduleEmployee(SchoolSchedule employeeDaySchoolSchedule, EmployeeScheduleEditViewModel employee)
+        {
+            if (employeeDaySchoolSchedule == null)
+            {
+                return true;
+            }
+            else
+            {
+                if (employee.StartTime < employeeDaySchoolSchedule.StartTime)
+                {
+                    if (employee.EndTime <= employeeDaySchoolSchedule.StartTime) { return true; }
+                }
+                else if (employee.StartTime >= employeeDaySchoolSchedule.EndTime)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckLabourRulesEmployee(LabourRules labourRulesToUse, SchoolSchedule employeeDaySchoolSchedule, EmployeeScheduleEditViewModel employee, string labourRulesToUseString, DateTime date)
+        {
+            if (labourRulesToUse != null)
+            {
+                var shiftDuration = employee.EndTime.ToTimeSpan() - employee.StartTime.ToTimeSpan();
+
+                if (shiftDuration.TotalHours > labourRulesToUse.MaxShiftDuration)
+                {
+                    return false;
+                }
+
+                if (employee.StartTime < employee.EndTime)
+                {
+                    double schoolHours = 0;
+                    if (employeeDaySchoolSchedule != null)
+                    {
+                        var schoolDuration = employeeDaySchoolSchedule.EndTime.ToTimeSpan() - employeeDaySchoolSchedule.StartTime.ToTimeSpan();
+                        schoolHours = schoolDuration.TotalHours;
+                    }
+
+                    if (labourRulesToUseString.Equals("<16") || labourRulesToUseString.Equals("16-17"))
+                    {
+                        double totalWorkAndSchoolHours = shiftDuration.TotalHours + schoolHours;
+
+                        if (totalWorkAndSchoolHours > labourRulesToUse.MaxHoursPerDay)
+                        {
+                            return false;
+                        }
+
+                        if (employee.EndTime.ToTimeSpan() > labourRulesToUse.MaxEndTime)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (labourRulesToUseString == ">17")
+                    {
+                        if (shiftDuration.TotalHours > labourRulesToUse.MaxHoursPerDay)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                int daysToMonday = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
+                if (daysToMonday < 0)
+                {
+                    daysToMonday += 7;
+                }
+
+                DateTime monday = date.AddDays(-daysToMonday);
+
+                int daysToSunday = (int)DayOfWeek.Sunday - (int)date.DayOfWeek;
+                if (daysToSunday < 0)
+                {
+                    daysToSunday += 7;
+                }
+
+                DateTime sunday = date.AddDays(daysToSunday);
+
+                var weekScheduleEmployee = _scheduleRepository.GetWeekScheduleForEmployee(employee.EmployeeId, monday, sunday);
+
+                double totalWeeklyHours = CalculateEmployeeWeeklyHours(weekScheduleEmployee);
+
+                if (totalWeeklyHours + shiftDuration.TotalHours > labourRulesToUse.MaxHoursPerWeek)
+                {
+                    return false;
+                }
+
+                int totalWorkDaysThisWeek = CalculateEmployeeWorkDaysThisWeek(weekScheduleEmployee);
+                if (totalWorkDaysThisWeek > labourRulesToUse.MaxWorkDaysPerWeek)
+                {
+                    return false;
+                }
+
+                int totalRestDaysThisWeek = CalculateEmployeeRestDaysThisWeek(weekScheduleEmployee);
+                if (totalRestDaysThisWeek < labourRulesToUse.MinRestDaysPerWeek)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private double CalculateEmployeeWeeklyHours(List<Schedule> weekSchedule)
+        {
+            double totalHours = 0;
+
+            foreach (var schedule in weekSchedule)
+            {
+                var shiftDuration = schedule.EndTime.ToTimeSpan() - schedule.StartTime.ToTimeSpan();
+                totalHours += shiftDuration.TotalHours;
+            }
+
+            return totalHours;
+        }
+
+        private int CalculateEmployeeWorkDaysThisWeek(List<Schedule> weekSchedule)
+        {
+            var workDays = weekSchedule.Select(s => s.Date).Distinct().Count();
+            return workDays;
+        }
+
+        private int CalculateEmployeeRestDaysThisWeek(List<Schedule> weekSchedule)
+        {
+            int totalWorkDays = CalculateEmployeeWorkDaysThisWeek(weekSchedule);
+            return 7 - totalWorkDays;
         }
     }
 
