@@ -93,18 +93,6 @@ namespace DataLayer.Repositories
                 .Distinct() 
                 .ToList();
 
-            //List<Employee> availableEmployees = new List<Employee>();
-            //foreach (var emp in employees)
-            //{
-            //    foreach (var req in requests) 
-            //    {
-            //        if (emp.Id == req.EmployeeId && !availableEmployees.Contains(emp))
-            //        {
-            //            availableEmployees.Add(emp);
-            //        }
-            //    }
-            //}
-
             return availableEmployees;
         }
     }
