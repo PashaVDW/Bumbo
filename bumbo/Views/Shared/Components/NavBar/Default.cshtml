@@ -20,8 +20,13 @@
                     </ul>
                 </div>
 
-                <a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a>
-                <a href="/verzoeken" class="hover:text-gray-600">Hulpverzoeken</a>
+                <div class="max-h-6 group relative hover:mr-1">
+                    <p class="">Medewerkers</p>
+                    <ul class="group-hover:block bg-gray-100 left-[-12px] absolute top-full z-50 hidden">
+                        <li class="p-3 pt-6 border-b-2"><a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a></li>
+                        <li class="p-3 border-b-2"><a href="/verzoeken" class="hover:text-gray-600">Hulpverzoeken</a></li>
+                    </ul>
+                </div>
                     
                 }
                 @if (Model.IsSystemManager)
