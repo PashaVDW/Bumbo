@@ -234,11 +234,9 @@ namespace bumbo.Controllers
             bool isAvailable;
             bool isFreeFromSchool;
             bool isWithinLabourRules;
-            bool hasUpdatedAnEmployee;
+            bool hasUpdatedAllEmployees = false;
 
             string date = model.Date;
-
-            
 
             if (ModelState.IsValid)
             {
@@ -313,7 +311,7 @@ namespace bumbo.Controllers
                                 employee.DepartmentName
                             );
 
-                            hasUpdatedAnEmployee = true;
+                            hasUpdatedAllEmployees = true;
                         }
                         else
                         {
@@ -333,16 +331,29 @@ namespace bumbo.Controllers
                             {
                                 employee.ValidationErrors.Add("De medewerker voldoet niet aan de arbeidstijdenwet!");
                             }
+
+                            hasUpdatedAllEmployees = false;
                         }
 
                     }
                 }
 
-                TempData["ToastMessage"] = "Een of meerdere medewerkers succesvol geupdatet!";
-                TempData["ToastType"] = "success";
-                TempData["ToastId"] = "scheduleToast";
-                TempData["AutoHide"] = "yes";
-                TempData["MilSecHide"] = 3000;
+                if (hasUpdatedAllEmployees)
+                {
+                    TempData["ToastMessage"] = "Alle medewerkers succesvol geupdatet!";
+                    TempData["ToastType"] = "success";
+                    TempData["ToastId"] = "scheduleToast";
+                    TempData["AutoHide"] = "yes";
+                    TempData["MilSecHide"] = 3000;
+                }
+                else
+                {
+                    TempData["ToastMessage"] = "Geen of niet alle medewerkers geupdatet";
+                    TempData["ToastType"] = "error";
+                    TempData["ToastId"] = "scheduleToast";
+                    TempData["AutoHide"] = "yes";
+                    TempData["MilSecHide"] = 3000;
+                }
 
                 TempData["EditDayModel"] = System.Text.Json.JsonSerializer.Serialize(model);
                 TempData.Keep("EditDayModel");
