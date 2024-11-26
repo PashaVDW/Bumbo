@@ -15,5 +15,6 @@ namespace DataLayer.Interfaces
         List<Schedule> SetSchedulesBetter(List<Schedule> sickSchedules);
         List<Schedule> GetSchedulesForEmployeeByWeek(string employeeId, List<DateOnly> weekDates);
         List<string> GetDepartments();
+        void FinalizeSchedules(int branchId, List<DateOnly> weekDates);
     }
 }
