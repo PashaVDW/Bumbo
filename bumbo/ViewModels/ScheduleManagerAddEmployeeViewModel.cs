@@ -7,8 +7,8 @@
         public string EmployeeName { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
-        public TimeOnly EmployeeStartTime { get; set; }
-        public TimeOnly EmployeeEndTime { get; set; }
+        public TimeOnly EmployeeAvailableStartTime { get; set; }
+        public TimeOnly EmployeeAvailableEndTime { get; set; }
         public DayScheduleAddEmployeeViewModel DaySchedule { get; set; }
     }
 

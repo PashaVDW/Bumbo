@@ -387,6 +387,7 @@ namespace bumbo.Controllers
             return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> AddEmployee(string date, string employeeId)
         {
             var user = await _userManager.GetUserAsync(User);
