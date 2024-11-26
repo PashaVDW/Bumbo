@@ -31,6 +31,8 @@ namespace DataLayer.Models
 
         public bool IsSick { get; set; }
 
+        public bool IsFinal { get; set; } = false;
+
         public Employee Employee { get; set; }
         public Branch Branch { get; set; }
         public Department Department { get; set; }

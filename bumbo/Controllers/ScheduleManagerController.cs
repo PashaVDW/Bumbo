@@ -3,6 +3,7 @@ using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace bumbo.Controllers
@@ -116,6 +117,46 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> FinalizeSchedule(int weekNumber, int year)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+            SetTempDataForEmployeeToast("scheduleManagerFinializeToast");
+
+            int branchId = user.ManagerOfBranchId.Value;
+
+            List<DateTime> dates = GetDatesOfWeek(year, weekNumber);
+            List<DateOnly> weekDates = dates.Select(d => DateOnly.FromDateTime(d)).ToList();
+
+            var schedules = _scheduleRepository.GetSchedulesForBranchByWeek(branchId, weekDates);
+
+            if (!schedules.Any())
+            {
+                TempData["ToastMessage"] = "Er zijn geen roosters om definitief te maken.";
+                TempData["ToastType"] = "error";
+                return RedirectToAction(nameof(Index), new { weekNumber, year });
+            }
+
+            if (schedules.All(s => s.IsFinal))
+            {
+                TempData["ToastMessage"] = "Alle roosters voor deze week zijn al definitief.";
+                TempData["ToastType"] = "error";
+                return RedirectToAction(nameof(Index), new { weekNumber, year });
+            }
+
+            _scheduleRepository.FinalizeSchedules(branchId, weekDates);
+
+            TempData["ToastMessage"] = "Het rooster is succesvol definitief gemaakt!";
+            TempData["ToastType"] = "success";
+            return RedirectToAction(nameof(Index), new { weekNumber, year });
+        }
+
+
+
         private List<EmployeeScheduleViewModel> BuildEmployeeAndGapList(List<Schedule> sortedSchedules, Branch branch)
         {
             List<EmployeeScheduleViewModel> result = new List<EmployeeScheduleViewModel>();
@@ -158,7 +199,8 @@ namespace bumbo.Controllers
                     EmployeeName = $"{schedule.Employee.FirstName} {schedule.Employee.LastName}",
                     StartTime = schedule.StartTime,
                     EndTime = schedule.EndTime,
-                    IsSick = schedule.IsSick
+                    IsSick = schedule.IsSick,
+                    IsFinal = schedule.IsFinal,
                 });
             }
 

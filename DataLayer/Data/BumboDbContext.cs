@@ -609,6 +609,7 @@ namespace bumbo.Data
         StartTime = new TimeOnly(9, 0),
         EndTime = new TimeOnly(13, 0),
         DepartmentName = "Kassa",
+        IsFinal = true,
         IsSick = false
     },
     new Schedule
@@ -619,6 +620,7 @@ namespace bumbo.Data
         StartTime = new TimeOnly(13, 0),
         EndTime = new TimeOnly(17, 0),
         DepartmentName = "Kassa",
+        IsFinal = true,
         IsSick = false
     },
 
@@ -631,6 +633,7 @@ namespace bumbo.Data
         StartTime = new TimeOnly(8, 0),
         EndTime = new TimeOnly(12, 0),
         DepartmentName = "Vakkenvullen",
+        IsFinal = true,
         IsSick = true
     },
     new Schedule
@@ -641,6 +644,7 @@ namespace bumbo.Data
         StartTime = new TimeOnly(10, 0),
         EndTime = new TimeOnly(16, 0),
         DepartmentName = "Vakkenvullen",
+        IsFinal = true,
         IsSick = false
     },
     new Schedule
@@ -651,6 +655,7 @@ namespace bumbo.Data
         StartTime = new TimeOnly(16, 0),
         EndTime = new TimeOnly(21, 30),
         DepartmentName = "Vakkenvullen",
+        IsFinal = true,
         IsSick = false
     },
 
@@ -663,6 +668,7 @@ namespace bumbo.Data
         StartTime = new TimeOnly(8, 0),
         EndTime = new TimeOnly(14, 0),
         DepartmentName = "Vers",
+        IsFinal = true,
         IsSick = false
     },
     new Schedule
@@ -673,6 +679,7 @@ namespace bumbo.Data
         StartTime = new TimeOnly(14, 0),
         EndTime = new TimeOnly(18, 0),
         DepartmentName = "Vers",
+        IsFinal = true,
         IsSick = false
     },
 
@@ -685,6 +692,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(10, 0),
                     EndTime = new TimeOnly(18, 0),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -695,6 +703,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(12, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -707,6 +716,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(15, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = false,
                     IsSick = false
                 },
 
@@ -719,6 +729,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(17, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -731,6 +742,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(12, 0),
                     EndTime = new TimeOnly(20, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = true
                 },
 
@@ -743,6 +755,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(17, 0),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -755,6 +768,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(16, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = false
                 }
             );

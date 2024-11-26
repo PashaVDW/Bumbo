@@ -69,5 +69,19 @@ namespace DataLayer.Repositories
             return departments;
         }
 
+        public void FinalizeSchedules(int branchId, List<DateOnly> weekDates)
+        {
+            var schedules = _context.Schedule
+                .Where(s => s.BranchId == branchId && weekDates.Contains(s.Date))
+                .ToList();
+
+            if (schedules.Any())
+            {
+                schedules.ForEach(s => s.IsFinal = true);
+                _context.SaveChanges();
+            }
+        }
+
+
     }
 }
