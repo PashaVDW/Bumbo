@@ -230,6 +230,7 @@ namespace bumbo.Controllers
         [HttpPost]
         public async Task<IActionResult> EditDay(ScheduleManagerEditViewModel model)
         {
+            bool isStartTimeBeforeEndTime = false;
             bool hasValidDepartmentName;
             bool isAvailable;
             bool isFreeFromSchool;
@@ -295,12 +296,16 @@ namespace bumbo.Controllers
                         var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
                         var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
 
+                        if(employee.StartTime < employee.EndTime)
+                        {
+                            isStartTimeBeforeEndTime = true;
+                        }
                         hasValidDepartmentName = _departmentRepository.IsValidDepartmentName(employee.DepartmentName);
                         isAvailable = CheckAvailabilityEmployee(employeeAvailability, employee);
                         isFreeFromSchool = CheckSchoolScheduleEmployee(employeeSchoolSchedule, employee);
                         isWithinLabourRules = CheckLabourRulesEmployee(labourRulesToUse, employeeSchoolSchedule, employee, labourRulesToUseString, dateTime);
 
-                        if (hasValidDepartmentName && isAvailable && isFreeFromSchool && isWithinLabourRules)
+                        if (isStartTimeBeforeEndTime && hasValidDepartmentName && isAvailable && isFreeFromSchool && isWithinLabourRules)
                         {
                             _scheduleRepository.UpdateEmployeeDaySchedule(
                                 employeeId,
