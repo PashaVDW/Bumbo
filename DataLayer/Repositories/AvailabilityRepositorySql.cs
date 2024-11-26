@@ -61,5 +61,11 @@ namespace DataLayer.Repositories
                 .OrderBy(a => a.Date)
                 .ToList();
         }
+
+        public Availability GetEmployeeDayAvailability(DateTime date, string employeeId)
+        {
+            var dateOnly = DateOnly.FromDateTime(date);
+            return _context.Availability.SingleOrDefault(a => a.Date == dateOnly && a.EmployeeId == employeeId);
+        }
     }
 }

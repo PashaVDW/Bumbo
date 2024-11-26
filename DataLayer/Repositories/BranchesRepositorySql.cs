@@ -39,6 +39,12 @@ namespace DataLayer.Repositories
             return branch;
         }
 
+        public string GetBranchCountryName(int branchId)
+        {
+            var branch = GetBranch(branchId);
+            return branch.CountryName;
+        }
+
         public List<Branch> GetAllBranches() 
         {
             return _context.Branches.ToList();

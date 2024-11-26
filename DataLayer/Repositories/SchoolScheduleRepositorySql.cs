@@ -51,5 +51,11 @@ namespace DataLayer.Repositories
 
             _context.SaveChanges();
         }
+
+        public SchoolSchedule GetEmployeeDaySchoolSchedule(DateTime date, string employeeId)
+        {
+            var dateOnly = DateOnly.FromDateTime(date);
+            return _context.SchoolSchedule.SingleOrDefault(a => a.Date == dateOnly && a.EmployeeId == employeeId);
+        }
     }
 }
