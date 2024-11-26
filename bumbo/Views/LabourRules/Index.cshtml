@@ -1,0 +1,196 @@
+﻿@model bumbo.ViewModels.LabourRulesGroupViewModel
+@{
+    ViewData["Title"] = "LabourRules";
+}
+<div class="container mx-auto p-4">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">
+            CAO - regels Nederland
+        </h1>
+        <button class="bg-gray-700 text-white px-4 py-2 rounded">
+            Bewerken
+        </button>
+    </div>
+    <div class="flex space-x-2 mb-4">
+        @foreach(var country in Model.Countries)
+        {
+            <a asp-action="Index" asp-route-ActiveCountry="@country" class="@(country == Model.ActiveCountry ? "bg-gray-800 text-white" : "bg-gray-300 text-gray-800") px-4 py-2 rounded flex items-center space-x-2 active:bg-gray-800">
+                <span>
+                    @country
+                </span>
+            </a>
+        }
+    </div>
+    @if (Model.GeneralLabourRules.Any())
+    {
+        <h2 class="text-xl font-semibold mb-2">
+            Algemeen
+        </h2>
+        <h3 class="text-lg font-semibold mb-2">
+            Regels
+        </h3>
+        @foreach (var rule in Model.GeneralLabourRules)
+        {
+            foreach (var property in rule.GetType().GetProperties())
+            {
+                var value = property.GetValue(rule);
+
+                <div class="bg-white p-4 rounded shadow mb-4">
+                    <h2 class="text-xl font-semibold mb-2">
+                        @value
+                    </h2>
+                    <div class="grid grid-cols-6 gap-4">
+                    </div>
+                </div>
+            }
+        }
+    }
+    @if (Model.AgeLabourRules.Any())
+    {
+        int i = 1;
+        <h2 class="text-xl font-semibold mb-2">
+            Leeftijd gebonden
+        </h2>
+       
+        @foreach (var rule in Model.AgeLabourRules)
+        {
+            <div class="flex">
+            <h3 class="mx-4">
+                @i.
+            </h3>
+            <div class="grid grid-cols-6 gap-4 mb-8">
+                
+            @foreach (var property in rule.GetType().GetProperties())
+            {
+                    var value = property.GetValue(rule);
+                    <div class="bg-white p-4 rounded shadow text-center">
+                        <div class="text-2xl font-bold">
+                            @value
+                        </div>
+                        <div>
+                            @property.Name
+                        </div>
+                    </div>
+            }
+            </div>
+            </div>
+            i++;
+        }
+        
+    }
+    <h2 class="text-xl font-semibold mb-2">
+        Algemeen
+    </h2>
+    <div class="grid grid-cols-6 gap-4 mb-8">
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                30
+            </div>
+            <div>
+                Min. Pauze per 4,5 uur
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                12
+            </div>
+            <div>
+                Max. uur per dienst
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                60
+            </div>
+            <div>
+                Max. uur per week
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                70
+            </div>
+            <div>
+                % loon bij ziekte
+            </div>
+        </div>
+    </div>
+    <h2 class="text-xl font-semibold mb-2">
+        Leeftijd gebonden
+    </h2>
+    <div class="grid grid-cols-6 gap-4 mb-4">
+        <div class="bg-white p-4 rounded shadow border-1 border-light text-center">
+            <div class="text-2xl font-bold">
+                &lt; 16
+            </div>
+            <div>
+                Leeftijd
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                8
+            </div>
+            <div>
+                Max. uren per dag (i)
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                19:00
+            </div>
+            <div>
+                Max eindtijd
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                5
+            </div>
+            <div>
+                Max dagen per week
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                12
+            </div>
+            <div>
+                Max schoolweek uren
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                40
+            </div>
+            <div>
+                Max. uur per week
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-6 gap-4">
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                16, 17
+            </div>
+            <div>
+                Leeftijd
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                9
+            </div>
+            <div>
+                Max. uren per dag (i)
+            </div>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+            <div class="text-2xl font-bold">
+                40
+            </div>
+            <div>
+                Max. gem. uren over 4 weken
+            </div>
+        </div>
+      </div>

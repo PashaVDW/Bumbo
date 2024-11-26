@@ -18,7 +18,7 @@ namespace DataLayer.Models
 
         public int MaxHoursPerDay { get; set; }
 
-        public TimeSpan MaxEndTime { get; set; }
+        public TimeSpan? MaxEndTime { get; set; }
 
         public int MaxHoursPerWeek { get; set; }
 
@@ -26,7 +26,7 @@ namespace DataLayer.Models
 
         public int MinRestDaysPerWeek { get; set; }
 
-        public int NumHoursWorkedBeforeBreak { get; set; }
+        public decimal NumHoursWorkedBeforeBreak { get; set; }
 
         public decimal SickPayPercentage { get; set; }
 

@@ -22,5 +22,13 @@ namespace DataLayer.Repositories
         {
             return _context.LabourRules.Where(lr => lr.CountryName.Equals(countryName)).ToList();
         }
+
+        public void CreateDefaultLabourRulesForCountry(string activeCountry)
+        {
+            var defaultLabourRules = _context.LabourRules.Where(r => r.CountryName.Equals("Default")).ToList();
+            defaultLabourRules.ForEach(r => r.CountryName = activeCountry);
+            _context.LabourRules.AddRange(defaultLabourRules);
+            _context.SaveChanges();
+        }
     }
 }
