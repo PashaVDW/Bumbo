@@ -506,25 +506,23 @@ namespace bumbo.Controllers
             TimeOnly plannableHours = new TimeOnly();
             double schoolHours = 0;
             double hoursLeftAvailable = labourRulesToUse.MaxHoursPerDay;
-
             int daysToMonday = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
+
             if (daysToMonday < 0)
             {
                 daysToMonday += 7;
             }
 
             DateTime monday = date.AddDays(-daysToMonday);
-
             int daysToSunday = (int)DayOfWeek.Sunday - (int)date.DayOfWeek;
+
             if (daysToSunday < 0)
             {
                 daysToSunday += 7;
             }
 
             DateTime sunday = date.AddDays(daysToSunday);
-
             var weekScheduleEmployee = _scheduleRepository.GetWeekScheduleForEmployee(employeeId, monday, sunday);
-
             double totalWeeklyHours = CalculateEmployeeWeeklyHours(weekScheduleEmployee);
 
             if (labourRulesToUseString.Equals("<16") || labourRulesToUseString.Equals("16-17"))
@@ -552,7 +550,6 @@ namespace bumbo.Controllers
             }
 
             plannableHours = TimeOnly.FromTimeSpan(TimeSpan.FromHours(hoursLeftAvailable));
-
             return plannableHours;
         }
 
