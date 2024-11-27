@@ -29,7 +29,8 @@ namespace bumbo.Controllers
             IPrognosisHasDaysRepository prognosisHasDaysRepository,
             INormsRepository normsRepository,
             IDaysRepositorySQL daysRepository,
-            ITemplatesRepository templatesRepository)
+            ITemplatesRepository templatesRepository,
+            IPrognosisHasDaysHasDepartments prognosisHasDaysHasDepartments)
         {
             _prognosisRepository = prognosisRepository;
             _prognosisHasDaysRepository = prognosisHasDaysRepository;
@@ -40,6 +41,7 @@ namespace bumbo.Controllers
             _currentYear = dateHelper.GetCurrentYear();
             _currentWeek = dateHelper.GetCurrentWeek();
             _TemplatesRepository = templatesRepository;
+            _prognosisHasDaysHasDepartments = prognosisHasDaysHasDepartments;
         }
 
         private List<DailyCalculationResult> CalculateUrenAndMedewerkers(
@@ -57,13 +59,13 @@ namespace bumbo.Controllers
                 };
 
                 var activities = new List<(string activity, int amount)>
-            {
-                ("Coli uitladen", day.PackagesAmount),
-                ("Vakkenvullen", day.PackagesAmount),
-                ("Kassa", day.CustomerAmount),
-                ("Vers", day.PackagesAmount),
-                ("Spiegelen", day.PackagesAmount)
-            };
+                {
+                    ("Coli uitladen", day.PackagesAmount),
+                    ("Vakkenvullen", day.PackagesAmount),
+                    ("Kassa", day.CustomerAmount),
+                    ("Vers", day.PackagesAmount),
+                    ("Spiegelen", day.PackagesAmount)
+                };
                 ViewBag.Activities = activities;
                 foreach (var (activity, amount) in activities)
                 {
@@ -332,6 +334,16 @@ namespace bumbo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePrognosis(PrognosisCreateViewModel model)
         {
+            if (_normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result.Count() == 0)
+            {
+                TempData["ToastMessage"] = "De prognose kan niet worden aangemaakt. Er is geen normering voor deze week.";
+                TempData["ToastType"] = "error";
+                TempData["ToastId"] = "PrognosisCreateFail";
+                TempData["AutoHide"] = "no";
+
+                return RedirectToAction("Index");
+            }
+
             var prognosisDays = model.Days.Select((day, index) => new PrognosisHasDays
             {
                 Days = day,
@@ -410,7 +422,7 @@ namespace bumbo.Controllers
                 }
             }
 
-            _prognosisHasDaysHasDepartments.createCalculation(prognosisId, cassiereHours, versWorkersHours, stockingHours, cassieresNeeded, workersNeeded);
+            _prognosisHasDaysHasDepartments.CreateCalculation(prognosisId, cassiereHours, versWorkersHours, stockingHours, cassieresNeeded, workersNeeded);
         }
 
         // GET: Prognosis/Edit/1

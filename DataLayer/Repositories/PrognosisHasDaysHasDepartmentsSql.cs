@@ -19,7 +19,7 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public void createCalculation(
+        public void CreateCalculation(
           int prognosisId,
           Dictionary<Days, int> cassiereHours,
           Dictionary<Days, int> versWorkersHours,
@@ -72,6 +72,11 @@ namespace DataLayer.Repositories
             }
 
             _context.SaveChanges();
+        }
+
+        public List<PrognosisHasDaysHasDepartment> GetPrognosisCalculations(int prognosisId)
+        {
+            return null;
         }
     }
 }
