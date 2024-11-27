@@ -475,7 +475,11 @@ namespace bumbo.Controllers
                     LabourRules labourRulesToUse = labourRules
                         .FirstOrDefault(l => l.AgeGroup.Equals(labourRulesToUseString));
 
-                    TimeOnly plannableHours = CalculatePlannableHours(labourRulesToUse, employeeSchoolSchedule, employeeAvailability, labourRulesToUseString, date);
+                    TimeOnly plannableHours = CalculatePlannableHours(labourRulesToUse, employeeSchoolSchedule, employeeAvailability, labourRulesToUseString, dateTime, employeeId);
+                    if(plannableHours < TimeOnly.MinValue)
+                    {
+                        return RedirectToAction("AccessDenied", "Home");
+                    }
 
                     var viewmodel = new ScheduleManagerAddEmployeeViewModel
                     {
@@ -486,6 +490,7 @@ namespace bumbo.Controllers
                         EndTime = employeeAvailability.EndTime,
                         EmployeeAvailableStartTime = employeeAvailability.StartTime,
                         EmployeeAvailableEndTime = employeeAvailability.EndTime,
+                        EmployeeLabourRulesOrAvailabilityAvailableTime = plannableHours,
 
                     };
 
@@ -496,9 +501,59 @@ namespace bumbo.Controllers
             return RedirectToAction("AccessDenied", "Home");
         }
 
-        private TimeOnly CalculatePlannableHours(LabourRules labourRulesToUse, SchoolSchedule employeeSchoolSchedule, Availability employeeAvailability, string labourRulesToUseString, string date)
+        private TimeOnly CalculatePlannableHours(LabourRules labourRulesToUse, SchoolSchedule employeeDaySchoolSchedule, Availability employeeAvailability, string labourRulesToUseString, DateTime date, string employeeId)
         {
-            return new TimeOnly(01, 00, 00);
+            TimeOnly plannableHours = new TimeOnly();
+            double schoolHours = 0;
+            double hoursLeftAvailable = labourRulesToUse.MaxHoursPerDay;
+
+            int daysToMonday = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
+            if (daysToMonday < 0)
+            {
+                daysToMonday += 7;
+            }
+
+            DateTime monday = date.AddDays(-daysToMonday);
+
+            int daysToSunday = (int)DayOfWeek.Sunday - (int)date.DayOfWeek;
+            if (daysToSunday < 0)
+            {
+                daysToSunday += 7;
+            }
+
+            DateTime sunday = date.AddDays(daysToSunday);
+
+            var weekScheduleEmployee = _scheduleRepository.GetWeekScheduleForEmployee(employeeId, monday, sunday);
+
+            double totalWeeklyHours = CalculateEmployeeWeeklyHours(weekScheduleEmployee);
+
+            if (labourRulesToUseString.Equals("<16") || labourRulesToUseString.Equals("16-17"))
+            {
+                if (employeeDaySchoolSchedule != null)
+                {
+                    var schoolDuration = employeeDaySchoolSchedule.EndTime.ToTimeSpan() - employeeDaySchoolSchedule.StartTime.ToTimeSpan();
+                    schoolHours = schoolDuration.TotalHours;
+                }
+
+                hoursLeftAvailable =- schoolHours;
+            }
+
+            if(totalWeeklyHours < labourRulesToUse.MaxHoursPerWeek)
+            {
+                if(labourRulesToUse.MaxHoursPerWeek - totalWeeklyHours < hoursLeftAvailable)
+                {
+                    hoursLeftAvailable =- totalWeeklyHours;
+                }
+            }
+
+            if ((employeeAvailability.EndTime - employeeAvailability.StartTime).TotalHours < hoursLeftAvailable)
+            {
+                hoursLeftAvailable = (employeeAvailability.EndTime - employeeAvailability.StartTime).TotalHours;
+            }
+
+            plannableHours = TimeOnly.FromTimeSpan(TimeSpan.FromHours(hoursLeftAvailable));
+
+            return plannableHours;
         }
 
         [HttpGet]
