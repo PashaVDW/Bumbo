@@ -420,11 +420,12 @@ namespace bumbo.Controllers
                 employeeFullName = string.Join(fullEmployeeData.FirstName + " " + fullEmployeeData.LastName);
             }
             
-            foreach(var branch in employeeBranches)
+            foreach(var employeeBranch in employeeBranches)
             {
-                if(branch.BranchId == user.ManagerOfBranchId)
+                if(employeeBranch.BranchId == user.ManagerOfBranchId)
                 {
                     int branchId = user.ManagerOfBranchId.Value;
+                    Branch branch = _branchesRepository.GetBranch(branchId);
 
                     DateTime.TryParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime);
                     string formattedDate = dateTime.ToString("ddd dd MMMM - yyyy", System.Globalization.CultureInfo.InvariantCulture);
@@ -491,7 +492,31 @@ namespace bumbo.Controllers
                         EmployeeAvailableStartTime = employeeAvailability.StartTime,
                         EmployeeAvailableEndTime = employeeAvailability.EndTime,
                         EmployeeLabourRulesOrAvailabilityAvailableTime = plannableHours,
+                        DaySchedule = new DayScheduleAddEmployeeViewModel
+                        {
+                            Date = dateTime,
+                            Departments = departments.Select(department =>
+                            {
+                                List<Schedule> schedulesForDepartment = schedules
+                                    .Where(s => s.Date == DateOnly.FromDateTime(dateTime) && s.DepartmentName == department)
+                                    .OrderBy(s => s.StartTime)
+                                    .ToList();
 
+                                double hoursNeededForDepartment = prognosisDetails
+                                    .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                                    .Sum(pd => pd.HoursOfWorkNeeded);
+
+                                return new DepartmentScheduleAddEmployeeViewModel
+                                {
+                                    DepartmentName = department,
+                                    Employees = BuildEmployeeAndGapAddEmployeeViewList(schedulesForDepartment, branch),
+                                    TotalHours = schedulesForDepartment
+                                        .Where(s => s.StartTime < s.EndTime && !s.IsSick)
+                                        .Sum(s => (s.EndTime - s.StartTime).TotalHours),
+                                    HoursNeeded = hoursNeededForDepartment
+                                };
+                            }).ToList()
+                        }
                     };
 
                     return View();
@@ -698,6 +723,87 @@ namespace bumbo.Controllers
             if (lastAvailableSchedule != null && lastAvailableSchedule.EndTime < workDayEnd)
             {
                 result.Add(new EmployeeScheduleViewModel
+                {
+                    EmployeeName = "Gat",
+                    StartTime = lastAvailableSchedule.EndTime,
+                    EndTime = workDayEnd,
+                    IsGap = true
+                });
+            }
+
+            return result;
+        }
+
+        private List<EmployeeScheduleAddEmployeeViewModel> BuildEmployeeAndGapAddEmployeeViewList(List<Schedule> sortedSchedules, Branch branch)
+        {
+            List<EmployeeScheduleAddEmployeeViewModel> result = new List<EmployeeScheduleAddEmployeeViewModel>();
+
+            TimeOnly workDayStart = branch.OpeningTime;
+            TimeOnly workDayEnd = branch.ClosingTime;
+
+            if (sortedSchedules.Count == 0)
+            {
+                result.Add(new EmployeeScheduleAddEmployeeViewModel
+                {
+                    EmployeeName = "Gat",
+                    StartTime = workDayStart,
+                    EndTime = workDayEnd,
+                    IsGap = true
+                });
+                return result;
+            }
+
+            List<Schedule> availableSchedules = sortedSchedules.Where(s => !s.IsSick).OrderBy(s => s.StartTime).ToList();
+
+            if (!availableSchedules.Any() || availableSchedules.First().StartTime > workDayStart)
+            {
+                result.Add(new EmployeeScheduleAddEmployeeViewModel
+                {
+                    EmployeeName = "Gat",
+                    StartTime = workDayStart,
+                    EndTime = availableSchedules.Any() ? availableSchedules.First().StartTime : workDayEnd,
+                    IsGap = true
+                });
+            }
+
+            for (int i = 0; i < sortedSchedules.Count; i++)
+            {
+                Schedule schedule = sortedSchedules[i];
+
+                result.Add(new EmployeeScheduleAddEmployeeViewModel
+                {
+                    EmployeeId = schedule.EmployeeId,
+                    EmployeeName = $"{schedule.Employee.FirstName} {schedule.Employee.LastName}",
+                    StartTime = schedule.StartTime,
+                    EndTime = schedule.EndTime,
+                    IsSick = schedule.IsSick
+                });
+            }
+
+            for (int i = 0; i < availableSchedules.Count; i++)
+            {
+                Schedule currentSchedule = availableSchedules[i];
+
+                if (i < availableSchedules.Count - 1)
+                {
+                    Schedule nextSchedule = availableSchedules[i + 1];
+                    if (currentSchedule.EndTime < nextSchedule.StartTime)
+                    {
+                        result.Add(new EmployeeScheduleAddEmployeeViewModel
+                        {
+                            EmployeeName = "Gat",
+                            StartTime = currentSchedule.EndTime,
+                            EndTime = nextSchedule.StartTime,
+                            IsGap = true
+                        });
+                    }
+                }
+            }
+
+            Schedule lastAvailableSchedule = availableSchedules.LastOrDefault();
+            if (lastAvailableSchedule != null && lastAvailableSchedule.EndTime < workDayEnd)
+            {
+                result.Add(new EmployeeScheduleAddEmployeeViewModel
                 {
                     EmployeeName = "Gat",
                     StartTime = lastAvailableSchedule.EndTime,
