@@ -71,6 +71,7 @@ namespace bumbo.Controllers
                      </form>
                      <form method=""post"" action='/Requests/AcceptRequest'>
                          <input type=""hidden"" name='RequestId' value='{item.Id}'/>
+                         <input type=""hidden"" name='Request.RequestToBranchId' value='{item.RequestToBranchId}'/>
                          <button class='bg-green-500 text-white py-2 px-6 rounded-xl font-semibold hover:bg-green-400'>Accepteren</button>
                      </form>
                  
@@ -279,8 +280,6 @@ namespace bumbo.Controllers
                 .ToList();
             }
 
-            
-
             var viewModel = new RequestsAddEmployeeViewModel() {
                 AllBranches = branches,
                 PreviousPage = previousPage,
@@ -454,6 +453,23 @@ namespace bumbo.Controllers
 
             var requests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
             var request = requests.Where(r => r.Id == id).SingleOrDefault();
+
+            Employee emp = _branchesRepository.GetEmployeeById(model.Request.EmployeeId);
+            
+            foreach (var dep in emp.EmployeeHasDepartment)
+            {
+                //TODO
+            }
+
+            Schedule schedule = new Schedule()
+            {
+                BranchId = model.Request.RequestToBranchId,
+                EmployeeId = model.Request.EmployeeId,
+                Date = DateOnly.FromDateTime(model.Request.DateNeeded),
+                StartTime = model.Request.StartTime,
+                EndTime = model.Request.EndTime,
+                //DepartmentName = ,
+            };
 
             _branchRequestsEmployeeRepository.AcceptRequest(request);
 
