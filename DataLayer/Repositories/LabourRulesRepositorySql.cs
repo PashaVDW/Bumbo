@@ -34,10 +34,6 @@ namespace DataLayer.Repositories
                 && lr.AgeGroup == ageGroup
             );
         }
-        public void UpdateLabourRule(LabourRules labourRule)
-        {
-            _context.LabourRules.Update(labourRule);
-        }
         public void CreateDefaultLabourRulesForCountry(string activeCountry)
         {
             var defaultLabourRules = new List<LabourRules>
@@ -47,7 +43,7 @@ namespace DataLayer.Repositories
                     CountryName = activeCountry,
                     AgeGroup = "<16",
                     MaxHoursPerDay = 8,
-                    MaxEndTime = new TimeSpan(19, 0, 0),
+                    MaxEndTime = new TimeSpan(18, 0, 0),
                     MaxHoursPerWeek = 40,
                     MaxWorkDaysPerWeek = 5,
                     MaxHoursWithSchool = 12,
@@ -83,7 +79,7 @@ namespace DataLayer.Repositories
                     CountryName = activeCountry,
                     AgeGroup = ">17",
                     MaxHoursPerDay = 12,
-                    MaxEndTime = new TimeSpan(24, 0, 0),
+                    MaxEndTime = new TimeSpan(23, 0, 0),
                     MaxHoursPerWeek = 60,
                     MaxWorkDaysPerWeek = 6,
                     MaxHoursWithSchool = 0,
@@ -99,6 +95,24 @@ namespace DataLayer.Repositories
             };
             _context.LabourRules.AddRange(defaultLabourRules);
             _context.SaveChanges();
+        }
+
+        public void UpdateLabourRule(string ageGroup, string countryName, int maxHoursPerDay, TimeSpan maxEndTime, int maxHoursPerWeek, int maxWorkDaysPerWeek, int minRestDaysPerWeek, decimal numHoursWorkedBeforeBreak, decimal sickPayPercentage, decimal overtimePayPercentage, int minutesOfBreak, int maxHoursWithSchool, int minRestHoursBetweenShifts, int maxShiftDuration, int maxOvertimeHoursPerWeek)
+        {
+            LabourRules labourRules = _context.LabourRules.First(LabourRules => LabourRules.AgeGroup == ageGroup && LabourRules.CountryName == countryName);
+            labourRules.MaxHoursPerDay = maxHoursPerDay;
+            labourRules.MaxEndTime = maxEndTime;
+            labourRules.MaxHoursPerWeek = maxHoursPerWeek;
+            labourRules.MaxWorkDaysPerWeek = maxWorkDaysPerWeek;
+            labourRules.MinRestDaysPerWeek = minRestDaysPerWeek;
+            labourRules.NumHoursWorkedBeforeBreak = numHoursWorkedBeforeBreak;
+            labourRules.SickPayPercentage = sickPayPercentage;
+            labourRules.OvertimePayPercentage = overtimePayPercentage;
+            labourRules.MinRestHoursBetweenShifts = minRestHoursBetweenShifts;
+            labourRules.MinutesOfBreak = minutesOfBreak;
+            labourRules.MaxHoursWithSchool = maxHoursWithSchool;
+            labourRules.MaxShiftDuration = maxShiftDuration;
+            labourRules.MaxOvertimeHoursPerWeek = maxOvertimeHoursPerWeek;
         }
     }
 }

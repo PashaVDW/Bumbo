@@ -16,8 +16,10 @@ namespace bumbo.Controllers
             _countryRepository = countryRepository;
             _labourRulesRepository = labourRulesRepository;
         }
+
         public IActionResult Index(string? activeCountry)
         {
+
             if (activeCountry == null)
             {
                 activeCountry = "Netherlands";
@@ -77,22 +79,23 @@ namespace bumbo.Controllers
         [HttpPost]
         public IActionResult HandleEdit(LabourRulesViewModel labourRulesViewModel)
         {
-            var lbr = _labourRulesRepository.GetLabourRuleByCountyAndAgeGroup(labourRulesViewModel.CountryName, labourRulesViewModel.AgeGroup);
-            //lbr.AgeGroup = labourRulesViewModel.AgeGroup;
-            //lbr.MaxHoursPerDay = labourRulesViewModel.MaxHoursPerDay;
-            //lbr.MaxEndTime = labourRulesViewModel.MaxEndTime;
-            //lbr.MaxHoursPerWeek = labourRulesViewModel.MaxHoursPerWeek;
-            //lbr.MaxWorkDaysPerWeek = labourRulesViewModel.MaxWorkDaysPerWeek;
-            //lbr.MinRestDaysPerWeek = labourRulesViewModel.MinRestDaysPerWeek;
-            //lbr.NumHoursWorkedBeforeBreak = labourRulesViewModel.NumHoursWorkedBeforeBreak;
-            //lbr.SickPayPercentage = labourRulesViewModel.SickPayPercentage;
-            //lbr.OvertimePayPercentage = labourRulesViewModel.OvertimePayPercentage;
-            //lbr.MinutesOfBreak = labourRulesViewModel.MinutesOfBreak;
-            //lbr.MaxHoursWithSchool = labourRulesViewModel.MaxHoursWithSchool;
-            //lbr.MinRestHoursBetweenShifts = labourRulesViewModel.MinRestHoursBetweenShifts;
-            //lbr.MaxShiftDuration = labourRulesViewModel.MaxShiftDuration;
-            //lbr.MaxOvertimeHoursPerWeek = labourRulesViewModel.MaxOvertimeHoursPerWeek;
-            _labourRulesRepository.UpdateLabourRule(lbr);
+            _labourRulesRepository.UpdateLabourRule(
+                labourRulesViewModel.AgeGroup,
+                labourRulesViewModel.CountryName,
+                labourRulesViewModel.MaxHoursPerDay,
+                labourRulesViewModel.MaxEndTime,
+                labourRulesViewModel.MaxHoursPerWeek,
+                labourRulesViewModel.MaxWorkDaysPerWeek,
+                labourRulesViewModel.MinRestDaysPerWeek,
+                labourRulesViewModel.NumHoursWorkedBeforeBreak,
+                labourRulesViewModel.SickPayPercentage,
+                labourRulesViewModel.OvertimePayPercentage,
+                labourRulesViewModel.MinutesOfBreak,
+                labourRulesViewModel.MaxHoursWithSchool,
+                labourRulesViewModel.MinRestHoursBetweenShifts,
+                labourRulesViewModel.MaxShiftDuration,
+                labourRulesViewModel.MaxOvertimeHoursPerWeek
+                );
             return RedirectToAction("Index", new { activeCountry = labourRulesViewModel.CountryName });
         }
     }
