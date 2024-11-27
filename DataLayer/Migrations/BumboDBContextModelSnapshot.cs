@@ -1199,6 +1199,9 @@ namespace DataLayer.Migrations
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time");
 
+                    b.Property<bool>("IsFinal")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsSick")
                         .HasColumnType("bit");
 
@@ -1226,6 +1229,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 18),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(13, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(9, 0, 0)
                         },
@@ -1236,6 +1240,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 18),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(13, 0, 0)
                         },
@@ -1246,7 +1251,8 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 18),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(12, 0, 0),
-                            IsSick = false,
+                            IsFinal = true,
+                            IsSick = true,
                             StartTime = new TimeOnly(8, 0, 0)
                         },
                         new
@@ -1256,8 +1262,9 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 18),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
-                            StartTime = new TimeOnly(12, 0, 0)
+                            StartTime = new TimeOnly(10, 0, 0)
                         },
                         new
                         {
@@ -1266,6 +1273,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 18),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(21, 30, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(16, 0, 0)
                         },
@@ -1276,6 +1284,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 18),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(14, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(8, 0, 0)
                         },
@@ -1286,6 +1295,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 18),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(18, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(14, 0, 0)
                         },
@@ -1296,6 +1306,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 19),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(18, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(10, 0, 0)
                         },
@@ -1306,6 +1317,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 19),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(12, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(8, 0, 0)
                         },
@@ -1316,6 +1328,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 20),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(15, 0, 0),
+                            IsFinal = false,
                             IsSick = false,
                             StartTime = new TimeOnly(8, 0, 0)
                         },
@@ -1326,6 +1339,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 21),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(9, 0, 0)
                         },
@@ -1336,6 +1350,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 22),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(20, 0, 0),
+                            IsFinal = true,
                             IsSick = true,
                             StartTime = new TimeOnly(12, 0, 0)
                         },
@@ -1346,6 +1361,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 23),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(9, 0, 0)
                         },
@@ -1356,6 +1372,7 @@ namespace DataLayer.Migrations
                             Date = new DateOnly(2024, 11, 24),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(8, 0, 0)
                         });
@@ -2430,6 +2447,20 @@ namespace DataLayer.Migrations
                     b.HasKey("RequestStatusName");
 
                     b.ToTable("RequestStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            RequestStatusName = "In Afwachting"
+                        },
+                        new
+                        {
+                            RequestStatusName = "Afgewezen"
+                        },
+                        new
+                        {
+                            RequestStatusName = "Geaccepteerd"
+                        });
                 });
 
             modelBuilder.Entity("bumbo.Models.BranchHasEmployee", b =>
@@ -2493,9 +2524,9 @@ namespace DataLayer.Migrations
                         new
                         {
                             BranchId = 2,
-                            EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2024, 11, 26, 16, 41, 36, 818, DateTimeKind.Local).AddTicks(3953)
+                            StartDate = new DateTime(2024, 11, 26, 20, 25, 31, 842, DateTimeKind.Local).AddTicks(8938)
+>>>>>>> GCB-164
                         });
                 });
 
@@ -2510,6 +2541,12 @@ namespace DataLayer.Migrations
                     b.Property<int>("RequestToBranchId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DateNeeded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time");
+
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -2520,6 +2557,9 @@ namespace DataLayer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time");
+
                     b.HasKey("BranchId", "EmployeeId", "RequestToBranchId");
 
                     b.HasIndex("EmployeeId");
@@ -2529,6 +2569,52 @@ namespace DataLayer.Migrations
                     b.HasIndex("RequestToBranchId");
 
                     b.ToTable("BranchRequestsEmployee");
+
+                    b.HasData(
+                        new
+                        {
+                            BranchId = 1,
+                            EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
+                            RequestToBranchId = 2,
+                            DateNeeded = new DateTime(2024, 12, 3, 20, 25, 31, 881, DateTimeKind.Local).AddTicks(5454),
+                            EndTime = new TimeOnly(17, 0, 0),
+                            Message = "Overplaatsing nodig vanwege projectdeadline.",
+                            RequestStatusName = "In Afwachting",
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            BranchId = 2,
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            RequestToBranchId = 1,
+                            DateNeeded = new DateTime(2024, 12, 10, 20, 25, 31, 881, DateTimeKind.Local).AddTicks(5472),
+                            EndTime = new TimeOnly(16, 0, 0),
+                            Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
+                            RequestStatusName = "In Afwachting",
+                            StartTime = new TimeOnly(12, 0, 0)
+                        },
+                        new
+                        {
+                            BranchId = 3,
+                            EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
+                            RequestToBranchId = 4,
+                            DateNeeded = new DateTime(2024, 12, 6, 20, 25, 31, 881, DateTimeKind.Local).AddTicks(5474),
+                            EndTime = new TimeOnly(17, 30, 0),
+                            Message = "Hulp nodig vanwege ziekte van een collega.",
+                            RequestStatusName = "Afgewezen",
+                            StartTime = new TimeOnly(8, 30, 0)
+                        },
+                        new
+                        {
+                            BranchId = 1,
+                            EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
+                            RequestToBranchId = 3,
+                            DateNeeded = new DateTime(2024, 12, 16, 20, 25, 31, 881, DateTimeKind.Local).AddTicks(5475),
+                            EndTime = new TimeOnly(16, 0, 0),
+                            Message = "Overplaatsing voor trainingssessies.",
+                            RequestStatusName = "Geaccepteerd",
+                            StartTime = new TimeOnly(9, 0, 0)
+                        });
                 });
 
             modelBuilder.Entity("bumbo.Models.Country", b =>

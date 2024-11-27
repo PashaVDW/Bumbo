@@ -104,6 +104,19 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
+        
+        public void FinalizeSchedules(int branchId, List<DateOnly> weekDates)
+        {
+            var schedules = _context.Schedule
+                .Where(s => s.BranchId == branchId && weekDates.Contains(s.Date))
+                .ToList();
+
+            if (schedules.Any())
+            {
+                schedules.ForEach(s => s.IsFinal = true);
+                _context.SaveChanges();
+            }
+        }
 
         public List<Schedule> GetWeekScheduleForEmployee(string employeeId, DateTime monday, DateTime sunday)
         {
