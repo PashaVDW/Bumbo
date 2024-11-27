@@ -57,5 +57,12 @@ namespace DataLayer.Repositories
             var dateOnly = DateOnly.FromDateTime(date);
             return _context.SchoolSchedule.SingleOrDefault(a => a.Date == dateOnly && a.EmployeeId == employeeId);
         }
+
+        public Task<List<SchoolSchedule>> GetSchoolScheduleOfEmployee(string employeeId)
+        {
+            return _context.SchoolSchedule
+                    .Where(ss => ss.EmployeeId == employeeId)
+                    .ToListAsync();
+        }
     }
 }

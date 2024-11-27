@@ -49,5 +49,17 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public async Task<List<Employee>> GetEmployeesOfBranch(int? branchId)
+        {
+            return _context.Users
+                     .Join(_context.BranchHasEmployees,
+                           e => e.Id,
+                           bhe => bhe.EmployeeId,
+                           (e, bhe) => new { e, bhe })
+                     .Where(joined => joined.bhe.BranchId == branchId)
+                     .Select(joined => joined.e)
+                     .ToList();
+        }
     }
 }

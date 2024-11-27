@@ -1,6 +1,7 @@
 ﻿using bumbo.Data;
 using DataLayer.Interfaces;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,13 @@ namespace DataLayer.Repositories
         {
             var dateOnly = DateOnly.FromDateTime(date);
             return _context.Availability.SingleOrDefault(a => a.Date == dateOnly && a.EmployeeId == employeeId);
+        }
+
+        public Task<List<Availability>> GetAvailabilityOfEmployee(string employeeId)
+        {
+            return _context.Availability
+                    .Where(a => a.EmployeeId == employeeId)
+                    .ToListAsync();
         }
     }
 }
