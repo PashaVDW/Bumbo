@@ -45,7 +45,7 @@ namespace bumbo.Controllers
             List<BranchRequestsEmployee> incomingRequests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
             List<BranchRequestsEmployee> outgoingRequests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(branchId);
 
-            var headers = new List<string> { "Naam aanvrager", "Bericht", "Nodige Medewerker", "Datum Nodige", "Tijd Nodige", "Acties" };
+            var headers = new List<string> { "Naam aanvrager", "Filiaal", "Bericht", "Nodige Medewerker", "Datum Nodige", "Tijd Nodige", "Acties" };
             var tableBuilder = new TableHtmlBuilder<BranchRequestsEmployee>();
             var htmlTable = tableBuilder.GenerateTable("Inkomende Aanvragen", headers, incomingRequests, "", item =>
             {
@@ -57,6 +57,7 @@ namespace bumbo.Controllers
                 }
                 return $@"
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
+                 <td class='py-2 px-4'>{item.BranchId}</td>
                  <td class='py-2 px-4'>{messageFirstPart}</td>
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
                  <td class='py-2 px-4'>{item.DateNeeded.Day}-{item.DateNeeded.Month}-{item.DateNeeded.Year}</td>
@@ -277,6 +278,7 @@ namespace bumbo.Controllers
                 .Where(e => employees.Contains(e))
                 .ToList();
             }
+
             
 
             var viewModel = new RequestsAddEmployeeViewModel() {

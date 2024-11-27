@@ -58,6 +58,7 @@ namespace DataLayer.Repositories
             List<BranchRequestsEmployee> requests =
                  _context.BranchRequestsEmployee
                 .Where(r => r.BranchId == branchId)
+                .Where(r => r.RequestStatusName.Equals("In Afwachting"))
                 .ToList();
             int id = 0;
             foreach (var request in requests) {
