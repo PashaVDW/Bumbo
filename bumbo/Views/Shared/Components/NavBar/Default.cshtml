@@ -75,7 +75,10 @@
         { 
             <div class="text-right">
                 <div class="text-gray-700">@Model.FirstName</div>
+                @if (Model.IsBranchManager || Model.IsSystemManager)
+                {
                 <div class="text-gray-500 text-sm">@Model.Email</div>
+                }
             </div>
             <a href="/uitloggen" class="text-sm hover:text-gray-600">Uitloggen</a>
         }
