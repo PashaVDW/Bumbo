@@ -2,6 +2,7 @@
 using bumbo.Models;
 using DataLayer.Interfaces;
 using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +77,15 @@ namespace DataLayer.Repositories
 
         public List<PrognosisHasDaysHasDepartment> GetPrognosisCalculations(int prognosisId)
         {
-            return null;
+            return _context.PrognosisHasDaysHasDepartments
+                      .Where(p => p.PrognosisId == prognosisId)
+                      .ToList();
+        }
+
+        public void UpdateCalculations(List<PrognosisHasDaysHasDepartment> viewmodels)
+        {
+            _context.PrognosisHasDaysHasDepartments.UpdateRange(viewmodels);
+            _context.SaveChanges();
         }
     }
 }
