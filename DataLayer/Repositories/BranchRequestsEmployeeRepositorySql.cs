@@ -87,7 +87,9 @@ namespace DataLayer.Repositories
             List<BranchRequestsEmployee> requests = _context.BranchRequestsEmployee.ToList();
             List<Employee> employees = _context.Employees.ToList();
 
-            var employeeIdsWithRequests = requests.Select(req => req.EmployeeId);
+            var employeeIdsWithRequests = requests
+                .Where(r => r.RequestStatusName.Equals("In Afwachting"))
+                .Select(req => req.EmployeeId);
 
             List<Employee> availableEmployees = employees
                 .Where(emp => !employeeIdsWithRequests.Contains(emp.Id))

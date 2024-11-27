@@ -24,12 +24,15 @@ namespace bumbo.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IBranchesRepository _branchesRepository;
         private readonly IBranchRequestsEmployeeRepository _branchRequestsEmployeeRepository;
+        private readonly IScheduleRepository _scheduleRepository;
 
-        public RequestsController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, IBranchRequestsEmployeeRepository branchRequestsEmployeeRepository)
+        public RequestsController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, 
+            IBranchRequestsEmployeeRepository branchRequestsEmployeeRepository, IScheduleRepository scheduleRepository)
         {
             _userManager = userManager;
             _branchesRepository = branchesRepository;
             _branchRequestsEmployeeRepository = branchRequestsEmployeeRepository;
+            _scheduleRepository = scheduleRepository;
     }
 
         public async Task<IActionResult> Index(string searchTerm, int page = 1)
@@ -72,6 +75,11 @@ namespace bumbo.Controllers
                      <form method=""post"" action='/Requests/AcceptRequest'>
                          <input type=""hidden"" name='RequestId' value='{item.Id}'/>
                          <input type=""hidden"" name='Request.RequestToBranchId' value='{item.RequestToBranchId}'/>
+                         <input type=""hidden"" name='DepartmentName' value='{item.DepartmentName}'/>
+                         <input type=""hidden"" name='Request.EmployeeId' value='{item.EmployeeId}'/>
+                         <input type=""hidden"" name='Request.DateNeeded' value='{item.DateNeeded}'/>
+                         <input type=""hidden"" name='Request.StartTime' value='{item.StartTime}'/>
+                         <input type=""hidden"" name='Request.EndTime' value='{item.EndTime}'/>
                          <button class='bg-green-500 text-white py-2 px-6 rounded-xl font-semibold hover:bg-green-400'>Accepteren</button>
                      </form>
                  
@@ -211,6 +219,7 @@ namespace bumbo.Controllers
                 EmployeeId = empId,
                 BranchId = branchId,
                 Request = request,
+                DepartmentName = model.DepartmentName
             };
             return View(viewModel);
         }
@@ -246,7 +255,8 @@ namespace bumbo.Controllers
                 HasChosenEmployee = hasChosenEmp,
                 EmployeeId = empId,
                 BranchId = branchId,
-                Request = model.Request
+                Request = model.Request,
+                DepartmentName = model.DepartmentName
             };
             return View(viewModel);
         }
@@ -391,6 +401,7 @@ namespace bumbo.Controllers
                 DateNeeded = model.Request.DateNeeded,
                 StartTime = model.Request.StartTime,
                 EndTime = model.Request.EndTime,
+                DepartmentName = model.DepartmentName,
             };
 
             _branchRequestsEmployeeRepository.AddRequest(request);
@@ -454,11 +465,15 @@ namespace bumbo.Controllers
             var requests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
             var request = requests.Where(r => r.Id == id).SingleOrDefault();
 
-            Employee emp = _branchesRepository.GetEmployeeById(model.Request.EmployeeId);
+            Employee emp = _branchesRepository.GetEmployeeWithDepartmentById(model.Request.EmployeeId);
+            string departmentName = null;
             
             foreach (var dep in emp.EmployeeHasDepartment)
             {
-                //TODO
+                if (dep.DepartmentName.Equals(model.DepartmentName))
+                {
+                    departmentName = dep.DepartmentName;
+                }
             }
 
             Schedule schedule = new Schedule()
@@ -468,10 +483,11 @@ namespace bumbo.Controllers
                 Date = DateOnly.FromDateTime(model.Request.DateNeeded),
                 StartTime = model.Request.StartTime,
                 EndTime = model.Request.EndTime,
-                //DepartmentName = ,
+                DepartmentName = departmentName,
             };
 
             _branchRequestsEmployeeRepository.AcceptRequest(request);
+            _scheduleRepository.AddHelpEmployeeToDay(schedule);
 
             return Redirect("Index");
         }

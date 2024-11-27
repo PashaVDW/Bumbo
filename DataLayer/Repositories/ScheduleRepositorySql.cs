@@ -144,5 +144,14 @@ namespace DataLayer.Repositories
                 throw new InvalidOperationException("Schedule entry does not exist for the specified employee and date.");
             }
         }
+
+        public void AddHelpEmployeeToDay(Schedule schedule)
+        {
+            if (schedule != null)
+            {
+                _context.Schedule.Add(schedule);
+                _context.SaveChanges();
+            }
+        }
     }
 }
