@@ -10,6 +10,8 @@ using System.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace bumbo.Controllers
 {
@@ -347,7 +349,6 @@ namespace bumbo.Controllers
 
                             hasUpdatedAllEmployees = false;
                         }
-
                     }
                 }
 
@@ -408,18 +409,96 @@ namespace bumbo.Controllers
 
             var fullEmployeeData = _employeeRepository.GetEmployeeById(employeeId);
             var employeeBranches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+            string employeeFullName = "";
+
+            if(fullEmployeeData.MiddleName != null)
+            {
+                employeeFullName = string.Join(fullEmployeeData.FirstName + " " + fullEmployeeData.MiddleName + " " + fullEmployeeData.LastName);
+            }
+            else
+            {
+                employeeFullName = string.Join(fullEmployeeData.FirstName + " " + fullEmployeeData.LastName);
+            }
             
             foreach(var branch in employeeBranches)
             {
-                if(branch.BranchId != user.ManagerOfBranchId)
+                if(branch.BranchId == user.ManagerOfBranchId)
                 {
-                    return RedirectToAction("AccessDenied", "Home");
+                    int branchId = user.ManagerOfBranchId.Value;
+
+                    DateTime.TryParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime);
+                    string formattedDate = dateTime.ToString("ddd dd MMMM - yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
+                    List<string> departments = _scheduleRepository.GetDepartments();
+                    List<Schedule> schedules = _scheduleRepository.GetScheduleForBranchByDay(branchId, DateOnly.FromDateTime(dateTime));
+
+                    int weekNumber = dateTime.GetWeekOfYear();
+                    int year = dateTime.Year;
+
+                    var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
+                    var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
+
+                    List<PrognosisHasDaysHasDepartment> prognosisDetails = _prognosisRepository.GetPrognosisDetailsByBranchWeekAndYear(branchId, weekNumber, year);
+
+                    var today = DateTime.Today;
+                    int employeeBirthDate = fullEmployeeData.BirthDate.Year;
+                    int employeeAge = today.Year - employeeBirthDate;
+
+                    if (fullEmployeeData.BirthDate > today.AddYears(-employeeAge))
+                    {
+                        employeeAge--;
+                    }
+
+                    string labourRulesToUseString;
+
+                    switch (employeeAge)
+                    {
+                        case < 16:
+                            labourRulesToUseString = "<16";
+                            break;
+
+                        case 16:
+                            labourRulesToUseString = "16-17";
+                            break;
+
+                        case 17:
+                            labourRulesToUseString = "16-17";
+                            break;
+
+                        case > 17:
+                            labourRulesToUseString = ">17";
+                            break;
+                    }
+
+                    string countryName = _branchesRepository.GetBranchCountryName(branchId);
+                    var labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(countryName);
+                    LabourRules labourRulesToUse = labourRules
+                        .FirstOrDefault(l => l.AgeGroup.Equals(labourRulesToUseString));
+
+                    TimeOnly plannableHours = CalculatePlannableHours(labourRulesToUse, employeeSchoolSchedule, employeeAvailability, labourRulesToUseString, date);
+
+                    var viewmodel = new ScheduleManagerAddEmployeeViewModel
+                    {
+                        Date = date,
+                        EmployeeId = employeeId,
+                        EmployeeName = string.Join(employeeFullName),
+                        StartTime = employeeAvailability.StartTime,
+                        EndTime = employeeAvailability.EndTime,
+                        EmployeeAvailableStartTime = employeeAvailability.StartTime,
+                        EmployeeAvailableEndTime = employeeAvailability.EndTime,
+
+                    };
+
+                    return View();
                 }
             }
 
+            return RedirectToAction("AccessDenied", "Home");
+        }
 
-
-            return View();
+        private TimeOnly CalculatePlannableHours(LabourRules labourRulesToUse, SchoolSchedule employeeSchoolSchedule, Availability employeeAvailability, string labourRulesToUseString, string date)
+        {
+            return new TimeOnly(01, 00, 00);
         }
 
         [HttpGet]

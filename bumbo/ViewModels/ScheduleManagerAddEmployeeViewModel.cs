@@ -2,13 +2,14 @@
 {
     public class ScheduleManagerAddEmployeeViewModel
     {
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public TimeOnly EmployeeAvailableStartTime { get; set; }
         public TimeOnly EmployeeAvailableEndTime { get; set; }
+        public TimeOnly EmployeeLabourRulesOrAvailabilityAvailableTime { get; set; }
         public DayScheduleAddEmployeeViewModel DaySchedule { get; set; }
     }
 
