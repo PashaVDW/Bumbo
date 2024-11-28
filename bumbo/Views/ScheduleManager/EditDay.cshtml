@@ -91,7 +91,7 @@
                 {
                     <input type="hidden" name="Departments[@departmentIndex].DepartmentName" value="@Model.Departments[departmentIndex].DepartmentName" />
                 }
-                <a class="border-gray-400 p-4 mt-4 flex w-full items-center justify-center rounded border border-dashed" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { date =  Model.Date, department = department.DepartmentName })">
+                <a class="border-gray-400 p-4 mt-4 flex w-full items-center justify-center rounded border border-dashed" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { date =  Model.Date })">
                     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                     </svg>
