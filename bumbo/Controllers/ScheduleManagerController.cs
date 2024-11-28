@@ -519,11 +519,17 @@ namespace bumbo.Controllers
                         }
                     };
 
-                    return View();
+                    return View(viewmodel);
                 }
             }
 
             return RedirectToAction("AccessDenied", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult AddEmployee()
+        {
+            return View();
         }
 
         private TimeOnly CalculatePlannableHours(LabourRules labourRulesToUse, SchoolSchedule employeeDaySchoolSchedule, Availability employeeAvailability, string labourRulesToUseString, DateTime date, string employeeId)
