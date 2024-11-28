@@ -546,7 +546,9 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            DateOnly date = DateOnly.ParseExact(dateString, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime.TryParseExact(dateString, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime outputDate);
+
+            DateOnly date = DateOnly.FromDateTime(outputDate);
 
             ScheduleAddEmployeeViewModel schedule = new ScheduleAddEmployeeViewModel();
             schedule.Date = date;
@@ -558,16 +560,26 @@ namespace bumbo.Controllers
             foreach (Employee employee in employees)
             {
                 List<Availability> availability = await _availabilityRepository.GetAvailabilityOfEmployee(employee.Id);
+
                 foreach (Availability a in availability)
                 {
                     if (a.Date.Equals(date))
                     {
+                        int weekNumber = ISOWeek.GetWeekOfYear(outputDate);
+
+                        DateTime firstDay = ISOWeek.ToDateTime(outputDate.Year, weekNumber, DayOfWeek.Monday);
+                        DateTime lastDay = ISOWeek.ToDateTime(outputDate.Year, weekNumber, DayOfWeek.Sunday);
+
+                        List<Schedule> schedules = _scheduleRepository.GetWeekScheduleForEmployee(employee.Id, firstDay, lastDay);
+
+                        var totalPlannedHours = schedules.Sum(s => (s.EndTime - s.StartTime).TotalHours);
+
                         schedule.Employees.Add(new ScheduleAddEmployeeSingleViewModel()
                         {
                             EmployeeId = employee.Id,
                             EmployeeName = $"{employee.FirstName} {employee.MiddleName} {employee.LastName}",
-                            PlannedHours = 0, // Voorbeeld, vul dit met echte data
-                            ToPlanHours = 0,  // Voorbeeld, vul dit met echte data
+                            PlannedHours = totalPlannedHours,
+                            ToPlanHours = 0,
                             StartTime = a.StartTime,
                             EndTime = a.EndTime
                         });
@@ -813,6 +825,27 @@ namespace bumbo.Controllers
             TempData["ToastId"] = toastId;
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 5000;
+        }
+
+        public static DateTime LastDateOfWeek(int year, int weekOfYear)
+        {
+            return FirstDateOfWeek(year, weekOfYear).AddDays(6);
+        }
+
+        public static DateTime FirstDateOfWeek(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int jan1num = (int)jan1.DayOfWeek;
+            int mondaynum = (int)DayOfWeek.Monday;
+            int weeksubtract = 1;
+            if (jan1num > 4)
+            {
+                weeksubtract = 0;
+            }
+            int adddays = (weekOfYear - weeksubtract) * 7 - jan1num + mondaynum;
+            DateTime firstWeekStart = jan1.AddDays(adddays);
+
+            return firstWeekStart;
         }
     }
 

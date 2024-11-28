@@ -12,7 +12,7 @@ namespace bumbo.ViewModels
     {
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
-        public int PlannedHours { get; set; }
+        public double PlannedHours { get; set; }
         public int ToPlanHours { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
