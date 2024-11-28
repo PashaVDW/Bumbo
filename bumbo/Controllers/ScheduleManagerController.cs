@@ -551,7 +551,6 @@ namespace bumbo.Controllers
             DateOnly date = DateOnly.FromDateTime(outputDate);
 
             ScheduleAddEmployeeViewModel schedule = new ScheduleAddEmployeeViewModel();
-            schedule.Date = date;
 
             int branchId = user.ManagerOfBranchId.Value;
 
@@ -572,12 +571,15 @@ namespace bumbo.Controllers
 
                         List<Schedule> schedules = _scheduleRepository.GetWeekScheduleForEmployee(employee.Id, firstDay, lastDay);
 
+                        
+
                         var totalPlannedHours = schedules.Sum(s => (s.EndTime - s.StartTime).TotalHours);
 
                         schedule.Employees.Add(new ScheduleAddEmployeeSingleViewModel()
                         {
                             EmployeeId = employee.Id,
                             EmployeeName = $"{employee.FirstName} {employee.MiddleName} {employee.LastName}",
+                            Date = date,
                             PlannedHours = totalPlannedHours,
                             ToPlanHours = 0,
                             StartTime = a.StartTime,
@@ -602,7 +604,7 @@ namespace bumbo.Controllers
                 <td class='py-2 px-4'>{item.ToPlanHours}</td>
                 <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                 <td class='py-2 px-4'>
-                    <button onclick='addEmployee({item.EmployeeId})' class='bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded'>Toevoegen</button>
+                    <button onclick='AddEmployee(date={item.Date}, employeeId={item.EmployeeId})' class='bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded'>Toevoegen</button>
                 </td>"
                 );
 
@@ -825,27 +827,6 @@ namespace bumbo.Controllers
             TempData["ToastId"] = toastId;
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 5000;
-        }
-
-        public static DateTime LastDateOfWeek(int year, int weekOfYear)
-        {
-            return FirstDateOfWeek(year, weekOfYear).AddDays(6);
-        }
-
-        public static DateTime FirstDateOfWeek(int year, int weekOfYear)
-        {
-            DateTime jan1 = new DateTime(year, 1, 1);
-            int jan1num = (int)jan1.DayOfWeek;
-            int mondaynum = (int)DayOfWeek.Monday;
-            int weeksubtract = 1;
-            if (jan1num > 4)
-            {
-                weeksubtract = 0;
-            }
-            int adddays = (weekOfYear - weeksubtract) * 7 - jan1num + mondaynum;
-            DateTime firstWeekStart = jan1.AddDays(adddays);
-
-            return firstWeekStart;
         }
     }
 

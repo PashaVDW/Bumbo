@@ -4,7 +4,7 @@ namespace bumbo.ViewModels
     public class ScheduleAddEmployeeViewModel
     {
 
-        public DateOnly Date {  get; set; }
+        
         public List<ScheduleAddEmployeeSingleViewModel> Employees { get; set; } = new List<ScheduleAddEmployeeSingleViewModel>();
     }
 
@@ -12,6 +12,7 @@ namespace bumbo.ViewModels
     {
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
+        public DateOnly Date { get; set; }
         public double PlannedHours { get; set; }
         public int ToPlanHours { get; set; }
         public TimeOnly StartTime { get; set; }
