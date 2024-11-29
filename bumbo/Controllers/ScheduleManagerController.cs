@@ -409,18 +409,11 @@ namespace bumbo.Controllers
 
             var fullEmployeeData = _employeeRepository.GetEmployeeById(employeeId);
             var employeeBranches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
-            string employeeFullName = "";
+            string employeeFullName = string.IsNullOrWhiteSpace(fullEmployeeData.MiddleName)
+            ? $"{fullEmployeeData.FirstName} {fullEmployeeData.LastName}"
+            : $"{fullEmployeeData.FirstName} {fullEmployeeData.MiddleName} {fullEmployeeData.LastName}";
 
-            if(fullEmployeeData.MiddleName != "")
-            {
-                employeeFullName = string.Join(fullEmployeeData.FirstName + " " + fullEmployeeData.MiddleName + " " + fullEmployeeData.LastName);
-            }
-            else
-            {
-                employeeFullName = fullEmployeeData.FirstName + " " + fullEmployeeData.LastName;
-            }
-            
-            foreach(var employeeBranch in employeeBranches)
+            foreach (var employeeBranch in employeeBranches)
             {
                 if(employeeBranch.BranchId == user.ManagerOfBranchId)
                 {
@@ -428,7 +421,6 @@ namespace bumbo.Controllers
                     Branch branch = _branchesRepository.GetBranch(branchId);
 
                     DateTime.TryParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime);
-                    string formattedDate = dateTime.ToString("ddd dd MMMM - yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
                     List<string> departments = _scheduleRepository.GetDepartments();
                     List<Schedule> schedules = _scheduleRepository.GetScheduleForBranchByDay(branchId, DateOnly.FromDateTime(dateTime));
@@ -450,26 +442,12 @@ namespace bumbo.Controllers
                         employeeAge--;
                     }
 
-                    string labourRulesToUseString;
-
-                    switch (employeeAge)
+                    string labourRulesToUseString = employeeAge switch
                     {
-                        case < 16:
-                            labourRulesToUseString = "<16";
-                            break;
-
-                        case 16:
-                            labourRulesToUseString = "16-17";
-                            break;
-
-                        case 17:
-                            labourRulesToUseString = "16-17";
-                            break;
-
-                        case > 17:
-                            labourRulesToUseString = ">17";
-                            break;
-                    }
+                        < 16 => "<16",
+                        16 or 17 => "16-17",
+                        > 17 => ">17"
+                    };
 
                     string countryName = _branchesRepository.GetBranchCountryName(branchId);
                     var labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(countryName);
@@ -523,127 +501,166 @@ namespace bumbo.Controllers
                     return View(viewmodel);
                 }
             }
-
             return RedirectToAction("AccessDenied", "Home");
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddEmployee(ScheduleManagerAddEmployeeViewModel model)
+        public async Task<IActionResult> AddEmployee([Bind("Date,EmployeeId,DepartmentName,StartTime,EndTime")] ScheduleManagerAddEmployeeViewModel model)
         {
+            bool isSuccess = true;
+            bool hasValidStartTime = true;
+            bool hasValidDepartmentName;
+            bool isAvailable;
+            bool isFreeFromSchool;
+            bool isWithinLabourRules;
+            
+            var user = await _userManager.GetUserAsync(User);
+            int branchId = user.ManagerOfBranchId.Value;
+            string countryName = _branchesRepository.GetBranchCountryName(branchId);
+
             if (ModelState.IsValid)
             {
-                bool isSuccess = true;
-                bool hasValidStartTime = true;
-                bool hasValidDepartmentName;
-                bool isAvailable;
-                bool isFreeFromSchool;
-                bool isWithinLabourRules;
-
-                var user = await _userManager.GetUserAsync(User);
-                int branchId = user.ManagerOfBranchId.Value;
-                string countryName = _branchesRepository.GetBranchCountryName(branchId);
-
                 DateTime.TryParseExact(model.Date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime);
                 var labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(countryName);
 
                 string employeeId = model.EmployeeId;
                 var fullEmployeeData = _employeeRepository.GetEmployeeById(employeeId);
+                var employeeBranches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+                string employeeFullName = string.IsNullOrWhiteSpace(fullEmployeeData.MiddleName)
+                ? $"{fullEmployeeData.FirstName} {fullEmployeeData.LastName}"
+                : $"{fullEmployeeData.FirstName} {fullEmployeeData.MiddleName} {fullEmployeeData.LastName}";
 
-                var today = DateTime.Today;
-                int employeeBirthDate = fullEmployeeData.BirthDate.Year;
-                int employeeAge = today.Year - employeeBirthDate;
-
-                if (fullEmployeeData.BirthDate > today.AddYears(-employeeAge))
+                foreach (var employeeBranch in employeeBranches)
                 {
-                    employeeAge--;
+                    if (employeeBranch.BranchId == user.ManagerOfBranchId)
+                    {
+                        var today = DateTime.Today;
+                        int employeeBirthDate = fullEmployeeData.BirthDate.Year;
+                        int employeeAge = today.Year - employeeBirthDate;
+
+                        if (fullEmployeeData.BirthDate > today.AddYears(-employeeAge))
+                        {
+                            employeeAge--;
+                        }
+
+                        string labourRulesToUseString = employeeAge switch
+                        {
+                            < 16 => "<16",
+                            16 or 17 => "16-17",
+                            > 17 => ">17"
+                        };
+
+                        LabourRules labourRulesToUse = labourRules
+                            .FirstOrDefault(l => l.AgeGroup.Equals(labourRulesToUseString));
+
+                        var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
+                        var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
+
+                        if (model.StartTime >= model.EndTime)
+                        {
+                            isSuccess = false;
+                            hasValidStartTime = false;
+                        }
+
+                        hasValidDepartmentName = _departmentRepository.IsValidDepartmentName(model.DepartmentName);
+                        isAvailable = CheckAvailabilityEmployee(employeeAvailability, model.StartTime, model.EndTime);
+                        isFreeFromSchool = CheckSchoolScheduleEmployee(employeeSchoolSchedule, model.StartTime, model.EndTime);
+                        isWithinLabourRules = CheckLabourRulesEmployee(labourRulesToUse, employeeSchoolSchedule, model.StartTime, model.EndTime, employeeId, labourRulesToUseString, dateTime);
+
+                        if(!hasValidDepartmentName || !isAvailable || !isFreeFromSchool || !isWithinLabourRules)
+                        {
+                            isSuccess = false;
+                        }
+
+                        if (!isSuccess)
+                        {
+                            var errorMessages = new List<string>();
+
+                            if (!hasValidStartTime)
+                            {
+                                errorMessages.Add("Begintijd moet voor de eindtijd zijn.");
+                                ModelState.AddModelError($"StarTime", "Begintijd moet voor de eindtijd zijn.");
+                            }
+                            if (!hasValidDepartmentName)
+                            {
+                                errorMessages.Add("Geen valide afdeling gegeven.");
+                                ModelState.AddModelError($"DepartmentName", "Geen valide afdeling gegeven.");
+                            }
+                            if (!isAvailable)
+                            {
+                                errorMessages.Add("Medewerker is niet beschikbaar in de opgegeven tijden.");
+                                ModelState.AddModelError($"StarTime", "Medewerker is niet beschikbaar in de opgegeven tijden.");
+                            }
+                            if (!isFreeFromSchool)
+                            {
+                                errorMessages.Add("Medewerker mag niet werken tijdens schooltijden.");
+                                ModelState.AddModelError($"StarTime", "Medewerker mag niet werken tijdens schooltijden.");
+                            }
+                            if (!isWithinLabourRules)
+                            {
+                                errorMessages.Add("Medewerker voldoet niet aan CAO regels.");
+                            }
+                            
+                            Branch branch = _branchesRepository.GetBranch(branchId);
+                            var departments = _scheduleRepository.GetDepartments();
+                            var schedules = _scheduleRepository.GetScheduleForBranchByDay(branchId, DateOnly.FromDateTime(dateTime));
+                            int weekNumber = dateTime.GetWeekOfYear();
+                            int year = dateTime.Year;
+                            var prognosisDetails = _prognosisRepository.GetPrognosisDetailsByBranchWeekAndYear(branchId, weekNumber, year);
+
+                            TimeOnly plannableHours = CalculatePlannableHours(labourRulesToUse, employeeSchoolSchedule, employeeAvailability, labourRulesToUseString, dateTime, model.EmployeeId);
+
+                            model.EmployeeName = employeeFullName;
+                            model.EmployeeAvailableStartTime = employeeAvailability.StartTime;
+                            model.EmployeeAvailableEndTime = employeeAvailability.EndTime;
+                            model.EmployeeLabourRulesOrAvailabilityAvailableTime = plannableHours;
+                            model.DaySchedule = new DayScheduleAddEmployeeViewModel
+                            {
+                                Date = dateTime,
+                                Departments = departments.Select(department =>
+                                {
+                                    List<Schedule> schedulesForDepartment = schedules
+                                        .Where(s => s.Date == DateOnly.FromDateTime(dateTime) && s.DepartmentName == department)
+                                        .OrderBy(s => s.StartTime)
+                                        .ToList();
+
+                                    double hoursNeededForDepartment = prognosisDetails
+                                        .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                                        .Sum(pd => pd.HoursOfWorkNeeded);
+
+                                    return new DepartmentScheduleAddEmployeeViewModel
+                                    {
+                                        DepartmentName = department,
+                                        Employees = BuildEmployeeAndGapAddEmployeeViewList(schedulesForDepartment, branch),
+                                        TotalHours = schedulesForDepartment
+                                            .Where(s => s.StartTime < s.EndTime && !s.IsSick)
+                                            .Sum(s => (s.EndTime - s.StartTime).TotalHours),
+                                        HoursNeeded = hoursNeededForDepartment
+                                    };
+                                }).ToList()
+                            };
+
+                            TempData["ToastMessage"] = string.Join(" ", errorMessages);
+                            TempData["ToastType"] = "error";
+
+                            TempData["ToastId"] = "templateToast";
+                            TempData["AutoHide"] = "yes";
+                            TempData["MilSecHide"] = 3000;
+
+                            return View(model);
+                        }
+
+                        _scheduleRepository.AddEmployee(employeeId, branchId, DateOnly.FromDateTime(dateTime), model.DepartmentName, model.StartTime, model.EndTime);
+
+                        TempData["ToastMessage"] = "Medewerker succesvol toegevoegd!";
+                        TempData["ToastType"] = "success";
+                        TempData["ToastId"] = "scheduleToast";
+                        TempData["AutoHide"] = "yes";
+                        TempData["MilSecHide"] = 3000;
+
+                        return RedirectToAction("EditDay", new { date = model.Date });
+                    }
                 }
-
-                string labourRulesToUseString;
-
-                switch (employeeAge)
-                {
-                    case < 16:
-                        labourRulesToUseString = "<16";
-                        break;
-
-                    case 16:
-                        labourRulesToUseString = "16-17";
-                        break;
-
-                    case 17:
-                        labourRulesToUseString = "16-17";
-                        break;
-
-                    case > 17:
-                        labourRulesToUseString = ">17";
-                        break;
-                }
-
-                LabourRules labourRulesToUse = labourRules
-                    .FirstOrDefault(l => l.AgeGroup.Equals(labourRulesToUseString));
-
-                var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
-                var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
-
-                if (model.StartTime <= model.EndTime)
-                {
-                    isSuccess = false;
-                    hasValidStartTime = false;
-                }
-
-                hasValidDepartmentName = _departmentRepository.IsValidDepartmentName(model.DepartmentName);
-                isAvailable = CheckAvailabilityEmployee(employeeAvailability, model.StartTime, model.EndTime);
-                isFreeFromSchool = CheckSchoolScheduleEmployee(employeeSchoolSchedule, model.StartTime, model.EndTime);
-                isWithinLabourRules = CheckLabourRulesEmployee(labourRulesToUse, employeeSchoolSchedule, model.StartTime, model.EndTime, employeeId, labourRulesToUseString, dateTime);
-
-                if (!isSuccess)
-                {
-                    var errorMessages = new List<string>();
-
-                    if (!hasValidStartTime)
-                    {
-                        errorMessages.Add("Begintijd moet voor de eindtijd zijn.");
-                        ModelState.AddModelError($"StarTime", "Begintijd moet voor de eindtijd zijn.");
-                    }
-                    if (!hasValidDepartmentName)
-                    {
-                        errorMessages.Add("Geen valide afdeling gegeven.");
-                        ModelState.AddModelError($"DepartmentName", "Geen valide afdeling gegeven.");
-                    }
-                    if (!isAvailable)
-                    {
-                        errorMessages.Add("Medewerker is niet beschikbaar in de opgegeven tijden.");
-                        ModelState.AddModelError($"StarTime", "Medewerker is niet beschikbaar in de opgegeven tijden.");
-                    }
-                    if (!isFreeFromSchool)
-                    {
-                        errorMessages.Add("Medewerker mag niet werken tijdens schooltijden.");
-                        ModelState.AddModelError($"StarTime", "Medewerker mag niet werken tijdens schooltijden.");
-                    }
-                    if (!isWithinLabourRules)
-                    {
-                        errorMessages.Add("Medewerker voldoet niet aan CAO regels.");
-                    }
-
-                    TempData["ToastMessage"] = string.Join(" ", errorMessages);
-                    TempData["ToastType"] = "error";
-
-                    TempData["ToastId"] = "templateToast";
-                    TempData["AutoHide"] = "yes";
-                    TempData["MilSecHide"] = 3000;
-
-                    return View(model);
-                }
-
-                //_scheduleRepository.AddEmployee(employeeId, model.DepartmentName, model.StartTime, model.EndTime);
-
-                TempData["ToastMessage"] = "Medewerker succesvol toegevoegd!";
-                TempData["ToastType"] = "success";
-                TempData["ToastId"] = "scheduleToast";
-                TempData["AutoHide"] = "yes";
-                TempData["MilSecHide"] = 3000;
-
-                return RedirectToAction("EditDay", new { date = model.Date });
             }
 
             TempData["ToastMessage"] = "Medewerker niet toegevoegd wegens foutieve data!";
@@ -652,7 +669,7 @@ namespace bumbo.Controllers
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 3000;
 
-            return View(model);
+            return RedirectToAction("Index");
         }
 
         private TimeOnly CalculatePlannableHours(LabourRules labourRulesToUse, SchoolSchedule employeeDaySchoolSchedule, Availability employeeAvailability, string labourRulesToUseString, DateTime date, string employeeId)
@@ -947,7 +964,6 @@ namespace bumbo.Controllers
         private List<EmployeeScheduleEditViewModel> BuildEmployeeList(List<Schedule> sortedSchedules, string department, Dictionary<string, List<string>>? existingErrors)
         {
             List<EmployeeScheduleEditViewModel> result = new List<EmployeeScheduleEditViewModel>();
-
 
             foreach (var schedule in sortedSchedules)
             {

@@ -4,14 +4,14 @@
     {
         public string Date { get; set; }
         public string EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
+        public string? EmployeeName { get; set; }
         public string DepartmentName { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public TimeOnly EmployeeAvailableStartTime { get; set; }
         public TimeOnly EmployeeAvailableEndTime { get; set; }
         public TimeOnly EmployeeLabourRulesOrAvailabilityAvailableTime { get; set; }
-        public DayScheduleAddEmployeeViewModel DaySchedule { get; set; }
+        public DayScheduleAddEmployeeViewModel? DaySchedule { get; set; }
     }
 
     public class DayScheduleAddEmployeeViewModel
