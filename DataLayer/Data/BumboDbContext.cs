@@ -665,7 +665,18 @@ namespace bumbo.Data
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
                     BranchId = 1,
-                    Date = new DateOnly(2024, 11, 18),
+                    Date = new DateOnly(2024, 11, 29),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 5),
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(14, 0),
                     DepartmentName = "Vers",

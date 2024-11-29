@@ -21,5 +21,6 @@ namespace DataLayer.Interfaces
         List<Schedule> GetWeekScheduleForEmployee(string? employeeId, DateTime monday, DateTime sunday);
         void UpdateEmployeeDaySchedule(string employeeId, DateTime date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
         void FinalizeSchedules(int branchId, List<DateOnly> weekDates);
+        List<Schedule> GetSchedulesForEmployee(string employeeId);
     }
 }

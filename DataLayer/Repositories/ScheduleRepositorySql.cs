@@ -144,5 +144,19 @@ namespace DataLayer.Repositories
                 throw new InvalidOperationException("Schedule entry does not exist for the specified employee and date.");
             }
         }
+
+        public List<Schedule> GetSchedulesForEmployee(string employeeId)
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
+
+            return _context.Schedule
+                .Include(s => s.Department)
+                .Where(s => s.EmployeeId == employeeId &&
+                            (s.Date > today || (s.Date == today && s.StartTime > now)))
+                .OrderBy(s => s.Date)
+                .ThenBy(s => s.StartTime)
+                .ToList();
+        }
     }
 }

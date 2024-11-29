@@ -86,6 +86,5 @@ namespace DataLayer.Repositories
 
             return availableEmployees;
         }
-
     }
 }
