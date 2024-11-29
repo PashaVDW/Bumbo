@@ -288,6 +288,7 @@ namespace bumbo.Controllers
                 br.Employees = br.Employees
                 .Where(e => employees.Contains(e))
                 .ToList();
+                br.CountryName = CountryNameToDutch(br.CountryName);
             }
 
             var viewModel = new RequestsAddEmployeeViewModel() {
@@ -518,6 +519,21 @@ namespace bumbo.Controllers
             TempData["ToastId"] = toastId;
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 3000;
+        }
+
+        private string CountryNameToDutch(string countryName)
+        {
+            switch (countryName)
+            {
+                case "Netherlands":
+                    return "Nederland";
+                case "Belgium":
+                    return "België";
+                case "Germany":
+                    return "Duitsland";
+                default:
+                    return "";
+            }
         }
 
     }
