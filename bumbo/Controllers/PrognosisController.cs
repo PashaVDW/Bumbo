@@ -58,7 +58,7 @@ namespace bumbo.Controllers
             {
                 var dayResult = new DailyCalculationResult
                 {
-                    DayName = day.Days_name,
+                    DayName = day.DayName,
                     DepartmentCalculations = new List<DepartmentCalculationResult>()
                 };
 
@@ -188,7 +188,7 @@ namespace bumbo.Controllers
             if (prognosis != null)
             {
                 days = prognosis.Prognosis_Has_Days
-                .OrderBy(d => d.Days_name switch
+                .OrderBy(d => d.DayName switch
                 {
                     "Maandag" => 1,
                     "Dinsdag" => 2,
@@ -213,7 +213,7 @@ namespace bumbo.Controllers
 
                     return new PrognosisDay
                     {
-                        DayName = day.Days_name,
+                        DayName = day.DayName,
                         Date = firstDayOfWeek.AddDays(index),
                         DepartmentList = departmentList,
                         TotalWorkersNeeded = totalWorkersNeeded,
@@ -402,7 +402,7 @@ namespace bumbo.Controllers
             {
                 for (int j = 0; j < days.Count; j++)
                 {
-                    if (days[i].Name == uncalculatedViewmodel[j].Days_name)
+                    if (days[i].Name == uncalculatedViewmodel[j].DayName)
                     {
                         toBeCalculated.CustomerAmount.Add(uncalculatedViewmodel[j].CustomerAmount);
                         toBeCalculated.PackagesAmount.Add(uncalculatedViewmodel[j].PackagesAmount);
@@ -478,9 +478,9 @@ namespace bumbo.Controllers
             {
                 foreach (PrognosisHasDays dayName in hasDays)
                 {
-                    if (day.Name == dayName.Days_name)
+                    if (day.Name == dayName.DayName)
                     {
-                        day_names.Add(dayName.Days_name);
+                        day_names.Add(dayName.DayName);
                         customerAmount.Add(dayName.CustomerAmount);
                         packagesAmount.Add(dayName.PackagesAmount);
                     }

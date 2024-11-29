@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using bumbo.Models;
 
-[PrimaryKey(nameof(Days_name), nameof(PrognosisId))]
+[PrimaryKey(nameof(DayName), nameof(PrognosisId))]
 public class PrognosisHasDays
 {
     [StringLength(10)]
-    public string Days_name { get; set; }
+    public string DayName { get; set; }
 
-    [ForeignKey("Days_name")]
+    [ForeignKey("DayName")]
     public Days Days { get; set; }
 
     public int PrognosisId { get; set; }
