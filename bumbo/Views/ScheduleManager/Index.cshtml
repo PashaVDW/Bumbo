@@ -1,8 +1,8 @@
 ﻿@model bumbo.ViewModels.ScheduleManagerViewModel
 
-<div class="max-w-full mx-auto mt-10 p-6 bg-white">
-    <div class="flex justify-between items-center mb-6">
-        <div class="flex items-center space-x-4">
+<div class="mt-10 p-6 bg-white mx-auto max-w-full">
+    <div class="mb-6 flex items-center justify-between">
+        <div class="space-x-4 flex items-center">
             <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNumber, year = Model.Year, weekInc = -1 })';" class="p-2">
                 <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
@@ -10,20 +10,20 @@
             </button>
 
             <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNumber, year = Model.Year, weekInc = 1 })';" class="p-2">
-                <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="transform rotate-180">
+                <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180 transform">
                     <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </button>
         </div>
 
-        <form id="weekForm" method="get" class="flex items-end space-x-4">
+        <form id="weekForm" method="get" class="space-x-4 flex items-end">
             <div>
-                <label for="weekInput" class="block text-sm font-medium text-gray-700">Week</label>
-                <input type="number" id="weekInput" name="weekNumber" value="@Model.WeekNumber" placeholder="Week" min="1" max="52" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 rounded border leading-tight w-20" />
+                <label for="weekInput" class="text-gray-700 block text-sm font-medium">Week</label>
+                <input type="number" id="weekInput" name="weekNumber" value="@Model.WeekNumber" placeholder="Week" min="1" max="52" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-20 rounded border leading-tight" />
             </div>
             <div>
-                <label for="yearInput" class="block text-sm font-medium text-gray-700">Jaar</label>
-                <input type="number" id="yearInput" name="year" value="@Model.Year" placeholder="Jaar" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 rounded border leading-tight w-24" />
+                <label for="yearInput" class="text-gray-700 block text-sm font-medium">Jaar</label>
+                <input type="number" id="yearInput" name="year" value="@Model.Year" placeholder="Jaar" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-24 rounded border leading-tight" />
             </div>
             <default-button button-text="Zoeken" button-type="primary" typeof="submit"></default-button>
         </form>
@@ -36,11 +36,11 @@
         </form>
     </div>
 
-    <div class="grid grid-cols-7 gap-4">
+    <div class="gap-4 grid grid-cols-7">
         @foreach (var day in Model.DaySchedules)
         {
-            <div class="bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-4">
-                <div class="flex justify-between items-center mb-4">
+            <div class="bg-gray-50 border-gray-200 p-4 rounded-lg border shadow-sm">
+                <div class="mb-4 flex items-center justify-between">
                     <div>
                         <h2 class="text-lg font-medium">@day.Date.ToString("dddd")</h2>
                         <p class="text-gray-600">@day.Date.ToString("dd MMMM yyyy")</p>
@@ -66,7 +66,6 @@
                                 Benodigde uren: @department.HoursNeeded.ToString("F2")
                             </p>
 
-
                             @if (department.Employees.Any())
                             {
                                 <ul class="mt-2 space-y-1">
@@ -74,28 +73,28 @@
                                     {
                                         @if (employee.IsGap)
                                         {
-                                            <li class="flex justify-between items-center text-sm bg-red-100 border border-red-500 rounded p-1">
+                                            <li class="flex justify-between items-center text-xs bg-red-100 border border-red-500 rounded p-1">
                                                 <span>@employee.EmployeeName</span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
                                         }
                                         else if (employee.IsSick)
                                         {
-                                            <li class="flex justify-between items-center text-sm text-red-500 font-semibold">
+                                            <li class="flex justify-between items-center text-xs text-red-500 font-semibold">
                                                 <span>@employee.EmployeeName (Ziek)</span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
                                         }
                                         else if (employee.IsFinal != false)
                                         {
-                                            <li class="flex justify-between items-center text-sm bg-green-100 border border-green-500 rounded p-1">
+                                            <li class="flex justify-between items-center text-xs bg-green-100 border border-green-500 rounded p-1">
                                                 <span>@employee.EmployeeName <span class="text-green-700 font-bold">(D)</span></span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
                                         }
                                         else
                                         {
-                                            <li class="flex justify-between items-center text-sm">
+                                            <li class="flex justify-between items-center text-xs">
                                                 <span>@employee.EmployeeName</span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
@@ -105,9 +104,8 @@
                             }
                             else
                             {
-                                <p class="text-sm text-gray-500">Geen medewerkers ingepland</p>
+                                <p class="text-gray-500 text-sm">Geen medewerkers ingepland</p>
                             }
-
                         </div>
                     }
                 </div>
