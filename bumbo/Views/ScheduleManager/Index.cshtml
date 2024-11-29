@@ -73,28 +73,28 @@
                                     {
                                         @if (employee.IsGap)
                                         {
-                                            <li class="bg-red-100 border-red-500 p-1 flex items-center justify-between rounded border text-sm">
+                                            <li class="flex justify-between items-center text-xs bg-red-100 border border-red-500 rounded p-1">
                                                 <span>@employee.EmployeeName</span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
                                         }
                                         else if (employee.IsSick)
                                         {
-                                            <li class="text-red-500 flex items-center justify-between text-sm font-semibold">
+                                            <li class="flex justify-between items-center text-xs text-red-500 font-semibold">
                                                 <span>@employee.EmployeeName (Ziek)</span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
                                         }
                                         else if (employee.IsFinal != false)
                                         {
-                                            <li class="bg-green-100 border-green-500 p-1 flex items-center justify-between rounded border text-sm">
+                                            <li class="flex justify-between items-center text-xs bg-green-100 border border-green-500 rounded p-1">
                                                 <span>@employee.EmployeeName <span class="text-green-700 font-bold">(D)</span></span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>
                                         }
                                         else
                                         {
-                                            <li class="flex items-center justify-between text-sm">
+                                            <li class="flex justify-between items-center text-xs">
                                                 <span>@employee.EmployeeName</span>
                                                 <span>@employee.StartTime.ToString("HH\\:mm") - @employee.EndTime.ToString("HH\\:mm")</span>
                                             </li>

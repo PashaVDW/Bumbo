@@ -124,13 +124,12 @@ namespace bumbo.Controllers
 
             var employees = newBranch.Employees.ToList();
 
-            var headers = new List<string> { "Naam", "Filiaal nummer" };
+            var headers = new List<string> { "Naam" };
             var tableBuilder = new TableHtmlBuilderAddBranchManager<Employee>();
             var htmlTable = tableBuilder.GenerateTable(headers, employees, item =>
             {
             return $@"
                  <td class='py-2 px-4'>{item.FirstName + " " + item.LastName}</td>
-                 <td class='py-2 px-4'>{newBranch.BranchId}</td>
                  <td class='py-2 px-4 flex justify-end'><a href='/Branches/AddBranchManager?branchId={newBranch.BranchId}&amp;employeeId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
             }, branchId, searchTerm, page);
 

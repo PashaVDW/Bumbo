@@ -172,7 +172,7 @@
         <p class="text-gray-500">Geen filiaaltoewijzingen gevonden voor deze medewerker.</p>
     }
 
-    @if (Model.UserManagerOfBranchId != null && !Model.BranchAssignments.Any(b => b.BranchId == Model.UserManagerOfBranchId))
+    @if (Model.UserManagerOfBranchId != null && !Model.BranchAssignments.Any())
     {
         <form asp-action="AssignBranchToEmployee" method="post" class="mt-6">
             <input type="hidden" name="EmployeeId" value="@Model.Id" />
@@ -180,6 +180,7 @@
             <default-button button-text="Voeg filiaal toe" button-type="secondary" typeof="submit"></default-button>
         </form>
     }
+
 
 
 </div>
