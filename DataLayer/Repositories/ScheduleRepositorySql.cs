@@ -180,5 +180,13 @@ namespace DataLayer.Repositories
 
             _context.SaveChanges();
         }
+
+        public bool EmployeeIsAlreadyPlanned(DateTime date, string employeeId)
+        {
+            var existingSchedule = _context.Schedule
+                .FirstOrDefault(s => s.EmployeeId == employeeId && s.Date == DateOnly.FromDateTime(date));
+
+            return existingSchedule != null;
+        }
     }
 }
