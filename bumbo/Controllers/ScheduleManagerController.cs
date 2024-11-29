@@ -12,6 +12,7 @@ using System.Globalization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text;
 using bumbo.Components;
+using System;
 
 namespace bumbo.Controllers
 {
@@ -554,6 +555,12 @@ namespace bumbo.Controllers
 
             int branchId = user.ManagerOfBranchId.Value;
 
+            Branch branch = _branchesRepository.GetBranch(branchId);
+            List<string> departments = _scheduleRepository.GetDepartments();
+            List<Schedule> allSchedules = _scheduleRepository.GetScheduleForBranchByDay(branchId, DateOnly.FromDateTime(outputDate));
+            string countryName = _branchesRepository.GetBranchCountryName(branchId);
+            var labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(countryName);
+
             List<Employee> employees = await _employeeRepository.GetEmployeesOfBranch(branchId);
 
             foreach (Employee employee in employees)
@@ -571,8 +578,43 @@ namespace bumbo.Controllers
 
                         List<Schedule> schedules = _scheduleRepository.GetWeekScheduleForEmployee(employee.Id, firstDay, lastDay);
 
-                        
+                        var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(outputDate, employee.Id);
+                        var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(outputDate, employee.Id);
 
+                        var today = DateTime.Today;
+                        int employeeBirthDate = employee.BirthDate.Year;
+                        int employeeAge = today.Year - employeeBirthDate;
+
+                        if (employee.BirthDate > today.AddYears(-employeeAge))
+                        {
+                            employeeAge--;
+                        }
+
+                        string labourRulesToUseString;
+
+                        switch (employeeAge)
+                        {
+                            case < 16:
+                                labourRulesToUseString = "<16";
+                                break;
+
+                            case 16:
+                                labourRulesToUseString = "16-17";
+                                break;
+
+                            case 17:
+                                labourRulesToUseString = "16-17";
+                                break;
+
+                            case > 17:
+                                labourRulesToUseString = ">17";
+                                break;
+                        }
+
+                        LabourRules labourRulesToUse = labourRules
+                            .FirstOrDefault(l => l.AgeGroup.Equals(labourRulesToUseString));
+
+                        TimeOnly plannableHours = CalculatePlannableHours(labourRulesToUse, employeeSchoolSchedule, employeeAvailability, labourRulesToUseString, outputDate, employee.Id);
                         var totalPlannedHours = schedules.Sum(s => (s.EndTime - s.StartTime).TotalHours);
 
                         schedule.Employees.Add(new ScheduleAddEmployeeSingleViewModel()
@@ -581,7 +623,7 @@ namespace bumbo.Controllers
                             EmployeeName = $"{employee.FirstName} {employee.MiddleName} {employee.LastName}",
                             Date = date,
                             PlannedHours = totalPlannedHours,
-                            ToPlanHours = 0,
+                            ToPlanHours = plannableHours,
                             StartTime = a.StartTime,
                             EndTime = a.EndTime
                         });
@@ -827,6 +869,61 @@ namespace bumbo.Controllers
             TempData["ToastId"] = toastId;
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 5000;
+        }
+
+        private TimeOnly CalculatePlannableHours(LabourRules labourRulesToUse, SchoolSchedule employeeDaySchoolSchedule, Availability employeeAvailability, string labourRulesToUseString, DateTime date, string employeeId)
+        {
+            TimeOnly plannableHours = new TimeOnly();
+            double schoolHours = 0;
+            double hoursLeftAvailable = labourRulesToUse.MaxHoursPerDay;
+
+            int daysToMonday = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
+            if (daysToMonday < 0)
+            {
+                daysToMonday += 7;
+            }
+
+            DateTime monday = date.AddDays(-daysToMonday);
+
+            int daysToSunday = (int)DayOfWeek.Sunday - (int)date.DayOfWeek;
+            if (daysToSunday < 0)
+            {
+                daysToSunday += 7;
+            }
+
+            DateTime sunday = date.AddDays(daysToSunday);
+
+            var weekScheduleEmployee = _scheduleRepository.GetWeekScheduleForEmployee(employeeId, monday, sunday);
+
+            double totalWeeklyHours = CalculateEmployeeWeeklyHours(weekScheduleEmployee);
+
+            if (labourRulesToUseString.Equals("<16") || labourRulesToUseString.Equals("16-17"))
+            {
+                if (employeeDaySchoolSchedule != null)
+                {
+                    var schoolDuration = employeeDaySchoolSchedule.EndTime.ToTimeSpan() - employeeDaySchoolSchedule.StartTime.ToTimeSpan();
+                    schoolHours = schoolDuration.TotalHours;
+                }
+
+                hoursLeftAvailable = -schoolHours;
+            }
+
+            if (totalWeeklyHours < labourRulesToUse.MaxHoursPerWeek)
+            {
+                if (labourRulesToUse.MaxHoursPerWeek - totalWeeklyHours < hoursLeftAvailable)
+                {
+                    hoursLeftAvailable = -totalWeeklyHours;
+                }
+            }
+
+            if ((employeeAvailability.EndTime - employeeAvailability.StartTime).TotalHours < hoursLeftAvailable)
+            {
+                hoursLeftAvailable = (employeeAvailability.EndTime - employeeAvailability.StartTime).TotalHours;
+            }
+
+            plannableHours = TimeOnly.FromTimeSpan(TimeSpan.FromHours(hoursLeftAvailable));
+
+            return plannableHours;
         }
     }
 
