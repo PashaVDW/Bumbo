@@ -6,17 +6,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using bumbo.Models;
 
-[PrimaryKey(nameof(Days_name), nameof(PrognosisId))]
-public class Prognosis_has_days
+[PrimaryKey(nameof(DayName), nameof(PrognosisId))]
+public class PrognosisHasDays
 {
-    [PrimaryKey(nameof(DayName), nameof(PrognosisId))]
-    public class PrognosisHasDays
-    {
-        [StringLength(10)]
-        public string DayName { get; set; }
+    [StringLength(10)]
+    public string DayName { get; set; }
 
-        [ForeignKey(nameof(DayName))]
-        public Days Days { get; set; }
+    [ForeignKey("DayName")]
+    public Days Days { get; set; }
 
     public int PrognosisId { get; set; }
 

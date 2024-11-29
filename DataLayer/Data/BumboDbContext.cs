@@ -189,21 +189,21 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<PrognosisHasDays>().HasData(
-                new PrognosisHasDays { DayName = "Maandag", PrognosisId = "1", CustomerAmount = 100, PackagesAmount = 50 },
-                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = "1", CustomerAmount = 120, PackagesAmount = 60 },
-                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = "1", CustomerAmount = 130, PackagesAmount = 55 },
-                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
-                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
-                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
-                new PrognosisHasDays { DayName = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 },
+                new PrognosisHasDays { DayName = "Maandag", PrognosisId = 1, CustomerAmount = 100, PackagesAmount = 50 },
+                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = 1, CustomerAmount = 120, PackagesAmount = 60 },
+                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = 1, CustomerAmount = 130, PackagesAmount = 55 },
+                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = 1, CustomerAmount = 110, PackagesAmount = 45 },
+                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = 1, CustomerAmount = 150, PackagesAmount = 70 },
+                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = 1, CustomerAmount = 160, PackagesAmount = 80 },
+                new PrognosisHasDays { DayName = "Zondag", PrognosisId = 1, CustomerAmount = 140, PackagesAmount = 65 },
 
-                new PrognosisHasDays { DayName = "Maandag", PrognosisId = "2", CustomerAmount = 90, PackagesAmount = 40 },
-                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = "2", CustomerAmount = 115, PackagesAmount = 55 },
-                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = "2", CustomerAmount = 125, PackagesAmount = 50 },
-                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = "2", CustomerAmount = 105, PackagesAmount = 42 },
-                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = "2", CustomerAmount = 140, PackagesAmount = 68 },
-                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = "2", CustomerAmount = 150, PackagesAmount = 75 },
-                new PrognosisHasDays { DayName = "Zondag", PrognosisId = "2", CustomerAmount = 130, PackagesAmount = 60 }
+                new PrognosisHasDays { DayName = "Maandag", PrognosisId = 2, CustomerAmount = 90, PackagesAmount = 40 },
+                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = 2, CustomerAmount = 115, PackagesAmount = 55 },
+                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = 2, CustomerAmount = 125, PackagesAmount = 50 },
+                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = 2, CustomerAmount = 105, PackagesAmount = 42 },
+                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = 2, CustomerAmount = 140, PackagesAmount = 68 },
+                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = 2, CustomerAmount = 150, PackagesAmount = 75 },
+                new PrognosisHasDays { DayName = "Zondag", PrognosisId = 2, CustomerAmount = 130, PackagesAmount = 60 }
             );
 
             modelBuilder.Entity<Function>().HasData(

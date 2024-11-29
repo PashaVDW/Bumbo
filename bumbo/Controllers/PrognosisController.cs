@@ -1,5 +1,6 @@
 ﻿using bumbo.Components;
 using bumbo.Models;
+using bumbo.Services;
 using bumbo.ViewModels;
 using bumbo.ViewModels.Prognosis;
 using DataLayer.Interfaces;
@@ -20,6 +21,7 @@ namespace bumbo.Controllers
         private readonly IDaysRepositorySQL _daysRepository;
         private readonly ITemplatesRepository _TemplatesRepository;
         private readonly IPrognosisHasDaysHasDepartments _prognosisHasDaysHasDepartments;
+        private readonly IPrognosisCalculator _prognosisCalculator;
         private readonly DateHelper dateHelper;
         private readonly int _currentYear;
         private readonly int _currentWeek;
@@ -28,7 +30,9 @@ namespace bumbo.Controllers
             IPrognosisHasDaysRepository prognosisHasDaysRepository,
             INormsRepository normsRepository,
             IDaysRepositorySQL daysRepository,
-            ITemplatesRepository templatesRepository)
+            ITemplatesRepository templatesRepository,
+            IPrognosisHasDaysHasDepartments prognosisHasDaysHasDepartments,
+            IPrognosisCalculator prognosisCalculator)
         {
             _prognosisRepository = prognosisRepository;
             _prognosisHasDaysRepository = prognosisHasDaysRepository;
@@ -39,6 +43,8 @@ namespace bumbo.Controllers
             _currentYear = dateHelper.GetCurrentYear();
             _currentWeek = dateHelper.GetCurrentWeek();
             _TemplatesRepository = templatesRepository;
+            _prognosisHasDaysHasDepartments = prognosisHasDaysHasDepartments;
+            _prognosisCalculator = prognosisCalculator;
         }
 
         private List<DailyCalculationResult> CalculateUrenAndMedewerkers(
@@ -51,18 +57,18 @@ namespace bumbo.Controllers
             {
                 var dayResult = new DailyCalculationResult
                 {
-                    DayName = day.Days_name,
+                    DayName = day.DayName,
                     DepartmentCalculations = new List<DepartmentCalculationResult>()
                 };
 
                 var activities = new List<(string activity, int amount)>
-            {
-                ("Coli uitladen", day.PackagesAmount),
-                ("Vakkenvullen", day.PackagesAmount),
-                ("Kassa", day.CustomerAmount),
-                ("Vers", day.PackagesAmount),
-                ("Spiegelen", day.PackagesAmount)
-            };
+                {
+                    ("Coli uitladen", day.PackagesAmount),
+                    ("Vakkenvullen", day.PackagesAmount),
+                    ("Kassa", day.CustomerAmount),
+                    ("Vers", day.PackagesAmount),
+                    ("Spiegelen", day.PackagesAmount)
+                };
                 ViewBag.Activities = activities;
                 foreach (var (activity, amount) in activities)
                 {
@@ -338,6 +344,16 @@ namespace bumbo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePrognosis(PrognosisCreateViewModel model)
         {
+            if (_normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result.Count() == 0)
+            {
+                TempData["ToastMessage"] = "De prognose kan niet worden aangemaakt. Er is geen normering voor deze week.";
+                TempData["ToastType"] = "error";
+                TempData["ToastId"] = "PrognosisCreateFail";
+                TempData["AutoHide"] = "no";
+
+                return RedirectToAction("Index");
+            }
+
             var prognosisDays = model.Days.Select((day, index) => new PrognosisHasDays
             {
                 Days = day,
@@ -351,7 +367,22 @@ namespace bumbo.Controllers
 
             _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year);
 
-            CalculatePrognosis(model);
+            InputCalculateViewModel input = new InputCalculateViewModel();
+
+            input.Year = model.Year;
+            input.WeekNr = model.WeekNr;
+            input.CustomerAmount = model.CustomerAmount;
+            input.PackagesAmount = model.PackagesAmount;
+
+            CalculateViewmodel viewmodel = _prognosisCalculator.CalculatePrognosis(input);
+
+            _prognosisHasDaysHasDepartments.CreateCalculation(
+                    viewmodel.PrognosisId, 
+                    viewmodel.CassiereHours, 
+                    viewmodel.VersWorkersHours, 
+                    viewmodel.StockingHours, 
+                    viewmodel.CassieresNeeded,
+                    viewmodel.WorkersNeeded);
 
             TempData["ToastMessage"] = "De prognose is succesvol aangemaakt!";
             TempData["ToastType"] = "success";
@@ -361,62 +392,76 @@ namespace bumbo.Controllers
 
             return RedirectToAction("Index");
         }
-        public void CalculatePrognosis(PrognosisCreateViewModel model)
+
+        private InputCalculateViewModel ToInputCalculateViewModel(List<PrognosisHasDays> uncalculatedViewmodel, List<Days> days)
         {
-            List<Norm> norms = _normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result;
-            int prognosisId = _prognosisRepository.GetLatestPrognosis().PrognosisId;
-            int shelveMeters = _prognosisRepository.GetShelfMetersByPrognosis(prognosisId);
+            Prognosis prognosis = _prognosisRepository.GetPrognosisById(uncalculatedViewmodel[0].PrognosisId);
 
-            int cassiereNorm = 30;
-            int cassieresNeededForThirtyPerHour = norms[2].normInSeconds;
-            int workersNorm = 100;
-            int workersNeededForHundredPerHour = norms[3].normInSeconds;
+            InputCalculateViewModel toBeCalculated = new InputCalculateViewModel();
 
-            int colliUitladenNormInSeconds = norms[0].normInSeconds;
-            int stockingNormInSeconds = norms[1].normInSeconds;
-            int spiegelenNormInSeconds = norms[4].normInSeconds;
-
-            Dictionary<Days, int> cassiereHours = new Dictionary<Days, int>();
-            Dictionary<Days, int> cassieresNeeded = new Dictionary<Days, int>();
-
-            Dictionary<Days, int> versWorkersHours = new Dictionary<Days, int>();
-            Dictionary<Days, int> workersNeeded = new Dictionary<Days, int>();
-
-            Dictionary<Days, int> stockingHours = new Dictionary<Days, int>();
-
-            for (int i = 0; i < model.Days.Count; i++)
+            toBeCalculated.Year = prognosis.Year;
+            toBeCalculated.WeekNr = prognosis.WeekNr;
+            toBeCalculated.CustomerAmount = new List<int>();
+            toBeCalculated.PackagesAmount = new List<int>();
+            
+            for (int i = 0; i < days.Count; i++)
             {
-                Days day = model.Days[i];
-                int weekhours = day.Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13;
-
-                if (i < model.CustomerAmount.Count)
+                for (int j = 0; j < days.Count; j++)
                 {
-                    int customerAmount = model.CustomerAmount[i];
-
-                    int cassiereHoursNeeded = customerAmount / cassiereNorm;
-                    int workerHoursNeeded = customerAmount / workersNorm;
-
-                    cassieresNeeded.Add(day, (cassiereHoursNeeded * cassieresNeededForThirtyPerHour));
-                    cassiereHours.Add(day, cassiereHoursNeeded);
-
-                    versWorkersHours.Add(day, workerHoursNeeded);
-                    workersNeeded.Add(day, (workerHoursNeeded * workersNeededForHundredPerHour));
-                }
-
-                if (i < model.PackagesAmount.Count)
-                {
-                    int packageAmount = model.PackagesAmount[i];
-
-                    int colliUitladenHoursNeeded = (packageAmount * colliUitladenNormInSeconds) / 60;
-                    int stockingHoursNeeded = (packageAmount * stockingNormInSeconds) / 60;
-                    int spiegelenHoursNeeded = (shelveMeters * spiegelenNormInSeconds) / 3600;
-                    int totalForStocking = (colliUitladenHoursNeeded + stockingHoursNeeded + spiegelenHoursNeeded);
-
-                    stockingHours.Add(day, totalForStocking);
+                    if (days[i].Name == uncalculatedViewmodel[j].DayName)
+                    {
+                        toBeCalculated.CustomerAmount.Add(uncalculatedViewmodel[j].CustomerAmount);
+                        toBeCalculated.PackagesAmount.Add(uncalculatedViewmodel[j].PackagesAmount);
+                    }
                 }
             }
 
-            _prognosisHasDaysHasDepartments.createCalculation(prognosisId, cassiereHours, versWorkersHours, stockingHours, cassieresNeeded, workersNeeded);
+            return toBeCalculated;
+        }
+
+        public void UpdateCalculations(List<PrognosisHasDays> uncalculatedViewmodel)
+        {
+            List<Days> days = _daysRepository.getAllDaysUnordered();
+
+            InputCalculateViewModel toBeCalculated = ToInputCalculateViewModel(uncalculatedViewmodel, days);
+
+            CalculateViewmodel newCalculation = _prognosisCalculator.CalculatePrognosis(toBeCalculated);
+
+            List<PrognosisHasDaysHasDepartment> calculations = _prognosisHasDaysHasDepartments.GetPrognosisCalculations(uncalculatedViewmodel[0].PrognosisId);
+
+            foreach (PrognosisHasDaysHasDepartment calculation in calculations)
+            {
+                int hours = 0;
+                int workers = 0;
+
+                switch (calculation.DepartmentName)
+                {
+                    case "Kassa":
+                        newCalculation.CassiereHours.TryGetValue(calculation.Days, out hours);
+                        newCalculation.CassieresNeeded.TryGetValue(calculation.Days, out workers);
+                        break;
+
+                    case "Vers":
+                        newCalculation.VersWorkersHours.TryGetValue(calculation.Days, out hours);
+                        newCalculation.WorkersNeeded.TryGetValue(calculation.Days, out workers);
+                        break;
+
+                    case "Vakkenvullen":
+                        int divisor = calculation.Days.Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13; 
+                        newCalculation.StockingHours.TryGetValue(calculation.Days, out hours);
+                        newCalculation.WorkersNeeded.TryGetValue(calculation.Days, out workers);
+                        hours /= divisor;
+                        break;
+                }
+
+                calculation.HoursWorkNeeded = hours;
+                calculation.AmountWorkersNeeded = workers;
+            }
+
+
+            _prognosisHasDaysRepository.UpdatePrognosisHasDays(uncalculatedViewmodel);
+
+            _prognosisHasDaysHasDepartments.UpdateCalculations(calculations);
         }
 
         // GET: Prognosis/Edit/1
@@ -439,9 +484,9 @@ namespace bumbo.Controllers
             {
                 foreach (PrognosisHasDays dayName in hasDays)
                 {
-                    if (day.Name == dayName.Days_name)
+                    if (day.Name == dayName.DayName)
                     {
-                        day_names.Add(dayName.Days_name);
+                        day_names.Add(dayName.DayName);
                         customerAmount.Add(dayName.CustomerAmount);
                         packagesAmount.Add(dayName.PackagesAmount);
                     }
@@ -537,7 +582,7 @@ namespace bumbo.Controllers
                 TempData["AutoHide"] = "yes";
                 TempData["MilSecHide"] = 3000;
 
-                _prognosisHasDaysRepository.UpdatePrognosisHasDays(prognosisDays);
+                UpdateCalculations(prognosisDays);
             }
 
             return RedirectToAction(nameof(PrognosisController.Index), "Prognosis");

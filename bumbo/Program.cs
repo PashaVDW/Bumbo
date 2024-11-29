@@ -6,6 +6,7 @@ using DataLayer;
 using DataLayer.Interfaces;
 using DataLayer.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using bumbo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeReposi
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
 builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
+
+builder.Services.AddTransient<IPrognosisCalculator, PrognosisCalculator>();
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()

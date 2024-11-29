@@ -39,7 +39,7 @@ namespace DataLayer.Repositories
 
                     var prognosisHasDays = new PrognosisHasDays
                     {
-                        Days_name = day.Name,
+                        DayName = day.Name,
                         PrognosisId = prognosis.PrognosisId,
                         CustomerAmount = CustomerAmount[days.IndexOf(day)],
                         PackagesAmount = PackagesAmount[days.IndexOf(day)]
