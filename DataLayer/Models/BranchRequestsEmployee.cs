@@ -28,6 +28,9 @@ namespace bumbo.Models
         public TimeOnly StartTime { get; set; }
         [Required]
         public TimeOnly EndTime { get; set; }
+        [Required]
+        public string DepartmentName { get; set; }
+
         [NotMapped]
         public int Id { get; set; }
     }
