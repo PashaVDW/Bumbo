@@ -495,7 +495,7 @@ namespace bumbo.Controllers
                 <td class='py-2 px-4'>{item.ToPlanHours}</td>
                 <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                 <td class='py-2 px-4'>
-                    <button onclick=""window.location.href='/ScheduleManager/AddEmployee?date={item.Date}&employeeId={item.EmployeeId}'"" 
+                    <button onclick=""window.location.href='/ScheduleManager/AddEmployee?date={item.Date.ToString("yyyy-MM-dd")}&employeeId={item.EmployeeId}'"" 
                     class='bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded'>Toevoegen</button>
                 </td>"
                 );
