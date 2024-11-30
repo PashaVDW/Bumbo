@@ -145,6 +145,14 @@ namespace DataLayer.Repositories
             }
         }
 
+        public void AddHelpEmployeeToDay(Schedule schedule)
+        {
+            if (schedule != null)
+            {
+                _context.Schedule.Add(schedule);
+                _context.SaveChanges();
+            }
+        }
         public void AddEmployee(string employeeId, int branchId, DateOnly date, string departmentName, TimeOnly startTime, TimeOnly endTime)
         {
             if (string.IsNullOrWhiteSpace(employeeId))

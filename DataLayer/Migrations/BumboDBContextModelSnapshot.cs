@@ -972,6 +972,43 @@ namespace DataLayer.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("EmployeeHasDepartment");
+
+                    b.HasData(
+                        new
+                        {
+                            DepartmentName = "Vakkenvullen",
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd"
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0"
+                        },
+                        new
+                        {
+                            DepartmentName = "Vers",
+                            EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8"
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9"
+                        },
+                        new
+                        {
+                            DepartmentName = "Vers",
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2"
+                        },
+                        new
+                        {
+                            DepartmentName = "Vakkenvullen",
+                            EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab"
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Models.Function", b =>
@@ -2236,7 +2273,6 @@ namespace DataLayer.Migrations
                             IsSystemManager = false,
                             LastName = "den Boer",
                             LockoutEnabled = false,
-                            ManagerOfBranchId = 2,
                             MiddleName = "",
                             NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
                             NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
@@ -2544,6 +2580,10 @@ namespace DataLayer.Migrations
                     b.Property<DateTime>("DateNeeded")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DepartmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time");
 
@@ -2576,7 +2616,8 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             RequestToBranchId = 2,
-                            DateNeeded = new DateTime(2024, 12, 4, 9, 46, 1, 720, DateTimeKind.Local).AddTicks(8062),
+                            DateNeeded = new DateTime(2024, 12, 4, 15, 12, 27, 684, DateTimeKind.Local).AddTicks(5398),
+                            DepartmentName = "Vers",
                             EndTime = new TimeOnly(17, 0, 0),
                             Message = "Overplaatsing nodig vanwege projectdeadline.",
                             RequestStatusName = "In Afwachting",
@@ -2587,7 +2628,8 @@ namespace DataLayer.Migrations
                             BranchId = 2,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             RequestToBranchId = 1,
-                            DateNeeded = new DateTime(2024, 12, 11, 9, 46, 1, 720, DateTimeKind.Local).AddTicks(8147),
+                            DateNeeded = new DateTime(2024, 12, 11, 15, 12, 27, 684, DateTimeKind.Local).AddTicks(5472),
+                            DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
                             RequestStatusName = "In Afwachting",
@@ -2598,7 +2640,8 @@ namespace DataLayer.Migrations
                             BranchId = 3,
                             EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
                             RequestToBranchId = 4,
-                            DateNeeded = new DateTime(2024, 12, 7, 9, 46, 1, 720, DateTimeKind.Local).AddTicks(8151),
+                            DateNeeded = new DateTime(2024, 12, 7, 15, 12, 27, 684, DateTimeKind.Local).AddTicks(5483),
+                            DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(17, 30, 0),
                             Message = "Hulp nodig vanwege ziekte van een collega.",
                             RequestStatusName = "Afgewezen",
@@ -2609,7 +2652,8 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
                             RequestToBranchId = 3,
-                            DateNeeded = new DateTime(2024, 12, 17, 9, 46, 1, 720, DateTimeKind.Local).AddTicks(8155),
+                            DateNeeded = new DateTime(2024, 12, 17, 15, 12, 27, 684, DateTimeKind.Local).AddTicks(5487),
+                            DepartmentName = "Kassa",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Overplaatsing voor trainingssessies.",
                             RequestStatusName = "Geaccepteerd",

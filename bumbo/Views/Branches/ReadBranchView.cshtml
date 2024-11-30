@@ -67,10 +67,7 @@
         {
             <div class="flex flex-row">
                 <div class="mr-3 border-slate-100 w-44 h-40 flex flex-col items-center justify-center rounded-3xl border-2">
-                    <figure class="w-16 h-16 border-slate-200 border-2">
-                        <img src="https://imageplaceholder.net/64x64/" alt="" class="w-16 h-16" />
-                    </figure>
-                    <p class="top-3 relative text-center font-bold">@employee.FirstName @employee.MiddleName @employee.LastName</p>
+                    <p class="relative text-center font-bold">@employee.FirstName @employee.MiddleName @employee.LastName</p>
                 </div>
 
                 <custom-modal modal-id="deletebranchmanager{@employee.Id}" body-text="Weet je zeker dat je @employee.FirstName @employee.MiddleName @employee.LastName wilt verwijderen?">

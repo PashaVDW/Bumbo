@@ -324,7 +324,7 @@ namespace bumbo.Data
                 HouseNumber = 30,
                 StartDate = new DateTime(2020, 11, 1),
                 IsSystemManager = false,
-                ManagerOfBranchId = 2,
+                ManagerOfBranchId = null,
                 PhoneNumber = "+31 6 67890123",
                 UserName = "david.denboer@gmail.com",
                 NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
@@ -381,6 +381,46 @@ namespace bumbo.Data
             // Add employees to the model
 
             modelBuilder.Entity<Employee>().HasData(john, jane, darlon, pasha, sarah, david, anthony, douwe);
+
+            modelBuilder.Entity<EmployeeHasDepartment>().HasData(
+                
+                new EmployeeHasDepartment() 
+                { 
+                    DepartmentName = "Vakkenvullen",
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Kassa", 
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vers",
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Kassa",
+                    EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vers",
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vakkenvullen",
+                    EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Kassa",
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1"
+                }
+
+                );
 
             modelBuilder.Entity<Days>().HasData(
                 new Days()
@@ -564,6 +604,7 @@ namespace bumbo.Data
                     DateNeeded = DateTime.Now.AddDays(7),
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers"
                 },
                 new BranchRequestsEmployee
                 {
@@ -575,6 +616,7 @@ namespace bumbo.Data
                     DateNeeded = DateTime.Now.AddDays(14),
                     StartTime = new TimeOnly(12, 0),
                     EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vakkenvullen"
                 },
                 new BranchRequestsEmployee
                 {
@@ -586,6 +628,7 @@ namespace bumbo.Data
                     DateNeeded = DateTime.Now.AddDays(10),
                     StartTime = new TimeOnly(8, 30),
                     EndTime = new TimeOnly(17, 30),
+                    DepartmentName = "Vakkenvullen"
                 },
                 new BranchRequestsEmployee
                 {
@@ -597,6 +640,7 @@ namespace bumbo.Data
                     DateNeeded = DateTime.Now.AddDays(20),
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Kassa"
                 }
             );
 

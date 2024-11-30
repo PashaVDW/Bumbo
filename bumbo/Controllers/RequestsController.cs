@@ -24,12 +24,15 @@ namespace bumbo.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IBranchesRepository _branchesRepository;
         private readonly IBranchRequestsEmployeeRepository _branchRequestsEmployeeRepository;
+        private readonly IScheduleRepository _scheduleRepository;
 
-        public RequestsController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, IBranchRequestsEmployeeRepository branchRequestsEmployeeRepository)
+        public RequestsController(UserManager<Employee> userManager, IBranchesRepository branchesRepository, 
+            IBranchRequestsEmployeeRepository branchRequestsEmployeeRepository, IScheduleRepository scheduleRepository)
         {
             _userManager = userManager;
             _branchesRepository = branchesRepository;
             _branchRequestsEmployeeRepository = branchRequestsEmployeeRepository;
+            _scheduleRepository = scheduleRepository;
     }
 
         public async Task<IActionResult> Index(string searchTerm, int page = 1)
@@ -45,7 +48,7 @@ namespace bumbo.Controllers
             List<BranchRequestsEmployee> incomingRequests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
             List<BranchRequestsEmployee> outgoingRequests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(branchId);
 
-            var headers = new List<string> { "Naam aanvrager", "Bericht", "Nodige Medewerker", "Datum Nodige", "Tijd Nodige", "Acties" };
+            var headers = new List<string> { "Naam aanvrager", "Filiaal", "Bericht", "Nodige Medewerker", "Datum Nodige", "Tijd Nodige", "Acties" };
             var tableBuilder = new TableHtmlBuilder<BranchRequestsEmployee>();
             var htmlTable = tableBuilder.GenerateTable("Inkomende Aanvragen", headers, incomingRequests, "", item =>
             {
@@ -57,6 +60,7 @@ namespace bumbo.Controllers
                 }
                 return $@"
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
+                 <td class='py-2 px-4'>{item.BranchId}</td>
                  <td class='py-2 px-4'>{messageFirstPart}</td>
                  <td class='py-2 px-4'>{emp.FirstName} {emp.MiddleName} {emp.LastName}</td>
                  <td class='py-2 px-4'>{item.DateNeeded.Day}-{item.DateNeeded.Month}-{item.DateNeeded.Year}</td>
@@ -70,6 +74,12 @@ namespace bumbo.Controllers
                      </form>
                      <form method=""post"" action='/Requests/AcceptRequest'>
                          <input type=""hidden"" name='RequestId' value='{item.Id}'/>
+                         <input type=""hidden"" name='Request.RequestToBranchId' value='{item.RequestToBranchId}'/>
+                         <input type=""hidden"" name='DepartmentName' value='{item.DepartmentName}'/>
+                         <input type=""hidden"" name='Request.EmployeeId' value='{item.EmployeeId}'/>
+                         <input type=""hidden"" name='Request.DateNeeded' value='{item.DateNeeded}'/>
+                         <input type=""hidden"" name='Request.StartTime' value='{item.StartTime}'/>
+                         <input type=""hidden"" name='Request.EndTime' value='{item.EndTime}'/>
                          <button class='bg-green-500 text-white py-2 px-6 rounded-xl font-semibold hover:bg-green-400'>Accepteren</button>
                      </form>
                  
@@ -209,6 +219,7 @@ namespace bumbo.Controllers
                 EmployeeId = empId,
                 BranchId = branchId,
                 Request = request,
+                DepartmentName = model.DepartmentName
             };
             return View(viewModel);
         }
@@ -244,7 +255,8 @@ namespace bumbo.Controllers
                 HasChosenEmployee = hasChosenEmp,
                 EmployeeId = empId,
                 BranchId = branchId,
-                Request = model.Request
+                Request = model.Request,
+                DepartmentName = model.DepartmentName
             };
             return View(viewModel);
         }
@@ -276,8 +288,8 @@ namespace bumbo.Controllers
                 br.Employees = br.Employees
                 .Where(e => employees.Contains(e))
                 .ToList();
+                br.CountryName = CountryNameToDutch(br.CountryName);
             }
-            
 
             var viewModel = new RequestsAddEmployeeViewModel() {
                 AllBranches = branches,
@@ -390,6 +402,7 @@ namespace bumbo.Controllers
                 DateNeeded = model.Request.DateNeeded,
                 StartTime = model.Request.StartTime,
                 EndTime = model.Request.EndTime,
+                DepartmentName = model.DepartmentName,
             };
 
             _branchRequestsEmployeeRepository.AddRequest(request);
@@ -453,7 +466,29 @@ namespace bumbo.Controllers
             var requests = _branchRequestsEmployeeRepository.GetAllIncomingRequests(branchId);
             var request = requests.Where(r => r.Id == id).SingleOrDefault();
 
+            Employee emp = _branchesRepository.GetEmployeeWithDepartmentById(model.Request.EmployeeId);
+            string departmentName = null;
+            
+            foreach (var dep in emp.EmployeeHasDepartment)
+            {
+                if (dep.DepartmentName.Equals(model.DepartmentName))
+                {
+                    departmentName = dep.DepartmentName;
+                }
+            }
+
+            Schedule schedule = new Schedule()
+            {
+                BranchId = model.Request.RequestToBranchId,
+                EmployeeId = model.Request.EmployeeId,
+                Date = DateOnly.FromDateTime(model.Request.DateNeeded),
+                StartTime = model.Request.StartTime,
+                EndTime = model.Request.EndTime,
+                DepartmentName = departmentName,
+            };
+
             _branchRequestsEmployeeRepository.AcceptRequest(request);
+            _scheduleRepository.AddHelpEmployeeToDay(schedule);
 
             return Redirect("Index");
         }
@@ -484,6 +519,21 @@ namespace bumbo.Controllers
             TempData["ToastId"] = toastId;
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 3000;
+        }
+
+        private string CountryNameToDutch(string countryName)
+        {
+            switch (countryName)
+            {
+                case "Netherlands":
+                    return "Nederland";
+                case "Belgium":
+                    return "België";
+                case "Germany":
+                    return "Duitsland";
+                default:
+                    return "";
+            }
         }
 
     }
