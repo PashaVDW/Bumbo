@@ -154,7 +154,7 @@ namespace bumbo.Controllers
                     TempData["ToastMessage"] = "Sluitingstijd moet later zijn dan openingstijd";
                     TempData["ToastType"] = "error";
 
-                    return View("CreateBranchView");
+                    return View("CreateBranchView", branch);
                 }
 
                 _branchesRepository.AddBranch(branch);
@@ -169,7 +169,7 @@ namespace bumbo.Controllers
                 TempData["ToastMessage"] = "Filiaal aanmaken mislukt";
                 TempData["ToastType"] = "error";
 
-                return View("CreateBranchView");
+                return View("CreateBranchView", branch);
             }
         }
 
@@ -184,7 +184,7 @@ namespace bumbo.Controllers
                     TempData["ToastMessage"] = "Sluitingstijd moet later zijn dan openingstijd";
                     TempData["ToastType"] = "error";
 
-                    return View("UpdateBranchView");
+                    return View("UpdateBranchView", branch);
                 }
 
                 _branchesRepository.UpdateBranch(branch);
