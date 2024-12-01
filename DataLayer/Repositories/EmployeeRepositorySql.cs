@@ -16,7 +16,7 @@ namespace DataLayer.Repositories
 
         public List<Employee> GetAllEmployees()
         {
-            return _context.Users.ToList();
+            return _context.Users.ToList().OrderBy(u => u.FirstName).ToList();
         }
 
         public List<Employee> SearchEmployees(string searchTerm)
