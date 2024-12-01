@@ -35,7 +35,7 @@
             <div class="w-25 flex flex-col">
                 <label asp-for="HouseNumber">Huisnummer</label>
                 <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="HouseNumber" required
-                       pattern="^\d+([a-zA-Z]?)$" title="Voer een geldig huisnummer in zoals 17 of 17b" />
+                       pattern="^\d+\s*([a-zA-Z]?)$" title="Voer een geldig huisnummer in zoals 17 of 17b" />
                 <span asp-validation-for="HouseNumber" class="text-danger"></span>
             </div>
         </div>
@@ -68,11 +68,12 @@
                 </select>
             </div>
         </div>
+        <div class="flex justify-end">
+            <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('delete-branch').classList.remove('hidden')" style="margin-right: 10px"></default-button>
+            <default-button button-text="Bewerken" button-type="primary"></default-button>
+        </div>
     </form>
-    <div class="flex justify-end">
-        <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('delete-branch').classList.remove('hidden')" style="margin-right: 10px"></default-button>
-        <default-button button-text="Bewerken" button-type="primary" onclick="document.getElementById('update-branch').submit();"></default-button>
-    </div>
+    
 
     <custom-modal modal-id="delete-branch" body-text="Weet je zeker dat je dit filiaal wilt verwijderen?">
         <default-button button-text="Delete" button-type="delete" on-click="window.location.href='/Branches/DeleteBranch?branchId=@Model.BranchId'"></default-button>

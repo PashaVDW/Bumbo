@@ -31,7 +31,7 @@
             <div class="w-25 flex flex-col">
                 <label asp-for="HouseNumber">Huisnummer</label>
                 <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="HouseNumber" required
-                        pattern="^\d+([a-zA-Z]?)$" title="Voer een geldig huisnummer in zoals 17 of 17b" />
+                       pattern="^\d+\s*([a-zA-Z]?)$" title="Voer een geldig huisnummer in zoals 17 of 17b" />
                 <span asp-validation-for="HouseNumber" class="text-danger"></span>
             </div>
         </div>
