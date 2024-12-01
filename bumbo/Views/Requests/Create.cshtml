@@ -22,7 +22,7 @@
 
         <div class="mb-6">
             <label class="font-semibold">Datum nodig</label>
-            <input asp-for="Request.DateNeeded" type="date" placeholder="Date"
+            <input asp-for="Request.DateNeeded" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" placeholder="Date"
                 class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
         </div>
         <div class="mb-6 flex justify-between">
