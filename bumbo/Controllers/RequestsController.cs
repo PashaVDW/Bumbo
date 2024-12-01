@@ -340,7 +340,8 @@ namespace bumbo.Controllers
                 Message = model.Request.Message,
                 EmployeeId = model.Request.EmployeeId,
                 RequestStatusName = model.Request.RequestStatusName,
-                RequestToBranchId = model.Request.RequestToBranchId
+                RequestToBranchId = model.Request.RequestToBranchId,
+                DepartmentName = model.DepartmentName,
             };
 
             _branchRequestsEmployeeRepository.DeleteRequest(request);
