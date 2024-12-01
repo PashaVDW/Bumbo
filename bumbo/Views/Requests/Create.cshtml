@@ -28,12 +28,12 @@
         <div class="mb-6 flex justify-between">
             <div class="w-64">
                 <label class="font-semibold">Begintijd nodig</label>
-                <input asp-for="Request.StartTime" type="time"  
+                <input asp-for="Request.StartTime" type="time" required 
                     class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
             </div>
             <div class="w-64">
                 <label class="font-semibold">Eindtijd nodig</label>
-                <input asp-for="Request.EndTime" type="time" 
+                <input asp-for="Request.EndTime" type="time" required
                     class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
             </div>
         </div>
@@ -68,7 +68,7 @@
         </div>
         <div class="mb-6">
             <label class="font-semibold">Omschrijving</label>
-            <textarea asp-for="Request.Message" 
+            <textarea asp-for="Request.Message" required
                 class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 h-36 w-full appearance-none rounded border leading-tight"></textarea>
         </div>
         <div class="mt-6 flex justify-end">
