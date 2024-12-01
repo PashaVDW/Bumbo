@@ -43,7 +43,25 @@ builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
     .AddDataAnnotationsLocalization();
 
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] {
+        new CultureInfo("en-US"),
+        new CultureInfo("nl-NL"),
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("nl-NL");
+    options.SupportedUICultures = supportedCultures;
+});
+
 var app = builder.Build();
+
+app.UseRequestLocalization();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -54,20 +72,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-// Configure supported cultures for localization
-var supportedCultures = new List<CultureInfo>
-{
-    new CultureInfo("en"),
-    new CultureInfo("nl")
-};
-
-app.UseRequestLocalization(new RequestLocalizationOptions
-{
-    DefaultRequestCulture = new RequestCulture("nl"),
-    SupportedCultures = supportedCultures,
-    SupportedUICultures = supportedCultures
-});
 
 app.UseRouting();
 app.UseAuthentication();

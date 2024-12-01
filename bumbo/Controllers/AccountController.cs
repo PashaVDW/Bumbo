@@ -23,7 +23,6 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Login()
     {
-        ViewData["Title"] = _localizer["LoginTitle"];
         return View();
     }
 
