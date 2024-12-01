@@ -326,6 +326,15 @@ namespace bumbo.Controllers
                 return View("Update", model);
             }
 
+            if (model.Request.EndTime <= model.Request.StartTime)
+            {
+                SetTempDataForToast("endTimeLater");
+                TempData["ToastMessage"] = "Begintijd moet later zijn dan eindtijd";
+                TempData["ToastType"] = "error";
+
+                return View("Update", model);
+            }
+
             var branchId = user.ManagerOfBranchId.Value;
 
             var allRequests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(branchId);
@@ -384,6 +393,17 @@ namespace bumbo.Controllers
                 TempData["ToastType"] = "error";
                 return View("Create", model);
             }
+
+            if (model.Request.EndTime <= model.Request.StartTime)
+            {
+                SetTempDataForToast("endTimeLater");
+                TempData["ToastMessage"] = "Begintijd moet later zijn dan eindtijd";
+                TempData["ToastType"] = "error";
+
+                return View("Create", model);
+            }
+
+            
 
             model.Employee = _branchesRepository.GetEmployeeById(model.EmployeeId);
             model.Branch = _branchesRepository.GetBranch(model.BranchId);
