@@ -72,7 +72,7 @@
                 <label for="MaxOvertimeHoursPerWeek">Max Overtime Hours Per Week</label>
                 <input name="MaxOvertimeHoursPerWeek" asp-for="@Model.MaxOvertimeHoursPerWeek" id="MaxOvertimeHoursPerWeek" type="number" min="0" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
             </div>
-            <input name="CountryName" asp-for="@Model.CountryName" type="hidden"/>
+            <input name="CountryName" asp-for="@Model.CountryName" id="CountryName" type="hidden"/>
         </div>
         <div class="flex justify-end mt-6">
             <default-button button-text="Bewerken" button-type="primary" on-click=""></default-button>

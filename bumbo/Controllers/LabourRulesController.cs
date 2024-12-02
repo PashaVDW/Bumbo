@@ -60,6 +60,7 @@ namespace bumbo.Controllers
             var labourRulesViewModel = new LabourRulesViewModel
             {
                 AgeGroup = labourRule.AgeGroup,
+                CountryName = labourRule.CountryName,
                 MaxHoursPerDay = labourRule.MaxHoursPerDay,
                 MaxEndTime = labourRule.MaxEndTime,
                 MaxHoursPerWeek = labourRule.MaxHoursPerWeek,

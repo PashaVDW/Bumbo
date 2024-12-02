@@ -113,6 +113,7 @@ namespace DataLayer.Repositories
             labourRules.MaxHoursWithSchool = maxHoursWithSchool;
             labourRules.MaxShiftDuration = maxShiftDuration;
             labourRules.MaxOvertimeHoursPerWeek = maxOvertimeHoursPerWeek;
+            _context.SaveChanges();
         }
     }
 }
