@@ -9,7 +9,7 @@ namespace DataLayer.Interfaces
 {
     public interface ILabourRulesRepository
     {
-        void CreateDefaultLabourRulesForCountry(string activeCountry);
+        List<LabourRules> CreateDefaultLabourRulesForCountry(string activeCountry);
         List<LabourRules> GetAllLabourRulesForCountry(string countryName);
         LabourRules GetLabourRuleByCountyAndAgeGroup(string countryName, string ageGroup);
         void UpdateLabourRule(

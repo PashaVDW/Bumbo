@@ -34,7 +34,7 @@ namespace DataLayer.Repositories
                 && lr.AgeGroup == ageGroup
             );
         }
-        public void CreateDefaultLabourRulesForCountry(string activeCountry)
+        public List<LabourRules> CreateDefaultLabourRulesForCountry(string activeCountry)
         {
             var defaultLabourRules = new List<LabourRules>
             {
@@ -95,6 +95,15 @@ namespace DataLayer.Repositories
             };
             _context.LabourRules.AddRange(defaultLabourRules);
             _context.SaveChanges();
+
+            if (_context.LabourRules.Any(lr => lr.CountryName == activeCountry))
+            {
+                return _context.LabourRules.Where(lr => lr.CountryName == activeCountry).ToList();
+            }
+            else
+            {
+                throw new Exception("Failed to create default labour rules for country.");
+            }
         }
 
         public void UpdateLabourRule(string ageGroup, string countryName, int maxHoursPerDay, TimeSpan maxEndTime, int maxHoursPerWeek, int maxWorkDaysPerWeek, int minRestDaysPerWeek, decimal numHoursWorkedBeforeBreak, decimal sickPayPercentage, decimal overtimePayPercentage, int minutesOfBreak, int maxHoursWithSchool, int minRestHoursBetweenShifts, int maxShiftDuration, int maxOvertimeHoursPerWeek)

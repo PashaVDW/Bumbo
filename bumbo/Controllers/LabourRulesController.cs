@@ -27,7 +27,7 @@ namespace bumbo.Controllers
             var labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(activeCountry).ToList();
             if (!labourRules.Any())
             {
-                _labourRulesRepository.CreateDefaultLabourRulesForCountry(activeCountry);
+                labourRules = _labourRulesRepository.CreateDefaultLabourRulesForCountry(activeCountry);
             }
             var labourRulesViewModel = labourRules.Select(labourRule => new LabourRulesViewModel
             {
