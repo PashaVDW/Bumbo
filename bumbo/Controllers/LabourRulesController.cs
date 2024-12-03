@@ -1,6 +1,7 @@
 ﻿using bumbo.ViewModels;
 using DataLayer.Interfaces;
 using DataLayer.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Reflection;
@@ -11,15 +12,22 @@ namespace bumbo.Controllers
     {
         private readonly ICountryRepository _countryRepository;
         private readonly ILabourRulesRepository _labourRulesRepository;
-        public LabourRulesController(ICountryRepository countryRepository, ILabourRulesRepository labourRulesRepository)
+        private readonly UserManager<Employee> _userManager;
+        public LabourRulesController(ICountryRepository countryRepository, ILabourRulesRepository labourRulesRepository, UserManager<Employee> userManager)
         {
             _countryRepository = countryRepository;
             _labourRulesRepository = labourRulesRepository;
+            _userManager = userManager;
         }
 
-        public IActionResult Index(string? activeCountry)
+        public async Task<IActionResult> IndexAsync(string? activeCountry)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
 
+            if (currentUser == null || !currentUser.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
             if (activeCountry == null)
             {
                 activeCountry = "Netherlands";
@@ -54,8 +62,14 @@ namespace bumbo.Controllers
             };
             return View(LabourRulesViewModel);
         }
-        public IActionResult Edit(string countryName, string ageGroup)
+        public async Task<IActionResult> EditAsync(string countryName, string ageGroup)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null || !currentUser.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
             var labourRule = _labourRulesRepository.GetLabourRuleByCountyAndAgeGroup(countryName, ageGroup);
             var labourRulesViewModel = new LabourRulesViewModel
             {
@@ -78,8 +92,14 @@ namespace bumbo.Controllers
             return View(labourRulesViewModel);
         }
         [HttpPost]
-        public IActionResult HandleEdit(LabourRulesViewModel labourRulesViewModel)
+        public async Task<IActionResult> HandleEditAsync(LabourRulesViewModel labourRulesViewModel)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null || !currentUser.IsSystemManager)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
             _labourRulesRepository.UpdateLabourRule(
                 labourRulesViewModel.AgeGroup,
                 labourRulesViewModel.CountryName,

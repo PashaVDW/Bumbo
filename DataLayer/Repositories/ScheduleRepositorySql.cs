@@ -28,6 +28,7 @@ namespace DataLayer.Repositories
 
             return schedules;
         }
+
         public List<Schedule> GetSchedulesForEmployeeByDay(string employeeId, DateOnly date)
         {
             var schedules = _context.Schedule
@@ -43,6 +44,7 @@ namespace DataLayer.Repositories
             sickSchedules.ForEach(s => s.IsSick = true);
             _context.SaveChanges();
             return sickSchedules;
+
         }
         public List<Schedule> SetSchedulesBetter(List<Schedule> sickSchedules)
         {
@@ -50,6 +52,7 @@ namespace DataLayer.Repositories
             _context.SaveChanges();
             return sickSchedules;
         }
+
         public List<Schedule> GetSchedulesForEmployeeByWeek(string employeeId, List<DateOnly> weekDates)
         {
             var schedules = _context.Schedule
@@ -101,6 +104,19 @@ namespace DataLayer.Repositories
             }
         }
 
+        public void FinalizeSchedules(int branchId, List<DateOnly> weekDates)
+        {
+            var schedules = _context.Schedule
+                .Where(s => s.BranchId == branchId && weekDates.Contains(s.Date))
+                .ToList();
+
+            if (schedules.Any())
+            {
+                schedules.ForEach(s => s.IsFinal = true);
+                _context.SaveChanges();
+            }
+        }
+
         public List<Schedule> GetWeekScheduleForEmployee(string employeeId, DateTime monday, DateTime sunday)
         {
             var dateOnlyMonday = DateOnly.FromDateTime(monday);
@@ -126,6 +142,58 @@ namespace DataLayer.Repositories
             {
                 throw new InvalidOperationException("Schedule entry does not exist for the specified employee and date.");
             }
+        }
+
+        public void AddHelpEmployeeToDay(Schedule schedule)
+        {
+            if (schedule != null)
+            {
+                _context.Schedule.Add(schedule);
+                _context.SaveChanges();
+            }
+        }
+        public void AddEmployee(string employeeId, int branchId, DateOnly date, string departmentName, TimeOnly startTime, TimeOnly endTime)
+        {
+            if (string.IsNullOrWhiteSpace(employeeId))
+                throw new ArgumentException("Employee ID cannot be null or empty.", nameof(employeeId));
+
+            if (string.IsNullOrWhiteSpace(departmentName))
+                throw new ArgumentException("Department Name cannot be null or empty.", nameof(departmentName));
+
+            if (startTime >= endTime)
+                throw new ArgumentException("Start time must be earlier than end time.");
+
+            var existingSchedule = _context.Schedule
+                .FirstOrDefault(s => s.EmployeeId == employeeId
+                                  && s.BranchId == branchId
+                                  && s.Date == date);
+
+            if (existingSchedule != null)
+                throw new InvalidOperationException($"A schedule already exists for this employee on {date}.");
+
+            var newScheduleEntry = new Schedule
+            {
+                EmployeeId = employeeId,
+                BranchId = branchId,
+                Date = date,
+                DepartmentName = departmentName,
+                StartTime = startTime,
+                EndTime = endTime,
+                IsSick = false,
+                IsFinal = false
+            };
+
+            _context.Schedule.Add(newScheduleEntry);
+
+            _context.SaveChanges();
+        }
+
+        public bool EmployeeIsAlreadyPlanned(DateTime date, string employeeId)
+        {
+            var existingSchedule = _context.Schedule
+                .FirstOrDefault(s => s.EmployeeId == employeeId && s.Date == DateOnly.FromDateTime(date));
+
+            return existingSchedule != null;
         }
     }
 }

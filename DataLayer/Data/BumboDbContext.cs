@@ -324,7 +324,7 @@ namespace bumbo.Data
                 HouseNumber = 30,
                 StartDate = new DateTime(2020, 11, 1),
                 IsSystemManager = false,
-                ManagerOfBranchId = 2,
+                ManagerOfBranchId = null,
                 PhoneNumber = "+31 6 67890123",
                 UserName = "david.denboer@gmail.com",
                 NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
@@ -381,6 +381,46 @@ namespace bumbo.Data
             // Add employees to the model
 
             modelBuilder.Entity<Employee>().HasData(john, jane, darlon, pasha, sarah, david, anthony, douwe);
+
+            modelBuilder.Entity<EmployeeHasDepartment>().HasData(
+                
+                new EmployeeHasDepartment() 
+                { 
+                    DepartmentName = "Vakkenvullen",
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Kassa", 
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vers",
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Kassa",
+                    EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vers",
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vakkenvullen",
+                    EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Kassa",
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1"
+                }
+
+                );
 
             modelBuilder.Entity<Days>().HasData(
                 new Days()
@@ -547,6 +587,63 @@ namespace bumbo.Data
                 branchHasEmployeeSix
             );
 
+            modelBuilder.Entity<RequestStatus>().HasData(
+                new RequestStatus() { RequestStatusName = "In Afwachting" },
+                new RequestStatus() { RequestStatusName = "Afgewezen" },
+                new RequestStatus() { RequestStatusName = "Geaccepteerd" }
+            );
+
+            modelBuilder.Entity<BranchRequestsEmployee>().HasData(
+                new BranchRequestsEmployee
+                {
+                    BranchId = 1,
+                    EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
+                    RequestToBranchId = 2,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Overplaatsing nodig vanwege projectdeadline.",
+                    DateNeeded = DateTime.Now.AddDays(7),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers"
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 2,
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                    RequestToBranchId = 1,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
+                    DateNeeded = DateTime.Now.AddDays(14),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vakkenvullen"
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 3,
+                    EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
+                    RequestToBranchId = 4,
+                    RequestStatusName = "Afgewezen",
+                    Message = "Hulp nodig vanwege ziekte van een collega.",
+                    DateNeeded = DateTime.Now.AddDays(10),
+                    StartTime = new TimeOnly(8, 30),
+                    EndTime = new TimeOnly(17, 30),
+                    DepartmentName = "Vakkenvullen"
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 1,
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
+                    RequestToBranchId = 3,
+                    RequestStatusName = "Geaccepteerd",
+                    Message = "Overplaatsing voor trainingssessies.",
+                    DateNeeded = DateTime.Now.AddDays(20),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Kassa"
+                }
+            );
+
             modelBuilder.Entity<Schedule>().HasData(
                 // Maandag - Kassa
                 new Schedule
@@ -557,6 +654,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(13, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -567,6 +665,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(13, 0),
                     EndTime = new TimeOnly(17, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -579,16 +678,18 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(12, 0),
                     DepartmentName = "Vakkenvullen",
-                    IsSick = false
+                    IsFinal = true,
+                    IsSick = true
                 },
                 new Schedule
                 {
                     EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
                     BranchId = 1,
                     Date = new DateOnly(2024, 11, 18),
-                    StartTime = new TimeOnly(12, 0),
+                    StartTime = new TimeOnly(10, 0),
                     EndTime = new TimeOnly(16, 0),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -599,6 +700,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(16, 0),
                     EndTime = new TimeOnly(21, 30),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -611,6 +713,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(14, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -621,6 +724,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(14, 0),
                     EndTime = new TimeOnly(18, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -633,6 +737,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(10, 0),
                     EndTime = new TimeOnly(18, 0),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
                 new Schedule
@@ -643,6 +748,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(12, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -655,6 +761,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(15, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = false,
                     IsSick = false
                 },
 
@@ -667,6 +774,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(17, 0),
                     DepartmentName = "Vers",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -679,6 +787,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(12, 0),
                     EndTime = new TimeOnly(20, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = true
                 },
 
@@ -691,6 +800,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(17, 0),
                     DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
                     IsSick = false
                 },
 
@@ -703,6 +813,7 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(16, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
                     IsSick = false
                 }
             );
