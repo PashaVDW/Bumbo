@@ -1382,14 +1382,14 @@ namespace bumbo.Data
                 // Woensdag - Kassa
                 new Schedule
                 {
-                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3", // Eva Smit
+                    EmployeeId = "e7f8g9h0-12i3-4a56-b7c8-d9e0f1g2h3i4", // Mark Willems
                     BranchId = 1,
                     Date = new DateOnly(2024, 11, 20),
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(14, 0),
                     DepartmentName = "Kassa",
                     IsFinal = true,
-                    IsSick = true
+                    IsSick = false
                 },
                 new Schedule
                 {
@@ -1520,7 +1520,7 @@ namespace bumbo.Data
                     EndTime = new TimeOnly(15, 0),
                     DepartmentName = "Vers",
                     IsFinal = true,
-                    IsSick = true
+                    IsSick = false
                 },
                 new Schedule
                 {
