@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using bumbo.Models;
 using DataLayer.Models;
+using System;
+using Azure.Core;
 
 namespace bumbo.Data
 {
@@ -96,12 +98,161 @@ namespace bumbo.Data
                 normInSeconds = 2
             };
 
+            var weekFourtyTwoColi = new Norm
+            {
+                normId = 6,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 95
+            };
+
+            var weekFourtyTwoShelve = new Norm
+            {
+                normId = 7,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 35
+            };
+
+            var weekFourtyTwoCashier = new Norm
+            {
+                normId = 8,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 3
+            };
+
+            var weekFourtyTwoFresh = new Norm
+            {
+                normId = 9,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 8
+            };
+
+            var weekFourtyTwoFronting = new Norm
+            {
+                normId = 10,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 3
+            };
+
+            var weekFourtyOneColiBranchTwo = new Norm
+            {
+                normId = 11,
+                branchId = 2,
+                week = 41,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 96
+            };
+
+            var weekFourtyOneShelveBranchTwo = new Norm
+            {
+                normId = 12,
+                branchId = 2,
+                week = 41,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 32
+            };
+
+            var weekFourtyOneCashierBranchTwo = new Norm
+            {
+                normId = 13,
+                branchId = 2,
+                week = 41,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 3
+            };
+
+            var weekFourtyOneFreshBranchTwo = new Norm
+            {
+                normId = 14,
+                branchId = 2,
+                week = 41,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 7
+            };
+
+            var weekFourtyOneFrontingBranchTwo = new Norm
+            {
+                normId = 15,
+                branchId = 2,
+                week = 41,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 2
+            };
+
+            var weekFourtyTwoColiBranchTwo = new Norm
+            {
+                normId = 16,
+                branchId = 2,
+                week = 42,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 91
+            };
+
+            var weekFourtyTwoShelveBranchTwo = new Norm
+            {
+                normId = 17,
+                branchId = 2,
+                week = 42,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 32
+            };
+
+            var weekFourtyTwoCashierBranchTwo = new Norm
+            {
+                normId = 18,
+                branchId = 2,
+                week = 42,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 4
+            };
+
+            var weekFourtyTwoFreshBranchTwo = new Norm
+            {
+                normId = 19,
+                branchId = 2,
+                week = 42,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 7
+            };
+
+            var weekFourtyTwoFrontingBranchTwo = new Norm
+            {
+                normId = 20,
+                branchId = 2,
+                week = 42,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 2
+            };
+
             modelBuilder.Entity<Norm>().HasData(
-                weekFourtyOneColi,
-                weekFourtyOneShelve,
-                weekFourtyOneCashier,
-                weekFourtyOneFresh,
-                weekFourtyOneFronting);
+                weekFourtyOneColi, weekFourtyOneShelve, weekFourtyOneCashier, weekFourtyOneFresh, weekFourtyOneFronting,
+                weekFourtyTwoColi, weekFourtyTwoShelve, weekFourtyTwoCashier, weekFourtyTwoFresh, weekFourtyTwoFronting,
+                weekFourtyOneColiBranchTwo, weekFourtyOneShelveBranchTwo, weekFourtyOneCashierBranchTwo, weekFourtyOneFreshBranchTwo, weekFourtyOneFrontingBranchTwo,
+                weekFourtyTwoColiBranchTwo, weekFourtyTwoShelveBranchTwo, weekFourtyTwoCashierBranchTwo, weekFourtyTwoFreshBranchTwo, weekFourtyTwoFrontingBranchTwo);
 
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },
@@ -119,7 +270,7 @@ namespace bumbo.Data
                 new Branch
                 {
                     BranchId = 1,
-                    PostalCode = "1012 LG",
+                    PostalCode = "1012LG",
                     HouseNumber = "10",
                     Name = "Amsterdam Filiaal",
                     Street = "Damrak",
@@ -141,7 +292,7 @@ namespace bumbo.Data
                 new Branch
                 {
                     BranchId = 3,
-                    PostalCode = "1811 KH",
+                    PostalCode = "1811KH",
                     HouseNumber = "2",
                     Name = "Alkmaar Filiaal",
                     Street = "Paardenmarkt",
@@ -152,11 +303,44 @@ namespace bumbo.Data
                 new Branch
                 {
                     BranchId = 4,
-                    PostalCode = "3011 HE",
+                    PostalCode = "3011HE",
                     HouseNumber = "15",
                     Name = "Rotterdam Filiaal",
                     Street = "Botersloot",
                     CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(9, 0, 0),
+                    ClosingTime = new TimeOnly(17, 0, 0)
+                },
+                new Branch
+                {
+                    BranchId = 5,
+                    PostalCode = "2511AG",
+                    HouseNumber = "22",
+                    Name = "Den Haag Filiaal",
+                    Street = "Binnenhof",
+                    CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(9, 0, 0),
+                    ClosingTime = new TimeOnly(22, 0, 0)
+                },
+                new Branch
+                {
+                    BranchId = 6,
+                    PostalCode = "2311GP",
+                    HouseNumber = "18",
+                    Name = "Leiden Filiaal",
+                    Street = "Breestraat",
+                    CountryName = "Netherlands",
+                    OpeningTime = new TimeOnly(8, 0, 0),
+                    ClosingTime = new TimeOnly(18, 0, 0)
+                },
+                new Branch
+                {
+                    BranchId = 7,
+                    PostalCode = "9000",
+                    HouseNumber = "56",
+                    Name = "Gent Filiaal",
+                    Street = "Veldstraat",
+                    CountryName = "Belgium",
                     OpeningTime = new TimeOnly(9, 0, 0),
                     ClosingTime = new TimeOnly(17, 0, 0)
                 }
@@ -378,9 +562,142 @@ namespace bumbo.Data
             };
             douwe.PasswordHash = passwordHasher.HashPassword(douwe, "PassDouwe");
 
+            var jan = new Employee
+            {
+                Id = "a3b3c4d5-67f8-9a01-b2c3-d4e5f6g7h8i9",
+                BID = "B004",
+                FirstName = "Jan",
+                MiddleName = "",
+                LastName = "de Vries",
+                BirthDate = new DateTime(1985, 11, 10),
+                PostalCode = "1234 AB",
+                HouseNumber = 12,
+                StartDate = new DateTime(2017, 3, 15),
+                IsSystemManager = false,
+                ManagerOfBranchId = null,
+                PhoneNumber = "+31 6 12345678",
+                UserName = "jan.devries@example.com",
+                NormalizedUserName = "JAN.DEVRIES@EXAMPLE.COM",
+                Email = "jan.devries@example.com",
+                NormalizedEmail = "JAN.DEVRIES@EXAMPLE.COM",
+                EmailConfirmed = true
+            };
+            jan.PasswordHash = passwordHasher.HashPassword(jan, "PassJan");
+
+            var sofie = new Employee
+            {
+                Id = "b4c5d6e7-89f0-1a23-b4c5-d6e7f8g9h0i1",
+                BID = "B005",
+                FirstName = "Sofie",
+                MiddleName = "",
+                LastName = "Jansen",
+                BirthDate = new DateTime(1990, 7, 22),
+                PostalCode = "9876 ZX",
+                HouseNumber = 30,
+                StartDate = new DateTime(2020, 5, 10),
+                IsSystemManager = false,
+                ManagerOfBranchId = null,
+                PhoneNumber = "+31 6 23456789",
+                UserName = "sofie.jansen@example.com",
+                NormalizedUserName = "SOFIE.JANSEN@EXAMPLE.COM",
+                Email = "sofie.jansen@example.com",
+                NormalizedEmail = "SOFIE.JANSEN@EXAMPLE.COM",
+                EmailConfirmed = true
+            };
+            sofie.PasswordHash = passwordHasher.HashPassword(sofie, "PassSofie");
+
+            var tom = new Employee
+            {
+                Id = "c5d6e7f8-90g1-2a34-b5c6-d7e8f9g0h1i2",
+                BID = "B006",
+                FirstName = "Tom",
+                MiddleName = "",
+                LastName = "Koster",
+                BirthDate = new DateTime(1988, 3, 3),
+                PostalCode = "6543 BC",
+                HouseNumber = 15,
+                StartDate = new DateTime(2019, 9, 1),
+                IsSystemManager = false,
+                ManagerOfBranchId = null,
+                PhoneNumber = "+31 6 34567890",
+                UserName = "tom.koster@example.com",
+                NormalizedUserName = "TOM.KOSTER@EXAMPLE.COM",
+                Email = "tom.koster@example.com",
+                NormalizedEmail = "TOM.KOSTER@EXAMPLE.COM",
+                EmailConfirmed = true
+            };
+            tom.PasswordHash = passwordHasher.HashPassword(tom, "PassTom");
+
+            var lisa = new Employee
+            {
+                Id = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3",
+                BID = "B007",
+                FirstName = "Lisa",
+                MiddleName = "",
+                LastName = "Hendriks",
+                BirthDate = new DateTime(1995, 9, 18),
+                PostalCode = "2345 PQ",
+                HouseNumber = 8,
+                StartDate = new DateTime(2021, 1, 10),
+                IsSystemManager = false,
+                ManagerOfBranchId = null,
+                PhoneNumber = "+31 6 98765432",
+                UserName = "lisa.hendriks@example.com",
+                NormalizedUserName = "LISA.HENDRIKS@EXAMPLE.COM",
+                Email = "lisa.hendriks@example.com",
+                NormalizedEmail = "LISA.HENDRIKS@EXAMPLE.COM",
+                EmailConfirmed = true
+            };
+            lisa.PasswordHash = passwordHasher.HashPassword(lisa, "PassLisa");
+
+            var mark = new Employee
+            {
+                Id = "e7f8g9h0-12i3-4a56-b7c8-d9e0f1g2h3i4",
+                BID = "B008",
+                FirstName = "Mark",
+                MiddleName = "",
+                LastName = "Willems",
+                BirthDate = new DateTime(1983, 12, 5),
+                PostalCode = "5678 MN",
+                HouseNumber = 25,
+                StartDate = new DateTime(2016, 11, 1),
+                IsSystemManager = false,
+                ManagerOfBranchId = null,
+                PhoneNumber = "+31 6 12341234",
+                UserName = "mark.willems@example.com",
+                NormalizedUserName = "MARK.WILLEMS@EXAMPLE.COM",
+                Email = "mark.willems@example.com",
+                NormalizedEmail = "MARK.WILLEMS@EXAMPLE.COM",
+                EmailConfirmed = true
+            };
+            mark.PasswordHash = passwordHasher.HashPassword(mark, "PassMark");
+
+            var eva = new Employee
+            {
+                Id = "f9e8d7c6-1234-5678-90ab-cdef12345678",
+                BID = "B009",
+                FirstName = "Eva",
+                MiddleName = "",
+                LastName = "Smit",
+                BirthDate = new DateTime(1994, 5, 25),
+                PostalCode = "5678 KL",
+                HouseNumber = 10,
+                StartDate = new DateTime(2022, 4, 15),
+                IsSystemManager = false,
+                ManagerOfBranchId = null,
+                PhoneNumber = "+31 6 87654321",
+                UserName = "eva.smit@example.com",
+                NormalizedUserName = "EVA.SMIR@EXAMPLE.COM",
+                Email = "eva.smit@example.com",
+                NormalizedEmail = "EVA.SMIR@EXAMPLE.COM",
+                EmailConfirmed = true
+            };
+            eva.PasswordHash = passwordHasher.HashPassword(eva, "PassEva");
+
             // Add employees to the model
 
-            modelBuilder.Entity<Employee>().HasData(john, jane, darlon, pasha, sarah, david, anthony, douwe);
+            modelBuilder.Entity<Employee>().HasData(john, jane, darlon, pasha, sarah, david, anthony, douwe, jan, 
+                sofie, tom, lisa, mark, eva);
 
             modelBuilder.Entity<EmployeeHasDepartment>().HasData(
                 
@@ -418,6 +735,36 @@ namespace bumbo.Data
                 {
                     DepartmentName = "Kassa",
                     EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vers",
+                    EmployeeId = "a3b3c4d5-67f8-9a01-b2c3-d4e5f6g7h8i9"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Kassa",
+                    EmployeeId = "b4c5d6e7-89f0-1a23-b4c5-d6e7f8g9h0i1"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vakkenvullen",
+                    EmployeeId = "c5d6e7f8-90g1-2a34-b5c6-d7e8f9g0h1i2"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vers",
+                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Vakkenvullen",
+                    EmployeeId = "e7f8g9h0-12i3-4a56-b7c8-d9e0f1g2h3i4"
+                },
+                new EmployeeHasDepartment()
+                {
+                    DepartmentName = "Kassa",
+                    EmployeeId = "f9e8d7c6-1234-5678-90ab-cdef12345678"
                 }
 
                 );
@@ -483,6 +830,66 @@ namespace bumbo.Data
                     Id = 5,
                     Name = "Weekly Special",
                     BranchBranchId = 1
+                },
+                new Template
+                {
+                    Id = 6,
+                    Name = "Basic Package",
+                    BranchBranchId = 3
+                },
+                new Template
+                {
+                    Id = 7,
+                    Name = "Weekly Special",
+                    BranchBranchId = 3
+                },
+                 new Template
+                 {
+                     Id = 8,
+                     Name = "Basic Package",
+                     BranchBranchId = 4
+                 },
+                new Template
+                {
+                    Id = 9,
+                    Name = "Weekly Special",
+                    BranchBranchId = 4
+                },
+                 new Template
+                 {
+                     Id = 10,
+                     Name = "Basic Package",
+                     BranchBranchId = 5
+                 },
+                new Template
+                {
+                    Id = 11,
+                    Name = "Weekly Special",
+                    BranchBranchId = 5
+                },
+                 new Template
+                 {
+                     Id = 12,
+                     Name = "Basic Package",
+                     BranchBranchId = 6
+                 },
+                new Template
+                {
+                    Id = 13,
+                    Name = "Weekly Special",
+                    BranchBranchId = 6
+                },
+                 new Template
+                 {
+                     Id = 14,
+                     Name = "Basic Package",
+                     BranchBranchId = 7
+                 },
+                new Template
+                {
+                    Id = 15,
+                    Name = "Weekly Special",
+                    BranchBranchId = 7
                 }
             );
 
@@ -526,7 +933,87 @@ namespace bumbo.Data
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Thursday", CustomerAmount = 989, ContainerAmount = 41 },
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Friday", CustomerAmount = 872, ContainerAmount = 32 },
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Saturday", CustomerAmount = 771, ContainerAmount = 36 },
-                new TemplateHasDays { TemplatesId = 5, DaysName = "Sunday", CustomerAmount = 885, ContainerAmount = 52 }
+                new TemplateHasDays { TemplatesId = 5, DaysName = "Sunday", CustomerAmount = 885, ContainerAmount = 52 },
+
+                new TemplateHasDays { TemplatesId = 6, DaysName = "Monday", CustomerAmount = 987, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 6, DaysName = "Tuesday", CustomerAmount = 827, ContainerAmount = 51 },
+                new TemplateHasDays { TemplatesId = 6, DaysName = "Wednesday", CustomerAmount = 901, ContainerAmount = 39 },
+                new TemplateHasDays { TemplatesId = 6, DaysName = "Thursday", CustomerAmount = 992, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 6, DaysName = "Friday", CustomerAmount = 1045, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 6, DaysName = "Saturday", CustomerAmount = 957, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 6, DaysName = "Sunday", CustomerAmount = 874, ContainerAmount = 33 },
+                 
+                new TemplateHasDays { TemplatesId = 7, DaysName = "Monday", CustomerAmount = 835, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 7, DaysName = "Tuesday", CustomerAmount = 934, ContainerAmount = 50 },
+                new TemplateHasDays { TemplatesId = 7, DaysName = "Wednesday", CustomerAmount = 879, ContainerAmount = 27 },
+                new TemplateHasDays { TemplatesId = 7, DaysName = "Thursday", CustomerAmount = 983, ContainerAmount = 40 },
+                new TemplateHasDays { TemplatesId = 7, DaysName = "Friday", CustomerAmount = 871, ContainerAmount = 33 },
+                new TemplateHasDays { TemplatesId = 7, DaysName = "Saturday", CustomerAmount = 761, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 7, DaysName = "Sunday", CustomerAmount = 889, ContainerAmount = 51 },
+
+                new TemplateHasDays { TemplatesId = 8, DaysName = "Monday", CustomerAmount = 987, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 8, DaysName = "Tuesday", CustomerAmount = 827, ContainerAmount = 51 },
+                new TemplateHasDays { TemplatesId = 8, DaysName = "Wednesday", CustomerAmount = 901, ContainerAmount = 39 },
+                new TemplateHasDays { TemplatesId = 8, DaysName = "Thursday", CustomerAmount = 992, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 8, DaysName = "Friday", CustomerAmount = 1045, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 8, DaysName = "Saturday", CustomerAmount = 957, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 8, DaysName = "Sunday", CustomerAmount = 874, ContainerAmount = 33 },
+
+                new TemplateHasDays { TemplatesId = 9, DaysName = "Monday", CustomerAmount = 835, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 9, DaysName = "Tuesday", CustomerAmount = 934, ContainerAmount = 50 },
+                new TemplateHasDays { TemplatesId = 9, DaysName = "Wednesday", CustomerAmount = 879, ContainerAmount = 27 },
+                new TemplateHasDays { TemplatesId = 9, DaysName = "Thursday", CustomerAmount = 983, ContainerAmount = 40 },
+                new TemplateHasDays { TemplatesId = 9, DaysName = "Friday", CustomerAmount = 871, ContainerAmount = 33 },
+                new TemplateHasDays { TemplatesId = 9, DaysName = "Saturday", CustomerAmount = 761, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 9, DaysName = "Sunday", CustomerAmount = 889, ContainerAmount = 51 },
+
+                new TemplateHasDays { TemplatesId = 10, DaysName = "Monday", CustomerAmount = 987, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 10, DaysName = "Tuesday", CustomerAmount = 827, ContainerAmount = 51 },
+                new TemplateHasDays { TemplatesId = 10, DaysName = "Wednesday", CustomerAmount = 901, ContainerAmount = 39 },
+                new TemplateHasDays { TemplatesId = 10, DaysName = "Thursday", CustomerAmount = 992, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 10, DaysName = "Friday", CustomerAmount = 1045, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 10, DaysName = "Saturday", CustomerAmount = 957, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 10, DaysName = "Sunday", CustomerAmount = 874, ContainerAmount = 33 },
+
+                new TemplateHasDays { TemplatesId = 11, DaysName = "Monday", CustomerAmount = 835, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 11, DaysName = "Tuesday", CustomerAmount = 934, ContainerAmount = 50 },
+                new TemplateHasDays { TemplatesId = 11, DaysName = "Wednesday", CustomerAmount = 879, ContainerAmount = 27 },
+                new TemplateHasDays { TemplatesId = 11, DaysName = "Thursday", CustomerAmount = 983, ContainerAmount = 40 },
+                new TemplateHasDays { TemplatesId = 11, DaysName = "Friday", CustomerAmount = 871, ContainerAmount = 33 },
+                new TemplateHasDays { TemplatesId = 11, DaysName = "Saturday", CustomerAmount = 761, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 11, DaysName = "Sunday", CustomerAmount = 889, ContainerAmount = 51 },
+
+                new TemplateHasDays { TemplatesId = 12, DaysName = "Monday", CustomerAmount = 987, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 12, DaysName = "Tuesday", CustomerAmount = 827, ContainerAmount = 51 },
+                new TemplateHasDays { TemplatesId = 12, DaysName = "Wednesday", CustomerAmount = 901, ContainerAmount = 39 },
+                new TemplateHasDays { TemplatesId = 12, DaysName = "Thursday", CustomerAmount = 992, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 12, DaysName = "Friday", CustomerAmount = 1045, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 12, DaysName = "Saturday", CustomerAmount = 957, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 12, DaysName = "Sunday", CustomerAmount = 874, ContainerAmount = 33 },
+
+                new TemplateHasDays { TemplatesId = 13, DaysName = "Monday", CustomerAmount = 835, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 13, DaysName = "Tuesday", CustomerAmount = 934, ContainerAmount = 50 },
+                new TemplateHasDays { TemplatesId = 13, DaysName = "Wednesday", CustomerAmount = 879, ContainerAmount = 27 },
+                new TemplateHasDays { TemplatesId = 13, DaysName = "Thursday", CustomerAmount = 983, ContainerAmount = 40 },
+                new TemplateHasDays { TemplatesId = 13, DaysName = "Friday", CustomerAmount = 871, ContainerAmount = 33 },
+                new TemplateHasDays { TemplatesId = 13, DaysName = "Saturday", CustomerAmount = 761, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 13, DaysName = "Sunday", CustomerAmount = 889, ContainerAmount = 51 },
+
+                new TemplateHasDays { TemplatesId = 14, DaysName = "Monday", CustomerAmount = 989, ContainerAmount = 44 },
+                new TemplateHasDays { TemplatesId = 14, DaysName = "Tuesday", CustomerAmount = 817, ContainerAmount = 49 },
+                new TemplateHasDays { TemplatesId = 14, DaysName = "Wednesday", CustomerAmount = 924, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 14, DaysName = "Thursday", CustomerAmount = 988, ContainerAmount = 55 },
+                new TemplateHasDays { TemplatesId = 14, DaysName = "Friday", CustomerAmount = 1041, ContainerAmount = 37 },
+                new TemplateHasDays { TemplatesId = 14, DaysName = "Saturday", CustomerAmount = 947, ContainerAmount = 44 },
+                new TemplateHasDays { TemplatesId = 14, DaysName = "Sunday", CustomerAmount = 879, ContainerAmount = 32 },
+
+                new TemplateHasDays { TemplatesId = 15, DaysName = "Monday", CustomerAmount = 825, ContainerAmount = 57 },
+                new TemplateHasDays { TemplatesId = 15, DaysName = "Tuesday", CustomerAmount = 914, ContainerAmount = 54 },
+                new TemplateHasDays { TemplatesId = 15, DaysName = "Wednesday", CustomerAmount = 868, ContainerAmount = 25 },
+                new TemplateHasDays { TemplatesId = 15, DaysName = "Thursday", CustomerAmount = 994, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 15, DaysName = "Friday", CustomerAmount = 842, ContainerAmount = 35 },
+                new TemplateHasDays { TemplatesId = 15, DaysName = "Saturday", CustomerAmount = 790, ContainerAmount = 37 },
+                new TemplateHasDays { TemplatesId = 15, DaysName = "Sunday", CustomerAmount = 878, ContainerAmount = 52 }
             );
 
             modelBuilder.Entity<PrognosisHasDaysHasDepartment>()
@@ -577,14 +1064,53 @@ namespace bumbo.Data
                 StartDate = douwe.StartDate,
                 FunctionName = "Stocker"
             };
+            var branchHasEmployeeSeven = new BranchHasEmployee
+            {
+                BranchId = 4,
+                EmployeeId = jan.Id,
+                StartDate = jan.StartDate,
+                FunctionName = "Manager"
+            };
+            var branchHasEmployeeEight = new BranchHasEmployee
+            {
+                BranchId = 6,
+                EmployeeId = sofie.Id,
+                StartDate = sofie.StartDate,
+                FunctionName = "Stocker"
+            };
+            var branchHasEmployeeNine = new BranchHasEmployee
+            {
+                BranchId = 5,
+                EmployeeId = tom.Id,
+                StartDate = tom.StartDate,
+                FunctionName = "Cashier"
+            };
+            var branchHasEmployeeTen = new BranchHasEmployee
+            {
+                BranchId = 6,
+                EmployeeId = lisa.Id,
+                StartDate = lisa.StartDate,
+                FunctionName = "Cashier"
+            };
+            var branchHasEmployeeEleven = new BranchHasEmployee
+            {
+                BranchId = 7,
+                EmployeeId = mark.Id,
+                StartDate = mark.StartDate,
+                FunctionName = "Stocker"
+            };
+            var branchHasEmployeeTwelve = new BranchHasEmployee
+            {
+                BranchId = 7,
+                EmployeeId = eva.Id,
+                StartDate = eva.StartDate,
+                FunctionName = "Stocker"
+            };
 
             modelBuilder.Entity<BranchHasEmployee>().HasData(
-                branchHasEmployeeOne,
-                branchHasEmployeeTwo,
-                branchHasEmployeeThree,
-                branchHasEmployeeFour,
-                branchHasEmployeeFive,
-                branchHasEmployeeSix
+                branchHasEmployeeOne, branchHasEmployeeTwo, branchHasEmployeeThree, branchHasEmployeeFour,
+                branchHasEmployeeFive, branchHasEmployeeSix, branchHasEmployeeSeven, branchHasEmployeeEight,
+                branchHasEmployeeNine, branchHasEmployeeTen, branchHasEmployeeEleven, branchHasEmployeeTwelve
             );
 
             modelBuilder.Entity<RequestStatus>().HasData(
@@ -641,6 +1167,57 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(16, 0),
                     DepartmentName = "Kassa"
+                },
+                new BranchRequestsEmployee
+                {
+                    BranchId = 2,
+                    EmployeeId = "f9e8d7c6-1234-5678-90ab-cdef12345678",
+                    RequestToBranchId = 1,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Overplaatsing wegens tijdelijke afwezigheid van manager.",
+                    DateNeeded = DateTime.Now.AddDays(10),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Kassa"
+                },
+
+                new BranchRequestsEmployee
+                {
+                    BranchId = 3,
+                    EmployeeId = "a3b3c4d5-67f8-9a01-b2c3-d4e5f6g7h8i9",
+                    RequestToBranchId = 4,
+                    RequestStatusName = "Afgewezen",
+                    Message = "Verzoek om overplaatsing vanwege persoonlijke redenen, afgewezen.",
+                    DateNeeded = DateTime.Now.AddDays(14),
+                    StartTime = new TimeOnly(8, 30),
+                    EndTime = new TimeOnly(16, 30),
+                    DepartmentName = "Vers"
+                },
+
+                new BranchRequestsEmployee
+                {
+                    BranchId = 4,
+                    EmployeeId = "c5d6e7f8-90g1-2a34-b5c6-d7e8f9g0h1i2",
+                    RequestToBranchId = 5,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Overplaatsing gewenst door nieuwe strategische focus in het bedrijf.",
+                    DateNeeded = DateTime.Now.AddDays(5),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vakkenvullen"
+                },
+
+                new BranchRequestsEmployee
+                {
+                    BranchId = 5,
+                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3",
+                    RequestToBranchId = 6,
+                    RequestStatusName = "In Afwachting",
+                    Message = "Verzoek om overplaatsing vanwege training in nieuwe technologie.",
+                    DateNeeded = DateTime.Now.AddDays(20),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers"
                 }
             );
 
@@ -728,18 +1305,56 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Dinsdag
+                // Dinsdag - Kassa
+                new Schedule
+                {
+                    EmployeeId = "f9e8d7c6-1234-5678-90ab-cdef12345678", // Eva Smit
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 19),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "b4c5d6e7-89f0-1a23-b4c5-d6e7f8g9h0i1", // Sofie Jansen
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 19),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Dinsdag - Vakkenvullen
                 new Schedule
                 {
                     EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
                     BranchId = 1,
                     Date = new DateOnly(2024, 11, 19),
-                    StartTime = new TimeOnly(10, 0),
+                    StartTime = new TimeOnly(9, 0),
                     EndTime = new TimeOnly(18, 0),
                     DepartmentName = "Vakkenvullen",
                     IsFinal = true,
                     IsSick = false
                 },
+
+                new Schedule
+                {
+                    EmployeeId = "e7f8g9h0-12i3-4a56-b7c8-d9e0f1g2h3i4", // Mark Willems
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 19),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Dinsdag - Vers
                 new Schedule
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
@@ -752,67 +1367,374 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Woensdag
                 new Schedule
                 {
-                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
+                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3", // Lisa Hendriks
                     BranchId = 1,
-                    Date = new DateOnly(2024, 11, 20),
-                    StartTime = new TimeOnly(8, 0),
-                    EndTime = new TimeOnly(15, 0),
-                    DepartmentName = "Kassa",
-                    IsFinal = false,
-                    IsSick = false
-                },
-
-                // Donderdag
-                new Schedule
-                {
-                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
-                    BranchId = 1,
-                    Date = new DateOnly(2024, 11, 21),
-                    StartTime = new TimeOnly(9, 0),
-                    EndTime = new TimeOnly(17, 0),
+                    Date = new DateOnly(2024, 11, 19),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(18, 0),
                     DepartmentName = "Vers",
                     IsFinal = true,
                     IsSick = false
                 },
 
-                // Vrijdag
+                // Woensdag - Kassa
                 new Schedule
                 {
-                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3", // Eva Smit
                     BranchId = 1,
-                    Date = new DateOnly(2024, 11, 22),
-                    StartTime = new TimeOnly(12, 0),
-                    EndTime = new TimeOnly(20, 0),
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
                     DepartmentName = "Kassa",
                     IsFinal = true,
                     IsSick = true
                 },
-
-                // Zaterdag
                 new Schedule
                 {
-                    EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+                    EmployeeId = "f9e8d7c6-1234-5678-90ab-cdef12345678", // Eva Smit
                     BranchId = 1,
-                    Date = new DateOnly(2024, 11, 23),
-                    StartTime = new TimeOnly(9, 0),
-                    EndTime = new TimeOnly(17, 0),
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "b4c5d6e7-89f0-1a23-b4c5-d6e7f8g9h0i1", // Sofie Jansen
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Woensdag - Vakkenvullen
+                new Schedule
+                {
+                    EmployeeId = "a3b3c4d5-67f8-9a01-b2c3-d4e5f6g7h8i9", // Jan de Vries
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(22, 0),
                     DepartmentName = "Vakkenvullen",
                     IsFinal = true,
                     IsSick = false
                 },
 
-                // Zondag
+                // Woensdag - Vers
+                new Schedule
+                {
+                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3", // Lisa Hendriks
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 20),
+                    StartTime = new TimeOnly(15, 0),
+                    EndTime = new TimeOnly(20, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Donderdag - Kassa
+                new Schedule
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 21),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "f9e8d7c6-1234-5678-90ab-cdef12345678", // Eva Smit
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 21),
+                    StartTime = new TimeOnly(15, 0),
+                    EndTime = new TimeOnly(21, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Donderdag - Vakkenvullen
+                new Schedule
+                {
+                    EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 21),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(13, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e7f8g9h0-12i3-4a56-b7c8-d9e0f1g2h3i4", // Mark Willems
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 21),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(20, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Donderdag - Vers
+                new Schedule
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David den Boer
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 21),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = true
+                },
+                new Schedule
+                {
+                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3", // Lisa Hendriks
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 21),
+                    StartTime = new TimeOnly(15, 0),
+                    EndTime = new TimeOnly(20, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Vrijdag - Kassa
+                new Schedule
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 22),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(13, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "f9e8d7c6-1234-5678-90ab-cdef12345678", // Eva Smit
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 22),
+                    StartTime = new TimeOnly(13, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Vrijdag - Vakkenvullen
                 new Schedule
                 {
                     EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
                     BranchId = 1,
+                    Date = new DateOnly(2024, 11, 22),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 22),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Vrijdag - Vers
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 22),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3", // Lisa Hendriks
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 22),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Zaterdag - Kassa
+                new Schedule
+                {
+                    EmployeeId = "b4c5d6e7-89f0-1a23-b4c5-d6e7f8g9h0i1", // Sofie Jansen
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 23),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(13, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 23),
+                    StartTime = new TimeOnly(13, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Zaterdag - Vakkenvullen
+                new Schedule
+                {
+                    EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 23),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(12, 00),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e7f8g9h0-12i3-4a56-b7c8-d9e0f1g2h3i4", // Mark Willems
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 23),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Zaterdag - Vers
+                new Schedule
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David den Boer
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 23),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "d6e7f8g9-01h2-3a45-b6c7-d8e9f0g1h2i3", // Lisa Hendriks
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 23),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Zondag - Kassa
+                new Schedule
+                {
+                    EmployeeId = "f9e8d7c6-1234-5678-90ab-cdef12345678", // Eva Smit
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 24),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "b4c5d6e7-89f0-1a23-b4c5-d6e7f8g9h0i1", // Sofie Jansen
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 24),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Zondag - Vakkenvullen
+                new Schedule
+                {
+                    EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", // Douwe Jansen
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 24),
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                // Zondag - Vers
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
                     Date = new DateOnly(2024, 11, 24),
                     StartTime = new TimeOnly(8, 0),
-                    EndTime = new TimeOnly(16, 0),
-                    DepartmentName = "Kassa",
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", // David den Boer
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 11, 24),
+                    StartTime = new TimeOnly(14, 0),
+                    EndTime = new TimeOnly(18, 0),
+                    DepartmentName = "Vers",
                     IsFinal = true,
                     IsSick = false
                 }
