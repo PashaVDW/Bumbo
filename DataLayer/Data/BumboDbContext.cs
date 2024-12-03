@@ -1389,7 +1389,7 @@ namespace bumbo.Data
                     EndTime = new TimeOnly(14, 0),
                     DepartmentName = "Kassa",
                     IsFinal = true,
-                    IsSick = false
+                    IsSick = true
                 },
                 new Schedule
                 {
