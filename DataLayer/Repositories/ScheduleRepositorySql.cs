@@ -158,5 +158,17 @@ namespace DataLayer.Repositories
                 .ThenBy(s => s.StartTime)
                 .ToList();
         }
+
+        public Schedule GetScheduleByEmployeeBranchDate(string employeeId, int branchId, DateOnly date)
+        {
+            return _context.Set<Schedule>()
+                .Include(s => s.Employee) 
+                .Include(s => s.Branch)
+                .Include(s => s.Department)
+                .FirstOrDefault(s =>
+                    s.EmployeeId == employeeId &&
+                    s.BranchId == branchId &&
+                    s.Date == date);
+        }
     }
 }

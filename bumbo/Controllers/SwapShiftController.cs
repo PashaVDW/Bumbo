@@ -15,12 +15,16 @@ namespace bumbo.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly ISwapShiftRequestRepository _swapShiftRequestRepository;
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
 
-        public SwapShiftController(UserManager<Employee> userManager, ISwapShiftRequestRepository swapShiftRequestRepository, IScheduleRepository scheduleRepository)
+        public SwapShiftController(UserManager<Employee> userManager, ISwapShiftRequestRepository swapShiftRequestRepository, IScheduleRepository scheduleRepository, IEmployeeRepository employeeRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository)
         {
             _userManager = userManager;
             _swapShiftRequestRepository = swapShiftRequestRepository;
             _scheduleRepository = scheduleRepository;
+            _employeeRepository = employeeRepository;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
         }
 
         [Route("ShiftSwap")]
@@ -35,10 +39,10 @@ namespace bumbo.Controllers
 
             string employeeId = user.Id;
 
-            var incomingRequests = _swapShiftRequestRepository.GetAllIncomingRequests(employeeId);
-            var outgoingRequests = _swapShiftRequestRepository.GetAllOutgoingRequests(employeeId);
+            List<SwitchRequest> incomingRequests = _swapShiftRequestRepository.GetAllIncomingRequests(employeeId);
+            List<SwitchRequest> outgoingRequests = _swapShiftRequestRepository.GetAllOutgoingRequests(employeeId);
 
-            var viewModel = new SwapShiftViewModel
+            SwapShiftViewModel viewModel = new SwapShiftViewModel
             {
                 IncomingRequests = incomingRequests.Select(r => new SwitchRequestViewModel
                 {
@@ -65,9 +69,10 @@ namespace bumbo.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Create(string searchTerm, int page = 1)
+        [Route("ShiftSwap/Create")]
+        public async Task<IActionResult> Create()
         {
-            var user = await _userManager.GetUserAsync(User);
+            Employee user = await _userManager.GetUserAsync(User);
 
             if (user == null)
             {
@@ -75,44 +80,68 @@ namespace bumbo.Controllers
             }
 
             string employeeId = user.Id;
+            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+            int branchId = branches.First().BranchId;
 
-            var schedules = _scheduleRepository.GetSchedulesForEmployee(employeeId);
-
-            var headers = new List<string> { "Datum", "Tijd", "Afdeling", "Acties" };
-
-            var tableBuilder = new TableHtmlBuilder<SwapShiftScheduleViewModel>();
-            var htmlTable = tableBuilder.GenerateTable("Beschikbare Diensten", headers,
-                schedules.Select(s => new SwapShiftScheduleViewModel
+            List<SwapShiftScheduleViewModel> schedules = _scheduleRepository.GetSchedulesForEmployee(employeeId)
+                .Select(s => new SwapShiftScheduleViewModel
                 {
                     Date = s.Date,
                     StartTime = s.StartTime,
                     EndTime = s.EndTime,
                     DepartmentName = s.DepartmentName
-                }).ToList(),
-                "../ShiftSwap/Create",
-                item =>
-                {
-                    return $@"
-                <td class='py-2 px-4'>{item.Date.Day}-{item.Date.Month}-{item.Date.Year}</td>
-                <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
-                <td class='py-2 px-4'>{item.DepartmentName}</td>
-                <td class='py-2 px-4 text-right'>
-                    <form method='post' action='/ShiftSwap/Select'>
-                        <input type='hidden' name='ScheduleId' value='{item.Date}-{item.StartTime}' />
-                       <button type='submit' class='bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700'>
-                            Selecteren
-                        </button>
-                    </form>
-                </td>";
-                },
-                searchTerm,
-                page);
+                }).ToList();
 
-            string adjustedHtmlTable = htmlTable.Replace("text-4xl", "text-3xl");
-            ViewBag.HtmlTable = adjustedHtmlTable;
+            CreateSwapShiftViewModel viewModel = new CreateSwapShiftViewModel
+            {
+                EmployeeId = employeeId,
+                BranchId = branchId,
+                Schedules = schedules
+            };
 
-            return View();
+            return View(viewModel);
         }
+
+        [HttpPost("ShiftSwap/ChooseEmployee")]
+        public async Task<IActionResult> ChooseEmployee(string employeeId, int branchId, DateTime date)
+        {
+            Employee user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            Schedule schedule = _scheduleRepository.GetScheduleByEmployeeBranchDate(employeeId, branchId, DateOnly.FromDateTime(date));
+            if (schedule == null)
+            {
+                return NotFound("Schema niet gevonden.");
+            }
+
+            var availableEmployees = _employeeRepository.GetAvailableEmployees(
+                schedule.Date,
+                schedule.BranchId,
+                schedule.DepartmentName
+            );
+
+            var viewModel = new ChooseEmployeeViewModel
+            {
+                ScheduleDate = schedule.Date,
+                StartTime = schedule.StartTime,
+                EndTime = schedule.EndTime,
+                DepartmentName = schedule.DepartmentName,
+                AvailableEmployees = availableEmployees.Select(e => new EmployeeViewModel
+                {
+                    EmployeeId = e.Id,
+                    Name = $"{e.FirstName} {e.LastName}",
+                    Department = e.EmployeeHasDepartment.FirstOrDefault()?.DepartmentName ?? "Onbekend"
+                }).ToList()
+            };
+
+            return View(viewModel);
+        }
+
+
+
 
 
     }

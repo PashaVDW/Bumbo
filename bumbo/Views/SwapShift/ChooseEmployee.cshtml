@@ -1,0 +1,35 @@
+﻿@model bumbo.ViewModels.ChooseEmployeeViewModel
+
+<div class="p-4 space-y-4">
+    <h1 class="text-2xl font-bold mb-4">Beschikbare Medewerkers</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-4">
+        <h2 class="text-lg font-semibold mb-2">Geselecteerde Dienst</h2>
+        <div class="space-y-1">
+            <p><span class="font-semibold">Datum:</span> @Model.ScheduleDate.ToString("dd-MM-yyyy")</p>
+            <p><span class="font-semibold">Tijd:</span> @Model.StartTime - @Model.EndTime</p>
+            <p><span class="font-semibold">Afdeling:</span> @Model.DepartmentName</p>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        @foreach (var employee in Model.AvailableEmployees)
+        {
+            <div class="bg-white shadow-md rounded-lg p-4 flex items-center justify-between">
+                <div>
+                    <p class="text-lg font-semibold">@employee.Name</p>
+                    <p class="text-sm text-gray-500">Afdeling: @employee.Department</p>
+                </div>
+                <form method="post" action="/ShiftSwap/AssignEmployee">
+                    <input type="hidden" name="EmployeeId" value="@employee.EmployeeId" />
+                    <input type="hidden" name="ScheduleDate" value="@Model.ScheduleDate" />
+                    <input type="hidden" name="StartTime" value="@Model.StartTime" />
+                    <input type="hidden" name="EndTime" value="@Model.EndTime" />
+                    <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
+                        Kiezen
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+</div>

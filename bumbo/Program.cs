@@ -132,4 +132,9 @@ app.MapControllerRoute(
     pattern: "beschikbaarheid",
     defaults: new { controller = "Availability", action = "Index" });
 
+app.MapControllerRoute(
+    name: "shiftSwapChooseEmployee",
+    pattern: "ShiftSwap/ChooseEmployee",
+    defaults: new { controller = "SwapShift", action = "ChooseEmployee" });
+
 app.Run();

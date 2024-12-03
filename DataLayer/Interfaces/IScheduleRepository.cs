@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataLayer.Interfaces
 {
@@ -22,5 +23,6 @@ namespace DataLayer.Interfaces
         void UpdateEmployeeDaySchedule(string employeeId, DateTime date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
         void FinalizeSchedules(int branchId, List<DateOnly> weekDates);
         List<Schedule> GetSchedulesForEmployee(string employeeId);
+        Schedule GetScheduleByEmployeeBranchDate(string employeeId, int branchId, DateOnly date);
     }
 }

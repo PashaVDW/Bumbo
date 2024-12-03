@@ -4,6 +4,8 @@ namespace bumbo.ViewModels
 {
     public class CreateSwapShiftViewModel
     {
+        public string EmployeeId { get; set; }
+        public int BranchId { get; set; }
         public List<SwapShiftScheduleViewModel> Schedules { get; set; }
     }
 
@@ -13,6 +15,5 @@ namespace bumbo.ViewModels
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public string DepartmentName { get; set; }
-        public string TaskName { get; set; }
     }
 }

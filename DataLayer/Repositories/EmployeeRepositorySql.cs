@@ -49,5 +49,18 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public List<Employee> GetAvailableEmployees(DateOnly date, int branchId, string departmentName)
+        {
+            return _context.Availability
+                .Include(a => a.Employee)
+                    .ThenInclude(e => e.BranchEmployees)
+                .Include(a => a.Employee)
+                    .ThenInclude(e => e.EmployeeHasDepartment)
+                .Where(a => a.Date == date &&
+                            a.Employee.BranchEmployees.Any(be => be.BranchId == branchId))
+                .Select(a => a.Employee)
+                .ToList();
+        }
     }
 }
