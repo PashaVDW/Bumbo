@@ -12,7 +12,7 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20241203110335_firstCreate")]
+    [Migration("20241203133622_firstCreate")]
     partial class firstCreate
     {
         /// <inheritdoc />
@@ -938,8 +938,8 @@ namespace DataLayer.Migrations
                         {
                             Date = new DateOnly(2024, 12, 5),
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            EndTime = new TimeOnly(13, 0, 0),
-                            StartTime = new TimeOnly(9, 0, 0)
+                            EndTime = new TimeOnly(21, 0, 0),
+                            StartTime = new TimeOnly(8, 0, 0)
                         });
                 });
 
@@ -2117,7 +2117,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "4b42fbd3-549f-46d8-8f6e-6fc40c74a0b3",
+                            ConcurrencyStamp = "dff5f83b-6114-486c-839b-ad00ba39ee6b",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -2129,11 +2129,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENFCiAEQK+WxDJ6rEuJmsjh1qUUChdyLFt9k+Uc5y9Mv86huvANLGOmIlq8ukfh/4g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ5YDOgm9B6MkvbLWCOUN5vWOqOKfiOvFkc+SexhAlwVxcN4X6GCt9Q/+O6SEA/UOA==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "352e1826-7130-43ec-8ac3-3edcdccb62c5",
+                            SecurityStamp = "2e01f37e-1f0f-49a4-afeb-972102292cbf",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -2144,7 +2144,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "06b027c1-8030-4e0b-bf92-c44dcf91425d",
+                            ConcurrencyStamp = "f61cbcda-5958-486a-9de5-0ce49950481a",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -2155,11 +2155,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAdyqpYs04cVZ2cNBL37QpXRteeVamxKx9syOgHCc9SsdyXSnyXKu+fVqbRU7syg7A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBHrK/6xYW2tBPtY3Kr40VGmfm2ZezjZ933Z5uweSNVwIw8F2cKDArjXxq2qSsYR5A==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "9271 GB",
-                            SecurityStamp = "4949db4c-03af-48b8-a6b0-d00bfca7af92",
+                            SecurityStamp = "34353a65-5c8b-465e-897c-608bd89f3eb3",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -2170,7 +2170,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B003",
                             BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "e4fcbe08-27c0-488d-9d42-db94b9d37a4b",
+                            ConcurrencyStamp = "886a1e8e-fe39-42d0-a167-015c2ab7b09d",
                             Email = "darlon.vandijk@hotmail.com",
                             EmailConfirmed = true,
                             FirstName = "Darlon",
@@ -2181,11 +2181,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DARLON.VANDIJK@HOTMAIL.COM",
                             NormalizedUserName = "DARLON.VANDIJK@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK/KhFPkvaNKkZTtXR46FNTaNR5LklhPwwpgr8CyIemsN8ahIt+dc/hyxbRPOiCcKw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENNriP7B7GTHAJurhRLoIAVyphL5nh2grbNdEV6yr+2iP3QpMuTgErEaB9rloNDQSQ==",
                             PhoneNumber = "+31 6 34567890",
                             PhoneNumberConfirmed = false,
                             PostalCode = "8329 SK",
-                            SecurityStamp = "9f37948b-42b2-441e-9d0a-0d4887856200",
+                            SecurityStamp = "527cd307-547c-480e-9c3a-a2f8e8539c3b",
                             StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "darlon.vandijk@hotmail.com"
@@ -2196,7 +2196,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B004",
                             BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "e7570924-e5c4-46e4-90ae-672345c61ac8",
+                            ConcurrencyStamp = "09fcdd2f-f1b6-4077-bca3-ca2414324583",
                             Email = "pasha.bakker@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Pasha",
@@ -2208,11 +2208,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "PASHA.BAKKER@GMAIL.COM",
                             NormalizedUserName = "PASHA.BAKKER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEONw+ctIOI2JPqhbgT+/OtBxxWXVlb5f2nUefSc7rKOmynSgRxQGHHeTrwHkeMeJUA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAED6ugZu8T2g49HvAku9RItVHzw8ssrfimLOMuTRldKIxr5laAM+gRAubHC38l5IGWw==",
                             PhoneNumber = "+31 6 45678901",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3894 HT",
-                            SecurityStamp = "76b3d47e-fadd-456a-a749-a3967f81a19e",
+                            SecurityStamp = "28443eec-837a-4ac4-aa10-c888bac1e9e7",
                             StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "pasha.bakker@gmail.com"
@@ -2223,7 +2223,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B005",
                             BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "423ee281-47e7-44a2-8c6d-27ccb294ecd0",
+                            ConcurrencyStamp = "12d40bb3-30a8-4daf-9b73-488812ce09c2",
                             Email = "sarah.vanderven@hotmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarah",
@@ -2234,11 +2234,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
                             NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDt08f2w5uR5n+DCEfv0G80X5sW9hMhHTWFQf6bOO4SzDh94njhPE3ROMJCdmtSUUg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJYSJ/Rl8K4p8jngoDnCuO0KpArsyU7Z2l96SaxH6dff/3HNRBnIxZLaifWEXB8HeA==",
                             PhoneNumber = "+31 6 56789012",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2933 KJ",
-                            SecurityStamp = "a5a5d86c-3767-486f-862c-e9d9492cdafa",
+                            SecurityStamp = "15399494-105f-4c3c-93f6-8749f416e11d",
                             StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "sarah.vanderven@hotmail.com"
@@ -2249,7 +2249,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B006",
                             BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "343da424-33f5-40c4-a398-c0f9a51d4f58",
+                            ConcurrencyStamp = "cf2d9849-5029-4fea-b329-ad56094113b2",
                             Email = "david.denboer@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "David",
@@ -2261,11 +2261,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
                             NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJT4X5FDPDkjptZ67WlkS7U+ySLFYDgUhzew/l1+qMYTp9q5d6aJELt9mR++1H6V7w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF2Ntf8sq1OV8D9I6fiP9/QEvXfmcrAJoaGFHWc0i/93YtCpB1uC28wgqEnowynvlA==",
                             PhoneNumber = "+31 6 67890123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "4293 BF",
-                            SecurityStamp = "1c2817b1-bb02-4031-bc98-22ab4d0e0955",
+                            SecurityStamp = "fd9a7d8b-f022-450d-92d5-ba8e76e57f55",
                             StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "david.denboer@gmail.com"
@@ -2276,7 +2276,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B012",
                             BirthDate = new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "3dba9a6a-76e3-44a6-b84b-c6304ec2b0b4",
+                            ConcurrencyStamp = "d54f35ec-2be6-4949-8b13-c4387b75a55f",
                             Email = "anthony.ross@example.com",
                             EmailConfirmed = true,
                             FirstName = "Anthony",
@@ -2288,12 +2288,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "ANTHONY.ROSS@EXAMPLE.COM",
                             NormalizedUserName = "ANTHONY.ROSS@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM3RiPxN3/d1QrE3JHp8h4tUZ031TuHa57JAx6NKeyqAGhf2P0MDPzAcg1rNTbiutA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIxNqeAraUemvDTISF3gCvdNaqFFX2ivalNtM6PfktO9HYo6bSqGGkoPE++6piMpiA==",
                             PhoneNumber = "+31 6 12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2234 AB",
-                            SecurityStamp = "4157fb07-2c80-4083-a90b-86438020d4ce",
-                            StartDate = new DateTime(2024, 12, 3, 12, 3, 34, 733, DateTimeKind.Local).AddTicks(7545),
+                            SecurityStamp = "9b95d4eb-8207-44ea-ab5f-e85cad2ea1d1",
+                            StartDate = new DateTime(2024, 12, 3, 14, 36, 21, 596, DateTimeKind.Local).AddTicks(1427),
                             TwoFactorEnabled = false,
                             UserName = "anthony.ross@example.com"
                         },
@@ -2303,7 +2303,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B013",
                             BirthDate = new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "976531bd-e7dc-4b3f-a976-02b31538ed6b",
+                            ConcurrencyStamp = "5d79faeb-3c33-4b40-b442-106791e0e469",
                             Email = "douwe.jansen@example.com",
                             EmailConfirmed = true,
                             FirstName = "Douwe",
@@ -2315,12 +2315,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DOUWE.JANSEN@EXAMPLE.COM",
                             NormalizedUserName = "DOUWE.JANSEN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG0m+A9cbyXmHJPdkdkiuwOFbdt1ieYW4SF5xNl9ku2Orx3y+6A/TKyhkrZ/ER+tWQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELbLTUQkqNyGhP6bOUbCpPKo0IJfTdCO65F/ric2HbAnpsrpvAhtmJRQLAf7vpPsUQ==",
                             PhoneNumber = "+31 6 87654321",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3345 CD",
-                            SecurityStamp = "bedd25a8-81e7-4333-9b55-1a21b895f241",
-                            StartDate = new DateTime(2024, 12, 3, 12, 3, 34, 787, DateTimeKind.Local).AddTicks(9377),
+                            SecurityStamp = "e1a9d7d9-0529-4ad9-8c4f-6e2d00d8f342",
+                            StartDate = new DateTime(2024, 12, 3, 14, 36, 21, 645, DateTimeKind.Local).AddTicks(4918),
                             TwoFactorEnabled = false,
                             UserName = "douwe.jansen@example.com"
                         });
@@ -2540,14 +2540,14 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             FunctionName = "Cashier",
-                            StartDate = new DateTime(2024, 12, 3, 12, 3, 34, 733, DateTimeKind.Local).AddTicks(7545)
+                            StartDate = new DateTime(2024, 12, 3, 14, 36, 21, 596, DateTimeKind.Local).AddTicks(1427)
                         },
                         new
                         {
                             BranchId = 2,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2024, 12, 3, 12, 3, 34, 787, DateTimeKind.Local).AddTicks(9377)
+                            StartDate = new DateTime(2024, 12, 3, 14, 36, 21, 645, DateTimeKind.Local).AddTicks(4918)
                         },
                         new
                         {
@@ -2604,7 +2604,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             RequestToBranchId = 2,
-                            DateNeeded = new DateTime(2024, 12, 10, 12, 3, 34, 842, DateTimeKind.Local).AddTicks(3563),
+                            DateNeeded = new DateTime(2024, 12, 10, 14, 36, 21, 699, DateTimeKind.Local).AddTicks(7253),
                             EndTime = new TimeOnly(17, 0, 0),
                             Message = "Overplaatsing nodig vanwege projectdeadline.",
                             RequestStatusName = "In Afwachting",
@@ -2615,7 +2615,7 @@ namespace DataLayer.Migrations
                             BranchId = 2,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             RequestToBranchId = 1,
-                            DateNeeded = new DateTime(2024, 12, 17, 12, 3, 34, 842, DateTimeKind.Local).AddTicks(3636),
+                            DateNeeded = new DateTime(2024, 12, 17, 14, 36, 21, 699, DateTimeKind.Local).AddTicks(7310),
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
                             RequestStatusName = "In Afwachting",
@@ -2626,7 +2626,7 @@ namespace DataLayer.Migrations
                             BranchId = 3,
                             EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
                             RequestToBranchId = 4,
-                            DateNeeded = new DateTime(2024, 12, 13, 12, 3, 34, 842, DateTimeKind.Local).AddTicks(3646),
+                            DateNeeded = new DateTime(2024, 12, 13, 14, 36, 21, 699, DateTimeKind.Local).AddTicks(7314),
                             EndTime = new TimeOnly(17, 30, 0),
                             Message = "Hulp nodig vanwege ziekte van een collega.",
                             RequestStatusName = "Afgewezen",
@@ -2637,7 +2637,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
                             RequestToBranchId = 3,
-                            DateNeeded = new DateTime(2024, 12, 23, 12, 3, 34, 842, DateTimeKind.Local).AddTicks(3649),
+                            DateNeeded = new DateTime(2024, 12, 23, 14, 36, 21, 699, DateTimeKind.Local).AddTicks(7316),
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Overplaatsing voor trainingssessies.",
                             RequestStatusName = "Geaccepteerd",

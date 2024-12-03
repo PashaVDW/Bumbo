@@ -1098,7 +1098,7 @@ namespace bumbo.Data
                 new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
                 new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
 
-                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 12, 5), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) }
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 12, 5), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(21, 0) }
 
 
 

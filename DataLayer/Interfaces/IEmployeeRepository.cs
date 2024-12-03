@@ -9,6 +9,6 @@ namespace DataLayer.Interfaces
         Employee GetEmployeeById(string employeeId);
         void UpdateEmployee(Employee employee);
         void DeleteEmployee(string employeeId);
-        List<Employee> GetAvailableEmployees(DateOnly date, int branchId, string departmentName);
+        List<Employee> GetAvailableEmployees(DateOnly date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
     }
 }

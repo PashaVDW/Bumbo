@@ -119,6 +119,8 @@ namespace bumbo.Controllers
 
             var availableEmployees = _employeeRepository.GetAvailableEmployees(
                 schedule.Date,
+                schedule.StartTime,
+                schedule.EndTime,
                 schedule.BranchId,
                 schedule.DepartmentName
             );
@@ -132,8 +134,7 @@ namespace bumbo.Controllers
                 AvailableEmployees = availableEmployees.Select(e => new EmployeeViewModel
                 {
                     EmployeeId = e.Id,
-                    Name = $"{e.FirstName} {e.LastName}",
-                    Department = e.EmployeeHasDepartment.FirstOrDefault()?.DepartmentName ?? "Onbekend"
+                    Name = $"{e.FirstName} {e.LastName}"
                 }).ToList()
             };
 
