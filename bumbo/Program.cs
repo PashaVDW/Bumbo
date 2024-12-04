@@ -16,6 +16,7 @@ builder.Services.AddDbContext<BumboDBContext>(options =>
 
 // Register repositories
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
+builder.Services.AddScoped<ISwapShiftRequestRepository, SwapShiftRequestRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
 builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepositorySql>();
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
@@ -151,5 +152,10 @@ app.MapControllerRoute(
     name: "availability",
     pattern: "beschikbaarheid",
     defaults: new { controller = "Availability", action = "Index" });
+
+app.MapControllerRoute(
+    name: "shiftSwapChooseEmployee",
+    pattern: "ShiftSwap/ChooseEmployee",
+    defaults: new { controller = "SwapShift", action = "ChooseEmployee" });
 
 app.Run();
