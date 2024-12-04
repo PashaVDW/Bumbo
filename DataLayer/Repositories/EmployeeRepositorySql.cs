@@ -50,6 +50,21 @@ namespace DataLayer.Repositories
             }
         }
 
+        public List<Employee> GetAvailableEmployees(DateOnly date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName)
+        {
+            return _context.Availability
+                .Include(a => a.Employee)
+                    .ThenInclude(e => e.BranchEmployees)
+                .Include(a => a.Employee)
+                    .ThenInclude(e => e.EmployeeHasDepartment)
+                .Where(a => a.Date == date &&
+                            a.StartTime <= startTime &&
+                            a.EndTime >= endTime &&
+                            a.Employee.BranchEmployees.Any(be => be.BranchId == branchId))
+                .Select(a => a.Employee)
+                .ToList();
+        }
+
         public async Task<List<Employee>> GetEmployeesOfBranch(int? branchId)
         {
             return _context.Users
