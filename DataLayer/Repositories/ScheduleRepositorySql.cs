@@ -150,14 +150,24 @@ namespace DataLayer.Repositories
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
             TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
 
-            return _context.Schedule
+            var switchRequestSchedules = _context.SwitchRequest
+                .Where(sr => sr.EmployeeId == employeeId)
+                .Select(sr => new { sr.Date, sr.Schedule.StartTime, sr.Schedule.EndTime });
+
+            var schedules = _context.Schedule
                 .Include(s => s.Department)
                 .Where(s => s.EmployeeId == employeeId &&
-                            (s.Date > today || (s.Date == today && s.StartTime > now)))
+                            (s.Date > today || (s.Date == today && s.StartTime > now)) &&
+                            !switchRequestSchedules.Any(sr => sr.Date == s.Date &&
+                                                              sr.StartTime == s.StartTime &&
+                                                              sr.EndTime == s.EndTime))
                 .OrderBy(s => s.Date)
                 .ThenBy(s => s.StartTime)
                 .ToList();
+
+            return schedules;
         }
+
 
         public Schedule GetScheduleByEmployeeBranchDate(string employeeId, int branchId, DateOnly date)
         {

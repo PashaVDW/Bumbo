@@ -86,5 +86,11 @@ namespace DataLayer.Repositories
 
             return availableEmployees;
         }
+
+        public void AddSwitchRequest(SwitchRequest switchRequest)
+        {
+            _context.SwitchRequest.Add(switchRequest);
+            _context.SaveChanges();
+        }
     }
 }

@@ -12,5 +12,7 @@ namespace DataLayer.Interfaces
     {
         public List<SwitchRequest> GetAllIncomingRequests(string employeeId);
         public List<SwitchRequest> GetAllOutgoingRequests(string employeeId);
+
+        void AddSwitchRequest(SwitchRequest switchRequest);
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace bumbo.Controllers
 {
@@ -72,78 +73,202 @@ namespace bumbo.Controllers
         [Route("ShiftSwap/Create")]
         public async Task<IActionResult> Create()
         {
+            SetTempDataForSwapShiftToast("CreateSwapShiftToast");
+
+            // Haal de ingelogde gebruiker op
             Employee user = await _userManager.GetUserAsync(User);
 
             if (user == null)
             {
+                TempData["ToastMessage"] = "Je moet ingelogd zijn om een dienstwissel aan te maken.";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            string employeeId = user.Id;
-            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
-            int branchId = branches.First().BranchId;
-
-            List<SwapShiftScheduleViewModel> schedules = _scheduleRepository.GetSchedulesForEmployee(employeeId)
-                .Select(s => new SwapShiftScheduleViewModel
-                {
-                    Date = s.Date,
-                    StartTime = s.StartTime,
-                    EndTime = s.EndTime,
-                    DepartmentName = s.DepartmentName
-                }).ToList();
-
-            CreateSwapShiftViewModel viewModel = new CreateSwapShiftViewModel
+            try
             {
-                EmployeeId = employeeId,
-                BranchId = branchId,
-                Schedules = schedules
-            };
+                string employeeId = user.Id;
 
-            return View(viewModel);
+                List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+                if (branches == null || !branches.Any())
+                {
+                    TempData["ToastMessage"] = "Geen filialen gekoppeld aan jouw account. Dienstwissel is niet mogelijk.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                int branchId = branches.First().BranchId;
+
+                List<SwapShiftScheduleViewModel> schedules = _scheduleRepository.GetSchedulesForEmployee(employeeId)
+                    .Select(s => new SwapShiftScheduleViewModel
+                    {
+                        Date = s.Date,
+                        StartTime = s.StartTime,
+                        EndTime = s.EndTime,
+                        DepartmentName = s.DepartmentName
+                    }).ToList();
+
+                if (schedules == null || !schedules.Any())
+                {
+                    TempData["ToastMessage"] = "Geen diensten gevonden om te wisselen.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                CreateSwapShiftViewModel viewModel = new CreateSwapShiftViewModel
+                {
+                    EmployeeId = employeeId,
+                    BranchId = branchId,
+                    Schedules = schedules
+                };
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "Er is een fout opgetreden bij het laden van de dienstwissel: " + ex.Message;
+                TempData["ToastType"] = "error";
+                return RedirectToAction("Index");
+            }
         }
+
 
         [HttpPost("ShiftSwap/ChooseEmployee")]
         public async Task<IActionResult> ChooseEmployee(string employeeId, int branchId, DateTime date)
         {
+            SetTempDataForSwapShiftToast("ChooseEmployeeToast"); // Set temp data voor toasts
+
             Employee user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
+                TempData["ToastMessage"] = "Je moet ingelogd zijn om een medewerker te kiezen.";
+                TempData["ToastType"] = "error";
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            Schedule schedule = _scheduleRepository.GetScheduleByEmployeeBranchDate(employeeId, branchId, DateOnly.FromDateTime(date));
-            if (schedule == null)
+            try
             {
-                return NotFound("Schema niet gevonden.");
-            }
-
-            var availableEmployees = _employeeRepository.GetAvailableEmployees(
-                schedule.Date,
-                schedule.StartTime,
-                schedule.EndTime,
-                schedule.BranchId,
-                schedule.DepartmentName
-            );
-
-            var viewModel = new ChooseEmployeeViewModel
-            {
-                ScheduleDate = schedule.Date,
-                StartTime = schedule.StartTime,
-                EndTime = schedule.EndTime,
-                DepartmentName = schedule.DepartmentName,
-                AvailableEmployees = availableEmployees.Select(e => new EmployeeViewModel
+                
+                Schedule schedule = _scheduleRepository.GetScheduleByEmployeeBranchDate(employeeId, branchId, DateOnly.FromDateTime(date));
+                if (schedule == null)
                 {
-                    EmployeeId = e.Id,
-                    Name = $"{e.FirstName} {e.LastName}"
-                }).ToList()
-            };
+                    TempData["ToastMessage"] = "Schema niet gevonden voor de opgegeven datum en medewerker.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
 
-            return View(viewModel);
+                List<Employee> availableEmployees = _employeeRepository.GetAvailableEmployees(
+                    schedule.Date,
+                    schedule.StartTime,
+                    schedule.EndTime,
+                    schedule.BranchId,
+                    schedule.DepartmentName
+                );
+
+                if (availableEmployees == null || !availableEmployees.Any())
+                {
+                    TempData["ToastMessage"] = "Geen beschikbare medewerkers gevonden voor deze shift.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                ChooseEmployeeViewModel viewModel = new ChooseEmployeeViewModel
+                {
+                    ScheduleDate = schedule.Date,
+                    StartTime = schedule.StartTime,
+                    EndTime = schedule.EndTime,
+                    DepartmentName = schedule.DepartmentName,
+                    AvailableEmployees = availableEmployees.Select(e => new EmployeeViewModel
+                    {
+                        EmployeeId = e.Id,
+                        Name = $"{e.FirstName} {e.LastName}"
+                    }).ToList()
+                };
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "Er is een fout opgetreden bij het ophalen van de beschikbare medewerkers: " + ex.Message;
+                TempData["ToastType"] = "error";
+                return RedirectToAction("Index");
+            }
         }
 
 
+        [HttpPost("ShiftSwap/AssignEmployee")]
+        public async Task<IActionResult> AssignEmployee(string EmployeeId, string ScheduleDate, string StartTime, string EndTime)
+        {
+            SetTempDataForSwapShiftToast("AssignEmployeeToast");
+
+            try
+            {
+                Employee user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    TempData["ToastMessage"] = "Je moet ingelogd zijn met de gebruiker.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("AccessDenied", "Home");
+                }
+
+                if (!DateOnly.TryParse(ScheduleDate, out var date))
+                {
+                    TempData["ToastMessage"] = "Ongeldige datum. Controleer de invoer en probeer het opnieuw.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+                if (!TimeOnly.TryParse(StartTime, out var startTime) || !TimeOnly.TryParse(EndTime, out var endTime))
+                {
+                    TempData["ToastMessage"] = "Ongeldige tijd. Controleer de invoer en probeer het opnieuw.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                var branch = _branchHasEmployeeRepository.GetBranchesForEmployee(user.Id).FirstOrDefault();
+                if (branch == null)
+                {
+                    TempData["ToastMessage"] = "Je bent niet gekoppeld aan een filiaal. Deze functionaliteit is niet mogelijk.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                if (branch.BranchId == 0)
+                {
+                    TempData["ToastMessage"] = "Ongeldig filiaal. Neem contact op met de beheerder.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                var switchRequest = new SwitchRequest
+                {
+                    SendToEmployeeId = EmployeeId,
+                    EmployeeId = user.Id,
+                    BranchId = branch.BranchId,
+                    Date = date,
+                    Declined = false
+                };
+
+                _swapShiftRequestRepository.AddSwitchRequest(switchRequest);
+
+                TempData["ToastMessage"] = "Wisselen van dienst aanvraag is verstuurd.";
+                TempData["ToastType"] = "success";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "Er is een fout opgetreden tijdens het aanmaken van de dienstwissel: " + ex.Message;
+                TempData["ToastType"] = "error";
+                return RedirectToAction("Index");
+            }
+        }
 
 
+        private void SetTempDataForSwapShiftToast(string toastId)
+        {
+            TempData["ToastId"] = toastId;
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 5000;
+        }
 
     }
 }
