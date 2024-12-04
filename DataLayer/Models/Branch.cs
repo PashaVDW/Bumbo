@@ -14,6 +14,7 @@ public class Branch
     [Required, StringLength(10)]
     public string HouseNumber { get; set; }
 
+
     [Required, StringLength(100)]
     public string Name { get; set; }
 

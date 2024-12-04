@@ -9,5 +9,6 @@ namespace DataLayer.Interfaces
         Employee GetEmployeeById(string employeeId);
         void UpdateEmployee(Employee employee);
         void DeleteEmployee(string employeeId);
+        Task<List<Employee>> GetEmployeesOfBranch(int? branchId);
     }
 }

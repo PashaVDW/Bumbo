@@ -88,13 +88,13 @@ namespace bumbo.Controllers
             {
                 Days = new List<DayData>
                 {
-                    new DayData { DayName = "Monday" },
-                    new DayData { DayName = "Tuesday" },
-                    new DayData { DayName = "Wednesday" },
-                    new DayData { DayName = "Thursday" },
-                    new DayData { DayName = "Friday" },
-                    new DayData { DayName = "Saturday" },
-                    new DayData { DayName = "Sunday" }
+                    new DayData { DayName = "Maandag" },
+                    new DayData { DayName = "Dinsdag" },
+                    new DayData { DayName = "Woensdag" },
+                    new DayData { DayName = "Donderdag" },
+                    new DayData { DayName = "Vrijdag" },
+                    new DayData { DayName = "Zaterdag" },
+                    new DayData { DayName = "Zondag" }
                 }
             };
             return View(model);
@@ -156,28 +156,28 @@ namespace bumbo.Controllers
 
                 if (isNameEmpty)
                 {
-                    errorMessages.Add("Please provide a name for the template.");
+                    errorMessages.Add("Voer een geldige naam in voor de template.");
                 }
 
                 if (isTemplateDuplicate)
                 {
-                    errorMessages.Add("A template with this name already exists.");
+                    errorMessages.Add("Een template met deze naam bestaat al.");
                 }
 
                 if (hasCustomerErrors && hasContainerErrors)
                 {
-                    errorMessages.Add("All customers and container amounts must be greater than zero.");
+                    errorMessages.Add("Alle klant en coli gegevens moeten meer dan nul zijn.");
                 }
                 else
                 {
                     if (hasCustomerErrors)
                     {
-                        errorMessages.Add("Customer amounts must be greater than zero for all days.");
+                        errorMessages.Add("Aantal klanten moeten voor alle dagen groter zijn dan nul.");
                     }
 
                     if (hasContainerErrors)
                     {
-                        errorMessages.Add("Container amounts must be greater than zero for all days.");
+                        errorMessages.Add("Aantal coli moet voor alle dagen groter zijn dan nul.");
                     }
                 }
 
@@ -217,7 +217,7 @@ namespace bumbo.Controllers
             await _templatesRepository.Add(template);
             await _templatesRepository.SaveChangesAsync();
 
-            TempData["ToastMessage"] = "Template created successfully!";
+            TempData["ToastMessage"] = "Template succesvol aangemaakt!";
             TempData["ToastType"] = "success";
             TempData["ToastId"] = "templateToast";
             TempData["AutoHide"] = "yes";
@@ -240,7 +240,7 @@ namespace bumbo.Controllers
 
             if (_templatesRepository.GetByIdAndBranch(templateId, branchId) == null)
             {
-                TempData["ToastMessage"] = "No template found!";
+                TempData["ToastMessage"] = "Geen template gevonden!";
                 TempData["ToastType"] = "error";
                 TempData["ToastId"] = "templateToast";
                 TempData["AutoHide"] = "yes";
@@ -251,7 +251,7 @@ namespace bumbo.Controllers
             List<TemplateHasDays> templateHasDays = _templatesHasDaysRepository.GetAllTemplateHasDays();
             List<Template> templates = _templatesRepository.GetAllTemplates();
 
-            var dayOrder = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+            var dayOrder = new[] { "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag" };
 
             List<TemplatesViewModel> templateViewModel = templates.Select(template => new TemplatesViewModel
             {
@@ -329,28 +329,28 @@ namespace bumbo.Controllers
 
                 if (isNameEmpty)
                 {
-                    errorMessages.Add("Please provide a name for the template.");
+                    errorMessages.Add("Geef een naam op voor de template.");
                 }
 
                 if (isTemplateDuplicate)
                 {
-                    errorMessages.Add("A template with this name already exists.");
+                    errorMessages.Add("Een template met deze naam bestaat al.");
                 }
 
                 if (hasCustomerErrors && hasContainerErrors)
                 {
-                    errorMessages.Add("All customers and container amounts must be greater than zero.");
+                    errorMessages.Add("Alle klant en coli gegevens moeten meer dan nul zijn.");
                 }
                 else
                 {
                     if (hasCustomerErrors)
                     {
-                        errorMessages.Add("Customer amounts must be greater than zero for all days.");
+                        errorMessages.Add("Aantal klanten moeten voor alle dagen groter zijn dan nul.");
                     }
 
                     if (hasContainerErrors)
                     {
-                        errorMessages.Add("Container amounts must be greater than zero for all days.");
+                        errorMessages.Add("Aantal coli moet voor alle dagen groter zijn dan nul.");
                     }
                 }
 
@@ -394,7 +394,7 @@ namespace bumbo.Controllers
                     }).ToList()
                 };
 
-                TempData["ToastMessage"] = "The template doesn't exist";
+                TempData["ToastMessage"] = "De template bestaat niet";
                 TempData["ToastType"] = "error";
                 TempData["ToastId"] = "templateToast";
                 TempData["AutoHide"] = "yes";
@@ -430,7 +430,7 @@ namespace bumbo.Controllers
             await _templatesRepository.SaveChangesAsync();
             await _templatesHasDaysRepository.SaveChangesAsync();
 
-            TempData["ToastMessage"] = "Template updated successfully!";
+            TempData["ToastMessage"] = "Template succesvol bijgewerkt!";
             TempData["ToastType"] = "success";
             TempData["ToastId"] = "templateToast";
             TempData["AutoHide"] = "yes";
@@ -453,7 +453,7 @@ namespace bumbo.Controllers
 
             if (template == null)
             {
-                TempData["ToastMessage"] = "The template doesn't exist";
+                TempData["ToastMessage"] = "Dit template bestaat niet";
                 TempData["ToastType"] = "error";
                 TempData["ToastId"] = "templateToast";
                 TempData["AutoHide"] = "yes";
@@ -465,7 +465,7 @@ namespace bumbo.Controllers
 
             await _templatesRepository.DeleteAsync(template);
 
-            TempData["ToastMessage"] = "Template deleted successfully!";
+            TempData["ToastMessage"] = "Template succesvol verwijderd!";
             TempData["ToastType"] = "success";
             TempData["ToastId"] = "templateToast";
             TempData["AutoHide"] = "yes";
