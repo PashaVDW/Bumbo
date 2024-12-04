@@ -18,5 +18,8 @@ namespace bumbo.ViewModels
         public TimeOnly EndTime { get; set; }
         public string Department { get; set; }
         public string Status { get; set; }
+        public string SendToEmployeeId { get; set; }
+        public string EmployeeId { get; set; }
+        public int BranchId { get; set; }
     }
 }

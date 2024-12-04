@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using bumbo.Data;
+using Azure.Core;
 
 namespace DataLayer.Repositories
 {
@@ -179,6 +180,23 @@ namespace DataLayer.Repositories
                     s.EmployeeId == employeeId &&
                     s.BranchId == branchId &&
                     s.Date == date);
+        }
+
+        public void UpdateSchedule(Schedule schedule) {
+            _context.Schedule.Update(schedule);
+            _context.SaveChanges();
+        }
+
+        public void RemoveSchedule(Schedule schedule)
+        {
+            _context.Schedule.Remove(schedule);
+            _context.SaveChanges();
+        }
+
+        public void AddSchedule(Schedule schedule)
+        {
+            _context.Schedule.Add(schedule);
+            _context.SaveChanges();
         }
     }
 }

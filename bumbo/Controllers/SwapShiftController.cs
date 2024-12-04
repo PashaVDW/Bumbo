@@ -47,14 +47,19 @@ namespace bumbo.Controllers
             {
                 IncomingRequests = incomingRequests.Select(r => new SwitchRequestViewModel
                 {
-                    RequesterName = r.Employee?.FirstName + " " + r.Employee?.LastName,
+                    RequesterName = _employeeRepository.GetEmployeeById(r.EmployeeId)?.FirstName + " " + _employeeRepository.GetEmployeeById(r.EmployeeId)?.LastName,
                     ReceiverName = user.FirstName + " " + user.LastName,
                     Date = r.Date,
-                    StartTime = r.Schedule.StartTime,
-                    EndTime = r.Schedule.EndTime,
-                    Department = r.Schedule.Department?.DepartmentName ?? "Onbekend",
-                    Status = r.Declined ? "Geweigerd" : "In afwachting"
+                    StartTime = r.Schedule?.StartTime ?? TimeOnly.MinValue,
+                    EndTime = r.Schedule?.EndTime ?? TimeOnly.MinValue,
+                    Department = r.Schedule?.Department?.DepartmentName ?? "Onbekend",
+                    Status = r.Declined ? "Geweigerd" : r.IsAccepted ? "Geaccepteerd" : "In afwachting",
+                    SendToEmployeeId = r.SendToEmployeeId,
+                    EmployeeId = r.EmployeeId,
+                    BranchId = r.BranchId
                 }).ToList(),
+
+
                 OutgoingRequests = outgoingRequests.Select(r => new SwitchRequestViewModel
                 {
                     RequesterName = user.FirstName + " " + user.LastName,
@@ -63,12 +68,16 @@ namespace bumbo.Controllers
                     StartTime = r.Schedule.StartTime,
                     EndTime = r.Schedule.EndTime,
                     Department = r.Schedule.Department?.DepartmentName ?? "Onbekend",
-                    Status = r.Declined ? "Geweigerd" : "Geaccepteerd"
+                    Status = r.Declined ? "Geweigerd" : "In afwachting",
+                    SendToEmployeeId = r.SendToEmployeeId,
+                    EmployeeId = r.EmployeeId,
+                    BranchId = r.BranchId
                 }).ToList()
             };
 
             return View(viewModel);
         }
+
 
         [Route("ShiftSwap/Create")]
         public async Task<IActionResult> Create()
@@ -136,7 +145,7 @@ namespace bumbo.Controllers
         [HttpPost("ShiftSwap/ChooseEmployee")]
         public async Task<IActionResult> ChooseEmployee(string employeeId, int branchId, DateTime date)
         {
-            SetTempDataForSwapShiftToast("ChooseEmployeeToast"); // Set temp data voor toasts
+            SetTempDataForSwapShiftToast("ChooseEmployeeToast");
 
             Employee user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -263,11 +272,131 @@ namespace bumbo.Controllers
         }
 
 
+        [HttpPost("ShiftSwap/AcceptSwitchRequest")]
+        public async Task<IActionResult> AcceptSwitchRequest(string sendToEmployeeId, string employeeId, int branchId, DateOnly date)
+        {
+            SetTempDataForSwapShiftToast("AcceptSwitchRequestToast");
+
+            Employee user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ToastMessage"] = "Je moet ingelogd zijn om deze actie uit te voeren.";
+                TempData["ToastType"] = "error";
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            try
+            {
+                SwitchRequest switchRequest = _swapShiftRequestRepository.GetSwitchRequest(sendToEmployeeId, employeeId, branchId, date);
+                if (switchRequest == null)
+                {
+                    TempData["ToastMessage"] = "Het verzoek om te wisselen is niet gevonden.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                if (switchRequest.SendToEmployeeId != user.Id)
+                {
+                    TempData["ToastMessage"] = "Je bent niet bevoegd om dit verzoek te accepteren.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                Schedule schedule = switchRequest.Schedule;
+                if (schedule == null)
+                {
+                    TempData["ToastMessage"] = "Er is geen gekoppeld rooster gevonden voor dit verzoek.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                _swapShiftRequestRepository.RemoveSwitchRequest(switchRequest);
+
+                _scheduleRepository.RemoveSchedule(schedule);
+
+                Schedule updatedSchedule = new Schedule
+                {
+                    EmployeeId = sendToEmployeeId,
+                    BranchId = schedule.BranchId,
+                    Date = schedule.Date,
+                    StartTime = schedule.StartTime,
+                    EndTime = schedule.EndTime,
+                    DepartmentName = schedule.DepartmentName,
+                    IsSick = schedule.IsSick,
+                    IsFinal = schedule.IsFinal,
+                    Employee = user,
+                    Branch = schedule.Branch,
+                    Department = schedule.Department
+                };
+
+                _scheduleRepository.AddSchedule(updatedSchedule);
+
+                TempData["ToastMessage"] = "Het verzoek om te wisselen is succesvol geaccepteerd.";
+                TempData["ToastType"] = "success";
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "Er is een fout opgetreden bij het accepteren van het verzoek: " + ex.Message;
+                TempData["ToastType"] = "error";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("ShiftSwap/DeclineSwitchRequest")]
+        public async Task<IActionResult> DeclineSwitchRequest(string sendToEmployeeId, string employeeId, int branchId, DateOnly date)
+        {
+            SetTempDataForSwapShiftToast("DeclineSwitchRequestToast");
+
+            Employee user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ToastMessage"] = "Je moet ingelogd zijn om deze actie uit te voeren.";
+                TempData["ToastType"] = "error";
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            try
+            {
+                SwitchRequest switchRequest = _swapShiftRequestRepository.GetSwitchRequest(sendToEmployeeId, employeeId, branchId, date);
+                if (switchRequest == null)
+                {
+                    TempData["ToastMessage"] = "Het verzoek om te wisselen is niet gevonden.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                if (switchRequest.SendToEmployeeId != user.Id)
+                {
+                    TempData["ToastMessage"] = "Je bent niet bevoegd om dit verzoek te weigeren.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                switchRequest.Declined = true;
+                _swapShiftRequestRepository.UpdateSwitchRequest(switchRequest);
+
+                TempData["ToastMessage"] = "Het verzoek om te wisselen is succesvol geweigerd.";
+                TempData["ToastType"] = "success";
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "Er is een fout opgetreden bij het weigeren van het verzoek: " + ex.Message;
+                TempData["ToastType"] = "error";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+
+
+
         private void SetTempDataForSwapShiftToast(string toastId)
         {
             TempData["ToastId"] = toastId;
             TempData["AutoHide"] = "yes";
-            TempData["MilSecHide"] = 5000;
+            TempData["MilSecHide"] = 10000;
         }
 
     }
