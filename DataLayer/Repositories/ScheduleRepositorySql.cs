@@ -206,6 +206,7 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
+
         public void AddEmployee(string employeeId, int branchId, DateOnly date, string departmentName, TimeOnly startTime, TimeOnly endTime)
         {
             if (string.IsNullOrWhiteSpace(employeeId))
