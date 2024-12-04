@@ -6,6 +6,7 @@ using DataLayer;
 using DataLayer.Interfaces;
 using DataLayer.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using bumbo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +16,11 @@ builder.Services.AddDbContext<BumboDBContext>(options =>
 
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
+builder.Services.AddScoped<IPrognosisHasDaysHasDepartments, PrognosisHasDaysHasDepartmentsSql>();
 builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepositorySql>();
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
 builder.Services.AddScoped<ISchoolScheduleRepository, SchoolScheduleRepositorySql>();
+builder.Services.AddScoped<IDaysRepositorySQL, DaysRepositorySQL>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
@@ -30,6 +33,7 @@ builder.Services.AddScoped<ILabourRulesRepository, LabourRulesRepositorySql>();
 builder.Services.AddScoped<ICountryRepository, CountryRepositorySql>();
 builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepositorySql>();
 
+builder.Services.AddTransient<IPrognosisCalculator, PrognosisCalculator>();
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
