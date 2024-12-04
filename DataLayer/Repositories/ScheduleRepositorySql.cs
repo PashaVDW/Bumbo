@@ -196,6 +196,8 @@ namespace DataLayer.Repositories
         {
             _context.Schedule.Add(schedule);
             _context.SaveChanges();
+        }
+
         public void AddHelpEmployeeToDay(Schedule schedule)
         {
             if (schedule != null)
