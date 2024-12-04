@@ -28,7 +28,7 @@ namespace DataLayer.Repositories
 
             return schedules;
         }
-        
+
         public List<Schedule> GetSchedulesForEmployeeByDay(string employeeId, DateOnly date)
         {
             var schedules = _context.Schedule
@@ -44,7 +44,7 @@ namespace DataLayer.Repositories
             sickSchedules.ForEach(s => s.IsSick = true);
             _context.SaveChanges();
             return sickSchedules;
-        
+
         }
         public List<Schedule> SetSchedulesBetter(List<Schedule> sickSchedules)
         {
@@ -74,7 +74,6 @@ namespace DataLayer.Repositories
 
             return schedule;
         }
-        
         public List<string> GetDepartments()
         {
             var departments = _context.Departments
@@ -104,7 +103,7 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
-        
+
         public void FinalizeSchedules(int branchId, List<DateOnly> weekDates)
         {
             var schedules = _context.Schedule
