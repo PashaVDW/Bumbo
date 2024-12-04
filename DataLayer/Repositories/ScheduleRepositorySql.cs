@@ -196,7 +196,10 @@ namespace DataLayer.Repositories
         {
             _context.Schedule.Add(schedule);
             _context.SaveChanges();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5c548c94e2ff5c55daa531f74782de9cb7096a81
         }
 
         public void AddHelpEmployeeToDay(Schedule schedule)
