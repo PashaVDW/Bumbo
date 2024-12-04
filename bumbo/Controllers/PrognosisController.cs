@@ -1,99 +1,33 @@
-﻿using bumbo.Components;
-using bumbo.Models;
-using bumbo.Services;
+﻿using bumbo.Models;
 using bumbo.ViewModels;
-using bumbo.ViewModels.Prognosis;
 using DataLayer.Interfaces;
 using DataLayer.Models;
-using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Globalization;
 
 namespace bumbo.Controllers
 {
     public class PrognosisController : Controller
     {
-
-        List<Template> templates = new List<Template>();
+        private readonly UserManager<Employee> _userManager;
         private readonly IPrognosisRepository _prognosisRepository;
-        private readonly IPrognosisHasDaysRepository _prognosisHasDaysRepository;
-        private readonly INormsRepository _normsRepository;
-        private readonly IDaysRepositorySQL _daysRepository;
-        private readonly ITemplatesRepository _TemplatesRepository;
-        private readonly IPrognosisHasDaysHasDepartments _prognosisHasDaysHasDepartments;
-        private readonly IPrognosisCalculator _prognosisCalculator;
-        private readonly DateHelper dateHelper;
-        private readonly int _currentYear;
-        private readonly int _currentWeek;
-        public PrognosisController(
-            IPrognosisRepository prognosisRepository,
-            IPrognosisHasDaysRepository prognosisHasDaysRepository,
-            INormsRepository normsRepository,
-            IDaysRepositorySQL daysRepository,
-            ITemplatesRepository templatesRepository,
-            IPrognosisHasDaysHasDepartments prognosisHasDaysHasDepartments,
-            IPrognosisCalculator prognosisCalculator)
+
+        public PrognosisController(IPrognosisRepository prognosisRepository, UserManager<Employee> userManager)
         {
             _prognosisRepository = prognosisRepository;
-            _prognosisHasDaysRepository = prognosisHasDaysRepository;
-            _normsRepository = normsRepository;
-            _daysRepository = daysRepository;
-
-            dateHelper = new DateHelper();
-            _currentYear = dateHelper.GetCurrentYear();
-            _currentWeek = dateHelper.GetCurrentWeek();
-            _TemplatesRepository = templatesRepository;
-            _prognosisHasDaysHasDepartments = prognosisHasDaysHasDepartments;
-            _prognosisCalculator = prognosisCalculator;
+            _userManager = userManager;
         }
-
-        private List<DailyCalculationResult> CalculateUrenAndMedewerkers(
-            List<PrognosisHasDays> prognosisDays,
-            List<Norm> norms)
+        
+        public async Task<ActionResult> Index(int? weekNumber, int? year, int? weekInc)
         {
-            var results = new List<DailyCalculationResult>();
+            var user = await _userManager.GetUserAsync(User);
 
-            foreach (var day in prognosisDays)
+            if (user == null || user.ManagerOfBranchId == null)
             {
-                var dayResult = new DailyCalculationResult
-                {
-                    DayName = day.DayName,
-                    DepartmentCalculations = new List<DepartmentCalculationResult>()
-                };
-
-                var activities = new List<(string activity, int amount)>
-                {
-                    ("Coli uitladen", day.PackagesAmount),
-                    ("Vakkenvullen", day.PackagesAmount),
-                    ("Kassa", day.CustomerAmount),
-                    ("Vers", day.PackagesAmount),
-                    ("Spiegelen", day.PackagesAmount)
-                };
-                ViewBag.Activities = activities;
-                foreach (var (activity, amount) in activities)
-                {
-                    double totalSeconds = amount * GetNormInSeconds(activity, norms);
-                    int uren = (int)Math.Ceiling(totalSeconds / 3600);
-                    int medewerkersNeeded = (int)Math.Ceiling(uren / 8.0);
-
-                    dayResult.DepartmentCalculations.Add(new DepartmentCalculationResult
-                    {
-                        Activity = activity,
-                        Uren = uren,
-                        MedewerkersNeeded = medewerkersNeeded
-                    });
-                }
-
-                results.Add(dayResult);
+                return RedirectToAction("AccessDenied", "Home");
             }
 
-            return results;
-        }
-
-        public ActionResult Index(int? weekNumber, int? year, int? weekInc)
-        {
             DateTime firstDayOfWeek;
             DateTime lastDayOfWeek;
 
@@ -241,10 +175,7 @@ namespace bumbo.Controllers
             {
                 Year = prognosis.Year,
                 WeekNr = prognosis.WeekNr,
-                Days = days, // Vul het model met de berekende dagen
-                PrognosisId = prognosis.PrognosisId,
-                currentWeek = _currentWeek,
-                currentYear = _currentYear
+                Days = days // Vul het model met de berekende dagen
             };
 
             return View(viewModel);
@@ -271,368 +202,138 @@ namespace bumbo.Controllers
             return firstWeekStart;
         }
 
-        private double GetNormInSeconds(string activity, List<Norm> norms)
-        {
-            var norm = norms.FirstOrDefault(n => n.activity == activity);
-            return norm != null ? norm.normInSeconds : 0;
-        }
-
-        private DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
-        {
-            DateTime jan1 = new DateTime(year, 1, 1);
-            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
-
-            DateTime firstThursday = jan1.AddDays(daysOffset);
-            var cal = CultureInfo.CurrentCulture.Calendar;
-            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
-            DateTime firstWeekStart = firstThursday.AddDays(-3);
-            if (firstWeek <= 1)
-            {
-                firstWeekStart = jan1;
-            }
-
-            return firstWeekStart.AddDays((weekOfYear - 1) * 7);
-        }
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> Create(int? id, int? templateId, int? weekNumber, int? yearNumber)
-        {
-            var viewModel = new PrognosisCreateViewModel
-            {
-                Days = _daysRepository.getAllDaysOrdered(),
-                CustomerAmount = new List<int>(),
-                PackagesAmount = new List<int>(),
-                WeekNr = _currentWeek,
-                Year = _currentYear,
-                TemplateName = string.Empty // Default leeg
-            };
-
-            if (weekNumber.HasValue && yearNumber.HasValue)
-            {
-                viewModel.WeekNr = weekNumber.Value;
-                viewModel.Year = yearNumber.Value;
-            }
-
-            if (templateId.HasValue)
-            {
-                var template = await _TemplatesRepository.GetByIdAsync(templateId.Value);
-                if (template != null && template.TemplateHasDays != null)
-                {
-                    viewModel.Days = template.TemplateHasDays.Select(td => td.Days).ToList();
-                    viewModel.CustomerAmount = template.TemplateHasDays.Select(td => td.CustomerAmount).ToList();
-                    viewModel.PackagesAmount = template.TemplateHasDays.Select(td => td.ContainerAmount).ToList();
-                    viewModel.TemplateName = template.Name; // Vul de template-naam in het ViewModel
-                }
-            }
-
-            return View(viewModel);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreatePrognosis(PrognosisCreateViewModel model)
-        {
-            if (_normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result.Count() == 0)
-            {
-                TempData["ToastMessage"] = "De prognose kan niet worden aangemaakt. Er is geen normering voor deze week.";
-                TempData["ToastType"] = "error";
-                TempData["ToastId"] = "PrognosisCreateFail";
-                TempData["AutoHide"] = "no";
-
-                return RedirectToAction("Index");
-            }
-
-            var prognosisDays = model.Days.Select((day, index) => new PrognosisHasDays
-            {
-                Days = day,
-                CustomerAmount = model.CustomerAmount[index],
-                PackagesAmount = model.PackagesAmount[index]
-            }).ToList();
-
-            var days = prognosisDays.Select(p => p.Days).ToList();
-            var customerAmounts = prognosisDays.Select(p => p.CustomerAmount).ToList();
-            var packagesAmounts = prognosisDays.Select(p => p.PackagesAmount).ToList();
-
-            _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year);
-
-            InputCalculateViewModel input = new InputCalculateViewModel();
-
-            input.Year = model.Year;
-            input.WeekNr = model.WeekNr;
-            input.CustomerAmount = model.CustomerAmount;
-            input.PackagesAmount = model.PackagesAmount;
-
-            CalculateViewmodel viewmodel = _prognosisCalculator.CalculatePrognosis(input);
-
-            _prognosisHasDaysHasDepartments.CreateCalculation(
-                    viewmodel.PrognosisId,
-                    viewmodel.CassiereHours,
-                    viewmodel.VersWorkersHours,
-                    viewmodel.StockingHours,
-                    viewmodel.CassieresNeeded,
-                    viewmodel.WorkersNeeded);
-
-            TempData["ToastMessage"] = "De prognose is succesvol aangemaakt!";
-            TempData["ToastType"] = "success";
-            TempData["ToastId"] = "PrognosisCreateSuccess";
-            TempData["AutoHide"] = "yes";
-            TempData["MilSecHide"] = 5000;
-
-            return RedirectToAction("Index");
-        }
-
-        private InputCalculateViewModel ToInputCalculateViewModel(List<PrognosisHasDays> uncalculatedViewmodel, List<Days> days)
-        {
-            Prognosis prognosis = _prognosisRepository.GetPrognosisById(uncalculatedViewmodel[0].PrognosisId);
-
-            InputCalculateViewModel toBeCalculated = new InputCalculateViewModel();
-
-            toBeCalculated.Year = prognosis.Year;
-            toBeCalculated.WeekNr = prognosis.WeekNr;
-            toBeCalculated.CustomerAmount = new List<int>();
-            toBeCalculated.PackagesAmount = new List<int>();
-
-            for (int i = 0; i < days.Count; i++)
-            {
-                for (int j = 0; j < days.Count; j++)
-                {
-                    if (days[i].Name == uncalculatedViewmodel[j].DayName)
-                    {
-                        toBeCalculated.CustomerAmount.Add(uncalculatedViewmodel[j].CustomerAmount);
-                        toBeCalculated.PackagesAmount.Add(uncalculatedViewmodel[j].PackagesAmount);
-                    }
-                }
-            }
-
-            return toBeCalculated;
-        }
-
-        public void UpdateCalculations(List<PrognosisHasDays> uncalculatedViewmodel)
-        {
-            List<Days> days = _daysRepository.getAllDaysUnordered();
-
-            InputCalculateViewModel toBeCalculated = ToInputCalculateViewModel(uncalculatedViewmodel, days);
-
-            CalculateViewmodel newCalculation = _prognosisCalculator.CalculatePrognosis(toBeCalculated);
-
-            List<PrognosisHasDaysHasDepartment> calculations = _prognosisHasDaysHasDepartments.GetPrognosisCalculations(uncalculatedViewmodel[0].PrognosisId);
-
-            foreach (PrognosisHasDaysHasDepartment calculation in calculations)
-            {
-                int hours = 0;
-                int workers = 0;
-
-                switch (calculation.DepartmentName)
-                {
-                    case "Kassa":
-                        newCalculation.CassiereHours.TryGetValue(calculation.Days, out hours);
-                        newCalculation.CassieresNeeded.TryGetValue(calculation.Days, out workers);
-                        break;
-
-                    case "Vers":
-                        newCalculation.VersWorkersHours.TryGetValue(calculation.Days, out hours);
-                        newCalculation.WorkersNeeded.TryGetValue(calculation.Days, out workers);
-                        break;
-
-                    case "Vakkenvullen":
-                        int divisor = calculation.Days.Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13;
-                        newCalculation.StockingHours.TryGetValue(calculation.Days, out hours);
-                        newCalculation.WorkersNeeded.TryGetValue(calculation.Days, out workers);
-                        hours /= divisor;
-                        break;
-                }
-
-                calculation.HoursOfWorkNeeded = hours;
-                calculation.AmountOfWorkersNeeded = workers;
-            }
-
-
-            _prognosisHasDaysRepository.UpdatePrognosisHasDays(uncalculatedViewmodel);
-
-            _prognosisHasDaysHasDepartments.UpdateCalculations(calculations);
-        }
-
-        // GET: Prognosis/Edit/1
-        [HttpGet]
-        public ActionResult Edit(string prognosisId)
-        {
-            PrognosisEditViewModel viewmodel = new PrognosisEditViewModel();
-
-            Prognosis prognosis = _prognosisRepository.GetPrognosisById(prognosisId);
-
-            List<PrognosisHasDays> hasDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(prognosisId);
-
-            List<string> day_names = new List<string>();
-            List<int> customerAmount = new List<int>();
-            List<int> packagesAmount = new List<int>();
-
-            List<Days> days = _daysRepository.getAllDaysOrdered();
-
-            foreach (Days day in days)
-            {
-                foreach (PrognosisHasDays dayName in hasDays)
-                {
-                    if (day.Name == dayName.DayName)
-                    {
-                        day_names.Add(dayName.DayName);
-                        customerAmount.Add(dayName.CustomerAmount);
-                        packagesAmount.Add(dayName.PackagesAmount);
-                    }
-                }
-            }
-
-            viewmodel.PrognosisId = prognosisId;
-            viewmodel.Days_name = day_names;
-            viewmodel.CustomerAmount = customerAmount;
-            viewmodel.PackagesAmount = packagesAmount;
-            viewmodel.CurrentWeek = _currentWeek;
-            viewmodel.CurrentYear = _currentYear;
-            viewmodel.WeekNr = prognosis.WeekNr;
-            viewmodel.Year = prognosis.Year;
-
-            return View(viewmodel);
-        }
-
-        // POST: Prognosis/Edit/1
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, List<int> CustomerAmount, List<int> PackagesAmount)
-        {
-            try
-            {
-                _prognosisRepository.UpdatePrognosis(id, CustomerAmount, PackagesAmount);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public ActionResult Update(PrognosisUpdateViewModel updatedViewModel)
-        {
-            List<Days> daysOrdered = _daysRepository.getAllDaysOrdered();
-            List<Days> daysUnordered = _daysRepository.getAllDaysUnordered();
-            Prognosis prognosis = _prognosisRepository.GetPrognosisById(updatedViewModel.PrognosisId);
-            List<PrognosisHasDays> prognosisDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(updatedViewModel.PrognosisId);
-
-            int highestValue = 0;
-            bool negativeNumber = false;
-            for (int i = 0; i < prognosisDays.Count; i++)
-            {
-                for (int j = 0; j < daysUnordered.Count; j++)
-                {
-                    if (daysOrdered[i] == daysUnordered[j])
-                    {
-                        prognosisDays[j].CustomerAmount = updatedViewModel.CustomerAmount[i];
-                        prognosisDays[j].PackagesAmount = updatedViewModel.PackagesAmount[i];
-
-                        if (highestValue < updatedViewModel.CustomerAmount[i])
-                            highestValue = updatedViewModel.CustomerAmount[i];
-                        if (highestValue < updatedViewModel.PackagesAmount[i])
-                            highestValue = updatedViewModel.PackagesAmount[i];
-                        if (updatedViewModel.CustomerAmount[i] < 0 || updatedViewModel.PackagesAmount[i] < 0)
-                            negativeNumber = true;
-                    }
-                }
-            }
-
-            if (prognosis.Year <= _currentYear && prognosis.WeekNr <= _currentWeek)
-            {
-                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. Deze prognoses is al in gebruik.";
-                TempData["ToastType"] = "error";
-
-                TempData["ToastId"] = "updatePrognosisToast";
-                TempData["AutoHide"] = "no";
-            }
-            else if (highestValue > 9999)
-            {
-                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. De maximale waarde is 9999.";
-                TempData["ToastType"] = "error";
-
-                TempData["ToastId"] = "updatePrognosisToast";
-                TempData["AutoHide"] = "no";
-            }
-            else if (negativeNumber)
-            {
-                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. Een waarde mag niet negatief zijn.";
-                TempData["ToastType"] = "error";
-
-                TempData["ToastId"] = "updatePrognosisToast";
-                TempData["AutoHide"] = "no";
-            }
-            else
-            {
-                TempData["ToastMessage"] = "Prognoses succesvol bijgewerkt!";
-                TempData["ToastType"] = "success";
-
-                TempData["ToastId"] = "updatePrognosisToast";
-                TempData["AutoHide"] = "yes";
-                TempData["MilSecHide"] = 3000;
-
-                UpdateCalculations(prognosisDays);
-            }
-
-            return RedirectToAction(nameof(PrognosisController.Index), "Prognosis");
-        }
-
-
-        [HttpGet]
-        public ActionResult Delete(string id)
-        {
-            _prognosisRepository.DeletePrognosisById(id);
-            return RedirectToAction("Index");
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(string id, IFormCollection collection)
-        {
-            try
-            {
-                _prognosisRepository.DeletePrognosisById(id);
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Edit");
-            }
-        }
-
-
-        public ActionResult AddTemplate(string searchTerm, int? templateId, int? weekNumber, int? yearNumber, int page = 1)
-        {
-            AddTemplateViewModel viewmodel = new AddTemplateViewModel();
-
-            viewmodel.Templates = _TemplatesRepository.GetAllTemplates();
-            if (weekNumber != null && yearNumber != null)
-            {
-                viewmodel.WeekNr = weekNumber;
-                viewmodel.YearNr = yearNumber;
-            }
-
-            return View(viewmodel);
-        }
-    }
-
-    public class DailyCalculationResult
-    {
-        public string DayName { get; set; }
-        public List<DepartmentCalculationResult> DepartmentCalculations { get; set; }
-    }
-
-    public class DepartmentCalculationResult
-    {
-        public string Activity { get; set; }
-        public int Uren { get; set; }
-        public int MedewerkersNeeded { get; set; }
+        //        private DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
+        //        {
+        //            DateTime jan1 = new DateTime(year, 1, 1);
+        //            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+        //            DateTime firstThursday = jan1.AddDays(daysOffset);
+        //            var cal = CultureInfo.CurrentCulture.Calendar;
+        //            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+        //            DateTime firstWeekStart = firstThursday.AddDays(-3);
+        //            if (firstWeek <= 1)
+        //            {
+        //                firstWeekStart = jan1;
+        //            }
+
+        //            return firstWeekStart.AddDays((weekOfYear - 1) * 7);
+        //        }
+
+        //        // GET: PrognosisController/Details/5
+        //        public ActionResult Details(int id)
+        //        {
+        //            return View();
+        //        }
+
+        //        // GET: PrognosisController/Create
+        //        [HttpGet]
+        //        public ActionResult Create(int? id)
+        //        {
+        //            var template = templates.Find(t => t.TemplateId == id);
+
+        //            if (template != null)
+        //            {
+        //                ViewBag.daysList = template;
+        //                ViewBag.templateName = template.TemplateName;
+        //            }
+        //            else
+        //            {
+        //                ViewBag.daysList = null;
+        //                ViewBag.templateName = "Er is geen template geimporteerd";
+        //            }
+
+        //            ViewBag.days = new List<Days>
+        //            {
+        //                new Days { Name = "Maandag" },
+        //                new Days { Name = "Dinsdag" },
+        //                new Days { Name = "Woensdag" },
+        //                new Days { Name = "Donderdag" },
+        //                new Days { Name = "Vrijdag" },
+        //                new Days { Name = "Zaterdag" },
+        //                new Days { Name = "Zondag" },
+        //            };
+
+        //            ViewBag.CurrentWeek = _currentWeek;
+        //            ViewBag.CurrentYear = _currentYear;
+
+        //            return View();
+        //        }
+
+        //        [HttpPost]
+        //        [ValidateAntiForgeryToken]
+        //        public ActionResult CreatePrognosis(List<Days> prognosisCreateDaysList, List<int> CustomerAmount, List<int> PackagesAmount, int weeknr, int year)
+        //        {
+        //            _prognosisRepository.AddPrognosis(prognosisCreateDaysList, CustomerAmount, PackagesAmount, weeknr, year);
+
+        //            return View("Index");
+        //        }
+
+
+
+        //        // GET: PrognosisController/Edit/5 PARAMETER INT ID MUST BE ADDED
+        //        public ActionResult Edit()
+        //        {
+        //            ViewBag.CurrentWeek = _currentWeek;
+        //            ViewBag.CurrentYear = _currentYear;
+        //            return View();
+        //        }
+
+        //        // POST: PrognosisController/Edit/5
+        //        [HttpPost]
+        //        [ValidateAntiForgeryToken]
+        //        public ActionResult Edit(int id, IFormCollection collection)
+        //        {
+        //            try
+        //            {
+        //                return RedirectToAction(nameof(Index));
+        //            }
+        //            catch
+        //            {
+        //                return View();
+        //            }
+        //        }
+
+        //        // GET: PrognosisController/Delete/5
+        //        public ActionResult Delete(int id)
+        //        {
+        //            return View();
+        //        }
+
+        //        // POST: PrognosisController/Delete/5
+        //        [HttpPost]
+        //        [ValidateAntiForgeryToken]
+        //        public ActionResult Delete(int id, IFormCollection collection)
+        //        {
+        //            try
+        //            {
+        //                return RedirectToAction(nameof(Index));
+        //            }
+        //            catch
+        //            {
+        //                return View();
+        //            }
+        //        }
+        //        public ActionResult AddTemplate(string searchTerm, int page = 1)
+        //        {
+        //            var headers = new List<string> { "Naam" };
+
+
+        //            var tableBuilder = new TableHtmlBuilder<Template>();
+        //            var htmlTable = tableBuilder.GenerateTable("", headers, templates, "", item =>
+        //            {
+        //                return $@"
+        //        <td class='py-2 px-4'>{item.TemplateName}</td>
+        //        <td class='py-2 px-4 text-right'>
+        //            <button class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl' 
+        //                    onclick=""window.location.href='../prognosis/Create?id={item.TemplateId}'"">
+        //                Kies
+        //            </button>
+        //        </td>";
+        //            }, searchTerm, page);
+
+        //            ViewBag.HtmlTable = htmlTable;
+        //            return View();
+        //        }
     }
 }

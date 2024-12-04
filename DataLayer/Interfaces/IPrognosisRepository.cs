@@ -10,10 +10,5 @@ namespace DataLayer.Interfaces
         Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year);
         Prognosis GetLatestPrognosis();
         List<PrognosisHasDaysHasDepartment> GetPrognosisDetailsByBranchWeekAndYear(int branchId, int weekNumber, int year);
-        void AddPrognosis(List<Days> days, List<int> CustomerAmount, List<int> PackagesAmount, int week, int year);
-        Prognosis GetPrognosisById(string id);
-        void UpdatePrognosis(string prognosisId, List<int> CustomerAmount, List<int> PackagesAmount);
-        void DeletePrognosisById(string id);
-        int GetShelfMetersByPrognosis(string id);
     }
 }

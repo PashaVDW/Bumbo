@@ -13,7 +13,7 @@ namespace DataLayer.Models
         [Required, StringLength(50)]
         public string DepartmentName { get; set; }
         [Required, StringLength(10)]
-        public string DaysName { get; set; }
+        public string DayName { get; set; }
         [Required, StringLength(45)]
         public string PrognosisId { get; set; }
         [Required]
@@ -21,8 +21,6 @@ namespace DataLayer.Models
         [Required]
         public int HoursOfWorkNeeded { get; set; }
         public Department Department { get; set; }
-        public Prognosis Prognosis { get; set; }
-        public Days Days { get; set; }
         public PrognosisHasDays PrognosisHasDays { get; set; }
     }
 }

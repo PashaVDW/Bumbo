@@ -13,31 +13,9 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public List<PrognosisHasDays> GetPrognosisHasDays()
+        public List<PrognosisHasDays> GetPrognosis_has_days()
         {
             return _context.PrognosisHasDays.ToList();
-        }
-
-        public List<PrognosisHasDays> GetLatestPrognosis_has_days()
-        {
-            var latestPrognosisId = _context.PrognosisHasDays.Max(p => p.PrognosisId);
-            return _context.PrognosisHasDays
-                .Where(p => p.PrognosisId == latestPrognosisId)
-                .ToList();
-        }
-
-        public List<PrognosisHasDays> GetPrognosisHasDaysByPrognosisId(string prognosisId)
-        {
-            return _context.PrognosisHasDays
-                .Where(p => p.PrognosisId == prognosisId)
-                .ToList();
-        }
-
-        public void UpdatePrognosisHasDays(List<PrognosisHasDays> prognosisDayList)
-        {
-            _context.PrognosisHasDays.UpdateRange(prognosisDayList);
-
-            _context.SaveChanges();
         }
     }
 }
