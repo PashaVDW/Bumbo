@@ -111,5 +111,13 @@ namespace DataLayer.Repositories
         {
             return _context.Employees.SingleOrDefault(e => e.Id.Equals(id));
         }
+
+        public Employee GetEmployeeWithDepartmentById(string id)
+        {
+            return _context
+                .Employees
+                .Include(e => e.EmployeeHasDepartment)
+                .SingleOrDefault(e => e.Id.Equals(id));
+        }
     }
 }
