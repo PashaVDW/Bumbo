@@ -256,7 +256,7 @@ namespace bumbo.Controllers
 
                 int branchId = user.ManagerOfBranchId.Value;
                 string countryName = _branchesRepository.GetBranchCountryName(branchId);
-                
+
                 DateTime.TryParseExact(model.Date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime dateTime);
                 var labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(countryName);
 
@@ -302,8 +302,9 @@ namespace bumbo.Controllers
 
                         var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
                         var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
-
-                        if(employee.StartTime >= employee.EndTime)
+                        Console.WriteLine(employee.StartTime.ToString());
+                        Console.WriteLine(employee.EndTime.ToString());
+                        if (employee.StartTime >= employee.EndTime)
                         {
                             isStartTimeBeforeEndTime = true;
                         }
@@ -312,7 +313,7 @@ namespace bumbo.Controllers
                         isFreeFromSchool = CheckSchoolScheduleEmployee(employeeSchoolSchedule, employee.StartTime, employee.EndTime);
                         isWithinLabourRules = CheckLabourRulesEmployee(labourRulesToUse, employeeSchoolSchedule, employee.StartTime, employee.EndTime, employeeId, labourRulesToUseString, dateTime);
 
-                        if (isStartTimeBeforeEndTime && hasValidDepartmentName && isAvailable && isFreeFromSchool && isWithinLabourRules)
+                        if (!isStartTimeBeforeEndTime && hasValidDepartmentName && isAvailable && isFreeFromSchool && isWithinLabourRules)
                         {
                             _scheduleRepository.UpdateEmployeeDaySchedule(
                                 employeeId,
@@ -327,7 +328,7 @@ namespace bumbo.Controllers
                         }
                         else
                         {
-                            if (!isStartTimeBeforeEndTime)
+                            if (isStartTimeBeforeEndTime)
                             {
                                 employee.ValidationErrors.Add("De starttijd moet eerder dan de eindtijd zijn!");
                             }
@@ -337,7 +338,14 @@ namespace bumbo.Controllers
                             }
                             if (!isAvailable)
                             {
-                                employee.ValidationErrors.Add("De medewerker mag niet eerder starten dan zijn/haar beschikbaarheid van " + employeeAvailability.StartTime.ToString() + " en mag niet tot later werken dan zijn/haar beschikbaarheid van " + employeeAvailability.EndTime.ToString() + "!");
+                                if (employeeAvailability == null)
+                                {
+                                    employee.ValidationErrors.Add("De medewerker heeft voor deze dag geen beschikbaarheid");
+                                }
+                                else
+                                {
+                                    employee.ValidationErrors.Add("De medewerker mag niet eerder starten dan zijn/haar beschikbaarheid van " + employeeAvailability.StartTime.ToString() + " en mag niet tot later werken dan zijn/haar beschikbaarheid van " + employeeAvailability.EndTime.ToString() + "!");
+                                }
                             }
                             if (!isFreeFromSchool)
                             {
@@ -509,7 +517,7 @@ namespace bumbo.Controllers
         public async Task<IActionResult> AddEmployee(string date, string employeeId)
         {
             var user = await _userManager.GetUserAsync(User);
-            if(user == null || user.ManagerOfBranchId == null)
+            if (user == null || user.ManagerOfBranchId == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
@@ -522,7 +530,7 @@ namespace bumbo.Controllers
 
             foreach (var employeeBranch in employeeBranches)
             {
-                if(employeeBranch.BranchId == user.ManagerOfBranchId)
+                if (employeeBranch.BranchId == user.ManagerOfBranchId)
                 {
                     int branchId = user.ManagerOfBranchId.Value;
                     Branch branch = _branchesRepository.GetBranch(branchId);
@@ -562,7 +570,7 @@ namespace bumbo.Controllers
                         .FirstOrDefault(l => l.AgeGroup.Equals(labourRulesToUseString));
 
                     TimeOnly plannableHours = CalculatePlannableHours(labourRulesToUse, employeeSchoolSchedule, employeeAvailability, labourRulesToUseString, dateTime, employeeId);
-                    if(plannableHours < TimeOnly.MinValue)
+                    if (plannableHours < TimeOnly.MinValue)
                     {
                         return RedirectToAction("AccessDenied", "Home");
                     }
@@ -620,7 +628,7 @@ namespace bumbo.Controllers
             bool isAvailable;
             bool isFreeFromSchool;
             bool isWithinLabourRules;
-            
+
             var user = await _userManager.GetUserAsync(User);
             int branchId = user.ManagerOfBranchId.Value;
             string countryName = _branchesRepository.GetBranchCountryName(branchId);
@@ -676,7 +684,7 @@ namespace bumbo.Controllers
                             isFreeFromSchool = CheckSchoolScheduleEmployee(employeeSchoolSchedule, model.StartTime, model.EndTime);
                             isWithinLabourRules = CheckLabourRulesEmployee(labourRulesToUse, employeeSchoolSchedule, model.StartTime, model.EndTime, employeeId, labourRulesToUseString, dateTime);
 
-                            if(!hasValidDepartmentName || !isAvailable || !isFreeFromSchool || !isWithinLabourRules)
+                            if (!hasValidDepartmentName || !isAvailable || !isFreeFromSchool || !isWithinLabourRules)
                             {
                                 isSuccess = false;
                             }
@@ -709,7 +717,7 @@ namespace bumbo.Controllers
                                 {
                                     errorMessages.Add("Medewerker voldoet niet aan CAO regels.");
                                 }
-                            
+
                                 Branch branch = _branchesRepository.GetBranch(branchId);
                                 var departments = _scheduleRepository.GetDepartments();
                                 var schedules = _scheduleRepository.GetScheduleForBranchByDay(branchId, DateOnly.FromDateTime(dateTime));
@@ -821,14 +829,14 @@ namespace bumbo.Controllers
                     schoolHours = schoolDuration.TotalHours;
                 }
 
-                hoursLeftAvailable =- schoolHours;
+                hoursLeftAvailable = -schoolHours;
             }
 
-            if(totalWeeklyHours < labourRulesToUse.MaxHoursPerWeek)
+            if (totalWeeklyHours < labourRulesToUse.MaxHoursPerWeek)
             {
-                if(labourRulesToUse.MaxHoursPerWeek - totalWeeklyHours < hoursLeftAvailable)
+                if (labourRulesToUse.MaxHoursPerWeek - totalWeeklyHours < hoursLeftAvailable)
                 {
-                    hoursLeftAvailable =- totalWeeklyHours;
+                    hoursLeftAvailable = -totalWeeklyHours;
                 }
             }
 
@@ -1164,9 +1172,9 @@ namespace bumbo.Controllers
             }
             else
             {
-                if (startTime < employeeDaySchoolSchedule.StartTime)
+                if (startTime < employeeDaySchoolSchedule.StartTime && endTime <= employeeDaySchoolSchedule.StartTime)
                 {
-                    if (endTime <= employeeDaySchoolSchedule.StartTime) { return true; }
+                    return true;
                 }
                 else if (startTime >= employeeDaySchoolSchedule.EndTime)
                 {

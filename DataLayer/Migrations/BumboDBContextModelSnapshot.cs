@@ -953,7 +953,7 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            DepartmentName = "Kassa"
+                            DepartmentName = "Coli uitladen"
                         },
                         new
                         {
@@ -961,7 +961,15 @@ namespace DataLayer.Migrations
                         },
                         new
                         {
+                            DepartmentName = "Kassa"
+                        },
+                        new
+                        {
                             DepartmentName = "Vers"
+                        },
+                        new
+                        {
+                            DepartmentName = "Spiegelen"
                         });
                 });
 
@@ -1184,43 +1192,283 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            DepartmentName = "Kassa",
-                            DayName = "Monday",
-                            PrognosisId = "prognosis_week_47_2024",
+                            DepartmentName = "Coli uitladen",
+                            DayName = "Maandag",
+                            PrognosisId = "prognosis_week_40_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 24
                         },
                         new
                         {
                             DepartmentName = "Vakkenvullen",
-                            DayName = "Monday",
-                            PrognosisId = "prognosis_week_47_2024",
+                            DayName = "Maandag",
+                            PrognosisId = "prognosis_week_40_2024",
                             AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 28
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            DayName = "Maandag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 5,
                             HoursOfWorkNeeded = 32
                         },
                         new
                         {
                             DepartmentName = "Vers",
-                            DayName = "Monday",
-                            PrognosisId = "prognosis_week_47_2024",
+                            DayName = "Maandag",
+                            PrognosisId = "prognosis_week_40_2024",
                             AmountOfWorkersNeeded = 2,
                             HoursOfWorkNeeded = 16
                         },
                         new
                         {
-                            DepartmentName = "Kassa",
-                            DayName = "Tuesday",
-                            PrognosisId = "prognosis_week_47_2024",
-                            AmountOfWorkersNeeded = 2,
-                            HoursOfWorkNeeded = 16
+                            DepartmentName = "Spiegelen",
+                            DayName = "Maandag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 20
+                        },
+                        new
+                        {
+                            DepartmentName = "Coli uitladen",
+                            DayName = "Dinsdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 25
                         },
                         new
                         {
                             DepartmentName = "Vakkenvullen",
-                            DayName = "Tuesday",
-                            PrognosisId = "prognosis_week_47_2024",
+                            DayName = "Dinsdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 30
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            DayName = "Dinsdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 5,
+                            HoursOfWorkNeeded = 35
+                        },
+                        new
+                        {
+                            DepartmentName = "Vers",
+                            DayName = "Dinsdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 2,
+                            HoursOfWorkNeeded = 18
+                        },
+                        new
+                        {
+                            DepartmentName = "Spiegelen",
+                            DayName = "Dinsdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 22
+                        },
+                        new
+                        {
+                            DepartmentName = "Coli uitladen",
+                            DayName = "Woensdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 26
+                        },
+                        new
+                        {
+                            DepartmentName = "Vakkenvullen",
+                            DayName = "Woensdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 29
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            DayName = "Woensdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 5,
+                            HoursOfWorkNeeded = 34
+                        },
+                        new
+                        {
+                            DepartmentName = "Vers",
+                            DayName = "Woensdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 2,
+                            HoursOfWorkNeeded = 17
+                        },
+                        new
+                        {
+                            DepartmentName = "Spiegelen",
+                            DayName = "Woensdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 21
+                        },
+                        new
+                        {
+                            DepartmentName = "Coli uitladen",
+                            DayName = "Donderdag",
+                            PrognosisId = "prognosis_week_40_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 24
+                        },
+                        new
+                        {
+                            DepartmentName = "Vakkenvullen",
+                            DayName = "Donderdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 27
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            DayName = "Donderdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 5,
+                            HoursOfWorkNeeded = 31
+                        },
+                        new
+                        {
+                            DepartmentName = "Vers",
+                            DayName = "Donderdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 2,
+                            HoursOfWorkNeeded = 15
+                        },
+                        new
+                        {
+                            DepartmentName = "Spiegelen",
+                            DayName = "Donderdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 19
+                        },
+                        new
+                        {
+                            DepartmentName = "Coli uitladen",
+                            DayName = "Vrijdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 28
+                        },
+                        new
+                        {
+                            DepartmentName = "Vakkenvullen",
+                            DayName = "Vrijdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 5,
+                            HoursOfWorkNeeded = 32
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            DayName = "Vrijdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 6,
+                            HoursOfWorkNeeded = 36
+                        },
+                        new
+                        {
+                            DepartmentName = "Vers",
+                            DayName = "Vrijdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 20
+                        },
+                        new
+                        {
+                            DepartmentName = "Spiegelen",
+                            DayName = "Vrijdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 24
+                        },
+                        new
+                        {
+                            DepartmentName = "Coli uitladen",
+                            DayName = "Zaterdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 30
+                        },
+                        new
+                        {
+                            DepartmentName = "Vakkenvullen",
+                            DayName = "Zaterdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 5,
+                            HoursOfWorkNeeded = 35
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            DayName = "Zaterdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 6,
+                            HoursOfWorkNeeded = 38
+                        },
+                        new
+                        {
+                            DepartmentName = "Vers",
+                            DayName = "Zaterdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 22
+                        },
+                        new
+                        {
+                            DepartmentName = "Spiegelen",
+                            DayName = "Zaterdag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 26
+                        },
+                        new
+                        {
+                            DepartmentName = "Coli uitladen",
+                            DayName = "Zondag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 27
+                        },
+                        new
+                        {
+                            DepartmentName = "Vakkenvullen",
+                            DayName = "Zondag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 4,
+                            HoursOfWorkNeeded = 30
+                        },
+                        new
+                        {
+                            DepartmentName = "Kassa",
+                            DayName = "Zondag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 5,
+                            HoursOfWorkNeeded = 34
+                        },
+                        new
+                        {
+                            DepartmentName = "Vers",
+                            DayName = "Zondag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 2,
+                            HoursOfWorkNeeded = 18
+                        },
+                        new
+                        {
+                            DepartmentName = "Spiegelen",
+                            DayName = "Zondag",
+                            PrognosisId = "prognosis_week_40_2024",
+                            AmountOfWorkersNeeded = 3,
+                            HoursOfWorkNeeded = 22
                         });
                 });
 
@@ -2156,7 +2404,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "1c5b10ba-d228-4379-9db7-4e7ffaa2cc43",
+                            ConcurrencyStamp = "e6971478-3e2f-4204-8cea-635c58c60d6e",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -2168,11 +2416,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOIOZSR5P7KEQpBoQeax1XJxkX7HLG+FWaEvoTdOERK3sXm1olimcmWwY6Cb8Dv2jg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMKkwuFLk4uf64/S+h88zZL8+guG2Rahy0YDMW3xiNF53GMqvSyrXBbX8qoP8jL1kg==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "b15f45b5-ca40-4cf1-a578-5cc50452290a",
+                            SecurityStamp = "5602b192-f0ae-4882-8516-74bcabd985e3",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -2183,7 +2431,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "271e86e5-0cd5-4ee1-8adb-8276f288863a",
+                            ConcurrencyStamp = "d90904f9-3e13-48c9-8c12-9a0ad21ce554",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -2194,11 +2442,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAB19igYgZY1AuE/riDYQlDd7W8zMKH43c8mirMUv75wTgTF/WPk5BB1AfJC6ohZ8w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECuOjfKPBpxvqQzlRYsgqIWiyYhlE8EKEcCrKZwrMHbjUm0msn1uygvM7UoYuCCtRg==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "9271 GB",
-                            SecurityStamp = "dc2d64a8-3fa0-465c-817a-658e44c79477",
+                            SecurityStamp = "bedb0819-9424-4a17-8088-5f96f99bb27c",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -2209,7 +2457,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B003",
                             BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "0fb0d2f3-e959-49e9-8904-69f361584d44",
+                            ConcurrencyStamp = "0a9b9e26-f10c-4352-af2a-26e90630e47c",
                             Email = "darlon.vandijk@hotmail.com",
                             EmailConfirmed = true,
                             FirstName = "Darlon",
@@ -2220,11 +2468,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DARLON.VANDIJK@HOTMAIL.COM",
                             NormalizedUserName = "DARLON.VANDIJK@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDB1cNbhO4uoYjqfD73OrQaCrCHZFD8sdctaW2yk+pkk8sGe5ZXSB5fQt54aZvpY6A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKqEMbDzkgkSCbCEMtzVB0J20SSAS0eNiMcJyCPdOxKG0quaqY3292alod9/8GZpBw==",
                             PhoneNumber = "+31 6 34567890",
                             PhoneNumberConfirmed = false,
                             PostalCode = "8329 SK",
-                            SecurityStamp = "242875bf-3ea3-42b4-a604-f79265ff1ed3",
+                            SecurityStamp = "37126ec3-3e8e-4d13-b03f-1ab1b75ff918",
                             StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "darlon.vandijk@hotmail.com"
@@ -2235,7 +2483,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B004",
                             BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "6b708697-89b8-424d-8a68-d08b6222cbb3",
+                            ConcurrencyStamp = "1fbb8d16-c8b7-4929-8daa-4af8681b5e38",
                             Email = "pasha.bakker@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Pasha",
@@ -2247,11 +2495,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "PASHA.BAKKER@GMAIL.COM",
                             NormalizedUserName = "PASHA.BAKKER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEfTEexCIVn5c7thcTJzEl8WfAkyFBAF88+y6rtExhLVWjDVqeaiTxgVM9qb5wMyoQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDkPTvzK+xQM2U47qzAN27DfbfhrASMzek/Iy/KXjDIrVdYrSJUttIjT5alCp0CwyQ==",
                             PhoneNumber = "+31 6 45678901",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3894 HT",
-                            SecurityStamp = "1c13eea3-5c0f-4825-8c92-94a13d38519e",
+                            SecurityStamp = "c0377891-3535-479e-937d-ac67024ddb21",
                             StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "pasha.bakker@gmail.com"
@@ -2262,7 +2510,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B005",
                             BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "796cfcd8-14b1-4ed7-9d7a-d7863eb02129",
+                            ConcurrencyStamp = "332e9092-4f0d-4e1c-8d41-40f184b816e2",
                             Email = "sarah.vanderven@hotmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarah",
@@ -2273,11 +2521,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
                             NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOVjdw4LEaJ5C+yeyFGKofr0seEC70EYZojjil84OOkxBzxYgEcsNgBJAZjM6IS0OA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJXgyb2bYLJaF/za4YU4LpZ7g3W5hkIE84plcgCRyMxhJAgpGzFJp5Khxp0uijjgRQ==",
                             PhoneNumber = "+31 6 56789012",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2933 KJ",
-                            SecurityStamp = "fff49a22-ee63-4a61-80e9-64fe1d2af2bd",
+                            SecurityStamp = "a1d1d4d2-7296-4e22-95c3-5dacbc3825be",
                             StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "sarah.vanderven@hotmail.com"
@@ -2288,7 +2536,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B006",
                             BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "889cf922-5066-464b-896f-7875c322f5a3",
+                            ConcurrencyStamp = "209a3a7d-632f-4b9b-ab81-a288ad98266c",
                             Email = "david.denboer@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "David",
@@ -2299,11 +2547,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
                             NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOaa/VS+87C9h0xWTOBhAYc6FiFdrNJwiCwXZI2UcnWCE0VvBYbLtuuP2HXPlVzM4w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF+308vWGgZ1Q/33wQYxtBoFgEEwe59cxl9LToHT3gvrqhkOz0UHrr1hd6HHqPXXLw==",
                             PhoneNumber = "+31 6 67890123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "4293 BF",
-                            SecurityStamp = "287ee73f-d4c1-4af7-8868-de3bdcd59341",
+                            SecurityStamp = "437c3e0a-3539-455e-9fe5-676a2aacc219",
                             StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "david.denboer@gmail.com"
@@ -2314,7 +2562,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B012",
                             BirthDate = new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "17c85e29-0600-4ca4-abe4-468549bee76e",
+                            ConcurrencyStamp = "b7ef031e-48f4-4f3a-ba73-02aad3d62401",
                             Email = "anthony.ross@example.com",
                             EmailConfirmed = true,
                             FirstName = "Anthony",
@@ -2326,12 +2574,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "ANTHONY.ROSS@EXAMPLE.COM",
                             NormalizedUserName = "ANTHONY.ROSS@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKhO5mAAo+Y7J9z2oMnLB6FI/I5H5gdZlmFJrfEyruWUFR+eFbRFR5QCLP2C30ZBHg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECmCK9kpEyO6jD0ZWHmoiLyyppvRX1JqPjAQHVn8sqbzFT6UEGqupK041+3vZPrayQ==",
                             PhoneNumber = "+31 6 12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2234 AB",
-                            SecurityStamp = "7141001e-4485-4b4c-adc0-8ae990ba7835",
-                            StartDate = new DateTime(2024, 12, 4, 13, 42, 46, 293, DateTimeKind.Local).AddTicks(748),
+                            SecurityStamp = "98445347-2b02-459a-819b-6d5e9d6f3144",
+                            StartDate = new DateTime(2024, 12, 4, 20, 48, 11, 26, DateTimeKind.Local).AddTicks(3944),
                             TwoFactorEnabled = false,
                             UserName = "anthony.ross@example.com"
                         },
@@ -2341,7 +2589,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B013",
                             BirthDate = new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "f5ba48f0-772b-4c25-ba85-8284a67da6da",
+                            ConcurrencyStamp = "b7cab6f9-f840-4cd4-8cc3-e56cf83090ad",
                             Email = "douwe.jansen@example.com",
                             EmailConfirmed = true,
                             FirstName = "Douwe",
@@ -2353,12 +2601,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DOUWE.JANSEN@EXAMPLE.COM",
                             NormalizedUserName = "DOUWE.JANSEN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI1zEXPx01I51Jb54pGB5N1BBvnzRGltkqx+6Kjx2Uxsq+qzB/Jk5Elh6FybbN7ijg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMlls8N7LKb9bevgNYcVoEuRTUaS9w5sn1qwgUFoSX/bnJiMk9mfF/sMm5tuNAoGMQ==",
                             PhoneNumber = "+31 6 87654321",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3345 CD",
-                            SecurityStamp = "0319911c-1ae2-4802-ad89-346417925ecf",
-                            StartDate = new DateTime(2024, 12, 4, 13, 42, 46, 387, DateTimeKind.Local).AddTicks(5882),
+                            SecurityStamp = "958ccdf8-89fe-4d5b-8c9a-84b5b6cee4fb",
+                            StartDate = new DateTime(2024, 12, 4, 20, 48, 11, 84, DateTimeKind.Local).AddTicks(711),
                             TwoFactorEnabled = false,
                             UserName = "douwe.jansen@example.com"
                         });
@@ -2578,14 +2826,14 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             FunctionName = "Cashier",
-                            StartDate = new DateTime(2024, 12, 4, 13, 42, 46, 293, DateTimeKind.Local).AddTicks(748)
+                            StartDate = new DateTime(2024, 12, 4, 20, 48, 11, 26, DateTimeKind.Local).AddTicks(3944)
                         },
                         new
                         {
                             BranchId = 2,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2024, 12, 4, 13, 42, 46, 387, DateTimeKind.Local).AddTicks(5882)
+                            StartDate = new DateTime(2024, 12, 4, 20, 48, 11, 84, DateTimeKind.Local).AddTicks(711)
                         },
                         new
                         {
@@ -2646,7 +2894,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             RequestToBranchId = 2,
-                            DateNeeded = new DateTime(2024, 12, 11, 13, 42, 46, 471, DateTimeKind.Local).AddTicks(8587),
+                            DateNeeded = new DateTime(2024, 12, 11, 20, 48, 11, 143, DateTimeKind.Local).AddTicks(1523),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(17, 0, 0),
                             Message = "Overplaatsing nodig vanwege projectdeadline.",
@@ -2658,7 +2906,7 @@ namespace DataLayer.Migrations
                             BranchId = 2,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             RequestToBranchId = 1,
-                            DateNeeded = new DateTime(2024, 12, 18, 13, 42, 46, 471, DateTimeKind.Local).AddTicks(8680),
+                            DateNeeded = new DateTime(2024, 12, 18, 20, 48, 11, 143, DateTimeKind.Local).AddTicks(1575),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
@@ -2670,7 +2918,7 @@ namespace DataLayer.Migrations
                             BranchId = 3,
                             EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
                             RequestToBranchId = 4,
-                            DateNeeded = new DateTime(2024, 12, 14, 13, 42, 46, 471, DateTimeKind.Local).AddTicks(8732),
+                            DateNeeded = new DateTime(2024, 12, 14, 20, 48, 11, 143, DateTimeKind.Local).AddTicks(1578),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(17, 30, 0),
                             Message = "Hulp nodig vanwege ziekte van een collega.",
@@ -2682,7 +2930,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
                             RequestToBranchId = 3,
-                            DateNeeded = new DateTime(2024, 12, 24, 13, 42, 46, 471, DateTimeKind.Local).AddTicks(8738),
+                            DateNeeded = new DateTime(2024, 12, 24, 20, 48, 11, 143, DateTimeKind.Local).AddTicks(1580),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Overplaatsing voor trainingssessies.",
@@ -2754,34 +3002,6 @@ namespace DataLayer.Migrations
                         new
                         {
                             Name = "Zondag"
-                        },
-                        new
-                        {
-                            Name = "Monday"
-                        },
-                        new
-                        {
-                            Name = "Tuesday"
-                        },
-                        new
-                        {
-                            Name = "Wednesday"
-                        },
-                        new
-                        {
-                            Name = "Thursday"
-                        },
-                        new
-                        {
-                            Name = "Friday"
-                        },
-                        new
-                        {
-                            Name = "Saturday"
-                        },
-                        new
-                        {
-                            Name = "Sunday"
                         });
                 });
 
@@ -2889,14 +3109,14 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            PrognosisId = "1",
+                            PrognosisId = "prognosis_week_40_2024",
                             BranchId = 1,
                             WeekNr = 40,
                             Year = 2024
                         },
                         new
                         {
-                            PrognosisId = "2",
+                            PrognosisId = "prognosis_week_20_2024",
                             BranchId = 1,
                             WeekNr = 20,
                             Year = 2024
@@ -2936,146 +3156,146 @@ namespace DataLayer.Migrations
                         new
                         {
                             DayName = "Maandag",
-                            PrognosisId = "1",
+                            PrognosisId = "prognosis_week_40_2024",
                             CustomerAmount = 100,
                             PackagesAmount = 50
                         },
                         new
                         {
                             DayName = "Dinsdag",
-                            PrognosisId = "1",
+                            PrognosisId = "prognosis_week_40_2024",
                             CustomerAmount = 120,
                             PackagesAmount = 60
                         },
                         new
                         {
                             DayName = "Woensdag",
-                            PrognosisId = "1",
+                            PrognosisId = "prognosis_week_40_2024",
                             CustomerAmount = 130,
                             PackagesAmount = 55
                         },
                         new
                         {
                             DayName = "Donderdag",
-                            PrognosisId = "1",
+                            PrognosisId = "prognosis_week_40_2024",
                             CustomerAmount = 110,
                             PackagesAmount = 45
                         },
                         new
                         {
                             DayName = "Vrijdag",
-                            PrognosisId = "1",
+                            PrognosisId = "prognosis_week_40_2024",
                             CustomerAmount = 150,
                             PackagesAmount = 70
                         },
                         new
                         {
                             DayName = "Zaterdag",
-                            PrognosisId = "1",
+                            PrognosisId = "prognosis_week_40_2024",
                             CustomerAmount = 160,
                             PackagesAmount = 80
                         },
                         new
                         {
                             DayName = "Zondag",
-                            PrognosisId = "1",
+                            PrognosisId = "prognosis_week_40_2024",
                             CustomerAmount = 140,
                             PackagesAmount = 65
                         },
                         new
                         {
                             DayName = "Maandag",
-                            PrognosisId = "2",
+                            PrognosisId = "prognosis_week_20_2024",
                             CustomerAmount = 90,
                             PackagesAmount = 40
                         },
                         new
                         {
                             DayName = "Dinsdag",
-                            PrognosisId = "2",
+                            PrognosisId = "prognosis_week_20_2024",
                             CustomerAmount = 115,
                             PackagesAmount = 55
                         },
                         new
                         {
                             DayName = "Woensdag",
-                            PrognosisId = "2",
+                            PrognosisId = "prognosis_week_20_2024",
                             CustomerAmount = 125,
                             PackagesAmount = 50
                         },
                         new
                         {
                             DayName = "Donderdag",
-                            PrognosisId = "2",
+                            PrognosisId = "prognosis_week_20_2024",
                             CustomerAmount = 105,
                             PackagesAmount = 42
                         },
                         new
                         {
                             DayName = "Vrijdag",
-                            PrognosisId = "2",
+                            PrognosisId = "prognosis_week_20_2024",
                             CustomerAmount = 140,
                             PackagesAmount = 68
                         },
                         new
                         {
                             DayName = "Zaterdag",
-                            PrognosisId = "2",
+                            PrognosisId = "prognosis_week_20_2024",
                             CustomerAmount = 150,
                             PackagesAmount = 75
                         },
                         new
                         {
                             DayName = "Zondag",
-                            PrognosisId = "2",
+                            PrognosisId = "prognosis_week_20_2024",
                             CustomerAmount = 130,
                             PackagesAmount = 60
                         },
                         new
                         {
-                            DayName = "Monday",
+                            DayName = "Maandag",
                             PrognosisId = "prognosis_week_47_2024",
                             CustomerAmount = 200,
                             PackagesAmount = 300
                         },
                         new
                         {
-                            DayName = "Tuesday",
+                            DayName = "Dinsdag",
                             PrognosisId = "prognosis_week_47_2024",
                             CustomerAmount = 150,
                             PackagesAmount = 250
                         },
                         new
                         {
-                            DayName = "Wednesday",
+                            DayName = "Woensdag",
                             PrognosisId = "prognosis_week_47_2024",
                             CustomerAmount = 220,
                             PackagesAmount = 280
                         },
                         new
                         {
-                            DayName = "Thursday",
+                            DayName = "Donderdag",
                             PrognosisId = "prognosis_week_47_2024",
                             CustomerAmount = 190,
                             PackagesAmount = 270
                         },
                         new
                         {
-                            DayName = "Friday",
+                            DayName = "Vrijdag",
                             PrognosisId = "prognosis_week_47_2024",
                             CustomerAmount = 210,
                             PackagesAmount = 290
                         },
                         new
                         {
-                            DayName = "Saturday",
+                            DayName = "Zaterdag",
                             PrognosisId = "prognosis_week_47_2024",
                             CustomerAmount = 250,
                             PackagesAmount = 320
                         },
                         new
                         {
-                            DayName = "Sunday",
+                            DayName = "Zondag",
                             PrognosisId = "prognosis_week_47_2024",
                             CustomerAmount = 180,
                             PackagesAmount = 260
