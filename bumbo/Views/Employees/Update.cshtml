@@ -23,13 +23,13 @@
         <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
             <div>
                 <label asp-for="FirstName" class="text-gray-700 block text-sm font-medium">Voornaam</label>
-                <input asp-for="FirstName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="FirstName" placeholder="John" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="FirstName" class="text-red-600 text-sm"></span>
             </div>
 
             <div>
                 <label asp-for="MiddleName" class="text-gray-700 block text-sm font-medium">Tussenvoegsel</label>
-                <input asp-for="MiddleName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="MiddleName" placeholder="van" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="MiddleName" class="text-red-600 text-sm"></span>
             </div>
         </div>
@@ -37,7 +37,7 @@
         <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
             <div>
                 <label asp-for="LastName" class="text-gray-700 block text-sm font-medium">Achternaam</label>
-                <input asp-for="LastName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="LastName" placeholder="Doe" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="LastName" class="text-red-600 text-sm"></span>
             </div>
 
@@ -51,13 +51,13 @@
         <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
             <div>
                 <label asp-for="PostalCode" class="text-gray-700 block text-sm font-medium">Postcode</label>
-                <input asp-for="PostalCode" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="PostalCode" placeholder="1234AB" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="PostalCode" class="text-red-600 text-sm"></span>
             </div>
 
             <div>
                 <label asp-for="HouseNumber" class="text-gray-700 block text-sm font-medium">Huisnummer</label>
-                <input asp-for="HouseNumber" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="HouseNumber" title="Voer een geldig huisnummer in zoals 17 of 17b" placeholder="17 (a)" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="HouseNumber" class="text-red-600 text-sm"></span>
             </div>
         </div>
@@ -65,13 +65,13 @@
         <div class="gap-6 grid grid-cols-1 sm:grid-cols-2">
             <div>
                 <label asp-for="Email" class="text-gray-700 block text-sm font-medium">E-mailadres</label>
-                <input asp-for="Email" type="email" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="Email" type="email" placeholder="johnvandoe@live.nl" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
             </div>
 
             <div>
                 <label asp-for="PhoneNumber" class="text-gray-700 block text-sm font-medium">Telefoonnummer</label>
-                <input asp-for="PhoneNumber" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="PhoneNumber" placeholder="06 12345678" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="PhoneNumber" class="text-red-600 text-sm"></span>
             </div>
         </div>

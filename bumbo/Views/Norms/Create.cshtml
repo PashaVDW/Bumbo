@@ -53,29 +53,29 @@
         <div class="mt-6 flex">
             <div class="mr-2 w-full flex flex-col">
                 <label for="unloadColis">Coli uitladen (min)</label>
-                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.UnloadColis" id="unloadColis" type="number" name="@nameof(AddNormViewModel.UnloadColis)" required />
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.UnloadColis" id="unloadColis" type="number" min="1" name="@nameof(AddNormViewModel.UnloadColis)" required />
             </div>
             <div class="mr-2 w-full flex flex-col">
                 <label for="fillShelves">Vakken vullen (min/coli)</label>
-                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.FillShelves" id="fillShelves" type="number" name="@nameof(AddNormViewModel.FillShelves)" required />
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.FillShelves" id="fillShelves" type="number" min="1" name="@nameof(AddNormViewModel.FillShelves)" required />
             </div>
         </div>
         <div class="mt-6 mb-6 flex">
             <div class="mr-5 w-full flex flex-col">
                 <label for="cashier">Hoeveelheid kassiéres per 30 klanten per uur</label>
-                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.Cashier" id="cashier" type="number" name="@nameof(AddNormViewModel.Cashier)" required />
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.Cashier" id="cashier" type="number" min="1" name="@nameof(AddNormViewModel.Cashier)" required />
             </div>
         </div>
         <div class="mt-6 mb-6 flex">
             <div class="mr-5 w-full flex flex-col">
                 <label for="fresh">Hoeveelheid medewerkers per 100 klanten per uur</label>
-                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.Fresh" id="fresh" type="number" name="@nameof(AddNormViewModel.Fresh)" required />
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.Fresh" id="fresh" type="number" min="1" name="@nameof(AddNormViewModel.Fresh)" required />
             </div>
         </div>
         <div class="mt-6 mb-6 flex">
             <div class="mr-5 w-full flex flex-col">
                 <label for="fronting">Hoeveelheid seconden per meter spiegelen</label>
-                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.Fronting" id="fronting" type="number" name="@nameof(AddNormViewModel.Fronting)" required />
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" value="@ViewModel.Fronting" id="fronting" type="number" min="1" name="@nameof(AddNormViewModel.Fronting)" required />
             </div>
         </div>
         <div class="flex justify-end mt-6">
