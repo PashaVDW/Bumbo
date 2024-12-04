@@ -10,5 +10,6 @@ namespace DataLayer.Interfaces
         void UpdateEmployee(Employee employee);
         void DeleteEmployee(string employeeId);
         List<Employee> GetAvailableEmployees(DateOnly date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
+        Task<List<Employee>> GetEmployeesOfBranch(int? branchId);
     }
 }

@@ -28,7 +28,9 @@ builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
 builder.Services.AddScoped<IBranchRequestsEmployeeRepository, BranchRequestsEmployeeRepositorySql>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
 builder.Services.AddScoped<ILabourRulesRepository, LabourRulesRepositorySql>();
+builder.Services.AddScoped<ICountryRepository, CountryRepositorySql>();
 builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepositorySql>();
+
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()

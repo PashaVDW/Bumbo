@@ -16,7 +16,7 @@ namespace DataLayer.Repositories
 
         public List<Employee> GetAllEmployees()
         {
-            return _context.Users.ToList();
+            return _context.Users.ToList().OrderBy(u => u.FirstName).ToList();
         }
 
         public List<Employee> SearchEmployees(string searchTerm)
@@ -65,5 +65,16 @@ namespace DataLayer.Repositories
                 .ToList();
         }
 
+        public async Task<List<Employee>> GetEmployeesOfBranch(int? branchId)
+        {
+            return _context.Users
+                     .Join(_context.BranchHasEmployees,
+                           e => e.Id,
+                           bhe => bhe.EmployeeId,
+                           (e, bhe) => new { e, bhe })
+                     .Where(joined => joined.bhe.BranchId == branchId)
+                     .Select(joined => joined.e)
+                     .ToList();
+        }
     }
 }

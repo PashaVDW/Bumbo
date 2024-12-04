@@ -27,5 +27,8 @@ namespace DataLayer.Interfaces
         void UpdateSchedule(Schedule schedule);
         void RemoveSchedule(Schedule schedule);
         void AddSchedule(Schedule updatedSchedule);
+        void AddHelpEmployeeToDay(Schedule schedule);
+        void AddEmployee(string employeeId, int branchId, DateOnly date, string departmentName, TimeOnly startTime, TimeOnly endTime);
+        bool EmployeeIsAlreadyPlanned(DateTime date, string employeeId);
     }
 }
