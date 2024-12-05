@@ -966,6 +966,13 @@ namespace DataLayer.Migrations
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             EndTime = new TimeOnly(18, 0, 0),
                             StartTime = new TimeOnly(14, 0, 0)
+                        },
+                        new
+                        {
+                            Date = new DateOnly(2024, 12, 5),
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            EndTime = new TimeOnly(21, 0, 0),
+                            StartTime = new TimeOnly(8, 0, 0)
                         });
                 });
 
@@ -1142,8 +1149,8 @@ namespace DataLayer.Migrations
                     b.Property<int>("MinutesOfBreak")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumHoursWorkedBeforeBreak")
-                        .HasColumnType("int");
+                    b.Property<decimal>("NumHoursWorkedBeforeBreak")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("OvertimePayPercentage")
                         .HasPrecision(5, 2)
@@ -1172,7 +1179,7 @@ namespace DataLayer.Migrations
                             MinRestDaysPerWeek = 2,
                             MinRestHoursBetweenShifts = 12,
                             MinutesOfBreak = 30,
-                            NumHoursWorkedBeforeBreak = 4,
+                            NumHoursWorkedBeforeBreak = 4m,
                             OvertimePayPercentage = 0m,
                             SickPayPercentage = 70m
                         },
@@ -1190,7 +1197,7 @@ namespace DataLayer.Migrations
                             MinRestDaysPerWeek = 2,
                             MinRestHoursBetweenShifts = 12,
                             MinutesOfBreak = 30,
-                            NumHoursWorkedBeforeBreak = 4,
+                            NumHoursWorkedBeforeBreak = 4m,
                             OvertimePayPercentage = 0m,
                             SickPayPercentage = 70m
                         },
@@ -1208,7 +1215,7 @@ namespace DataLayer.Migrations
                             MinRestDaysPerWeek = 1,
                             MinRestHoursBetweenShifts = 11,
                             MinutesOfBreak = 30,
-                            NumHoursWorkedBeforeBreak = 4,
+                            NumHoursWorkedBeforeBreak = 4m,
                             OvertimePayPercentage = 150m,
                             SickPayPercentage = 70m
                         });
@@ -1384,7 +1391,18 @@ namespace DataLayer.Migrations
                         {
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             BranchId = 1,
-                            Date = new DateOnly(2024, 11, 18),
+                            Date = new DateOnly(2024, 11, 29),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(14, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(8, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2024, 12, 5),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(14, 0, 0),
                             IsFinal = true,
@@ -2400,6 +2418,9 @@ namespace DataLayer.Migrations
                     b.Property<bool>("Declined")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
+
                     b.HasKey("SendToEmployeeId", "EmployeeId", "BranchId", "Date");
 
                     b.HasIndex("EmployeeId", "BranchId", "Date");
@@ -2438,8 +2459,10 @@ namespace DataLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("HouseNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("HouseNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<bool>("IsSystemManager")
                         .HasColumnType("bit");
@@ -2522,7 +2545,7 @@ namespace DataLayer.Migrations
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
-                            HouseNumber = 10,
+                            HouseNumber = "10",
                             IsSystemManager = true,
                             LastName = "Doe",
                             LockoutEnabled = false,
@@ -2549,7 +2572,7 @@ namespace DataLayer.Migrations
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
-                            HouseNumber = 22,
+                            HouseNumber = "22",
                             IsSystemManager = false,
                             LastName = "Smith",
                             LockoutEnabled = false,
@@ -2575,7 +2598,7 @@ namespace DataLayer.Migrations
                             Email = "darlon.vandijk@hotmail.com",
                             EmailConfirmed = true,
                             FirstName = "Darlon",
-                            HouseNumber = 5,
+                            HouseNumber = "5",
                             IsSystemManager = false,
                             LastName = "van Dijk",
                             LockoutEnabled = false,
@@ -2601,7 +2624,7 @@ namespace DataLayer.Migrations
                             Email = "pasha.bakker@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Pasha",
-                            HouseNumber = 15,
+                            HouseNumber = "15",
                             IsSystemManager = false,
                             LastName = "Bakker",
                             LockoutEnabled = false,
@@ -2628,7 +2651,7 @@ namespace DataLayer.Migrations
                             Email = "sarah.vanderven@hotmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarah",
-                            HouseNumber = 8,
+                            HouseNumber = "8",
                             IsSystemManager = false,
                             LastName = "van der Ven",
                             LockoutEnabled = false,
@@ -2654,7 +2677,7 @@ namespace DataLayer.Migrations
                             Email = "david.denboer@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "David",
-                            HouseNumber = 30,
+                            HouseNumber = "30",
                             IsSystemManager = false,
                             LastName = "den Boer",
                             LockoutEnabled = false,
@@ -2680,7 +2703,7 @@ namespace DataLayer.Migrations
                             Email = "anthony.ross@example.com",
                             EmailConfirmed = true,
                             FirstName = "Anthony",
-                            HouseNumber = 7,
+                            HouseNumber = "7",
                             IsSystemManager = false,
                             LastName = "Ross",
                             LockoutEnabled = false,
@@ -2707,7 +2730,7 @@ namespace DataLayer.Migrations
                             Email = "douwe.jansen@example.com",
                             EmailConfirmed = true,
                             FirstName = "Douwe",
-                            HouseNumber = 12,
+                            HouseNumber = "12",
                             IsSystemManager = false,
                             LastName = "Jansen",
                             LockoutEnabled = false,
@@ -3845,25 +3868,25 @@ namespace DataLayer.Migrations
                         {
                             Id = 1,
                             BranchBranchId = 1,
-                            Name = "Basic Package"
+                            Name = "Basispakket"
                         },
                         new
                         {
                             Id = 2,
                             BranchBranchId = 1,
-                            Name = "Standard Package"
+                            Name = "Standaardpakket"
                         },
                         new
                         {
                             Id = 3,
                             BranchBranchId = 2,
-                            Name = "Premium Package"
+                            Name = "Premium pakket"
                         },
                         new
                         {
                             Id = 4,
                             BranchBranchId = 2,
-                            Name = "Family Package"
+                            Name = "Gezinspakket"
                         },
                         new
                         {
@@ -3958,245 +3981,245 @@ namespace DataLayer.Migrations
                         new
                         {
                             TemplatesId = 1,
-                            DaysName = "Monday",
+                            DaysName = "Maandag",
                             ContainerAmount = 41,
                             CustomerAmount = 989
                         },
                         new
                         {
                             TemplatesId = 1,
-                            DaysName = "Tuesday",
+                            DaysName = "Dinsdag",
                             ContainerAmount = 52,
                             CustomerAmount = 825
                         },
                         new
                         {
                             TemplatesId = 1,
-                            DaysName = "Wednesday",
+                            DaysName = "Woensdag",
                             ContainerAmount = 38,
                             CustomerAmount = 902
                         },
                         new
                         {
                             TemplatesId = 1,
-                            DaysName = "Thursday",
+                            DaysName = "Donderdag",
                             ContainerAmount = 52,
                             CustomerAmount = 990
                         },
                         new
                         {
                             TemplatesId = 1,
-                            DaysName = "Friday",
+                            DaysName = "Vrijdag",
                             ContainerAmount = 39,
                             CustomerAmount = 1040
                         },
                         new
                         {
                             TemplatesId = 1,
-                            DaysName = "Saturday",
+                            DaysName = "Zaterdag",
                             ContainerAmount = 43,
                             CustomerAmount = 953
                         },
                         new
                         {
                             TemplatesId = 1,
-                            DaysName = "Sunday",
+                            DaysName = "Zondag",
                             ContainerAmount = 32,
                             CustomerAmount = 872
                         },
                         new
                         {
                             TemplatesId = 2,
-                            DaysName = "Monday",
+                            DaysName = "Maandag",
                             ContainerAmount = 42,
                             CustomerAmount = 916
                         },
                         new
                         {
                             TemplatesId = 2,
-                            DaysName = "Tuesday",
+                            DaysName = "Dinsdag",
                             ContainerAmount = 38,
                             CustomerAmount = 912
                         },
                         new
                         {
                             TemplatesId = 2,
-                            DaysName = "Wednesday",
+                            DaysName = "Woensdag",
                             ContainerAmount = 32,
                             CustomerAmount = 902
                         },
                         new
                         {
                             TemplatesId = 2,
-                            DaysName = "Thursday",
+                            DaysName = "Donderdag",
                             ContainerAmount = 45,
                             CustomerAmount = 940
                         },
                         new
                         {
                             TemplatesId = 2,
-                            DaysName = "Friday",
+                            DaysName = "Vrijdag",
                             ContainerAmount = 47,
                             CustomerAmount = 816
                         },
                         new
                         {
                             TemplatesId = 2,
-                            DaysName = "Saturday",
+                            DaysName = "Zaterdag",
                             ContainerAmount = 38,
                             CustomerAmount = 842
                         },
                         new
                         {
                             TemplatesId = 2,
-                            DaysName = "Sunday",
+                            DaysName = "Zondag",
                             ContainerAmount = 45,
                             CustomerAmount = 885
                         },
                         new
                         {
                             TemplatesId = 3,
-                            DaysName = "Monday",
+                            DaysName = "Maandag",
                             ContainerAmount = 53,
                             CustomerAmount = 872
                         },
                         new
                         {
                             TemplatesId = 3,
-                            DaysName = "Tuesday",
+                            DaysName = "Dinsdag",
                             ContainerAmount = 41,
                             CustomerAmount = 989
                         },
                         new
                         {
                             TemplatesId = 3,
-                            DaysName = "Wednesday",
+                            DaysName = "Woensdag",
                             ContainerAmount = 42,
                             CustomerAmount = 916
                         },
                         new
                         {
                             TemplatesId = 3,
-                            DaysName = "Thursday",
+                            DaysName = "Donderdag",
                             ContainerAmount = 36,
                             CustomerAmount = 875
                         },
                         new
                         {
                             TemplatesId = 3,
-                            DaysName = "Friday",
+                            DaysName = "Vrijdag",
                             ContainerAmount = 29,
                             CustomerAmount = 877
                         },
                         new
                         {
                             TemplatesId = 3,
-                            DaysName = "Saturday",
+                            DaysName = "Zaterdag",
                             ContainerAmount = 53,
                             CustomerAmount = 945
                         },
                         new
                         {
                             TemplatesId = 3,
-                            DaysName = "Sunday",
+                            DaysName = "Zondag",
                             ContainerAmount = 52,
                             CustomerAmount = 880
                         },
                         new
                         {
                             TemplatesId = 4,
-                            DaysName = "Monday",
+                            DaysName = "Maandag",
                             ContainerAmount = 49,
                             CustomerAmount = 900
                         },
                         new
                         {
                             TemplatesId = 4,
-                            DaysName = "Tuesday",
+                            DaysName = "Dinsdag",
                             ContainerAmount = 38,
                             CustomerAmount = 903
                         },
                         new
                         {
                             TemplatesId = 4,
-                            DaysName = "Wednesday",
+                            DaysName = "Woensdag",
                             ContainerAmount = 45,
                             CustomerAmount = 930
                         },
                         new
                         {
                             TemplatesId = 4,
-                            DaysName = "Thursday",
+                            DaysName = "Donderdag",
                             ContainerAmount = 42,
                             CustomerAmount = 985
                         },
                         new
                         {
                             TemplatesId = 4,
-                            DaysName = "Friday",
+                            DaysName = "Vrijdag",
                             ContainerAmount = 36,
                             CustomerAmount = 865
                         },
                         new
                         {
                             TemplatesId = 4,
-                            DaysName = "Saturday",
+                            DaysName = "Zaterdag",
                             ContainerAmount = 43,
                             CustomerAmount = 950
                         },
                         new
                         {
                             TemplatesId = 4,
-                            DaysName = "Sunday",
+                            DaysName = "Zondag",
                             ContainerAmount = 38,
                             CustomerAmount = 950
                         },
                         new
                         {
                             TemplatesId = 5,
-                            DaysName = "Monday",
+                            DaysName = "Maandag",
                             ContainerAmount = 52,
                             CustomerAmount = 832
                         },
                         new
                         {
                             TemplatesId = 5,
-                            DaysName = "Tuesday",
+                            DaysName = "Dinsdag",
                             ContainerAmount = 49,
                             CustomerAmount = 935
                         },
                         new
                         {
                             TemplatesId = 5,
-                            DaysName = "Wednesday",
+                            DaysName = "Woensdag",
                             ContainerAmount = 29,
                             CustomerAmount = 877
                         },
                         new
                         {
                             TemplatesId = 5,
-                            DaysName = "Thursday",
+                            DaysName = "Donderdag",
                             ContainerAmount = 41,
                             CustomerAmount = 989
                         },
                         new
                         {
                             TemplatesId = 5,
-                            DaysName = "Friday",
+                            DaysName = "Vrijdag",
                             ContainerAmount = 32,
                             CustomerAmount = 872
                         },
                         new
                         {
                             TemplatesId = 5,
-                            DaysName = "Saturday",
+                            DaysName = "Zaterdag",
                             ContainerAmount = 36,
                             CustomerAmount = 771
                         },
                         new
                         {
                             TemplatesId = 5,
-                            DaysName = "Sunday",
+                            DaysName = "Zondag",
                             ContainerAmount = 52,
                             CustomerAmount = 885
                         },

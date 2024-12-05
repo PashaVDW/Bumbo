@@ -20,8 +20,7 @@
                 <ul class="group-hover:block bg-gray-100 left-[-12px] absolute top-full z-50 hidden">
                     <li class="p-3 pt-6 border-b-2"><a href="/prognoses" class="hover:text-gray-600">Prognoses</a></li>
                     <li class="p-3 border-b-2"><a href="/normeringen" class="hover:text-gray-600">Normeringen</a></li>
-                    <li class="p-3 border-b-2"><a href="/terugblikken" class="hover:text-gray-600">Terugblikken</a></li>
-                    <li class="p-3"><a href="/standaard-templates" class="hover:text-gray-600">Standaard templates</a></li>
+                        <li class="p-3 border-b-2"><a href="/standaard-templates" class="hover:text-gray-600">Standaard template</a></li>
                 </ul>
             </div>
 
@@ -44,6 +43,7 @@
             @if (Model.IsSystemManager)
             {
                 <a href="/filialen" class="hover:text-gray-600">Filialen</a>
+                <a asp-controller="LabourRules" asp-action="Index" class="hover:text-gray-600">CAO regels</a>
             }
         </div>
     </div>
@@ -61,7 +61,7 @@
                     </div>
                     <div class="max-md:flex max-md:flex-col max-md:items-center">
                         <i class="fas fa-exchange-alt text-xl"></i>
-                        <a asp-controller="SwapSchedule" asp-action="Index" class="max-md:text-xs">Dienstuil</a>
+                        <a asp-controller="ShiftSwap" asp-action="Index" class="max-md:text-xs">Dienstuil</a>
                     </div>
                     <div class="max-md:flex max-md:flex-col max-md:items-center">
                         <i class="fas fa-school text-xl"></i>

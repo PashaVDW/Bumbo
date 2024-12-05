@@ -261,9 +261,11 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Department>().HasData(
-                new Department { DepartmentName = "Kassa" },
+                new Department { DepartmentName = "Coli uitladen" },
                 new Department { DepartmentName = "Vakkenvullen" },
-                new Department { DepartmentName = "Vers" }
+                new Department { DepartmentName = "Kassa" },
+                new Department { DepartmentName = "Vers" },
+                new Department { DepartmentName = "Spiegelen" }
             );
 
             modelBuilder.Entity<Branch>().HasData(
@@ -357,26 +359,26 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Prognosis>().HasData(
-                new Prognosis { PrognosisId = "1", WeekNr = 40, Year = 2024, BranchId = 1 },
-                new Prognosis { PrognosisId = "2", WeekNr = 20, Year = 2024, BranchId = 1 }
+                new Prognosis { PrognosisId = "prognosis_week_40_2024", WeekNr = 40, Year = 2024, BranchId = 1 },
+                new Prognosis { PrognosisId = "prognosis_week_20_2024", WeekNr = 20, Year = 2024, BranchId = 1 }
             );
 
             modelBuilder.Entity<PrognosisHasDays>().HasData(
-                new PrognosisHasDays { DayName = "Maandag", PrognosisId = "1", CustomerAmount = 100, PackagesAmount = 50 },
-                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = "1", CustomerAmount = 120, PackagesAmount = 60 },
-                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = "1", CustomerAmount = 130, PackagesAmount = 55 },
-                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = "1", CustomerAmount = 110, PackagesAmount = 45 },
-                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = "1", CustomerAmount = 150, PackagesAmount = 70 },
-                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = "1", CustomerAmount = 160, PackagesAmount = 80 },
-                new PrognosisHasDays { DayName = "Zondag", PrognosisId = "1", CustomerAmount = 140, PackagesAmount = 65 },
+                new PrognosisHasDays { DayName = "Maandag", PrognosisId = "prognosis_week_40_2024", CustomerAmount = 100, PackagesAmount = 50 },
+                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", CustomerAmount = 120, PackagesAmount = 60 },
+                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = "prognosis_week_40_2024", CustomerAmount = 130, PackagesAmount = 55 },
+                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = "prognosis_week_40_2024", CustomerAmount = 110, PackagesAmount = 45 },
+                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", CustomerAmount = 150, PackagesAmount = 70 },
+                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", CustomerAmount = 160, PackagesAmount = 80 },
+                new PrognosisHasDays { DayName = "Zondag", PrognosisId = "prognosis_week_40_2024", CustomerAmount = 140, PackagesAmount = 65 },
 
-                new PrognosisHasDays { DayName = "Maandag", PrognosisId = "2", CustomerAmount = 90, PackagesAmount = 40 },
-                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = "2", CustomerAmount = 115, PackagesAmount = 55 },
-                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = "2", CustomerAmount = 125, PackagesAmount = 50 },
-                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = "2", CustomerAmount = 105, PackagesAmount = 42 },
-                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = "2", CustomerAmount = 140, PackagesAmount = 68 },
-                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = "2", CustomerAmount = 150, PackagesAmount = 75 },
-                new PrognosisHasDays { DayName = "Zondag", PrognosisId = "2", CustomerAmount = 130, PackagesAmount = 60 }
+                new PrognosisHasDays { DayName = "Maandag", PrognosisId = "prognosis_week_20_2024", CustomerAmount = 90, PackagesAmount = 40 },
+                new PrognosisHasDays { DayName = "Dinsdag", PrognosisId = "prognosis_week_20_2024", CustomerAmount = 115, PackagesAmount = 55 },
+                new PrognosisHasDays { DayName = "Woensdag", PrognosisId = "prognosis_week_20_2024", CustomerAmount = 125, PackagesAmount = 50 },
+                new PrognosisHasDays { DayName = "Donderdag", PrognosisId = "prognosis_week_20_2024", CustomerAmount = 105, PackagesAmount = 42 },
+                new PrognosisHasDays { DayName = "Vrijdag", PrognosisId = "prognosis_week_20_2024", CustomerAmount = 140, PackagesAmount = 68 },
+                new PrognosisHasDays { DayName = "Zaterdag", PrognosisId = "prognosis_week_20_2024", CustomerAmount = 150, PackagesAmount = 75 },
+                new PrognosisHasDays { DayName = "Zondag", PrognosisId = "prognosis_week_20_2024", CustomerAmount = 130, PackagesAmount = 60 }
             );
 
             modelBuilder.Entity<Function>().HasData(
@@ -395,7 +397,7 @@ namespace bumbo.Data
                 LastName = "Doe",
                 BirthDate = new DateTime(1985, 2, 20),
                 PostalCode = "12345",
-                HouseNumber = 10,
+                HouseNumber = "10",
                 StartDate = new DateTime(2010, 1, 1),
                 IsSystemManager = true,
                 ManagerOfBranchId = 1,
@@ -417,7 +419,7 @@ namespace bumbo.Data
                 LastName = "Smith",
                 BirthDate = new DateTime(1990, 5, 15),
                 PostalCode = "9271 GB",
-                HouseNumber = 22,
+                HouseNumber = "22",
                 StartDate = new DateTime(2012, 4, 1),
                 IsSystemManager = false,
                 ManagerOfBranchId = null,
@@ -439,7 +441,7 @@ namespace bumbo.Data
                 LastName = "van Dijk",
                 BirthDate = new DateTime(1992, 2, 14),
                 PostalCode = "8329 SK",
-                HouseNumber = 5,
+                HouseNumber = "5",
                 StartDate = new DateTime(2018, 6, 20),
                 IsSystemManager = false,
                 ManagerOfBranchId = null,
@@ -461,7 +463,7 @@ namespace bumbo.Data
                 LastName = "Bakker",
                 BirthDate = new DateTime(1980, 12, 1),
                 PostalCode = "3894 HT",
-                HouseNumber = 15,
+                HouseNumber = "15",
                 StartDate = new DateTime(2010, 9, 5),
                 IsSystemManager = false,
                 ManagerOfBranchId = 3,
@@ -483,7 +485,7 @@ namespace bumbo.Data
                 LastName = "van der Ven",
                 BirthDate = new DateTime(1988, 4, 10),
                 PostalCode = "2933 KJ",
-                HouseNumber = 8,
+                HouseNumber = "8",
                 StartDate = new DateTime(2017, 3, 15),
                 IsSystemManager = false,
                 ManagerOfBranchId = null,
@@ -505,7 +507,7 @@ namespace bumbo.Data
                 LastName = "den Boer",
                 BirthDate = new DateTime(1995, 7, 20),
                 PostalCode = "4293 BF",
-                HouseNumber = 30,
+                HouseNumber = "30",
                 StartDate = new DateTime(2020, 11, 1),
                 IsSystemManager = false,
                 ManagerOfBranchId = null,
@@ -527,7 +529,7 @@ namespace bumbo.Data
                 LastName = "Ross",
                 BirthDate = new DateTime(1993, 3, 5),
                 PostalCode = "2234 AB",
-                HouseNumber = 7,
+                HouseNumber = "7",
                 StartDate = DateTime.Now,
                 IsSystemManager = false,
                 ManagerOfBranchId = 1,
@@ -549,7 +551,7 @@ namespace bumbo.Data
                 LastName = "Jansen",
                 BirthDate = new DateTime(1987, 9, 10),
                 PostalCode = "3345 CD",
-                HouseNumber = 12,
+                HouseNumber = "12",
                 StartDate = DateTime.Now,
                 IsSystemManager = false,
                 ManagerOfBranchId = 2,
@@ -700,15 +702,15 @@ namespace bumbo.Data
                 sofie, tom, lisa, mark, eva);
 
             modelBuilder.Entity<EmployeeHasDepartment>().HasData(
-                
-                new EmployeeHasDepartment() 
-                { 
+
+                new EmployeeHasDepartment()
+                {
                     DepartmentName = "Vakkenvullen",
                     EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd"
                 },
                 new EmployeeHasDepartment()
                 {
-                    DepartmentName = "Kassa", 
+                    DepartmentName = "Kassa",
                     EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0"
                 },
                 new EmployeeHasDepartment()
@@ -769,66 +771,35 @@ namespace bumbo.Data
 
                 );
 
-            modelBuilder.Entity<Days>().HasData(
-                new Days()
-                {
-                    Name = "Monday"
-                },
-                new Days()
-                {
-                    Name = "Tuesday"
-                },
-                new Days()
-                {
-                    Name = "Wednesday"
-                },
-                new Days()
-                {
-                    Name = "Thursday"
-                },
-                new Days()
-                {
-                    Name = "Friday"
-                },
-                new Days()
-                {
-                    Name = "Saturday"
-                },
-                new Days()
-                {
-                    Name = "Sunday"
-                }
-            );
-
             modelBuilder.Entity<Template>().HasData(
                 new Template
                 {
                     Id = 1,
-                    Name = "Basic Package",
+                    Name = "Basispakket",
                     BranchBranchId = 1
                 },
                 new Template
                 {
                     Id = 2,
-                    Name = "Standard Package",
+                    Name = "Standaardpakket",
                     BranchBranchId = 1
                 },
                 new Template
                 {
                     Id = 3,
-                    Name = "Premium Package",
+                    Name = "Premium pakket",
                     BranchBranchId = 2
                 },
                 new Template
                 {
                     Id = 4,
-                    Name = "Family Package",
+                    Name = "Gezinspakket",
                     BranchBranchId = 2
                 },
                 new Template
                 {
                     Id = 5,
-                    Name = "Weekly Special",
+                    Name = "Wekelijkse special",
                     BranchBranchId = 1
                 },
                 new Template
@@ -895,37 +866,37 @@ namespace bumbo.Data
 
             // Seed data for Template_has_days
             modelBuilder.Entity<TemplateHasDays>().HasData(
-                new TemplateHasDays { TemplatesId = 1, DaysName = "Monday", CustomerAmount = 989, ContainerAmount = 41 },
-                new TemplateHasDays { TemplatesId = 1, DaysName = "Tuesday", CustomerAmount = 825, ContainerAmount = 52 },
-                new TemplateHasDays { TemplatesId = 1, DaysName = "Wednesday", CustomerAmount = 902, ContainerAmount = 38 },
-                new TemplateHasDays { TemplatesId = 1, DaysName = "Thursday", CustomerAmount = 990, ContainerAmount = 52 },
-                new TemplateHasDays { TemplatesId = 1, DaysName = "Friday", CustomerAmount = 1040, ContainerAmount = 39 },
-                new TemplateHasDays { TemplatesId = 1, DaysName = "Saturday", CustomerAmount = 953, ContainerAmount = 43 },
-                new TemplateHasDays { TemplatesId = 1, DaysName = "Sunday", CustomerAmount = 872, ContainerAmount = 32 },
+                new TemplateHasDays { TemplatesId = 1, DaysName = "Maandag", CustomerAmount = 989, ContainerAmount = 41 },
+                new TemplateHasDays { TemplatesId = 1, DaysName = "Dinsdag", CustomerAmount = 825, ContainerAmount = 52 },
+                new TemplateHasDays { TemplatesId = 1, DaysName = "Woensdag", CustomerAmount = 902, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 1, DaysName = "Donderdag", CustomerAmount = 990, ContainerAmount = 52 },
+                new TemplateHasDays { TemplatesId = 1, DaysName = "Vrijdag", CustomerAmount = 1040, ContainerAmount = 39 },
+                new TemplateHasDays { TemplatesId = 1, DaysName = "Zaterdag", CustomerAmount = 953, ContainerAmount = 43 },
+                new TemplateHasDays { TemplatesId = 1, DaysName = "Zondag", CustomerAmount = 872, ContainerAmount = 32 },
 
-                new TemplateHasDays { TemplatesId = 2, DaysName = "Monday", CustomerAmount = 916, ContainerAmount = 42 },
-                new TemplateHasDays { TemplatesId = 2, DaysName = "Tuesday", CustomerAmount = 912, ContainerAmount = 38 },
-                new TemplateHasDays { TemplatesId = 2, DaysName = "Wednesday", CustomerAmount = 902, ContainerAmount = 32 },
-                new TemplateHasDays { TemplatesId = 2, DaysName = "Thursday", CustomerAmount = 940, ContainerAmount = 45 },
-                new TemplateHasDays { TemplatesId = 2, DaysName = "Friday", CustomerAmount = 816, ContainerAmount = 47 },
-                new TemplateHasDays { TemplatesId = 2, DaysName = "Saturday", CustomerAmount = 842, ContainerAmount = 38 },
-                new TemplateHasDays { TemplatesId = 2, DaysName = "Sunday", CustomerAmount = 885, ContainerAmount = 45 },
+                new TemplateHasDays { TemplatesId = 2, DaysName = "Maandag", CustomerAmount = 916, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 2, DaysName = "Dinsdag", CustomerAmount = 912, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 2, DaysName = "Woensdag", CustomerAmount = 902, ContainerAmount = 32 },
+                new TemplateHasDays { TemplatesId = 2, DaysName = "Donderdag", CustomerAmount = 940, ContainerAmount = 45 },
+                new TemplateHasDays { TemplatesId = 2, DaysName = "Vrijdag", CustomerAmount = 816, ContainerAmount = 47 },
+                new TemplateHasDays { TemplatesId = 2, DaysName = "Zaterdag", CustomerAmount = 842, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 2, DaysName = "Zondag", CustomerAmount = 885, ContainerAmount = 45 },
 
-                new TemplateHasDays { TemplatesId = 3, DaysName = "Monday", CustomerAmount = 872, ContainerAmount = 53 },
-                new TemplateHasDays { TemplatesId = 3, DaysName = "Tuesday", CustomerAmount = 989, ContainerAmount = 41 },
-                new TemplateHasDays { TemplatesId = 3, DaysName = "Wednesday", CustomerAmount = 916, ContainerAmount = 42 },
-                new TemplateHasDays { TemplatesId = 3, DaysName = "Thursday", CustomerAmount = 875, ContainerAmount = 36 },
-                new TemplateHasDays { TemplatesId = 3, DaysName = "Friday", CustomerAmount = 877, ContainerAmount = 29 },
-                new TemplateHasDays { TemplatesId = 3, DaysName = "Saturday", CustomerAmount = 945, ContainerAmount = 53 },
-                new TemplateHasDays { TemplatesId = 3, DaysName = "Sunday", CustomerAmount = 880, ContainerAmount = 52 },
+                new TemplateHasDays { TemplatesId = 3, DaysName = "Maandag", CustomerAmount = 872, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 3, DaysName = "Dinsdag", CustomerAmount = 989, ContainerAmount = 41 },
+                new TemplateHasDays { TemplatesId = 3, DaysName = "Woensdag", CustomerAmount = 916, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 3, DaysName = "Donderdag", CustomerAmount = 875, ContainerAmount = 36 },
+                new TemplateHasDays { TemplatesId = 3, DaysName = "Vrijdag", CustomerAmount = 877, ContainerAmount = 29 },
+                new TemplateHasDays { TemplatesId = 3, DaysName = "Zaterdag", CustomerAmount = 945, ContainerAmount = 53 },
+                new TemplateHasDays { TemplatesId = 3, DaysName = "Zondag", CustomerAmount = 880, ContainerAmount = 52 },
 
-                new TemplateHasDays { TemplatesId = 4, DaysName = "Monday", CustomerAmount = 900, ContainerAmount = 49 },
-                new TemplateHasDays { TemplatesId = 4, DaysName = "Tuesday", CustomerAmount = 903, ContainerAmount = 38 },
-                new TemplateHasDays { TemplatesId = 4, DaysName = "Wednesday", CustomerAmount = 930, ContainerAmount = 45 },
-                new TemplateHasDays { TemplatesId = 4, DaysName = "Thursday", CustomerAmount = 985, ContainerAmount = 42 },
-                new TemplateHasDays { TemplatesId = 4, DaysName = "Friday", CustomerAmount = 865, ContainerAmount = 36 },
-                new TemplateHasDays { TemplatesId = 4, DaysName = "Saturday", CustomerAmount = 950, ContainerAmount = 43 },
-                new TemplateHasDays { TemplatesId = 4, DaysName = "Sunday", CustomerAmount = 950, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 4, DaysName = "Maandag", CustomerAmount = 900, ContainerAmount = 49 },
+                new TemplateHasDays { TemplatesId = 4, DaysName = "Dinsdag", CustomerAmount = 903, ContainerAmount = 38 },
+                new TemplateHasDays { TemplatesId = 4, DaysName = "Woensdag", CustomerAmount = 930, ContainerAmount = 45 },
+                new TemplateHasDays { TemplatesId = 4, DaysName = "Donderdag", CustomerAmount = 985, ContainerAmount = 42 },
+                new TemplateHasDays { TemplatesId = 4, DaysName = "Vrijdag", CustomerAmount = 865, ContainerAmount = 36 },
+                new TemplateHasDays { TemplatesId = 4, DaysName = "Zaterdag", CustomerAmount = 950, ContainerAmount = 43 },
+                new TemplateHasDays { TemplatesId = 4, DaysName = "Zondag", CustomerAmount = 950, ContainerAmount = 38 },
 
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Monday", CustomerAmount = 832, ContainerAmount = 52 },
                 new TemplateHasDays { TemplatesId = 5, DaysName = "Tuesday", CustomerAmount = 935, ContainerAmount = 49 },
@@ -1015,6 +986,7 @@ namespace bumbo.Data
                 new TemplateHasDays { TemplatesId = 15, DaysName = "Saturday", CustomerAmount = 790, ContainerAmount = 37 },
                 new TemplateHasDays { TemplatesId = 15, DaysName = "Sunday", CustomerAmount = 878, ContainerAmount = 52 }
             );
+
 
             modelBuilder.Entity<PrognosisHasDaysHasDepartment>()
                 .HasOne(phdd => phdd.PrognosisHasDays)
@@ -1107,10 +1079,19 @@ namespace bumbo.Data
                 FunctionName = "Stocker"
             };
 
+            var janeBranchAssignment = new BranchHasEmployee
+            {
+                BranchId = 1,
+                EmployeeId = jane.Id,
+                StartDate = new DateTime(2012, 4, 1),
+                FunctionName = "Stocker"
+            };
+
             modelBuilder.Entity<BranchHasEmployee>().HasData(
                 branchHasEmployeeOne, branchHasEmployeeTwo, branchHasEmployeeThree, branchHasEmployeeFour,
                 branchHasEmployeeFive, branchHasEmployeeSix, branchHasEmployeeSeven, branchHasEmployeeEight,
-                branchHasEmployeeNine, branchHasEmployeeTen, branchHasEmployeeEleven, branchHasEmployeeTwelve
+                branchHasEmployeeNine, branchHasEmployeeTen, branchHasEmployeeEleven, branchHasEmployeeTwelve, 
+                janeBranchAssignment
             );
 
             modelBuilder.Entity<RequestStatus>().HasData(
@@ -1286,7 +1267,18 @@ namespace bumbo.Data
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
                     BranchId = 1,
-                    Date = new DateOnly(2024, 11, 18),
+                    Date = new DateOnly(2024, 11, 29),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 5),
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(14, 0),
                     DepartmentName = "Vers",
@@ -1757,156 +1749,153 @@ namespace bumbo.Data
                 new PrognosisHasDays
                 {
                     PrognosisId = prognosisId,
-                    DayName = "Monday",
+                    DayName = "Maandag",
                     CustomerAmount = 200,
                     PackagesAmount = 300
                 },
                 new PrognosisHasDays
                 {
                     PrognosisId = prognosisId,
-                    DayName = "Tuesday",
+                    DayName = "Dinsdag",
                     CustomerAmount = 150,
                     PackagesAmount = 250
                 },
                 new PrognosisHasDays
                 {
                     PrognosisId = prognosisId,
-                    DayName = "Wednesday",
+                    DayName = "Woensdag",
                     CustomerAmount = 220,
                     PackagesAmount = 280
                 },
                 new PrognosisHasDays
                 {
                     PrognosisId = prognosisId,
-                    DayName = "Thursday",
+                    DayName = "Donderdag",
                     CustomerAmount = 190,
                     PackagesAmount = 270
                 },
                 new PrognosisHasDays
                 {
                     PrognosisId = prognosisId,
-                    DayName = "Friday",
+                    DayName = "Vrijdag",
                     CustomerAmount = 210,
                     PackagesAmount = 290
                 },
                 new PrognosisHasDays
                 {
                     PrognosisId = prognosisId,
-                    DayName = "Saturday",
+                    DayName = "Zaterdag",
                     CustomerAmount = 250,
                     PackagesAmount = 320
                 },
                 new PrognosisHasDays
                 {
                     PrognosisId = prognosisId,
-                    DayName = "Sunday",
+                    DayName = "Zondag",
                     CustomerAmount = 180,
                     PackagesAmount = 260
                 }
             );
 
-            // Seeddata for PrognosisHasDaysHasDepartment
             modelBuilder.Entity<PrognosisHasDaysHasDepartment>().HasData(
-                new PrognosisHasDaysHasDepartment
-                {
-                    PrognosisId = prognosisId,
-                    DayName = "Monday",
-                    DepartmentName = "Kassa",
-                    AmountOfWorkersNeeded = 3,
-                    HoursOfWorkNeeded = 24
-                },
-                new PrognosisHasDaysHasDepartment
-                {
-                    PrognosisId = prognosisId,
-                    DayName = "Monday",
-                    DepartmentName = "Vakkenvullen",
-                    AmountOfWorkersNeeded = 4,
-                    HoursOfWorkNeeded = 32
-                },
-                new PrognosisHasDaysHasDepartment
-                {
-                    PrognosisId = prognosisId,
-                    DayName = "Monday",
-                    DepartmentName = "Vers",
-                    AmountOfWorkersNeeded = 2,
-                    HoursOfWorkNeeded = 16
-                },
-                // Repeat for other days and departments as necessary
-                new PrognosisHasDaysHasDepartment
-                {
-                    PrognosisId = prognosisId,
-                    DayName = "Tuesday",
-                    DepartmentName = "Kassa",
-                    AmountOfWorkersNeeded = 2,
-                    HoursOfWorkNeeded = 16
-                },
-                new PrognosisHasDaysHasDepartment
-                {
-                    PrognosisId = prognosisId,
-                    DayName = "Tuesday",
-                    DepartmentName = "Vakkenvullen",
-                    AmountOfWorkersNeeded = 3,
-                    HoursOfWorkNeeded = 24
-                }
-            );
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DayName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 24 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DayName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 28 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DayName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 32 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DayName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 16 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DayName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 20 },
 
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DayName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 25 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DayName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 30 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DayName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 35 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DayName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 18 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DayName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 22 },
+
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DayName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 26 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DayName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 29 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DayName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 34 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DayName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 17 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DayName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 21 },
+
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DayName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 24 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DayName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 27 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DayName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 31 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DayName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 15 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DayName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 19 },
+
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DayName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 28 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DayName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 32 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DayName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 6, HoursOfWorkNeeded = 36 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DayName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 20 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DayName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 24 },
+
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DayName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 30 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DayName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 35 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DayName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 6, HoursOfWorkNeeded = 38 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DayName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 22 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DayName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 26 },
+
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DayName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 27 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DayName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 30 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DayName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 34 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DayName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 18 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DayName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 22 }
+            );
             modelBuilder.Entity<LabourRules>().HasData(
-                new LabourRules
-                {
-                    CountryName = "Netherlands",
-                    AgeGroup = "<16",
-                    MaxHoursPerDay = 8,
-                    MaxEndTime = new TimeSpan(19, 0, 0),
-                    MaxHoursPerWeek = 40,
-                    MaxWorkDaysPerWeek = 5,
-                    MaxHoursWithSchool = 12,
-                    MinRestDaysPerWeek = 2,
-                    NumHoursWorkedBeforeBreak = 4,
-                    MinutesOfBreak = 30,
-                    SickPayPercentage = 70m,
-                    OvertimePayPercentage = 0m,
-                    MinRestHoursBetweenShifts = 12,
-                    MaxShiftDuration = 8,
-                    MaxOvertimeHoursPerWeek = 0
-                },
-                new LabourRules
-                {
-                    CountryName = "Netherlands",
-                    AgeGroup = "16-17",
-                    MaxHoursPerDay = 9,
-                    MaxEndTime = new TimeSpan(22, 0, 0),
-                    MaxHoursPerWeek = 40,
-                    MaxWorkDaysPerWeek = 5,
-                    MaxHoursWithSchool = 40,
-                    MinRestDaysPerWeek = 2,
-                    NumHoursWorkedBeforeBreak = 4,
-                    MinutesOfBreak = 30,
-                    SickPayPercentage = 70m,
-                    OvertimePayPercentage = 0m,
-                    MinRestHoursBetweenShifts = 12,
-                    MaxShiftDuration = 9,
-                    MaxOvertimeHoursPerWeek = 0
-                },
-                new LabourRules
-                {
-                    CountryName = "Netherlands",
-                    AgeGroup = ">17",
-                    MaxHoursPerDay = 12,
-                    MaxEndTime = new TimeSpan(24, 0, 0),
-                    MaxHoursPerWeek = 60,
-                    MaxWorkDaysPerWeek = 6,
-                    MaxHoursWithSchool = 0,
-                    MinRestDaysPerWeek = 1,
-                    NumHoursWorkedBeforeBreak = 4,
-                    MinutesOfBreak = 30,
-                    SickPayPercentage = 70m,
-                    OvertimePayPercentage = 150m,
-                    MinRestHoursBetweenShifts = 11,
-                    MaxShiftDuration = 12,
-                    MaxOvertimeHoursPerWeek = 20
-                }
-            );
-
+              new LabourRules
+              {
+                  CountryName = "Netherlands",
+                  AgeGroup = "<16",
+                  MaxHoursPerDay = 8,
+                  MaxEndTime = new TimeSpan(19, 0, 0),
+                  MaxHoursPerWeek = 40,
+                  MaxWorkDaysPerWeek = 5,
+                  MaxHoursWithSchool = 12,
+                  MinRestDaysPerWeek = 2,
+                  NumHoursWorkedBeforeBreak = 4,
+                  MinutesOfBreak = 30,
+                  SickPayPercentage = 70m,
+                  OvertimePayPercentage = 0m,
+                  MinRestHoursBetweenShifts = 12,
+                  MaxShiftDuration = 8,
+                  MaxOvertimeHoursPerWeek = 0
+              },
+              new LabourRules
+              {
+                  CountryName = "Netherlands",
+                  AgeGroup = "16-17",
+                  MaxHoursPerDay = 9,
+                  MaxEndTime = new TimeSpan(22, 0, 0),
+                  MaxHoursPerWeek = 40,
+                  MaxWorkDaysPerWeek = 5,
+                  MaxHoursWithSchool = 40,
+                  MinRestDaysPerWeek = 2,
+                  NumHoursWorkedBeforeBreak = 4,
+                  MinutesOfBreak = 30,
+                  SickPayPercentage = 70m,
+                  OvertimePayPercentage = 0m,
+                  MinRestHoursBetweenShifts = 12,
+                  MaxShiftDuration = 9,
+                  MaxOvertimeHoursPerWeek = 0
+              },
+              new LabourRules
+              {
+                  CountryName = "Netherlands",
+                  AgeGroup = ">17",
+                  MaxHoursPerDay = 12,
+                  MaxEndTime = new TimeSpan(24, 0, 0),
+                  MaxHoursPerWeek = 60,
+                  MaxWorkDaysPerWeek = 6,
+                  MaxHoursWithSchool = 0,
+                  MinRestDaysPerWeek = 1,
+                  NumHoursWorkedBeforeBreak = 4,
+                  MinutesOfBreak = 30,
+                  SickPayPercentage = 70m,
+                  OvertimePayPercentage = 150m,
+                  MinRestHoursBetweenShifts = 11,
+                  MaxShiftDuration = 12,
+                  MaxOvertimeHoursPerWeek = 20
+              }
+          );
             modelBuilder.Entity<Availability>().HasData(
                 // John Doe
                 new Availability { EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", Date = new DateOnly(2024, 11, 18), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
@@ -1950,7 +1939,7 @@ namespace bumbo.Data
                 new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(13, 0) },
                 new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 23), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
                 new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 24), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
-                
+
                 new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(14, 0) },
                 new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
                 new Availability { EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(12, 0) },
@@ -2042,7 +2031,13 @@ namespace bumbo.Data
                 new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 28), StartTime = new TimeOnly(11, 0), EndTime = new TimeOnly(15, 0) },
                 new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(12, 0), EndTime = new TimeOnly(16, 0) },
                 new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 30), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(17, 0) },
-                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) }
+                new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+
+                new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 12, 5), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(21, 0) }
+
+
+
+
             );
 
             modelBuilder.Entity<SchoolSchedule>().HasData(
@@ -2117,7 +2112,7 @@ namespace bumbo.Data
                 new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 20), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
                 new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 21), StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(15, 30) },
                 new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 22), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
-                
+
                 new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 25), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) },
                 new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 26), StartTime = new TimeOnly(15, 30), EndTime = new TimeOnly(18, 30) },
                 new SchoolSchedule { EmployeeId = "d5e5f6g7-89h0-1a23-e4f5-g6h7i8j9k0l1", Date = new DateOnly(2024, 11, 27), StartTime = new TimeOnly(13, 0), EndTime = new TimeOnly(16, 0) },
@@ -2236,7 +2231,7 @@ namespace bumbo.Data
             modelBuilder.Entity<PrognosisHasDaysHasDepartment>()
                 .HasOne(phdhd => phdhd.PrognosisHasDays)
                 .WithMany(phd => phd.PrognosisHasDaysHasDepartment)
-                .HasForeignKey(phdhd => new { phdhd.DayName, phdhd.PrognosisId } );
+                .HasForeignKey(phdhd => new { phdhd.DayName, phdhd.PrognosisId });
 
             modelBuilder.Entity<LabourRules>()
                 .HasKey(l => new { l.CountryName, l.AgeGroup });

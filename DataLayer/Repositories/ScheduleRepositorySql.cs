@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using bumbo.Data;
+using Azure.Core;
 
 namespace DataLayer.Repositories
 {
@@ -28,7 +29,7 @@ namespace DataLayer.Repositories
 
             return schedules;
         }
-        
+
         public List<Schedule> GetSchedulesForEmployeeByDay(string employeeId, DateOnly date)
         {
             var schedules = _context.Schedule
@@ -44,7 +45,7 @@ namespace DataLayer.Repositories
             sickSchedules.ForEach(s => s.IsSick = true);
             _context.SaveChanges();
             return sickSchedules;
-        
+
         }
         public List<Schedule> SetSchedulesBetter(List<Schedule> sickSchedules)
         {
@@ -74,7 +75,6 @@ namespace DataLayer.Repositories
 
             return schedule;
         }
-        
         public List<string> GetDepartments()
         {
             var departments = _context.Departments
@@ -104,7 +104,7 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
-        
+
         public void FinalizeSchedules(int branchId, List<DateOnly> weekDates)
         {
             var schedules = _context.Schedule
@@ -145,6 +145,59 @@ namespace DataLayer.Repositories
             }
         }
 
+        public List<Schedule> GetSchedulesForEmployee(string employeeId)
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
+
+            var switchRequestSchedules = _context.SwitchRequest
+                .Where(sr => sr.EmployeeId == employeeId)
+                .Select(sr => new { sr.Date, sr.Schedule.StartTime, sr.Schedule.EndTime });
+
+            var schedules = _context.Schedule
+                .Include(s => s.Department)
+                .Where(s => s.EmployeeId == employeeId &&
+                            (s.Date > today || (s.Date == today && s.StartTime > now)) &&
+                            !switchRequestSchedules.Any(sr => sr.Date == s.Date &&
+                                                              sr.StartTime == s.StartTime &&
+                                                              sr.EndTime == s.EndTime))
+                .OrderBy(s => s.Date)
+                .ThenBy(s => s.StartTime)
+                .ToList();
+
+            return schedules;
+        }
+
+
+        public Schedule GetScheduleByEmployeeBranchDate(string employeeId, int branchId, DateOnly date)
+        {
+            return _context.Set<Schedule>()
+                .Include(s => s.Employee) 
+                .Include(s => s.Branch)
+                .Include(s => s.Department)
+                .FirstOrDefault(s =>
+                    s.EmployeeId == employeeId &&
+                    s.BranchId == branchId &&
+                    s.Date == date);
+        }
+
+        public void UpdateSchedule(Schedule schedule) {
+            _context.Schedule.Update(schedule);
+            _context.SaveChanges();
+        }
+
+        public void RemoveSchedule(Schedule schedule)
+        {
+            _context.Schedule.Remove(schedule);
+            _context.SaveChanges();
+        }
+
+        public void AddSchedule(Schedule schedule)
+        {
+            _context.Schedule.Add(schedule);
+            _context.SaveChanges();
+        }
+
         public void AddHelpEmployeeToDay(Schedule schedule)
         {
             if (schedule != null)
@@ -153,6 +206,7 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
+
         public void AddEmployee(string employeeId, int branchId, DateOnly date, string departmentName, TimeOnly startTime, TimeOnly endTime)
         {
             if (string.IsNullOrWhiteSpace(employeeId))

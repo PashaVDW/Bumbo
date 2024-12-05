@@ -41,6 +41,10 @@ public class NormsController : Controller
         List<ReadNormViewModel> list = new List<ReadNormViewModel>();
 
         List<NormOverviewDTO> norms = await _normsRepository.GetOverview();
+        norms = norms
+            .OrderByDescending(dto => dto.Year)
+            .ThenByDescending(dto => dto.Week)
+            .ToList();
 
         foreach (NormOverviewDTO norm in norms)
         {

@@ -16,7 +16,7 @@ namespace DataLayer.Repositories
 
         public List<Employee> GetAllEmployees()
         {
-            return _context.Users.ToList();
+            return _context.Users.ToList().OrderBy(u => u.FirstName).ToList();
         }
 
         public List<Employee> SearchEmployees(string searchTerm)
@@ -48,6 +48,21 @@ namespace DataLayer.Repositories
                 _context.Users.Remove(employee);
                 _context.SaveChanges();
             }
+        }
+
+        public List<Employee> GetAvailableEmployees(DateOnly date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName)
+        {
+            return _context.Availability
+                .Include(a => a.Employee)
+                    .ThenInclude(e => e.BranchEmployees)
+                .Include(a => a.Employee)
+                    .ThenInclude(e => e.EmployeeHasDepartment)
+                .Where(a => a.Date == date &&
+                            a.StartTime <= startTime &&
+                            a.EndTime >= endTime &&
+                            a.Employee.BranchEmployees.Any(be => be.BranchId == branchId))
+                .Select(a => a.Employee)
+                .ToList();
         }
 
         public async Task<List<Employee>> GetEmployeesOfBranch(int? branchId)

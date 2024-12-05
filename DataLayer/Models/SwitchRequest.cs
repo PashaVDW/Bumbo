@@ -21,7 +21,8 @@ namespace DataLayer.Models
         public int BranchId { get; set; }
         [Required]
         public DateOnly Date { get; set; }
-        public bool Declined { get; set; }
+        public bool Declined { get; set; } = false;
+        public bool IsAccepted { get; set; } = false;
         public Employee Employee { get; set; }
         public Schedule Schedule { get; set; }
     }

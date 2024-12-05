@@ -27,7 +27,9 @@ namespace bumbo.ViewModels
         public string PostalCode { get; set; }
 
         [Required(ErrorMessage = "Huisnummer is verplicht.")]
-        public int HouseNumber { get; set; }
+        [RegularExpression(@"^\d+\s*([a-zA-Z]?)$", ErrorMessage = "Voer een geldig huisnummer in zoals 17 of 17b of 17 b")]
+        public string HouseNumber { get; set; }
+
 
         [Required(ErrorMessage = "Telefoonnummer is verplicht.")]
         public string PhoneNumber { get; set; }

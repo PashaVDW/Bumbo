@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
-using bumbo.Models;  // Ensure the namespace matches your Employee model
-using DataLayer;
+using bumbo.Data; // Ensure the namespace matches your BumboDBContext file
+using bumbo.Models; // Ensure the namespace matches your Employee model
 using DataLayer.Interfaces;
 using DataLayer.Repositories;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BumboDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
 
+// Register repositories
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
+builder.Services.AddScoped<ISwapShiftRequestRepository, SwapShiftRequestRepositorySql>();
 builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
 builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepositorySql>();
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
@@ -27,15 +30,39 @@ builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
 builder.Services.AddScoped<IBranchRequestsEmployeeRepository, BranchRequestsEmployeeRepositorySql>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
 builder.Services.AddScoped<ILabourRulesRepository, LabourRulesRepositorySql>();
+builder.Services.AddScoped<ICountryRepository, CountryRepositorySql>();
 builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepositorySql>();
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddControllersWithViews();
+// Add Localization
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
+
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] {
+        new CultureInfo("en-US"),
+        new CultureInfo("nl-NL"),
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("nl-NL");
+    options.SupportedUICultures = supportedCultures;
+});
 
 var app = builder.Build();
+
+app.UseRequestLocalization();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -46,16 +73,16 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Routing for the default pages
+// Define default and custom routes
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Custom routes for specific pages
 app.MapControllerRoute(
     name: "prognosis",
     pattern: "prognoses",
@@ -65,11 +92,6 @@ app.MapControllerRoute(
     name: "scheduleManager",
     pattern: "roosterManager",
     defaults: new { controller = "ScheduleManager", action = "Index" });
-
-app.MapControllerRoute(
-    name: "forecasts",
-    pattern: "prognoses",
-    defaults: new { controller = "Forecasts", action = "Index" });
 
 app.MapControllerRoute(
     name: "schoolSchedule",
@@ -130,5 +152,10 @@ app.MapControllerRoute(
     name: "availability",
     pattern: "beschikbaarheid",
     defaults: new { controller = "Availability", action = "Index" });
+
+app.MapControllerRoute(
+    name: "shiftSwapChooseEmployee",
+    pattern: "ShiftSwap/ChooseEmployee",
+    defaults: new { controller = "SwapShift", action = "ChooseEmployee" });
 
 app.Run();
