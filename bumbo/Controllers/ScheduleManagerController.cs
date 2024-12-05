@@ -124,7 +124,7 @@ namespace bumbo.Controllers
                             .ToList();
 
                         double hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
+                            .Where(pd => pd.DayName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
                             .Sum(pd => pd.HoursOfWorkNeeded);
 
                         return new DepartmentScheduleViewModel
@@ -186,7 +186,7 @@ namespace bumbo.Controllers
                             .ToList();
 
                         var hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                            .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                             .Sum(pd => pd.HoursOfWorkNeeded);
 
                         return new DepartmentScheduleEditViewModel
@@ -216,7 +216,7 @@ namespace bumbo.Controllers
                         .ToList();
 
                     var hoursNeededForDepartment = prognosisDetails
-                        .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                        .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                         .Sum(pd => pd.HoursOfWorkNeeded);
 
                     return new DepartmentScheduleEditViewModel
@@ -303,7 +303,7 @@ namespace bumbo.Controllers
                         var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
                         var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
 
-                        if(employee.StartTime <= employee.EndTime)
+                        if(employee.StartTime >= employee.EndTime)
                         {
                             isStartTimeBeforeEndTime = true;
                         }
@@ -589,7 +589,7 @@ namespace bumbo.Controllers
                                     .ToList();
 
                                 double hoursNeededForDepartment = prognosisDetails
-                                    .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                                    .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                                     .Sum(pd => pd.HoursOfWorkNeeded);
 
                                 return new DepartmentScheduleAddEmployeeViewModel
@@ -734,7 +734,7 @@ namespace bumbo.Controllers
                                             .ToList();
 
                                         double hoursNeededForDepartment = prognosisDetails
-                                            .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                                            .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                                             .Sum(pd => pd.HoursOfWorkNeeded);
 
                                         return new DepartmentScheduleAddEmployeeViewModel

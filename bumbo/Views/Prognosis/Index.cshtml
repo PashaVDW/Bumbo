@@ -1,35 +1,36 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+
 @model bumbo.ViewModels.PrognosisViewModel
 
 <div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
-    <h1 class="mt-8 text-2xl">Prognose</h1>
-    <p class="mt-2">Maand: @ViewBag.MonthName</p>
-    <p>Week loopt van @ViewBag.FirstDayOfWeek.ToString("dd MMMM yyyy") tot @ViewBag.LastDayOfWeek.ToString("dd MMMM yyyy")</p>
-    <h2 class="weeknr">Week @Model.WeekNr - @Model.Year</h2>
+    <h1 class="mt-8 text-2xl">@Localizer["PrognosisTitle"]</h1>
+    <p class="mt-2">@Localizer["MonthLabel"]: @ViewBag.MonthName</p>
+    <p>@Localizer["WeekPeriodLabel"] @ViewBag.FirstDayOfWeek.ToString("dd MMMM yyyy") @Localizer["ToLabel"] @ViewBag.LastDayOfWeek.ToString("dd MMMM yyyy")</p>
+    <h2 class="weeknr">@Localizer["WeekYearLabel"] @Model.WeekNr - @Model.Year</h2>
 
-    <!--zoekbalk-->
+    <!-- Zoekbalk -->
     <form id="weekForm" method="get" class="space-x-4 mt-4 mb-4 flex items-center">
-        <input type="number" min="1" max="53" id="weekInput" name="weekNumber" placeholder="Week" value="@Model.WeekNr" class="border-gray-300 py-2 px-6 w-full rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400" />
-        <input type="number" min="1950" id="yearInput" name="year" placeholder="Jaar" value="@Model.Year" class="border-gray-300 py-2 px-6 w-full rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <input type="number" min="1" max="53" id="weekInput" name="weekNumber" placeholder="@Localizer["WeekPlaceholder"]" value="@Model.WeekNr" class="border-gray-300 py-2 px-6 w-full rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+        <input type="number" min="1950" id="yearInput" name="year" placeholder="@Localizer["YearPlaceholder"]" value="@Model.Year" class="border-gray-300 py-2 px-6 w-full rounded-full border focus:outline-none focus:ring-2 focus:ring-yellow-400" />
         <input type="hidden" id="weekIncInput" name="weekInc" value="1" />
-        <button type="submit" class="bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300">Zoeken</button>
+        <button type="submit" class="bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300">@Localizer["SearchButton"]</button>
     </form>
 
-    <!--navigatie-->
+    <!-- Navigatie -->
     <div class="flex w-full items-center justify-between">
         <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = -1 })';" class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500">
-            Vorige week
+            @Localizer["PreviousWeekButton"]
         </button>
 
         @if (ViewBag.Message != null)
         {
             <div class="text-red-500">@ViewBag.Message</div>
-            <a asp-action="Create" asp-route-weekNumber=@Model.WeekNr asp-route-yearNumber="@Model.Year">
-                <default-button button-text="Maak prognose" button-type="primary"></default-button>
-            </a>
         }
 
         <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })';" class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500">
-            Volgende week
+            @Localizer["NextWeekButton"]
         </button>
     </div>
 
@@ -46,8 +47,8 @@
                             <th class="p-4 text-center">
                                 <div class="font-bold">@day.Date.ToString("dd MMM")</div>
                                 <div>@day.DayName</div>
-                                <div>Uren: @day.TotalHoursWorkNeeded</div>
-                                <div>Werknemers: @day.TotalWorkersNeeded</div>
+                                <div>@Localizer["HoursLabel"]: @day.TotalHoursWorkNeeded</div>
+                                <div>@Localizer["WorkersLabel"]: @day.TotalWorkersNeeded</div>
                             </th>
                         }
                     </tr>
@@ -57,8 +58,8 @@
                         {
                             <th class="p-4 text-center">
                                 <div class="flex space-x-9 text-xs">
-                                    <div class="pl-6">Uren</div>
-                                    <div>Medewerkers</div>
+                                    <div class="pl-6">@Localizer["HoursLabel"]</div>
+                                    <div>@Localizer["WorkersLabel"]</div>
                                 </div>
                             </th>
                         }
@@ -91,37 +92,9 @@
                     }
                 </tbody>
             </table>
-            @if (Model.Year <= Model.currentYear && Model.WeekNr <= Model.currentWeek)
-            {
-                <div class="opacity-25 mt-6 flex justify-end ">
-                    <default-button button-text="Bewerken" button-type="primary"></default-button>
-                </div>
-            }
-            else
-            {
-                <div class="mt-6 flex justify-end ">
-                    <a asp-action="Edit" asp-route-prognosisId=@Model.PrognosisId>
-                        <default-button button-text="Bewerken" button-type="primary"></default-button>
-                    </a>
-                </div>
-            }
         </div>
     }
 </div>
-@{
-    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
-    {
-        <toast-message toast-id="@TempData["ToastId"]"
-                       message="@TempData["ToastMessage"]"
-                       message-type="@TempData["ToastType"]">
-        </toast-message>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
-                });
-        </script>
-    }
-}
 
 <script type="text/javascript">
     document.getElementById("weekForm").addEventListener("submit", function (event) {
@@ -139,7 +112,7 @@
 
             this.submit();
         } else {
-            alert("Vul alstublieft zowel een geldig week- als jaarnummer in.");
+            alert("@Localizer["ValidationMessage"]");
         }
     });
 </script>
