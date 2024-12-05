@@ -10,6 +10,7 @@ namespace bumbo.ViewModels.Prognosis
         public List<int> VersWorkersHours { get; set; }
         public List<int> StockingHours { get; set; }
         public List<int> CassieresNeeded { get; set; }
-        public List<int> WorkersNeeded { get; set; }
+        public List<int> VersWorkersNeeded { get; set; }
+        public List<int> StockingWorkersNeeded { get; set; }
     }
 }

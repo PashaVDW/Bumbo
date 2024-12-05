@@ -20,12 +20,10 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public void CreateCalculation(string prognosisId, List<Days> days, List<int> cassiereHours, List<int> versWorkersHours, List<int> stockingHours, List<int> cassieresNeeded, List<int> workersNeeded)
+        public void CreateCalculation(string prognosisId, List<Days> days, List<int> cassiereHours, List<int> versWorkersHours, List<int> stockingHours, List<int> cassieresNeeded, List<int> workersNeeded, List<int> stockingWorkersNeeded)
         {
             for (int index = 0; index < days.Count; index++)
             {
-                int divisor = days[index].Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13;
-
                 var cassiereCalculation = new PrognosisHasDaysHasDepartment
                 {
                     PrognosisId = prognosisId,
@@ -51,7 +49,7 @@ namespace DataLayer.Repositories
                     PrognosisId = prognosisId,
                     DaysName = days[index].Name,
                     DepartmentName = "Vakkenvullen",
-                    AmountOfWorkersNeeded = stockingHours[index] / divisor,
+                    AmountOfWorkersNeeded = stockingWorkersNeeded[index],
                     HoursOfWorkNeeded = stockingHours[index]
                 };
                 _context.PrognosisHasDaysHasDepartment.Add(stockingCalculation);

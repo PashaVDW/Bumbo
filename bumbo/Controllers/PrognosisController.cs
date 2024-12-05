@@ -374,7 +374,8 @@ namespace bumbo.Controllers
                     viewmodel.VersWorkersHours,
                     viewmodel.StockingHours,
                     viewmodel.CassieresNeeded,
-                    viewmodel.WorkersNeeded);
+                    viewmodel.VersWorkersNeeded,
+                    viewmodel.StockingWorkersNeeded);
 
             TempData["ToastMessage"] = "De prognose is succesvol aangemaakt!";
             TempData["ToastType"] = "success";
@@ -459,14 +460,13 @@ namespace bumbo.Controllers
 
                         case "Vers":
                             hours = dayIndex < newCalculation.VersWorkersHours.Count ? newCalculation.VersWorkersHours[dayIndex] : 0;
-                            workers = dayIndex < newCalculation.WorkersNeeded.Count ? newCalculation.WorkersNeeded[dayIndex] : 0;
+                            workers = dayIndex < newCalculation.VersWorkersNeeded.Count ? newCalculation.VersWorkersNeeded[dayIndex] : 0;
                             break;
 
                         case "Vakkenvullen":
-                            int divisor = calculation.Days.Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13;
                             hours = dayIndex < newCalculation.StockingHours.Count ? newCalculation.StockingHours[dayIndex] : 0;
-                            workers = dayIndex < newCalculation.WorkersNeeded.Count ? newCalculation.WorkersNeeded[dayIndex] : 0;
-                            hours /= divisor;
+                            hours /= 13;
+                            workers = (hours + 7) / 8;
                             break;
                     }
                 }

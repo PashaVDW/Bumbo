@@ -1,6 +1,7 @@
 ﻿using bumbo.Models;
 using bumbo.ViewModels.Prognosis;
 using DataLayer.Interfaces;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace bumbo.Services
 {
@@ -45,6 +46,7 @@ namespace bumbo.Services
             List<int> workersNeeded = new List<int>();
 
             List<int> stockingHours = new List<int>();
+            List<int> stockingWorkers = new List<int>();
 
             for (int i = 0; i < days.Count; i++)
             {
@@ -58,11 +60,11 @@ namespace bumbo.Services
                     int cassiereHoursNeeded = customerAmount / cassiereNorm;
                     int workerHoursNeeded = customerAmount / workersNorm;
 
-                    cassieresNeeded.Add(cassiereHoursNeeded * cassieresNeededForThirtyPerHour);
                     cassiereHours.Add(cassiereHoursNeeded);
+                    cassieresNeeded.Add((cassiereHoursNeeded + 7) / 8);
 
                     versWorkersHours.Add(workerHoursNeeded);
-                    workersNeeded.Add(workerHoursNeeded * workersNeededForHundredPerHour);
+                    workersNeeded.Add((workerHoursNeeded + 7) / 8);
                 }
 
                 if (i < model.PackagesAmount.Count)
@@ -74,7 +76,10 @@ namespace bumbo.Services
                     int spiegelenHoursNeeded = (shelveMeters * spiegelenNormInSeconds) / 3600;
                     int totalForStocking = (colliUitladenHoursNeeded + stockingHoursNeeded + spiegelenHoursNeeded);
 
+                    totalForStocking /= 10;
+
                     stockingHours.Add(totalForStocking);
+                    stockingWorkers.Add((totalForStocking + 7) / 8);
                 }
             }
 
@@ -86,7 +91,8 @@ namespace bumbo.Services
                 VersWorkersHours = versWorkersHours,
                 StockingHours = stockingHours,
                 CassieresNeeded = cassieresNeeded,
-                WorkersNeeded = workersNeeded
+                VersWorkersNeeded = workersNeeded,
+                StockingWorkersNeeded = stockingWorkers
             };
 
             return viewmodel;
