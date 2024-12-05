@@ -142,7 +142,7 @@ namespace bumbo.Controllers
                         weekNumber = ISOWeek.GetWeeksInYear(year.Value);
                     }
                 }
-                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value);
+                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value, currentUser.ManagerOfBranchId.Value);
             }
 
             firstDayOfWeek = FirstDateOfWeek(year.Value, weekNumber.Value);

@@ -73,14 +73,13 @@ namespace DataLayer.Repositories
             return prognosis.First();
         }
 
-        public Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year)
+        public Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year, int branchId)
         {
             List<Prognosis> prognosis = _context.Prognoses
                 .Include(p => p.PrognosisHasDays)
                     .ThenInclude(phd => phd.PrognosisHasDaysHasDepartment)
-                .Where(p => p.WeekNr == weekNumber && p.Year == year)
+                .Where(p => p.WeekNr == weekNumber && p.Year == year && p.BranchId == branchId)
                 .ToList();
-
             return prognosis.FirstOrDefault();
         }
 
