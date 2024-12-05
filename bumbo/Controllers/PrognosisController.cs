@@ -1,10 +1,14 @@
-﻿using bumbo.Models;
+﻿using bumbo.Components;
+using bumbo.Models;
+using bumbo.Services;
 using bumbo.ViewModels;
+using bumbo.ViewModels.Prognosis;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Globalization;
 
 namespace bumbo.Controllers
@@ -36,7 +40,59 @@ namespace bumbo.Controllers
         {
             _userManager = userManager;
             _prognosisRepository = prognosisRepository;
-            _userManager = userManager;
+            _prognosisHasDaysRepository = prognosisHasDaysRepository;
+            _normsRepository = normsRepository;
+            _daysRepository = daysRepository;
+
+            dateHelper = new DateHelper();
+            _currentYear = dateHelper.GetCurrentYear();
+            _currentWeek = dateHelper.GetCurrentWeek();
+            _TemplatesRepository = templatesRepository;
+            _prognosisHasDaysHasDepartments = prognosisHasDaysHasDepartments;
+            _prognosisCalculator = prognosisCalculator;
+        }
+
+        private List<DailyCalculationResult> CalculateUrenAndMedewerkers(
+            List<PrognosisHasDays> prognosisDays,
+            List<Norm> norms)
+        {
+            var results = new List<DailyCalculationResult>();
+
+            foreach (var day in prognosisDays)
+            {
+                var dayResult = new DailyCalculationResult
+                {
+                    DayName = day.DayName,
+                    DepartmentCalculations = new List<DepartmentCalculationResult>()
+                };
+
+                var activities = new List<(string activity, int amount)>
+                {
+                    ("Coli uitladen", day.PackagesAmount),
+                    ("Vakkenvullen", day.PackagesAmount),
+                    ("Kassa", day.CustomerAmount),
+                    ("Vers", day.PackagesAmount),
+                    ("Spiegelen", day.PackagesAmount)
+                };
+                ViewBag.Activities = activities;
+                foreach (var (activity, amount) in activities)
+                {
+                    double totalSeconds = amount * GetNormInSeconds(activity, norms);
+                    int uren = (int)Math.Ceiling(totalSeconds / 3600);
+                    int medewerkersNeeded = (int)Math.Ceiling(uren / 8.0);
+
+                    dayResult.DepartmentCalculations.Add(new DepartmentCalculationResult
+                    {
+                        Activity = activity,
+                        Uren = uren,
+                        MedewerkersNeeded = medewerkersNeeded
+                    });
+                }
+
+                results.Add(dayResult);
+            }
+
+            return results;
         }
 
         public async Task<ActionResult> Index(int? weekNumber, int? year, int? weekInc)
@@ -159,7 +215,10 @@ namespace bumbo.Controllers
             {
                 Year = prognosis.Year,
                 WeekNr = prognosis.WeekNr,
-                Days = days // Vul het model met de berekende dagen
+                Days = days, // Vul het model met de berekende dagen
+                PrognosisId = prognosis.PrognosisId,
+                currentWeek = _currentWeek,
+                currentYear = _currentYear
             };
 
             return View(viewModel);
@@ -286,7 +345,7 @@ namespace bumbo.Controllers
             var days = prognosisDays.Select(p => p.Days).ToList();
             var customerAmounts = prognosisDays.Select(p => p.CustomerAmount).ToList();
             var packagesAmounts = prognosisDays.Select(p => p.PackagesAmount).ToList();
-
+            
             InputCalculateViewModel input = new InputCalculateViewModel();
 
             input.prognosisId = _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year, currentUser.ManagerOfBranchId.Value);
