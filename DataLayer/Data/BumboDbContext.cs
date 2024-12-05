@@ -53,7 +53,7 @@ namespace bumbo.Data
                 week = 41,
                 year = 2024,
                 activity = "Coli uitladen",
-                normInSeconds = 90
+                normInSeconds = 300
             };
 
             var weekFourtyOneShelve = new Norm
@@ -63,7 +63,7 @@ namespace bumbo.Data
                 week = 41,
                 year = 2024,
                 activity = "Vakkenvullen",
-                normInSeconds = 33
+                normInSeconds = 240
             };
 
             var weekFourtyOneCashier = new Norm
@@ -73,7 +73,7 @@ namespace bumbo.Data
                 week = 41,
                 year = 2024,
                 activity = "Kassa",
-                normInSeconds = 3
+                normInSeconds = 1
             };
 
             var weekFourtyOneFresh = new Norm
@@ -83,7 +83,7 @@ namespace bumbo.Data
                 week = 41,
                 year = 2024,
                 activity = "Vers",
-                normInSeconds = 7
+                normInSeconds = 1
             };
 
             var weekFourtyOneFronting = new Norm
@@ -93,7 +93,7 @@ namespace bumbo.Data
                 week = 41,
                 year = 2024,
                 activity = "Spiegelen",
-                normInSeconds = 2
+                normInSeconds = 30
             };
 
             modelBuilder.Entity<Norm>().HasData(

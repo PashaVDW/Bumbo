@@ -20,11 +20,6 @@ namespace bumbo.Services
 
         public CalculateViewmodel CalculatePrognosis(InputCalculateViewModel model, List<Norm> norms)
         {
-            for (int i = 0; i < 7; i++)
-            {
-                Console.WriteLine($"CustomerAmount: {model.CustomerAmount[i]} PackagesAmount: {model.PackagesAmount[i]}");
-            }
-
             List<Days> days = _daysRepository.getAllDaysOrdered();
 
             string prognosisId = model.prognosisId;

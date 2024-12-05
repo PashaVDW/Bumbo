@@ -441,6 +441,7 @@ namespace bumbo.Controllers
 
             foreach (PrognosisHasDaysHasDepartment calculation in calculations)
             {
+
                 int hours = 0;
                 int workers = 0;
 
@@ -465,7 +466,6 @@ namespace bumbo.Controllers
 
                         case "Vakkenvullen":
                             hours = dayIndex < newCalculation.StockingHours.Count ? newCalculation.StockingHours[dayIndex] : 0;
-                            hours /= 13;
                             workers = (hours + 7) / 8;
                             break;
                     }
