@@ -6,7 +6,7 @@ using bumbo.ViewModels.Prognosis;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using System.Globalization;
@@ -17,6 +17,7 @@ namespace bumbo.Controllers
     {
 
         List<Template> templates = new List<Template>();
+        private readonly UserManager<Employee> _userManager;
         private readonly IPrognosisRepository _prognosisRepository;
         private readonly IPrognosisHasDaysRepository _prognosisHasDaysRepository;
         private readonly INormsRepository _normsRepository;
@@ -28,6 +29,7 @@ namespace bumbo.Controllers
         private readonly int _currentYear;
         private readonly int _currentWeek;
         public PrognosisController(
+            UserManager<Employee> userManager,
             IPrognosisRepository prognosisRepository,
             IPrognosisHasDaysRepository prognosisHasDaysRepository,
             INormsRepository normsRepository,
@@ -36,6 +38,7 @@ namespace bumbo.Controllers
             IPrognosisHasDaysHasDepartments prognosisHasDaysHasDepartments,
             IPrognosisCalculator prognosisCalculator)
         {
+            _userManager = userManager;
             _prognosisRepository = prognosisRepository;
             _prognosisHasDaysRepository = prognosisHasDaysRepository;
             _normsRepository = normsRepository;
@@ -301,8 +304,15 @@ namespace bumbo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreatePrognosis(PrognosisCreateViewModel model)
+        public async Task<IActionResult> CreatePrognosis(PrognosisCreateViewModel model)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             List<Norm> norms = _normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result;
             if (norms.Count() == 0)
             {
@@ -331,7 +341,7 @@ namespace bumbo.Controllers
             
             InputCalculateViewModel input = new InputCalculateViewModel();
 
-            input.prognosisId = _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year);
+            input.prognosisId = _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year, currentUser.ManagerOfBranchId.Value);
 
             if (input.prognosisId == null)
             {

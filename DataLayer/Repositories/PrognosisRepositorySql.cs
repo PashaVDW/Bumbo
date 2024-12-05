@@ -15,12 +15,12 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public string AddPrognosis(List<Days> days, List<int> CustomerAmount, List<int> PackagesAmount, int week, int year)
+        public string AddPrognosis(List<Days> days, List<int> CustomerAmount, List<int> PackagesAmount, int week, int year, int managerOfBranchId)
         {
             var prognosis = new Prognosis
             {
                 PrognosisId = "prognosis_week_"+week+"_"+year,
-                BranchId = 1,
+                BranchId = managerOfBranchId,
                 WeekNr = week,
                 Year = year
             };
