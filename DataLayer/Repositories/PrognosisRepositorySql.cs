@@ -15,7 +15,7 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public void AddPrognosis(List<Days> days, List<int> CustomerAmount, List<int> PackagesAmount, int week, int year)
+        public string AddPrognosis(List<Days> days, List<int> CustomerAmount, List<int> PackagesAmount, int week, int year)
         {
             var prognosis = new Prognosis
             {
@@ -48,10 +48,11 @@ namespace DataLayer.Repositories
                     _context.PrognosisHasDays.Add(prognosisHasDays);
                     _context.SaveChanges();
                 }
+                return prognosis.PrognosisId;
             }
             else
             {
-                throw new ArgumentException("Days, CustomerAmount, and PackagesAmount lists must have the same number of elements.");
+                return null;
             }
         }
 

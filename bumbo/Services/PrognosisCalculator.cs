@@ -17,12 +17,11 @@ namespace bumbo.Services
             _prognosisRepository = prognosisRepository;
         }
 
-        public CalculateViewmodel CalculatePrognosis(InputCalculateViewModel model)
+        public CalculateViewmodel CalculatePrognosis(InputCalculateViewModel model, List<Norm> norms)
         {
             List<Days> days = _daysRepository.getAllDaysOrdered();
 
-            List<Norm> norms = _normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result;
-            string prognosisId = _prognosisRepository.GetLatestPrognosis().PrognosisId;
+            string prognosisId = model.prognosisId;
             int shelveMeters = _prognosisRepository.GetShelfMetersByPrognosis(prognosisId);
 
             int cassiereNorm = 30;

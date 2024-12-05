@@ -339,14 +339,19 @@ namespace bumbo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreatePrognosis(PrognosisCreateViewModel model)
         {
-            if (_normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result.Count() == 0)
+            List<Norm> norms = _normsRepository.GetSelectedNorms(1, model.Year, model.WeekNr).Result;
+            if (norms.Count() == 0)
             {
-                TempData["ToastMessage"] = "De prognose kan niet worden aangemaakt. Er is geen normering voor deze week.";
-                TempData["ToastType"] = "error";
-                TempData["ToastId"] = "PrognosisCreateFail";
-                TempData["AutoHide"] = "no";
+                norms = _normsRepository.GetLatestNorm().Result;
+                if (norms.Count() == 0)
+                {
+                    TempData["ToastMessage"] = "De prognose kan niet worden aangemaakt. Er is geen normering.";
+                    TempData["ToastType"] = "error";
+                    TempData["ToastId"] = "PrognosisCreateFail";
+                    TempData["AutoHide"] = "no";
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
             }
 
             var prognosisDays = model.Days.Select((day, index) => new PrognosisHasDays
@@ -359,18 +364,30 @@ namespace bumbo.Controllers
             var days = prognosisDays.Select(p => p.Days).ToList();
             var customerAmounts = prognosisDays.Select(p => p.CustomerAmount).ToList();
             var packagesAmounts = prognosisDays.Select(p => p.PackagesAmount).ToList();
-
-            _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year);
-
+            
             InputCalculateViewModel input = new InputCalculateViewModel();
+
+            input.prognosisId = _prognosisRepository.AddPrognosis(days, customerAmounts, packagesAmounts, model.WeekNr, model.Year);
+
+            if (input.prognosisId == null)
+            {
+                TempData["ToastMessage"] = "De prognose kan niet worden aangemaakt. Er is iets mis gegaan bij het oplslaan in de database.";
+                TempData["ToastType"] = "error";
+                TempData["ToastId"] = "PrognosisCreateFail";
+                TempData["AutoHide"] = "no";
+
+                return RedirectToAction("Index");
+            }
 
             input.Year = model.Year;
             input.WeekNr = model.WeekNr;
             input.CustomerAmount = model.CustomerAmount;
             input.PackagesAmount = model.PackagesAmount;
 
-            CalculateViewmodel viewmodel = _prognosisCalculator.CalculatePrognosis(input);
+            CalculateViewmodel viewmodel = _prognosisCalculator.CalculatePrognosis(input, norms);
 
+            Console.WriteLine("test");
+            Console.WriteLine(viewmodel.PrognosisId);
             _prognosisHasDaysHasDepartments.CreateCalculation(
                     viewmodel.PrognosisId,
                     viewmodel.CassiereHours,
@@ -416,11 +433,28 @@ namespace bumbo.Controllers
 
         public void UpdateCalculations(List<PrognosisHasDays> uncalculatedViewmodel)
         {
+            int weekNr = uncalculatedViewmodel.First().Prognosis.WeekNr;
+            int yearNr = uncalculatedViewmodel.First().Prognosis.Year;
+
+            List<Norm> norms = _normsRepository.GetSelectedNorms(1, yearNr, weekNr).Result;
+            if (norms.Count() == 0)
+            {
+                norms = _normsRepository.GetLatestNorm().Result;
+                if (norms.Count() == 0)
+                {
+                    TempData["ToastMessage"] = "De prognose kan niet worden aangemaakt. Er is geen normering.";
+                    TempData["ToastType"] = "error";
+                    TempData["ToastId"] = "PrognosisCreateFail";
+                    TempData["AutoHide"] = "no";
+                    return;
+                }
+            }
+
             List<Days> days = _daysRepository.getAllDaysUnordered();
 
             InputCalculateViewModel toBeCalculated = ToInputCalculateViewModel(uncalculatedViewmodel, days);
 
-            CalculateViewmodel newCalculation = _prognosisCalculator.CalculatePrognosis(toBeCalculated);
+            CalculateViewmodel newCalculation = _prognosisCalculator.CalculatePrognosis(toBeCalculated, norms);
 
             List<PrognosisHasDaysHasDepartment> calculations = _prognosisHasDaysHasDepartments.GetPrognosisCalculations(uncalculatedViewmodel[0].PrognosisId);
 
