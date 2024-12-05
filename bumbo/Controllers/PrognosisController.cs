@@ -122,50 +122,14 @@ namespace bumbo.Controllers
                 {
                     weekNumber += weekInc.Value;
 
-                    DateTime jan1;
-
-                    if (weekNumber.Value >= 53)
+                    if (weekNumber > ISOWeek.GetWeeksInYear(year.Value))
                     {
-                        jan1 = new DateTime(year.Value + 1, 1, 1);
-                    }
-                    else
-                    {
-                        jan1 = new DateTime(year.Value, 1, 1);
-                    }
-                    CultureInfo cultureInfo = CultureInfo.InvariantCulture;
-                    Calendar calendar = cultureInfo.Calendar;
-                    CalendarWeekRule weekrule = CalendarWeekRule.FirstFourDayWeek;
-                    int weekOfJan1 = calendar.GetWeekOfYear(jan1, weekrule, DayOfWeek.Monday);
-                    DateTime firstWeekStart = jan1.AddDays(-(int)jan1.DayOfWeek + (int)DayOfWeek.Monday);
-
-                    if (weekOfJan1 != 1)
-                    {
-                        firstWeekStart = firstWeekStart.AddDays(7);
-                    }
-
-                    if (weekNumber.Value == 53)
-                    {
-                        lastDayOfWeek = LastDateOfWeek(year.Value, weekNumber.Value);
-                        if (lastDayOfWeek.CompareTo(firstWeekStart) >= 0)
-                        {
-                            weekNumber = 1;
-                            year = (year ?? DateTime.Now.Year) + 1;
-                        }
-                    }
-                    else if (weekNumber.Value > 53)
-                    {
+                        year++;
                         weekNumber = 1;
-                        year = (year ?? DateTime.Now.Year) + 1;
-                    }
-                    else if (weekNumber.Value < 1)
+                    } else if (weekNumber < 1)
                     {
-                        weekNumber = weekOfJan1;
-                        if (weekOfJan1 == 1)
-                        {
-                            weekNumber = 52;
-                        }
-
-                        year = (year ?? DateTime.Now.Year) - 1;
+                        year--;
+                        weekNumber = ISOWeek.GetWeeksInYear(year.Value);
                     }
                 }
                 prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value);
