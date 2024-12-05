@@ -95,8 +95,15 @@ namespace bumbo.Controllers
             return results;
         }
 
-        public ActionResult Index(int? weekNumber, int? year, int? weekInc)
+        public async Task<ActionResult> Index(int? weekNumber, int? year, int? weekInc)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             DateTime firstDayOfWeek;
             DateTime lastDayOfWeek;
 
@@ -104,7 +111,7 @@ namespace bumbo.Controllers
 
             if (!weekNumber.HasValue || !year.HasValue)
             {
-                prognosis = _prognosisRepository.GetLatestPrognosis();
+                prognosis = _prognosisRepository.GetLatestPrognosis(currentUser.ManagerOfBranchId.Value);
 
                 if (prognosis != null)
                 {

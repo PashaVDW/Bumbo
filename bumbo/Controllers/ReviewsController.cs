@@ -35,7 +35,7 @@ namespace bumbo.Controllers
 
             if (!weekNumber.HasValue || !year.HasValue)
             {
-                prognosis = _prognosisRepository.GetLatestPrognosis();
+                prognosis = _prognosisRepository.GetLatestPrognosis(user.ManagerOfBranchId.Value);
 
                 if (prognosis != null)
                 {
