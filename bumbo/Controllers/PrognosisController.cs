@@ -367,10 +367,9 @@ namespace bumbo.Controllers
 
             CalculateViewmodel viewmodel = _prognosisCalculator.CalculatePrognosis(input, norms);
 
-            Console.WriteLine("test");
-            Console.WriteLine(viewmodel.PrognosisId);
             _prognosisHasDaysHasDepartments.CreateCalculation(
                     viewmodel.PrognosisId,
+                    viewmodel.Days,
                     viewmodel.CassiereHours,
                     viewmodel.VersWorkersHours,
                     viewmodel.StockingHours,
@@ -431,7 +430,7 @@ namespace bumbo.Controllers
                 }
             }
 
-            List<Days> days = _daysRepository.getAllDaysUnordered();
+            List<Days> days = _daysRepository.getAllDaysOrdered();
 
             InputCalculateViewModel toBeCalculated = ToInputCalculateViewModel(uncalculatedViewmodel, days);
 
@@ -444,29 +443,38 @@ namespace bumbo.Controllers
                 int hours = 0;
                 int workers = 0;
 
-                switch (calculation.DepartmentName)
+                // Find the index of the day in the list of days
+                int dayIndex = newCalculation.Days.IndexOf(calculation.Days);  // assuming 'newCalculation.Days' is a List<Days>
+
+                // Check if the day exists in the list
+                if (dayIndex >= 0)
                 {
-                    case "Kassa":
-                        newCalculation.CassiereHours.TryGetValue(calculation.Days, out hours);
-                        newCalculation.CassieresNeeded.TryGetValue(calculation.Days, out workers);
-                        break;
+                    switch (calculation.DepartmentName)
+                    {
+                        case "Kassa":
+                            // Access the value using the index
+                            hours = dayIndex < newCalculation.CassiereHours.Count ? newCalculation.CassiereHours[dayIndex] : 0;
+                            workers = dayIndex < newCalculation.CassieresNeeded.Count ? newCalculation.CassieresNeeded[dayIndex] : 0;
+                            break;
 
-                    case "Vers":
-                        newCalculation.VersWorkersHours.TryGetValue(calculation.Days, out hours);
-                        newCalculation.WorkersNeeded.TryGetValue(calculation.Days, out workers);
-                        break;
+                        case "Vers":
+                            hours = dayIndex < newCalculation.VersWorkersHours.Count ? newCalculation.VersWorkersHours[dayIndex] : 0;
+                            workers = dayIndex < newCalculation.WorkersNeeded.Count ? newCalculation.WorkersNeeded[dayIndex] : 0;
+                            break;
 
-                    case "Vakkenvullen":
-                        int divisor = calculation.Days.Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13;
-                        newCalculation.StockingHours.TryGetValue(calculation.Days, out hours);
-                        newCalculation.WorkersNeeded.TryGetValue(calculation.Days, out workers);
-                        hours /= divisor;
-                        break;
+                        case "Vakkenvullen":
+                            int divisor = calculation.Days.Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13;
+                            hours = dayIndex < newCalculation.StockingHours.Count ? newCalculation.StockingHours[dayIndex] : 0;
+                            workers = dayIndex < newCalculation.WorkersNeeded.Count ? newCalculation.WorkersNeeded[dayIndex] : 0;
+                            hours /= divisor;
+                            break;
+                    }
                 }
 
                 calculation.HoursOfWorkNeeded = hours;
                 calculation.AmountOfWorkersNeeded = workers;
             }
+
 
 
             _prognosisHasDaysRepository.UpdatePrognosisHasDays(uncalculatedViewmodel);

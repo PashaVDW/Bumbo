@@ -20,58 +20,43 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public void CreateCalculation(
-          string prognosisId,
-          Dictionary<Days, int> cassiereHours,
-          Dictionary<Days, int> versWorkersHours,
-          Dictionary<Days, int> stockingHours,
-          Dictionary<Days, int> cassieresNeeded,
-          Dictionary<Days, int> workersNeeded)
+        public void CreateCalculation(string prognosisId, List<Days> days, List<int> cassiereHours, List<int> versWorkersHours, List<int> stockingHours, List<int> cassieresNeeded, List<int> workersNeeded)
         {
-            foreach (Days day in cassiereHours.Keys)
+            for (int index = 0; index < days.Count; index++)
             {
-                int divisor = day.Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13;
+                int divisor = days[index].Name.Equals("Zondag", StringComparison.OrdinalIgnoreCase) ? 8 : 13;
 
-                if (cassiereHours.ContainsKey(day))
+                var cassiereCalculation = new PrognosisHasDaysHasDepartment
                 {
-                    var cassiereCalculation = new PrognosisHasDaysHasDepartment
-                    {
-                        PrognosisId = prognosisId,
-                        DaysName = day.Name,
-                        DepartmentName = "Kassa",
-                        AmountOfWorkersNeeded = cassieresNeeded[day],
-                        HoursOfWorkNeeded = cassiereHours[day]
-                    };
-                    _context.PrognosisHasDaysHasDepartment.Add(cassiereCalculation);
-                }
+                    PrognosisId = prognosisId,
+                    DaysName = days[index].Name,
+                    DepartmentName = "Kassa",
+                    AmountOfWorkersNeeded = cassieresNeeded[index],
+                    HoursOfWorkNeeded = cassiereHours[index]
+                };
+                _context.PrognosisHasDaysHasDepartment.Add(cassiereCalculation);
 
-                if (versWorkersHours.ContainsKey(day))
+                var versWorkersCalculation = new PrognosisHasDaysHasDepartment
                 {
-                    var versWorkersCalculation = new PrognosisHasDaysHasDepartment
-                    {
-                        PrognosisId = prognosisId,
-                        DaysName = day.Name,
-                        DepartmentName = "Vers",
-                        AmountOfWorkersNeeded = workersNeeded[day],
-                        HoursOfWorkNeeded = versWorkersHours[day]
-                    };
-                    _context.PrognosisHasDaysHasDepartment.Add(versWorkersCalculation);
-                }  
+                    PrognosisId = prognosisId,
+                    DaysName = days[index].Name,
+                    DepartmentName = "Vers",
+                    AmountOfWorkersNeeded = workersNeeded[index],
+                    HoursOfWorkNeeded = versWorkersHours[index]
+                };
+                _context.PrognosisHasDaysHasDepartment.Add(versWorkersCalculation);
 
-                if (stockingHours.ContainsKey(day))
+                var stockingCalculation = new PrognosisHasDaysHasDepartment
                 {
-                    var stockingCalculation = new PrognosisHasDaysHasDepartment
-                    {
-                        PrognosisId = prognosisId,
-                        DaysName = day.Name,
-                        DepartmentName = "Vakkenvullen",
-                        AmountOfWorkersNeeded = stockingHours[day] / divisor,
-                        HoursOfWorkNeeded = stockingHours[day]
-                    };
-                    _context.PrognosisHasDaysHasDepartment.Add(stockingCalculation);
-                }
+                    PrognosisId = prognosisId,
+                    DaysName = days[index].Name,
+                    DepartmentName = "Vakkenvullen",
+                    AmountOfWorkersNeeded = stockingHours[index] / divisor,
+                    HoursOfWorkNeeded = stockingHours[index]
+                };
+                _context.PrognosisHasDaysHasDepartment.Add(stockingCalculation);
+
             }
-
             _context.SaveChanges();
         }
 

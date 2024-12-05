@@ -19,6 +19,11 @@ namespace bumbo.Services
 
         public CalculateViewmodel CalculatePrognosis(InputCalculateViewModel model, List<Norm> norms)
         {
+            for (int i = 0; i < 7; i++)
+            {
+                Console.WriteLine($"CustomerAmount: {model.CustomerAmount[i]} PackagesAmount: {model.PackagesAmount[i]}");
+            }
+
             List<Days> days = _daysRepository.getAllDaysOrdered();
 
             string prognosisId = model.prognosisId;
@@ -33,13 +38,13 @@ namespace bumbo.Services
             int stockingNormInSeconds = norms[1].normInSeconds;
             int spiegelenNormInSeconds = norms[4].normInSeconds;
 
-            Dictionary<Days, int> cassiereHours = new Dictionary<Days, int>();
-            Dictionary<Days, int> cassieresNeeded = new Dictionary<Days, int>();
+            List<int> cassiereHours = new List<int>();
+            List<int> cassieresNeeded = new List<int>();
 
-            Dictionary<Days, int> versWorkersHours = new Dictionary<Days, int>();
-            Dictionary<Days, int> workersNeeded = new Dictionary<Days, int>();
+            List<int> versWorkersHours = new List<int>();
+            List<int> workersNeeded = new List<int>();
 
-            Dictionary<Days, int> stockingHours = new Dictionary<Days, int>();
+            List<int> stockingHours = new List<int>();
 
             for (int i = 0; i < days.Count; i++)
             {
@@ -53,11 +58,11 @@ namespace bumbo.Services
                     int cassiereHoursNeeded = customerAmount / cassiereNorm;
                     int workerHoursNeeded = customerAmount / workersNorm;
 
-                    cassieresNeeded.Add(day, (cassiereHoursNeeded * cassieresNeededForThirtyPerHour));
-                    cassiereHours.Add(day, cassiereHoursNeeded);
+                    cassieresNeeded.Add(cassiereHoursNeeded * cassieresNeededForThirtyPerHour);
+                    cassiereHours.Add(cassiereHoursNeeded);
 
-                    versWorkersHours.Add(day, workerHoursNeeded);
-                    workersNeeded.Add(day, (workerHoursNeeded * workersNeededForHundredPerHour));
+                    versWorkersHours.Add(workerHoursNeeded);
+                    workersNeeded.Add(workerHoursNeeded * workersNeededForHundredPerHour);
                 }
 
                 if (i < model.PackagesAmount.Count)
@@ -69,20 +74,23 @@ namespace bumbo.Services
                     int spiegelenHoursNeeded = (shelveMeters * spiegelenNormInSeconds) / 3600;
                     int totalForStocking = (colliUitladenHoursNeeded + stockingHoursNeeded + spiegelenHoursNeeded);
 
-                    stockingHours.Add(day, totalForStocking);
+                    stockingHours.Add(totalForStocking);
                 }
             }
 
-            CalculateViewmodel viewmodel = new CalculateViewmodel();
-
-            viewmodel.PrognosisId = prognosisId;
-            viewmodel.CassiereHours = cassiereHours;
-            viewmodel.VersWorkersHours = versWorkersHours;
-            viewmodel.StockingHours = stockingHours;
-            viewmodel.CassieresNeeded = cassieresNeeded;
-            viewmodel.WorkersNeeded = workersNeeded;
+            CalculateViewmodel viewmodel = new CalculateViewmodel
+            {
+                PrognosisId = prognosisId,
+                Days = days,
+                CassiereHours = cassiereHours,
+                VersWorkersHours = versWorkersHours,
+                StockingHours = stockingHours,
+                CassieresNeeded = cassieresNeeded,
+                WorkersNeeded = workersNeeded
+            };
 
             return viewmodel;
         }
+
     }
 }

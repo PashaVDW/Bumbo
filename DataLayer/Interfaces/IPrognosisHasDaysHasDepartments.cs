@@ -10,7 +10,7 @@ namespace DataLayer.Interfaces
 {
     public interface IPrognosisHasDaysHasDepartments
     {
-        void CreateCalculation(string prognosisId, Dictionary<Days, int> cassiereHours, Dictionary<Days, int> versWorkersHours, Dictionary<Days, int> stockingHours, Dictionary<Days, int> cassieresNeeded, Dictionary<Days, int> workersNeeded);
+        void CreateCalculation(string prognosisId, List<Days> days, List<int> cassiereHours, List<int> versWorkersHours, List<int> stockingHours, List<int> cassieresNeeded, List<int> workersNeeded);
         List<PrognosisHasDaysHasDepartment> GetPrognosisCalculations(string prognosisId);
         void UpdateCalculations(List<PrognosisHasDaysHasDepartment> viewmodels);
     }
