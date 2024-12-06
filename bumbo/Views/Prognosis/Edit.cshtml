@@ -59,11 +59,11 @@
                         <div class="max-w-xs">@Model.Days_name[i]</div>
 
                         <div>
-                            <input value="@Model.CustomerAmount[i]" name="CustomerAmount[@i]" type="number" class="p-1 w-full rounded border" required />
+                            <input value="@Model.CustomerAmount[i]" min="0" name="CustomerAmount[@i]" type="number" class="p-1 w-full rounded border" required />
                         </div>
 
                         <div>
-                            <input value="@Model.PackagesAmount[i]" name="PackagesAmount[@i]" type="number" class="p-1 w-full rounded border" required />
+                            <input value="@Model.PackagesAmount[i]" min="0" name="PackagesAmount[@i]" type="number" class="p-1 w-full rounded border" required />
                         </div>
                     }
                 </div>

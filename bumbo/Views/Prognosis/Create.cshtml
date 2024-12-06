@@ -78,14 +78,14 @@
                         <div class="max-w-xs">@Model.Days[i].Name</div>
 
                         <div>
-                            <input name="CustomerAmount[@i]" type="number"
+                            <input name="CustomerAmount[@i]" type="number" min="0"
                                    class="p-1 w-full rounded border"
                                    value="@(Model.CustomerAmount != null && Model.CustomerAmount.Count > i ? Model.CustomerAmount[i].ToString() : "")"
                                    required />
                         </div>
 
                         <div>
-                            <input name="PackagesAmount[@i]" type="number"
+                            <input name="PackagesAmount[@i]" type="number"  min="0"
                                    class="p-1 w-full rounded border"
                                    value="@(Model.PackagesAmount != null && Model.PackagesAmount.Count > i ? Model.PackagesAmount[i].ToString() : "")"
                                    required />
