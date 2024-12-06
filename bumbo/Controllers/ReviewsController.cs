@@ -35,7 +35,7 @@ namespace bumbo.Controllers
 
             if (!weekNumber.HasValue || !year.HasValue)
             {
-                prognosis = _prognosisRepository.GetLatestPrognosis();
+                prognosis = _prognosisRepository.GetLatestPrognosis(user.ManagerOfBranchId.Value);
 
                 if (prognosis != null)
                 {
@@ -102,7 +102,7 @@ namespace bumbo.Controllers
                         year = (year ?? DateTime.Now.Year) - 1;
                     }
                 }
-                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value);
+                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value, user.ManagerOfBranchId.Value);
             }
 
             // Bereken de eerste en laatste dag van de week
