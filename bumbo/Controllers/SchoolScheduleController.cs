@@ -97,23 +97,26 @@ namespace bumbo.Controllers
             var currentWeek = GetCurrentWeek();
             var currentYear = today.Year;
 
+            DateTime startDate = FirstDateOfWeek(currentYear, currentWeek);
+
             var viewModel = new AddSchoolScheduleViewModel
             {
                 StartWeek = currentWeek,
                 StartYear = currentYear,
                 EndWeek = currentWeek,
-                EndYear = currentYear,
-                Days = new List<DaySchoolScheduleViewModel>
-                {
-                    new DaySchoolScheduleViewModel { DayName = "Maandag" },
-                    new DaySchoolScheduleViewModel { DayName = "Dinsdag" },
-                    new DaySchoolScheduleViewModel { DayName = "Woensdag" },
-                    new DaySchoolScheduleViewModel { DayName = "Donderdag" },
-                    new DaySchoolScheduleViewModel { DayName = "Vrijdag" },
-                    new DaySchoolScheduleViewModel { DayName = "Zaterdag" },
-                    new DaySchoolScheduleViewModel { DayName = "Zondag" }
-                }
+                EndYear = currentYear
             };
+
+            for (int i = 0; i < 7; i++)
+            {
+                DateTime currentDate = startDate.AddDays(i);
+                viewModel.Days.Add(new DaySchoolScheduleViewModel
+                {
+                    DayName = currentDate.ToString("dddd", new CultureInfo("nl-NL")),
+                    Date = currentDate,
+                    DayNumber = i
+                });
+            }
 
             return View(viewModel);
         }
@@ -129,25 +132,20 @@ namespace bumbo.Controllers
 
             SetTempDataForSchoolScheduleToast("addSchoolScheduleToast");
 
-            for (int i = 0; i < viewModel.Days.Count; i++)
-            {
-                DaySchoolScheduleViewModel day = viewModel.Days[i];
-                if (day.StartHour.HasValue && day.StartMinute.HasValue && day.EndHour.HasValue && day.EndMinute.HasValue)
-                {
-                    TimeOnly startTime = new TimeOnly(day.StartHour.Value, day.StartMinute.Value);
-                    TimeOnly endTime = new TimeOnly(day.EndHour.Value, day.EndMinute.Value);
+            string employeeId = user.Id;
 
-                    if (startTime > endTime)
-                    {
-                        ModelState.AddModelError($"Days[{i}].EndHour", "Eindtijd mag niet eerder zijn dan begintijd.");
-                    }
-                }
+            if (viewModel.EndYear < viewModel.StartYear ||
+                (viewModel.EndYear == viewModel.StartYear && viewModel.EndWeek < viewModel.StartWeek))
+            {
+                ModelState.AddModelError("", "De eindweek en het eindjaar moeten na de beginweek en het beginjaar liggen.");
             }
 
-            // Validatie van de ingevoerde periode
-            if (!IsValidPeriod(viewModel.StartWeek, viewModel.StartYear, viewModel.EndWeek, viewModel.EndYear))
+            for (int i = 0; i < 7; i++)
             {
-                ModelState.AddModelError("", "De ingevoerde periode is ongeldig. Controleer de weken en jaren.");
+                if (viewModel.Days[i].StartTime.HasValue && viewModel.Days[i].EndTime.HasValue && viewModel.Days[i].EndTime <= viewModel.Days[i].StartTime)
+                {
+                    ModelState.AddModelError("", $"De eindtijd moet later zijn dan de starttijd voor {viewModel.Days[i].DayName}.");
+                }
             }
 
             if (!ModelState.IsValid)
@@ -166,15 +164,14 @@ namespace bumbo.Controllers
                 string dayName = date.ToString("dddd", new CultureInfo("nl-NL"));
                 var daySchedule = viewModel.Days.FirstOrDefault(d => d.DayName.Equals(dayName, StringComparison.OrdinalIgnoreCase));
 
-                if (daySchedule != null && daySchedule.StartHour.HasValue && daySchedule.StartMinute.HasValue
-                    && daySchedule.EndHour.HasValue && daySchedule.EndMinute.HasValue)
+                if (daySchedule != null && daySchedule.StartTime.HasValue && daySchedule.EndTime.HasValue)
                 {
                     SchoolSchedule schoolSchedule = new SchoolSchedule
                     {
                         EmployeeId = user.Id,
                         Date = DateOnly.FromDateTime(date),
-                        StartTime = new TimeOnly(daySchedule.StartHour.Value, daySchedule.StartMinute.Value),
-                        EndTime = new TimeOnly(daySchedule.EndHour.Value, daySchedule.EndMinute.Value)
+                        StartTime = daySchedule.StartTime.Value,
+                        EndTime = daySchedule.EndTime.Value
                     };
 
                     schoolSchedules.Add(schoolSchedule);
@@ -187,8 +184,6 @@ namespace bumbo.Controllers
             TempData["ToastType"] = "success";
             return RedirectToAction("Index");
         }
-
-
 
         private DateTime GetFirstDateOfWeek(int year, int week)
         {
@@ -207,33 +202,11 @@ namespace bumbo.Controllers
             return firstMonday.AddDays(week * 7);
         }
 
-
         private int GetCurrentWeek()
         {
             var currentDate = DateTime.Now;
             var culture = CultureInfo.CurrentCulture;
             return culture.Calendar.GetWeekOfYear(currentDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-        }
-
-        private bool IsValidWeekAndYear(int week, int year)
-        {
-            if (week < 1 || week > 53) return false;
-
-            if (week == 53)
-            {
-                DateTime dec31 = new DateTime(year, 12, 31);
-                return dec31.DayOfWeek == DayOfWeek.Thursday;
-            }
-
-            return true;
-        }
-
-        private bool IsValidPeriod(int startWeek, int startYear, int endWeek, int endYear)
-        {
-            if (startYear > endYear) return false;
-            if (startYear == endYear && startWeek > endWeek) return false;
-
-            return IsValidWeekAndYear(startWeek, startYear) && IsValidWeekAndYear(endWeek, endYear);
         }
 
         private void SetTempDataForSchoolScheduleToast(string toastId)
