@@ -2,22 +2,16 @@
 using bumbo.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 
 public class AccountController : Controller
 {
     private readonly SignInManager<Employee> _signInManager;
     private readonly UserManager<Employee> _userManager;
-    private readonly IStringLocalizer<AccountController> _localizer;
 
-    public AccountController(
-        SignInManager<Employee> signInManager,
-        UserManager<Employee> userManager,
-        IStringLocalizer<AccountController> localizer)
+    public AccountController(SignInManager<Employee> signInManager, UserManager<Employee> userManager)
     {
         _signInManager = signInManager;
         _userManager = userManager;
-        _localizer = localizer;
     }
 
     [HttpGet]
@@ -58,6 +52,7 @@ public class AccountController : Controller
 
         return View(model);
     }
+
 
     public async Task<IActionResult> Logout()
     {

@@ -124,7 +124,7 @@ namespace bumbo.Controllers
                             .ToList();
 
                         double hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DayName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
+                            .Where(pd => pd.DaysName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
                             .Sum(pd => pd.HoursOfWorkNeeded);
 
                         return new DepartmentScheduleViewModel
@@ -186,7 +186,7 @@ namespace bumbo.Controllers
                             .ToList();
 
                         var hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                            .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                             .Sum(pd => pd.HoursOfWorkNeeded);
 
                         return new DepartmentScheduleEditViewModel
@@ -216,7 +216,7 @@ namespace bumbo.Controllers
                         .ToList();
 
                     var hoursNeededForDepartment = prognosisDetails
-                        .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                        .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                         .Sum(pd => pd.HoursOfWorkNeeded);
 
                     return new DepartmentScheduleEditViewModel
@@ -503,7 +503,7 @@ namespace bumbo.Controllers
                 <td class='py-2 px-4'>{item.ToPlanHours}</td>
                 <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                 <td class='py-2 px-4'>
-                    <button onclick=""window.location.href='/ScheduleManager/AddEmployee?date={item.Date.ToString("yyyy-MM-dd")}&employeeId={item.EmployeeId}'"" 
+                    <button onclick=""window.location.href='/ScheduleManager/AddEmployee?date={item.Date.ToString("yyyy-MM-dd")}&employeeId={item.EmployeeId}'""
                     class='bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded'>Toevoegen</button>
                 </td>"
                 );
@@ -597,7 +597,7 @@ namespace bumbo.Controllers
                                     .ToList();
 
                                 double hoursNeededForDepartment = prognosisDetails
-                                    .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                                    .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                                     .Sum(pd => pd.HoursOfWorkNeeded);
 
                                 return new DepartmentScheduleAddEmployeeViewModel
@@ -742,7 +742,7 @@ namespace bumbo.Controllers
                                             .ToList();
 
                                         double hoursNeededForDepartment = prognosisDetails
-                                            .Where(pd => pd.DayName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                                            .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
                                             .Sum(pd => pd.HoursOfWorkNeeded);
 
                                         return new DepartmentScheduleAddEmployeeViewModel

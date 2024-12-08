@@ -48,8 +48,8 @@ namespace DataLayer.Repositories
                             result.coli.normId,
                             result.coli.year,
                             result.coli.week,
-                            result.coli.normInSeconds/60,
-                            result.shelve.normInSeconds/60,
+                            result.coli.normInSeconds / 60,
+                            result.shelve.normInSeconds / 60,
                             result.cashier.normInSeconds,
                             result.fresh.normInSeconds,
                             front.normInSeconds
@@ -81,9 +81,17 @@ namespace DataLayer.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Norm> GetNorm(int selectedNormId) 
+        public async Task<Norm> GetNorm(int selectedNormId)
         {
             return await _context.Norms.FirstOrDefaultAsync(norm => norm.normId == selectedNormId);
+        }
+
+        public async Task<List<Norm>> GetLatestNorm()
+        {
+            return await _context.Norms
+                .OrderByDescending(n => n.year)
+                .ThenByDescending(n => n.week)
+                .ToListAsync();
         }
     }
 }
