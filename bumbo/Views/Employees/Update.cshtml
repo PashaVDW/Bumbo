@@ -82,17 +82,6 @@
                 <input asp-for="BID" placeholder="123456789" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="BID" class="text-red-600 text-sm"></span>
             </div>
-            @if (Model.UserManagerOfBranchId != null && Model.BranchAssignments.Any(b => b.BranchId == Model.UserManagerOfBranchId))
-            {
-                <div>
-                    <label asp-for="SelectedFunction" class="text-gray-700 block text-sm font-medium">Functie</label>
-                    <select asp-for="SelectedFunction" asp-items="Model.Functions" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight">
-                        <option value="">None</option>
-                    </select>
-                    <span asp-validation-for="SelectedFunction" class="text-red-600 text-sm"></span>
-                </div>
-            }
-
         </div>
 
         @if (Model.IsSystemManager)
