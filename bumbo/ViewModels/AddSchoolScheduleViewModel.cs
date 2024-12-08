@@ -25,21 +25,11 @@ namespace bumbo.ViewModels
         [Required]
         public string DayName { get; set; }
 
-        [Required(ErrorMessage = "Startuur is verplicht.")]
-        [Range(0, 23, ErrorMessage = "Startuur moet tussen 0 en 23 liggen.")]
-        public int? StartHour { get; set; } = 0;
-
-        [Required(ErrorMessage = "Startminuten zijn verplicht.")]
-        [Range(0, 59, ErrorMessage = "Startminuten moeten tussen 0 en 59 liggen.")]
-        public int? StartMinute { get; set; } = 0;
-
-        [Required(ErrorMessage = "Einduur is verplicht.")]
-        [Range(0, 23, ErrorMessage = "Einduur moet tussen 0 en 23 liggen.")]
-        public int? EndHour { get; set; } = 0;
-
-        [Required(ErrorMessage = "Eindminuten zijn verplicht.")]
-        [Range(0, 59, ErrorMessage = "Eindminuten moeten tussen 0 en 59 liggen.")]
-        public int? EndMinute { get; set; } = 0;
+        [Required]
+        public DateTime Date { get; set; }
+        public int DayNumber { get; set; }
+        public TimeOnly? StartTime { get; set; }
+        public TimeOnly? EndTime { get; set; }
     }
 
 }

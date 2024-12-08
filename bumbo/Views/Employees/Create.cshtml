@@ -79,14 +79,6 @@
                 <input asp-for="BID" placeholder="123456789" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                 <span asp-validation-for="BID" class="text-sm text-red-600"></span>
             </div>
-
-            <div>
-                <label asp-for="SelectedFunction" class="block text-sm font-medium text-gray-700">Functie</label>
-                <select asp-for="SelectedFunction" asp-items="Model.Functions" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight">
-                    <option value="">None</option>
-                </select>
-                <span asp-validation-for="SelectedFunction" class="text-sm text-red-600"></span>
-            </div>
         </div>
 
         @if (Model.IsSystemManager)
