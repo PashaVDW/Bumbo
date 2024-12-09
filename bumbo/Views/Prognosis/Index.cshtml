@@ -46,7 +46,7 @@
                             <th class="p-4 text-center">
                                 <div class="font-bold">@day.Date.ToString("dd MMM")</div>
                                 <div>@day.DayName</div>
-                                <div>Uren: @day.TotalHoursWorkNeeded</div>
+                                <div>Uren: @day.TotalHoursWorkNeeded.ToString("F1")</div> <!-- Show hours with 1 decimal -->
                                 <div>Werknemers: @day.TotalWorkersNeeded</div>
                             </th>
                         }
@@ -78,7 +78,7 @@
                                 <td class="p-4 text-center">
                                     <div class="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0">
                                         <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
-                                            @deptData.HoursOfWorkNeeded
+                                            @deptData.HoursOfWorkNeeded.ToString("F1") <!-- Show hours with 1 decimal -->
                                         </div>
 
                                         <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
@@ -118,7 +118,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
-                });
+            });
         </script>
     }
 }
