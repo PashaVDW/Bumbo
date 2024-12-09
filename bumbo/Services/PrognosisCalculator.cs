@@ -26,21 +26,19 @@ namespace bumbo.Services
             int shelveMeters = _prognosisRepository.GetShelfMetersByPrognosis(prognosisId);
 
             int cassiereNorm = 30;
-            int cassieresNeededForThirtyPerHour = norms[2].normInSeconds;
             int workersNorm = 100;
-            int workersNeededForHundredPerHour = norms[3].normInSeconds;
 
             int colliUitladenNormInSeconds = norms[0].normInSeconds;
             int stockingNormInSeconds = norms[1].normInSeconds;
             int spiegelenNormInSeconds = norms[4].normInSeconds;
 
-            List<int> cassiereHours = new List<int>();
+            List<double> cassiereHours = new List<double>();
             List<int> cassieresNeeded = new List<int>();
 
-            List<int> versWorkersHours = new List<int>();
+            List<double> versWorkersHours = new List<double>();
             List<int> workersNeeded = new List<int>();
 
-            List<int> stockingHours = new List<int>();
+            List<double> stockingHours = new List<double>();
             List<int> stockingWorkers = new List<int>();
 
             for (int i = 0; i < days.Count; i++)
@@ -52,29 +50,28 @@ namespace bumbo.Services
                 {
                     int customerAmount = model.CustomerAmount[i];
 
-                    int cassiereHoursNeeded = customerAmount / cassiereNorm;
-                    int workerHoursNeeded = customerAmount / workersNorm;
+                    // Calculate hours needed for cashiers and workers with decimals
+                    double cassiereHoursNeeded = (double)customerAmount / cassiereNorm;
+                    double workerHoursNeeded = (double)customerAmount / workersNorm;
 
-                    cassiereHours.Add(cassiereHoursNeeded);
-                    cassieresNeeded.Add((cassiereHoursNeeded + 7) / 8);
+                    cassiereHours.Add(Math.Round(cassiereHoursNeeded, 1)); // Round to 1 decimal place
+                    cassieresNeeded.Add(Math.Max(1, (int)Math.Ceiling(cassiereHoursNeeded / 8)));
 
-                    versWorkersHours.Add(workerHoursNeeded);
-                    workersNeeded.Add((workerHoursNeeded + 7) / 8);
+                    versWorkersHours.Add(Math.Round(workerHoursNeeded, 1)); // Round to 1 decimal place
+                    workersNeeded.Add(Math.Max(1, (int)Math.Ceiling(workerHoursNeeded / 8)));
                 }
 
                 if (i < model.PackagesAmount.Count)
                 {
                     int packageAmount = model.PackagesAmount[i];
 
-                    int colliUitladenHoursNeeded = (packageAmount * colliUitladenNormInSeconds) / 60;
-                    int stockingHoursNeeded = (packageAmount * stockingNormInSeconds) / 60;
-                    int spiegelenHoursNeeded = (shelveMeters * spiegelenNormInSeconds) / 3600;
-                    int totalForStocking = (colliUitladenHoursNeeded + stockingHoursNeeded + spiegelenHoursNeeded);
+                    double colliUitladenHoursNeeded = (double)(packageAmount * colliUitladenNormInSeconds) / 3600;
+                    double stockingHoursNeeded = (double)(packageAmount * stockingNormInSeconds) / 3600;
+                    double spiegelenHoursNeeded = (double)(shelveMeters * spiegelenNormInSeconds) / 3600;
+                    double totalForStocking = (colliUitladenHoursNeeded + stockingHoursNeeded + spiegelenHoursNeeded);
 
-                    totalForStocking /= 10;
-
-                    stockingHours.Add(totalForStocking);
-                    stockingWorkers.Add((totalForStocking + 7) / 8);
+                    stockingHours.Add(Math.Round(totalForStocking, 1)); // Round to 1 decimal place
+                    stockingWorkers.Add(Math.Max(1, (int)Math.Ceiling(totalForStocking / 8)));
                 }
             }
 
@@ -82,9 +79,9 @@ namespace bumbo.Services
             {
                 PrognosisId = prognosisId,
                 Days = days,
-                CassiereHours = cassiereHours,
-                VersWorkersHours = versWorkersHours,
-                StockingHours = stockingHours,
+                CassiereHours = cassiereHours.Select(h => Math.Round(h, 1)).ToList(), // Ensure all are rounded
+                VersWorkersHours = versWorkersHours.Select(h => Math.Round(h, 1)).ToList(),
+                StockingHours = stockingHours.Select(h => Math.Round(h, 1)).ToList(),
                 CassieresNeeded = cassieresNeeded,
                 VersWorkersNeeded = workersNeeded,
                 StockingWorkersNeeded = stockingWorkers
@@ -92,6 +89,5 @@ namespace bumbo.Services
 
             return viewmodel;
         }
-
     }
 }
