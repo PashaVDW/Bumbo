@@ -1,20 +1,39 @@
 ﻿@model EmployeeRegisterHoursViewModel
 
-<div class="p-3">
+<div class="p-3 md:p-12">
     <h1 class="text-3xl font-bold">Klokken</h1>
 
-    <div class="m-2">
-        <div class="mb-3 flex justify-between">
-            <p class="font-semibold">Vandaag</p>
-            <p class="font-semibold">[Zo 7]</p>
-        </div>
-        @if(Model.HasStarted)
-        {
-            <div class="bg-gray-200 rounded-xl">
-                <div class="p-4 flex justify-between">
-                    <p class="text-sm font-bold">Tijd aan het werk:</p>
-                    <p class="font-bold">[1:01:10]</p>
+    <div class="m-2 md:flex md:justify-between md:gap-8">
+        <div class="md:w-full">
+            <div class="mb-3 flex justify-between">
+                <p class="font-semibold">Vandaag</p>
+                <p class="font-semibold">[Zo 7]</p>
+            </div>
+            @if(Model.HasStarted)
+            {
+                <div class="bg-gray-200 rounded-xl">
+                    <div class="p-4 flex justify-between">
+                        <p class="text-sm font-bold">Tijd aan het werk:</p>
+                        <p class="font-bold">[1:01:10]</p>
+                    </div>
+                    <div class="bg-zinc-300 rounded-xl">
+                        <div class="p-4">
+                            <div>
+                                <p>[Vakkenvullen]</p>
+                                <p class="text-gray-500 text-sm">Geplande tijd: [11:00 - 15:00]</p>
+                            </div>
+                            <div class="mt-8 gap-3 flex justify-end">
+                                <div>
+                                    <p class="text-xs">Begintijd nu:</p>
+                                    <p class="font-semibold">[11:01:26]</p>
+                                </div>
+                                <default-button button-text="Uitklokken" button-type="secondary"></default-button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            } else
+            {
                 <div class="bg-zinc-300 rounded-xl">
                     <div class="p-4">
                         <div>
@@ -26,41 +45,24 @@
                                 <p class="text-xs">Begintijd nu:</p>
                                 <p class="font-semibold">[11:01:26]</p>
                             </div>
-                            <default-button button-text="Uitklokken" button-type="secondary"></default-button>
+                            <default-button button-text="Inklokken" button-type="primary"></default-button>
                         </div>
                     </div>
-                </div>
-            </div>
-        } else
-        {
-            <div class="bg-zinc-300 rounded-xl">
-                <div class="p-4">
-                    <div>
-                        <p>[Vakkenvullen]</p>
-                        <p class="text-gray-500 text-sm">Geplande tijd: [11:00 - 15:00]</p>
-                    </div>
-                    <div class="mt-8 gap-3 flex justify-end">
-                        <div>
-                            <p class="text-xs">Begintijd nu:</p>
-                            <p class="font-semibold">[11:01:26]</p>
-                        </div>
-                        <default-button button-text="Inklokken" button-type="primary"></default-button>
-                    </div>
-                </div>
-            </div>
-        }
-        
-        <div class="mx-2 my-3">
-            @for (int i = 0; i < 5; i++)
-            {
-                <div class="border-gray-200 p-3 mt-2 flex justify-between rounded-xl border-2">
-                    <p class="text-sm font-bold">[Ma 8]</p>
-                    <p class="text-sm">[Vakkenvullen]</p>
-                    <p class="text-sm">[11:00 - 15:00]</p>
                 </div>
             }
+        
+            <div class="mx-2 my-3">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <div class="border-gray-200 p-3 mt-2 flex justify-between rounded-xl border-2">
+                        <p class="text-sm font-bold">[Ma 8]</p>
+                        <p class="text-sm">[Vakkenvullen]</p>
+                        <p class="text-sm">[11:00 - 15:00]</p>
+                    </div>
+                }
+            </div>
         </div>
-        <div class="my-4">
+        <div class="my-4 md:w-full">
             <div class="mb-4 flex justify-between">
                 <a href="#" class="flex items-center">
                     <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
