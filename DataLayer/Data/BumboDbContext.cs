@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using bumbo.Models;
 using DataLayer.Models;
+using System.Reflection.Emit;
 
 namespace bumbo.Data
 {
@@ -13,6 +14,7 @@ namespace bumbo.Data
         {
         }
 
+        public DbSet<RegisteredHours> RegisteredHours { get; set; }
         public DbSet<Availability> Availability { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
@@ -1228,6 +1230,20 @@ namespace bumbo.Data
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
+
+            modelBuilder.Entity<RegisteredHours>()
+                .HasKey(rh => new { rh.EmployeeBID, rh.StartTime });
+
+            modelBuilder.Entity<RegisteredHours>()
+                .HasOne<Employee>()
+                .WithMany(e => e.RegisteredHours)
+                .HasForeignKey(rh => rh.EmployeeBID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.BID)
+                .IsUnique();
+
 
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasOne(bhw => bhw.Branch)
