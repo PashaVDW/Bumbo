@@ -1,4 +1,5 @@
-﻿@model EmployeeRegisterHoursViewModel
+﻿@using DataLayer.Models
+@model EmployeeRegisterHoursViewModel
 
 <div class="p-3 md:p-12">
     <h1 class="text-3xl font-bold">Klokken</h1>
@@ -7,7 +8,7 @@
         <div class="md:w-full">
             <div class="mb-3 flex justify-between">
                 <p class="font-semibold">Vandaag</p>
-                <p class="font-semibold">[Zo 7]</p>
+                <p class="font-semibold">@Model.DayName[0]@Model.DayName[1] @Model.Today.Day</p>
             </div>
             @if(Model.HasStarted)
             {
@@ -37,13 +38,13 @@
                 <div class="bg-zinc-300 rounded-xl">
                     <div class="p-4">
                         <div>
-                            <p>[Vakkenvullen]</p>
-                            <p class="text-gray-500 text-sm">Geplande tijd: [11:00 - 15:00]</p>
+                            <p>@Model.FirstShift.DepartmentName</p>
+                            <p class="text-gray-500 text-sm">Geplande tijd: @Model.FirstShift.StartTime - @Model.FirstShift.EndTime</p>
                         </div>
                         <div class="mt-8 gap-3 flex justify-end">
                             <div>
                                 <p class="text-xs">Begintijd nu:</p>
-                                <p class="font-semibold">[11:01:26]</p>
+                                <p class="font-semibold">@Model.Today.Hour:@Model.Today.Minute:@Model.Today.Second</p>
                             </div>
                             <default-button button-text="Inklokken" button-type="primary"></default-button>
                         </div>
@@ -52,41 +53,43 @@
             }
         
             <div class="mx-2 my-3">
-                @for (int i = 0; i < 5; i++)
+                @foreach (Schedule schedule in Model.WeekSchedule)
                 {
                     <div class="border-gray-200 p-3 mt-2 flex justify-between rounded-xl border-2">
-                        <p class="text-sm font-bold">[Ma 8]</p>
-                        <p class="text-sm">[Vakkenvullen]</p>
-                        <p class="text-sm">[11:00 - 15:00]</p>
+                        <p class="text-sm font-bold">@schedule.Date.DayOfWeek</p>
+                        <p class="text-sm">@schedule.DepartmentName</p>
+                        <p class="text-sm">@schedule.StartTime - @schedule.EndTime</p>
                     </div>
                 }
             </div>
         </div>
         <div class="my-4 md:w-full">
             <div class="mb-4 flex justify-between">
-                <a href="#" class="flex items-center">
+                <button onclick="window.location.href='@Url.Action("NavigateWeek", new { newWeek = Model.Week, newYear = Model.Year, direction = "backwards" })';"
+                        class="flex items-center">
                     <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                </a>
+                </button>
                 <div>
                     <p class="text-lg">Geklokte diensten</p>
-                    <p class="text-sm">[Februari 2024 - Week 12]</p>
+                    <p class="text-sm">@Model.MonthName @Model.Year - Week @Model.Week</p>
                 </div>
-                <a href="#" class="flex items-center">
+                <button onclick="window.location.href='@Url.Action("NavigateWeek", new { newWeek = Model.Week, newYear = Model.Year, direction = "forward" })';"
+                        class="flex items-center">
                     <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180 transform">
                         <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                </a>
+                </button>
             </div>
             <div class="mt-2">
-                @for (int i = 0; i < 4; i++)
+                @foreach (Schedule schedule in Model.RegisteredHoursSchedule)
                 {
                     <div class="border-b-gray-200 p-3 mt-2 flex justify-between rounded-xl border-b-2">
-                        <p class="text-sm font-bold">[Ma 8]</p>
+                        <p class="text-sm font-bold">@schedule.Date.DayOfWeek @schedule.Date.Day</p>
                         <div>
                             <p class="text-sm font-semibold">Geklokte tijd: [11:00 - 15:30]</p>
-                            <p class="text-gray-500 text-sm">Geplande tijd: [12:00 - 16:00]</p>
+                            <p class="text-gray-500 text-sm">Geplande tijd: @schedule.StartTime - @schedule.EndTime</p>
                         </div>
                     </div>
                 }

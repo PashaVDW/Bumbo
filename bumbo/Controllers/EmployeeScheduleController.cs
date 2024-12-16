@@ -1,5 +1,6 @@
 ﻿using bumbo.ViewModels;
 using DataLayer.Interfaces;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -91,7 +92,7 @@ namespace bumbo.Controllers
             return View(employeeSchedulesViewModel);
         }
 
-        public async Task<IActionResult> RegisteredHoursView()
+        public async Task<IActionResult> RegisteredHoursView(int year, int week)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -99,12 +100,103 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
+            Console.WriteLine();
+            Console.WriteLine(year);
+            Console.WriteLine(week);
+            Console.WriteLine();
+
+            DateTime today = DateTime.Now;
+            DateTime firstDayThisWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Monday);
+            DateTime lastDayThisWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Sunday);
+            
+            List<Schedule> thisWeekWeekSchedule = _scheduleRepository.GetWeekScheduleForEmployee(user.Id, firstDayThisWeek, lastDayThisWeek);
+
+
+            DateTime firstDayOtherWeek; 
+            DateTime lastDayOtherWeek; 
+            DateTime date;
+            
+            if (year <= 0 || week <= 0)
+            {
+                firstDayOtherWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Monday);
+                lastDayOtherWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Sunday);
+                date = DateTime.Now;
+            }
+            else
+            {
+                firstDayOtherWeek = ISOWeek.ToDateTime(year, week, DayOfWeek.Monday);
+                lastDayOtherWeek = ISOWeek.ToDateTime(year, week, DayOfWeek.Sunday);
+                if (week == 1)
+                {
+                    date = new DateTime(year, lastDayOtherWeek.Month, lastDayOtherWeek.Day);
+                } else
+                {
+                    date = new DateTime(year, firstDayOtherWeek.Month, firstDayOtherWeek.Day);
+                }
+            }
+
+            List<Schedule> otherWeekWeekSchedule = _scheduleRepository.GetWeekScheduleForEmployee(user.Id, firstDayOtherWeek, lastDayOtherWeek);
+
+            //
+            thisWeekWeekSchedule.Add(new Schedule()
+            {
+                EmployeeId = user.Id,
+                StartTime = new TimeOnly(11, 0),
+                EndTime = new TimeOnly(15, 0),
+                BranchId = 1,
+                DepartmentName = "Vers",
+                Date = new DateOnly(2024, 12, 16),
+            });
+            thisWeekWeekSchedule.Add(new Schedule()
+            {
+                EmployeeId = user.Id,
+                StartTime = new TimeOnly(13, 0),
+                EndTime = new TimeOnly(17, 0),
+                BranchId = 1,
+                DepartmentName = "Vers",
+                Date = new DateOnly(2024, 12, 17),
+            });
+            //
+
             EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
             {
-                HasStarted = true
+                HasStarted = false,
+                Today = today,
+                DayName = GetDayNameByDate(today),
+                WeekSchedule = thisWeekWeekSchedule,
+                FirstShift = thisWeekWeekSchedule.First(),
+
+                Year = date.Year,
+                Week = date.GetWeekOfYear(),
+                MonthName = GetMonthNameByDate(date),
+                RegisteredHoursSchedule = otherWeekWeekSchedule,
             };
 
             return View(viewModel);
+        }
+
+        public IActionResult NavigateWeek(string direction, int newYear, int newWeek)
+        {
+
+            if (direction.ToLower().Equals("forward"))
+            {
+                newWeek++;
+                if(newWeek > ISOWeek.GetWeeksInYear(newYear))
+                {
+                    newWeek = 1;
+                    newYear++;
+                }
+            }
+            if (direction.ToLower().Equals("backwards"))
+            {
+                newWeek--;
+                if (newWeek < 1)
+                {
+                    newWeek = 53;
+                    newYear--;
+                }
+            }
+            return RedirectToAction("RegisteredHoursView", new { year = newYear, week = newWeek } );
         }
 
         public async Task<IActionResult> CallSick()
@@ -184,6 +276,60 @@ namespace bumbo.Controllers
             TempData["ToastId"] = toastId;
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 3000;
+        }
+
+        private string GetDayNameByDate(DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Monday:
+                    return "Maandag";
+                case DayOfWeek.Tuesday:
+                    return "Dinsdag"; ;
+                case DayOfWeek.Wednesday:
+                    return "Woensdag"; ;
+                case DayOfWeek.Thursday:
+                    return "Donderdag"; ;
+                case DayOfWeek.Friday:
+                    return "Vrijdag"; ;
+                case DayOfWeek.Saturday:
+                    return "Zaterdag"; ;
+                case DayOfWeek.Sunday:
+                    return "Zondag"; ;
+            }
+            return "";
+        }
+
+        private string GetMonthNameByDate(DateTime date)
+        {
+            switch (date.Month)
+            {
+                case 1:
+                    return "Januari";
+                case 2:
+                    return "Februari";
+                case 3:
+                    return "Maart";
+                case 4:
+                    return "April";
+                case 5:
+                    return "Mei";
+                case 6:
+                    return "Juni";
+                case 7:
+                    return "Juli";
+                case 8:
+                    return "Augustus";
+                case 9:
+                    return "September";
+                case 10:
+                    return "Oktober";
+                case 11:
+                    return "November";
+                case 12:
+                    return "December";
+            }
+            return "";
         }
     }
 }
