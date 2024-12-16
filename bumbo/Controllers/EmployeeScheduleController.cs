@@ -91,6 +91,17 @@ namespace bumbo.Controllers
             return View(employeeSchedulesViewModel);
         }
 
+        public async Task<IActionResult> RegisteredHoursView()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            return View();
+        }
+
         public async Task<IActionResult> CallSick()
         {
             var currentUser = await _userManager.GetUserAsync(User);
