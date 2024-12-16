@@ -132,26 +132,6 @@ namespace bumbo.Controllers
 
             List<Schedule> otherWeekWeekSchedule = _scheduleRepository.GetWeekScheduleForEmployee(user.Id, firstDayOtherWeek, lastDayOtherWeek);
 
-            //
-            //thisWeekWeekSchedule.Add(new Schedule()
-            //{
-            //    EmployeeId = user.Id,
-            //    StartTime = new TimeOnly(11, 0),
-            //    EndTime = new TimeOnly(15, 0),
-            //    BranchId = 1,
-            //    DepartmentName = "Vers",
-            //    Date = new DateOnly(2024, 12, 16),
-            //});
-            //thisWeekWeekSchedule.Add(new Schedule()
-            //{
-            //    EmployeeId = user.Id,
-            //    StartTime = new TimeOnly(13, 0),
-            //    EndTime = new TimeOnly(17, 0),
-            //    BranchId = 1,
-            //    DepartmentName = "Vers",
-            //    Date = new DateOnly(2024, 12, 17),
-            //});
-            //
             if (thisWeekWeekSchedule.Count == 0)
             {
                 thisWeekWeekSchedule.Add(new Schedule()
