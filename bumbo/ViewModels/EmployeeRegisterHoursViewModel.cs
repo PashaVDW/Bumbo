@@ -2,5 +2,6 @@
 {
     public class EmployeeRegisterHoursViewModel
     {
+        public bool HasStarted { get; set; }
     }
 }

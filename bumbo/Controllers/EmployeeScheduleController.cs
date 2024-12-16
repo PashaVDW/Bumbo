@@ -99,7 +99,12 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            return View();
+            EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
+            {
+                HasStarted = true
+            };
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> CallSick()
@@ -110,9 +115,7 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            TempData["ToastId"] = "callSickToast";
-            TempData["AutoHide"] = "yes";
-            TempData["MilSecHide"] = 3000;
+            SetUpToast("callSickToast");
 
             var todaysSchedules = _scheduleRepository.GetSchedulesForEmployeeByDay(currentUser.Id, DateOnly.FromDateTime(DateTime.Now));
             if (!todaysSchedules.Any())
@@ -149,9 +152,7 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            TempData["ToastId"] = "callBetterToast";
-            TempData["AutoHide"] = "yes";
-            TempData["MilSecHide"] = 3000;
+            SetUpToast("callBetterToast");
 
             var todaysSchedules = _scheduleRepository.GetSchedulesForEmployeeByDay(currentUser.Id, DateOnly.FromDateTime(DateTime.Now));
             if (todaysSchedules.Any())
@@ -176,6 +177,13 @@ namespace bumbo.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        private void SetUpToast(string toastId)
+        {
+            TempData["ToastId"] = toastId;
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
         }
     }
 }

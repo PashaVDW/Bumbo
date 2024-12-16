@@ -8,21 +8,48 @@
             <p class="font-semibold">Vandaag</p>
             <p class="font-semibold">[Zo 7]</p>
         </div>
-        <div class="bg-zinc-300 rounded-xl">
-            <div class="p-4">
-                <div>
-                    <p>[Vakkenvullen]</p>
-                    <p class="text-gray-500 text-sm">Geplande tijd: [11:00 - 15:00]</p>
+        @if(Model.HasStarted)
+        {
+            <div class="bg-gray-200 rounded-xl">
+                <div class="p-4 flex justify-between">
+                    <p class="text-sm font-bold">Tijd aan het werk:</p>
+                    <p class="font-bold">[1:01:10]</p>
                 </div>
-                <div class="mt-8 gap-3 flex justify-end">
-                    <div>
-                        <p class="text-xs">Begintijd nu:</p>
-                        <p class="font-semibold">[11:01:26]</p>
+                <div class="bg-zinc-300 rounded-xl">
+                    <div class="p-4">
+                        <div>
+                            <p>[Vakkenvullen]</p>
+                            <p class="text-gray-500 text-sm">Geplande tijd: [11:00 - 15:00]</p>
+                        </div>
+                        <div class="mt-8 gap-3 flex justify-end">
+                            <div>
+                                <p class="text-xs">Begintijd nu:</p>
+                                <p class="font-semibold">[11:01:26]</p>
+                            </div>
+                            <default-button button-text="Uitklokken" button-type="secondary"></default-button>
+                        </div>
                     </div>
-                    <default-button button-text="Inklokken" button-type="primary"></default-button>
                 </div>
             </div>
-        </div>
+        } else
+        {
+            <div class="bg-zinc-300 rounded-xl">
+                <div class="p-4">
+                    <div>
+                        <p>[Vakkenvullen]</p>
+                        <p class="text-gray-500 text-sm">Geplande tijd: [11:00 - 15:00]</p>
+                    </div>
+                    <div class="mt-8 gap-3 flex justify-end">
+                        <div>
+                            <p class="text-xs">Begintijd nu:</p>
+                            <p class="font-semibold">[11:01:26]</p>
+                        </div>
+                        <default-button button-text="Inklokken" button-type="primary"></default-button>
+                    </div>
+                </div>
+            </div>
+        }
+        
         <div class="mx-2 my-3">
             @for (int i = 0; i < 5; i++)
             {
