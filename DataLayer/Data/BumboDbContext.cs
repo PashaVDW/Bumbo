@@ -809,6 +809,63 @@ namespace bumbo.Data
                     DepartmentName = "Kassa",
                     IsFinal = true,
                     IsSick = false
+                },
+
+                // Extra
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 16),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 17),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 18),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 24),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 26),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
                 }
             );
 
