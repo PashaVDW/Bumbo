@@ -37,29 +37,39 @@
             {
                 <div class="bg-zinc-300 rounded-xl">
                     <div class="p-4">
-                        <div>
-                            <p>@Model.FirstShift.DepartmentName</p>
-                            <p class="text-gray-500 text-sm">Geplande tijd: @Model.FirstShift.StartTime - @Model.FirstShift.EndTime</p>
-                        </div>
-                        <div class="mt-8 gap-3 flex justify-end">
+                        @if (string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
+                        {
+                            <p>Je hebt geen shifts deze week</p>
+                        } 
+                        else 
+                        {
                             <div>
-                                <p class="text-xs">Begintijd nu:</p>
-                                <p class="font-semibold">@Model.Today.Hour:@Model.Today.Minute:@Model.Today.Second</p>
+                                <p>@Model.FirstShift.DepartmentName</p>
+                                <p class="text-gray-500 text-sm">Geplande tijd: @Model.FirstShift.StartTime - @Model.FirstShift.EndTime</p>
                             </div>
-                            <default-button button-text="Inklokken" button-type="primary"></default-button>
-                        </div>
+                            <div class="mt-8 gap-3 flex justify-end">
+                                <div>
+                                    <p class="text-xs">Begintijd nu:</p>
+                                    <p class="font-semibold">@Model.Today.Hour:@Model.Today.Minute:@Model.Today.Second</p>
+                                </div>
+                                <default-button button-text="Inklokken" button-type="primary"></default-button>
+                            </div>
+                        }
                     </div>
                 </div>
             }
         
             <div class="mx-2 my-3">
-                @foreach (Schedule schedule in Model.WeekSchedule)
+                @if (!string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
                 {
-                    <div class="border-gray-200 p-3 mt-2 flex justify-between rounded-xl border-2">
-                        <p class="text-sm font-bold">@schedule.Date.DayOfWeek</p>
-                        <p class="text-sm">@schedule.DepartmentName</p>
-                        <p class="text-sm">@schedule.StartTime - @schedule.EndTime</p>
-                    </div>
+                    @foreach (Schedule schedule in Model.WeekSchedule)
+                    {
+                        <div class="border-gray-200 p-3 mt-2 flex justify-between rounded-xl border-2">
+                            <p class="text-sm font-bold">@schedule.Date.DayOfWeek</p>
+                            <p class="text-sm">@schedule.DepartmentName</p>
+                            <p class="text-sm">@schedule.StartTime - @schedule.EndTime</p>
+                        </div>
+                    }
                 }
             </div>
         </div>
