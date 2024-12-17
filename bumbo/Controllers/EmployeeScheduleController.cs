@@ -92,7 +92,7 @@ namespace bumbo.Controllers
             return View(employeeSchedulesViewModel);
         }
 
-        public async Task<IActionResult> RegisteredHoursView(int year, int week)
+        public async Task<IActionResult> RegisteredHoursView(int year, int month)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -106,31 +106,20 @@ namespace bumbo.Controllers
             
             List<Schedule> thisWeekWeekSchedule = _scheduleRepository.GetWeekScheduleForEmployee(user.Id, firstDayThisWeek, lastDayThisWeek);
 
-
-            DateTime firstDayOtherWeek; 
-            DateTime lastDayOtherWeek; 
             DateTime date;
             
-            if (year <= 0 || week <= 0)
+            if (year <= 0 || month <= 0)
             {
-                firstDayOtherWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Monday);
-                lastDayOtherWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Sunday);
-                date = DateTime.Now;
+                date = today;
             }
             else
             {
-                firstDayOtherWeek = ISOWeek.ToDateTime(year, week, DayOfWeek.Monday);
-                lastDayOtherWeek = ISOWeek.ToDateTime(year, week, DayOfWeek.Sunday);
-                if (week == 1)
-                {
-                    date = new DateTime(year, lastDayOtherWeek.Month, lastDayOtherWeek.Day);
-                } else
-                {
-                    date = new DateTime(year, firstDayOtherWeek.Month, firstDayOtherWeek.Day);
-                }
+                date = new DateTime(year, month, 1);
             }
+            DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddSeconds(-1);
 
-            List<Schedule> otherWeekWeekSchedule = _scheduleRepository.GetWeekScheduleForEmployee(user.Id, firstDayOtherWeek, lastDayOtherWeek);
+            List<Schedule> registeredHoursInMonthSchedule = _scheduleRepository.GetMonthScheduleForEmployee(user.Id, firstDayOfMonth, lastDayOfMonth);
 
             if (thisWeekWeekSchedule.Count == 0)
             {
@@ -154,36 +143,36 @@ namespace bumbo.Controllers
                 FirstShift = thisWeekWeekSchedule.First(),
 
                 Year = date.Year,
-                Week = date.GetWeekOfYear(),
+                Month = date.Month,
                 MonthName = GetMonthNameByDate(date),
-                RegisteredHoursSchedule = otherWeekWeekSchedule,
+                RegisteredHoursSchedule = registeredHoursInMonthSchedule,
             };
 
             return View(viewModel);
         }
-
-        public IActionResult NavigateWeek(string direction, int newYear, int newWeek)
+        
+        public IActionResult NavigateMonth(string direction, int newYear, int newMonth)
         {
 
             if (direction.ToLower().Equals("forward"))
             {
-                newWeek++;
-                if(newWeek > ISOWeek.GetWeeksInYear(newYear))
+                newMonth++;
+                if(newMonth > 12)
                 {
-                    newWeek = 1;
+                    newMonth = 1;
                     newYear++;
                 }
             }
             if (direction.ToLower().Equals("backwards"))
             {
-                newWeek--;
-                if (newWeek < 1)
+                newMonth--;
+                if (newMonth < 1)
                 {
-                    newWeek = 53;
+                    newMonth = 12;
                     newYear--;
                 }
             }
-            return RedirectToAction("RegisteredHoursView", new { year = newYear, week = newWeek } );
+            return RedirectToAction("RegisteredHoursView", new { year = newYear, month = newMonth } );
         }
 
         public async Task<IActionResult> CallSick()

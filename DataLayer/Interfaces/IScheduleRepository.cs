@@ -20,6 +20,7 @@ namespace DataLayer.Interfaces
         bool CanRemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId);
         void RemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId);
         List<Schedule> GetWeekScheduleForEmployee(string? employeeId, DateTime monday, DateTime sunday);
+        public List<Schedule> GetMonthScheduleForEmployee(string employeeId, DateTime firstDay, DateTime lastDay);
         void UpdateEmployeeDaySchedule(string employeeId, DateTime date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
         void FinalizeSchedules(int branchId, List<DateOnly> weekDates);
         List<Schedule> GetSchedulesForEmployee(string employeeId);

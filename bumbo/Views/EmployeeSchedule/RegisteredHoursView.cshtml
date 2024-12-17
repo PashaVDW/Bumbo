@@ -73,19 +73,19 @@
                 }
             </div>
         </div>
-        <div class="my-4 md:w-full">
+        <div class="my-4 space-y-3 md:w-full">
             <div class="mb-4 flex justify-between">
-                <button onclick="window.location.href='@Url.Action("NavigateWeek", new { newWeek = Model.Week, newYear = Model.Year, direction = "backwards" })';"
+                <button onclick="window.location.href='@Url.Action("NavigateMonth", new { newMonth = Model.Month, newYear = Model.Year, direction = "backwards" })';"
                         class="flex items-center">
                     <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </button>
                 <div>
-                    <p class="text-lg">Geklokte diensten</p>
-                    <p class="text-sm">@Model.MonthName @Model.Year - Week @Model.Week</p>
+                    <p class="text-center text-lg">Geklokte diensten</p>
+                    <p class="text-center text-sm">@Model.MonthName @Model.Year</p>
                 </div>
-                <button onclick="window.location.href='@Url.Action("NavigateWeek", new { newWeek = Model.Week, newYear = Model.Year, direction = "forward" })';"
+                <button onclick="window.location.href='@Url.Action("NavigateMonth", new { newMonth = Model.Month, newYear = Model.Year, direction = "forward" })';"
                         class="flex items-center">
                     <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180 transform">
                         <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
@@ -95,7 +95,7 @@
             <div class="mt-2">
                 @if (Model.RegisteredHoursSchedule.Count == 0)
                 {
-                    <p class="text-center font-semibold">Deze week heeft geen diensten</p>
+                    <p class="text-center font-semibold">Deze maand heeft geen diensten</p>
                 }
                 @foreach (Schedule schedule in Model.RegisteredHoursSchedule)
                 {

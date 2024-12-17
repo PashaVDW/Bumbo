@@ -125,6 +125,13 @@ namespace DataLayer.Repositories
             return _context.Schedule.Where(s => s.EmployeeId == employeeId && s.Date >= dateOnlyMonday && s.Date <= dateOnlySunday).ToList();
         }
 
+        public List<Schedule> GetMonthScheduleForEmployee(string employeeId, DateTime firstDay, DateTime lastDay)
+        {
+            var dateOnlyMonday = DateOnly.FromDateTime(firstDay);
+            var dateOnlySunday = DateOnly.FromDateTime(lastDay);
+            return _context.Schedule.Where(s => s.EmployeeId == employeeId && s.Date >= dateOnlyMonday && s.Date <= dateOnlySunday).ToList();
+        }
+
         public void UpdateEmployeeDaySchedule(string employeeId, DateTime date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName)
         {
             var existingSchedule = _context.Schedule
