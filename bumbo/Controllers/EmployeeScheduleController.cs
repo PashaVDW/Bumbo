@@ -1,4 +1,5 @@
-﻿using bumbo.ViewModels;
+﻿using bumbo.Models;
+using bumbo.ViewModels;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
@@ -11,11 +12,13 @@ namespace bumbo.Controllers
     public class EmployeeScheduleController : Controller
     {
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
         private readonly UserManager<Employee> _userManager;
 
-        public EmployeeScheduleController(IScheduleRepository scheduleRepository, UserManager<Employee> userManager)
+        public EmployeeScheduleController(IScheduleRepository scheduleRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, UserManager<Employee> userManager)
         {
             _scheduleRepository = scheduleRepository;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
             _userManager = userManager;
 
         }
@@ -256,6 +259,60 @@ namespace bumbo.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> ClockIn(int week, int year)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            string employeeId = currentUser.Id;
+
+            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+
+            BranchHasEmployee branchHasEmployee = branches.FirstOrDefault();
+
+            int brancheId = branchHasEmployee.BranchId;
+            DateOnly date = DateOnly.FromDateTime(DateTime.Now);
+            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+
+            Console.WriteLine("In klokken");
+            Console.WriteLine(employeeId);
+            Console.WriteLine(brancheId);
+            Console.WriteLine(date);
+            Console.WriteLine(time.ToString("HH:mm:ss"));
+
+            return RedirectToAction("RegisteredHoursView", new { year, week });
+        }
+        
+        public async Task<IActionResult> ClockOut(int week, int year)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            string employeeId = currentUser.Id;
+
+            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+
+            BranchHasEmployee branchHasEmployee = branches.FirstOrDefault();
+
+            int brancheId = branchHasEmployee.BranchId;
+            DateOnly date = DateOnly.FromDateTime(DateTime.Now);
+            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+
+            Console.WriteLine("Uit klokken");
+            Console.WriteLine(employeeId);
+            Console.WriteLine(brancheId);
+            Console.WriteLine(date);
+            Console.WriteLine(time.ToString("HH:mm:ss"));
+
+            return RedirectToAction("RegisteredHoursView", new { year, week });
         }
 
         private void SetUpToast(string toastId)
