@@ -12,12 +12,14 @@ namespace bumbo.Controllers
     public class EmployeeScheduleController : Controller
     {
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IRegisteredHoursRepository _registeredHoursRepository;
         private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
         private readonly UserManager<Employee> _userManager;
 
-        public EmployeeScheduleController(IScheduleRepository scheduleRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, UserManager<Employee> userManager)
+        public EmployeeScheduleController(IScheduleRepository scheduleRepository, IRegisteredHoursRepository registeredHoursRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, UserManager<Employee> userManager)
         {
             _scheduleRepository = scheduleRepository;
+            _registeredHoursRepository = registeredHoursRepository;
             _branchHasEmployeeRepository = branchHasEmployeeRepository;
             _userManager = userManager;
 
@@ -103,6 +105,8 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
+            string employeeId = user.Id;
+
             DateTime today = DateTime.Now;
             DateTime firstDayThisWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Monday);
             DateTime lastDayThisWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Sunday);
@@ -150,7 +154,7 @@ namespace bumbo.Controllers
 
             EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
             {
-                HasStarted = false,
+                HasStarted = _registeredHoursRepository.IsClockedIn(employeeId),
                 Today = today,
                 DayName = GetDayNameByDate(today),
                 WeekSchedule = thisWeekWeekSchedule,
@@ -271,19 +275,15 @@ namespace bumbo.Controllers
 
             string employeeId = currentUser.Id;
 
-            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+            DateTime time = DateTime.Now;
 
-            BranchHasEmployee branchHasEmployee = branches.FirstOrDefault();
+            RegisteredHours newShift = new RegisteredHours()
+            {
+                EmployeeId = employeeId,
+                StartTime = time,
+            };
 
-            int brancheId = branchHasEmployee.BranchId;
-            DateOnly date = DateOnly.FromDateTime(DateTime.Now);
-            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
-
-            Console.WriteLine("In klokken");
-            Console.WriteLine(employeeId);
-            Console.WriteLine(brancheId);
-            Console.WriteLine(date);
-            Console.WriteLine(time.ToString("HH:mm:ss"));
+            _registeredHoursRepository.AddShift(newShift);
 
             return RedirectToAction("RegisteredHoursView", new { year, week });
         }
@@ -298,19 +298,9 @@ namespace bumbo.Controllers
 
             string employeeId = currentUser.Id;
 
-            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+            DateTime time = DateTime.Now;
 
-            BranchHasEmployee branchHasEmployee = branches.FirstOrDefault();
-
-            int brancheId = branchHasEmployee.BranchId;
-            DateOnly date = DateOnly.FromDateTime(DateTime.Now);
-            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
-
-            Console.WriteLine("Uit klokken");
-            Console.WriteLine(employeeId);
-            Console.WriteLine(brancheId);
-            Console.WriteLine(date);
-            Console.WriteLine(time.ToString("HH:mm:ss"));
+            _registeredHoursRepository.ClockOut(employeeId, time);
 
             return RedirectToAction("RegisteredHoursView", new { year, week });
         }
