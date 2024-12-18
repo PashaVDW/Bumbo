@@ -1283,6 +1283,25 @@ namespace bumbo.Data
                 new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) }
             );
 
+            modelBuilder.Entity<RegisteredHours>().HasData(
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 1,
+                    StartTime = new DateTime(2024, 12, 5, 8, 1, 12),
+                    EndTime = new DateTime(2024, 12, 5, 14, 2, 27)
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 1,
+                    StartTime = new DateTime(2024, 12, 16, 8, 58, 52),
+                    EndTime = new DateTime(2024, 12, 16, 12, 0, 44)
+                }
+            );
+
 
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()

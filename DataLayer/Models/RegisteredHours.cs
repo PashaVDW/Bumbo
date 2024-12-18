@@ -12,8 +12,11 @@ namespace DataLayer.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
+        public int RegistrationNumber { get; set; }
         [Required]
         public string EmployeeBID { get; set; }
+        [Required]
+        public string EmployeeId { get; set; }
 
         public Employee Employee { get; set; }
 

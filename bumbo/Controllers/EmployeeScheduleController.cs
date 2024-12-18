@@ -119,7 +119,7 @@ namespace bumbo.Controllers
             DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddSeconds(-1);
 
-            List<Schedule> registeredHoursInMonthSchedule = _scheduleRepository.GetMonthScheduleForEmployee(user.Id, firstDayOfMonth, lastDayOfMonth);
+            List<Schedule> registeredHoursInMonthSchedule = _scheduleRepository.GetRegisteredHoursInMonthScheduleForEmployee(user.Id, firstDayOfMonth, lastDayOfMonth);
 
             if (thisWeekWeekSchedule.Count == 0)
             {
