@@ -1298,7 +1298,7 @@ namespace bumbo.Data
                     EmployeeBID = "B002",
                     RegistrationNumber = 1,
                     StartTime = new DateTime(2024, 12, 16, 8, 58, 52),
-                    EndTime = new DateTime(2024, 12, 16, 12, 0, 44)
+                    EndTime = new DateTime(2024, 12, 16, 12, 0, 44),
                 }
             );
 
@@ -1314,6 +1314,7 @@ namespace bumbo.Data
                 .HasOne<Employee>()
                 .WithMany(e => e.RegisteredHours)
                 .HasForeignKey(rh => rh.EmployeeBID)
+                .HasPrincipalKey(e => e.BID)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Employee>()

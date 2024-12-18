@@ -11,11 +11,13 @@ namespace bumbo.Controllers
     public class EmployeeScheduleController : Controller
     {
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IRegisteredHoursRepository _registeredHoursRepository;
         private readonly UserManager<Employee> _userManager;
 
-        public EmployeeScheduleController(IScheduleRepository scheduleRepository, UserManager<Employee> userManager)
+        public EmployeeScheduleController(IScheduleRepository scheduleRepository, IRegisteredHoursRepository registeredHoursRepository, UserManager<Employee> userManager)
         {
             _scheduleRepository = scheduleRepository;
+            _registeredHoursRepository = registeredHoursRepository;
             _userManager = userManager;
 
         }
@@ -106,21 +108,6 @@ namespace bumbo.Controllers
             
             List<Schedule> thisWeekWeekSchedule = _scheduleRepository.GetWeekScheduleForEmployee(user.Id, firstDayThisWeek, lastDayThisWeek);
 
-            DateTime date;
-            
-            if (year <= 0 || month <= 0)
-            {
-                date = today;
-            }
-            else
-            {
-                date = new DateTime(year, month, 1);
-            }
-            DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddSeconds(-1);
-
-            List<Schedule> registeredHoursInMonthSchedule = _scheduleRepository.GetRegisteredHoursInMonthScheduleForEmployee(user.Id, firstDayOfMonth, lastDayOfMonth);
-
             if (thisWeekWeekSchedule.Count == 0)
             {
                 thisWeekWeekSchedule.Add(new Schedule()
@@ -134,6 +121,22 @@ namespace bumbo.Controllers
                 });
             }
 
+            DateTime date;
+            
+            if (year <= 0 || month <= 0)
+            {
+                date = today;
+            }
+            else
+            {
+                date = new DateTime(year, month, 1);
+            }
+            DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddSeconds(-1);
+
+            List<Schedule> registeredHoursInMonthPlanned = _scheduleRepository.GetRegisteredHoursInMonthScheduleForEmployee(user.Id, firstDayOfMonth, lastDayOfMonth);
+            List<RegisteredHours> registeredHoursInMonthSchedule = _registeredHoursRepository.GetRegisteredHoursFromEmployee(user.Id);
+
             EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
             {
                 HasStarted = false,
@@ -145,6 +148,7 @@ namespace bumbo.Controllers
                 Year = date.Year,
                 Month = date.Month,
                 MonthName = GetMonthNameByDate(date),
+                RegisteredHoursPlanned = registeredHoursInMonthPlanned,
                 RegisteredHoursSchedule = registeredHoursInMonthSchedule,
             };
 

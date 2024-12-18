@@ -93,16 +93,32 @@
                 </button>
             </div>
             <div class="mt-2">
-                @if (Model.RegisteredHoursSchedule.Count == 0)
+                @if (Model.RegisteredHoursPlanned.Count == 0)
                 {
                     <p class="text-center font-semibold">Deze maand heeft geen diensten</p>
                 }
-                @foreach (Schedule schedule in Model.RegisteredHoursSchedule)
+                @foreach (Schedule schedule in Model.RegisteredHoursPlanned)
                 {
                     <div class="border-b-gray-200 p-3 mt-2 flex justify-between rounded-xl border-b-2">
                         <p class="text-sm font-bold">@schedule.Date.DayOfWeek @schedule.Date.Day</p>
                         <div>
-                            <p class="text-sm font-semibold">Geklokte tijd: --:--</p>
+                            @{
+                                int i = 0;
+                                foreach (RegisteredHours hour in Model.RegisteredHoursSchedule)
+                                {
+                                    if (hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Day == schedule.Date.Day)
+                                    {
+                                        <p class="text-sm font-semibold">Geklokte tijd: @hour.StartTime.Hour:@hour.StartTime.Minute - @hour.EndTime.Hour:@hour.EndTime.Minute</p>
+                                        i++;
+                                        break;
+                                    }
+                                }
+                                if (i == 0)
+                                {
+                                    <p class="text-sm font-semibold">Geklokte tijd: --:--</p>
+                                }
+                            }
+                            
                             <p class="text-gray-500 text-sm">Geplande tijd: @schedule.StartTime - @schedule.EndTime</p>
                         </div>
                     </div>

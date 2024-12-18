@@ -13,6 +13,7 @@ namespace bumbo.ViewModels
         public int Year { get; set; }
         public int Month { get; set; }
         public string MonthName { get; set; }
-        public List<Schedule> RegisteredHoursSchedule { get; set; }
+        public List<Schedule> RegisteredHoursPlanned { get; set; }
+        public List<RegisteredHours> RegisteredHoursSchedule { get; set; }
     }
 }
