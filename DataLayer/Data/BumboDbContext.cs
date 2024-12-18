@@ -1302,6 +1302,12 @@ namespace bumbo.Data
                 .HasForeignKey(rh => rh.EmployeeId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<RegisteredHours>()
+                .HasOne<Branch>()
+                .WithMany(e => e.RegisteredHours)
+                .HasForeignKey(rh => rh.BranchId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<Employee>()
                 .HasIndex(e => e.BID)
                 .IsUnique();

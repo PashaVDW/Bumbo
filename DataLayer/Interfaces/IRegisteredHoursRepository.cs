@@ -11,6 +11,6 @@ namespace DataLayer.Interfaces
     {
         void AddShift(RegisteredHours newShift);
         bool ClockOut(string employeeId, DateTime endTime);
-        bool IsClockedIn(string employeeId);
+        DateTime? GetClockedInTime(string employeeId);
     }
 }

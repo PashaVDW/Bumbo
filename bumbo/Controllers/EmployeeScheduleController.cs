@@ -154,7 +154,7 @@ namespace bumbo.Controllers
 
             EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
             {
-                HasStarted = _registeredHoursRepository.IsClockedIn(employeeId),
+                ClockedInTime = _registeredHoursRepository.GetClockedInTime(employeeId),
                 Today = today,
                 DayName = GetDayNameByDate(today),
                 WeekSchedule = thisWeekWeekSchedule,
@@ -273,13 +273,17 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            string employeeId = currentUser.Id;
-
             DateTime time = DateTime.Now;
+
+            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(currentUser.Id);
+
+            BranchHasEmployee branchHasEmployee = branches.FirstOrDefault();
 
             RegisteredHours newShift = new RegisteredHours()
             {
-                EmployeeId = employeeId,
+                EmployeeId = currentUser.Id,
+                EmployeeBID = currentUser.BID,
+                BranchId = branchHasEmployee.BranchId,
                 StartTime = time,
             };
 

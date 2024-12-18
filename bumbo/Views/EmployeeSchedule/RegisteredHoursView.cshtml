@@ -10,12 +10,12 @@
                 <p class="font-semibold">Vandaag</p>
                 <p class="font-semibold">@Model.DayName[0]@Model.DayName[1] @Model.Today.Day</p>
             </div>
-            @if (Model.HasStarted)
+            @if (Model.ClockedInTime.HasValue)
             {
                 <div class="bg-gray-200 rounded-xl">
                     <div class="p-4 flex justify-between">
-                        <p class="text-sm font-bold">Tijd aan het werk:</p>
-                        <p class="font-bold">(tijd bezig*)</p>
+                        <p class="text-sm font-bold">Aan het werk sinds:</p>
+                        <p class="font-bold"> @Model.ClockedInTime.Value.ToString("HH:mm:ss")</p>
                     </div>
                     <div class="bg-zinc-300 rounded-xl">
                         <div class="p-4">

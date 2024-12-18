@@ -9,9 +9,13 @@ namespace DataLayer.Models
 {
     public class RegisteredHours
     {
-        public int RegistrationNumber { get; set; }
-        public string EmployeeId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
+        public int BranchId { get; set; }
+        public int RegistrationNumber { get; set; }
+        [Required]
+        public string EmployeeBID { get; set; }
+        [Required]
+        public string EmployeeId { get; set; }
     }
 }

@@ -4,7 +4,7 @@ namespace bumbo.ViewModels
 {
     public class EmployeeRegisterHoursViewModel
     {
-        public bool HasStarted { get; set; }
+        public DateTime? ClockedInTime { get; set; }
         public DateTime Today { get; set; }
         public string DayName { get; set; }
         public Schedule FirstShift { get; set; }

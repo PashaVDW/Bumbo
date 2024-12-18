@@ -46,5 +46,17 @@ namespace DataLayer.Repositories
             return true;
         }
 
+        public DateTime? GetClockedInTime(string employeeId)
+        {
+            var activeShift = _context.RegisteredHours
+                .FirstOrDefault(rh => rh.EmployeeId == employeeId && rh.EndTime == null);
+
+            if (activeShift == null)
+            {
+                return null;
+            };
+
+            return activeShift.StartTime;
+        }
     }
 }
