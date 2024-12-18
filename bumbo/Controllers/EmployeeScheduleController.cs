@@ -106,7 +106,7 @@ namespace bumbo.Controllers
             DateTime firstDayThisWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Monday);
             DateTime lastDayThisWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Sunday);
             
-            List<Schedule> thisWeekWeekSchedule = _scheduleRepository.GetWeekScheduleForEmployee(user.Id, firstDayThisWeek, lastDayThisWeek);
+            List<Schedule> thisWeekWeekSchedule = _scheduleRepository.GetWeekScheduleForEmployee(user.Id, firstDayThisWeek, lastDayThisWeek).Where(s => s.Date >= DateOnly.FromDateTime(today)).ToList();
 
             if (thisWeekWeekSchedule.Count == 0)
             {
