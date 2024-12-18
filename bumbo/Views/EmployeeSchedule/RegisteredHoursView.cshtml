@@ -50,7 +50,7 @@
                             <div class="mt-8 gap-3 flex justify-end">
                                 <div>
                                     <p class="text-xs">Begintijd nu:</p>
-                                    <p class="font-semibold">@Model.Today.Hour:@Model.Today.Minute:@Model.Today.Second</p>
+                                    <p class="font-semibold">@Model.Today.Hour:@Model.Today.Minute.ToString("D2"):@Model.Today.Second.ToString("D2")</p>
                                 </div>
                                 <default-button button-text="Inklokken" button-type="primary"></default-button>
                             </div>
@@ -108,7 +108,7 @@
                                 {
                                     if (hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Day == schedule.Date.Day)
                                     {
-                                        <p class="text-sm font-semibold">Geklokte tijd: @hour.StartTime.Hour:@hour.StartTime.Minute - @hour.EndTime.Hour:@hour.EndTime.Minute</p>
+                                        <p class="text-sm font-semibold">Geklokte tijd: @hour.StartTime.Hour:@hour.StartTime.Minute.ToString("D2") - @hour.EndTime.Hour:@hour.EndTime.Minute.ToString("D2")</p>
                                         i++;
                                         break;
                                     }
