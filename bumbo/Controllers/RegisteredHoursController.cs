@@ -55,6 +55,13 @@ namespace bumbo.Controllers
                 }
             }
 
+            DrawPDF(registeredHours);
+
+            return View();
+        }
+
+        private void DrawPDF(List<RegisteredHours> registeredHours)
+        {
             Document document = new Document();
 
             Page page = new Page(PageSize.Letter, PageOrientation.Portrait, 54.0f);
@@ -65,8 +72,6 @@ namespace bumbo.Controllers
             page.Elements.Add(label);
 
             document.Draw(@"Views/RegisteredHours/EmployeesHoursOverview.pdf");
-
-            return View();
         }
     }
 }
