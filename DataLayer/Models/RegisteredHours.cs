@@ -18,7 +18,7 @@ namespace DataLayer.Models
         [Required]
         public string EmployeeId { get; set; }
 
-        public Employee Employee { get; set; }
+        //public Employee Employee { get; set; }
 
     }
 }
