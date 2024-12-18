@@ -1,4 +1,6 @@
 ﻿@using DataLayer.Models
+@using System.Globalization
+
 @model EmployeeRegisterHoursViewModel
 
 <div class="p-3 md:p-12">
@@ -65,7 +67,9 @@
                     @foreach (Schedule schedule in Model.WeekSchedule)
                     {
                         <div class="border-gray-200 p-3 mt-2 flex justify-between rounded-xl border-2">
-                            <p class="text-sm font-bold">@schedule.Date.DayOfWeek @schedule.Date.Day</p>
+                            <p class="text-sm font-bold">
+                                @schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).First().ToString().ToUpper()@schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).Substring(1)
+                                @schedule.Date.Day</p>
                             <p class="text-sm">@schedule.DepartmentName</p>
                             <p class="text-sm">@schedule.StartTime - @schedule.EndTime</p>
                         </div>
@@ -100,7 +104,10 @@
                 @foreach (Schedule schedule in Model.RegisteredHoursPlanned)
                 {
                     <div class="border-b-gray-200 p-3 mt-2 flex justify-between rounded-xl border-b-2">
-                        <p class="text-sm font-bold">@schedule.Date.DayOfWeek @schedule.Date.Day</p>
+                        <p class="text-sm font-bold">
+                            @schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).First().ToString().ToUpper()@schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).Substring(1)
+                            @schedule.Date.Day
+                        </p>
                         <div>
                             @{
                                 int i = 0;
