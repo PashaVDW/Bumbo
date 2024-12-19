@@ -39,24 +39,24 @@
             {
                 <div class="bg-zinc-300 rounded-xl">
                     <div class="p-4">
-                        @if (string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
-                        {
-                            <p>Je hebt geen shifts (meer) deze week</p>
-                        } 
-                        else 
-                        {
-                            <div>
-                                <p>@Model.FirstShift.DepartmentName</p>
+                        <div>
+                            <p>@Model.FirstShift.DepartmentName</p>
+                            @if (string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
+                            {
+                                <p class="text-gray-500 text-sm">Geplande tijd: --:--</p>
+                            } 
+                            else
+                            {
                                 <p class="text-gray-500 text-sm">Geplande tijd: @Model.FirstShift.StartTime - @Model.FirstShift.EndTime</p>
+                            }
+                        </div>
+                        <div class="mt-8 gap-3 flex justify-end">
+                            <div>
+                                <p class="text-xs">Begintijd nu:</p>
+                                <p class="font-semibold">@Model.Today.Hour:@Model.Today.Minute.ToString("D2"):@Model.Today.Second.ToString("D2")</p>
                             </div>
-                            <div class="mt-8 gap-3 flex justify-end">
-                                <div>
-                                    <p class="text-xs">Begintijd nu:</p>
-                                    <p class="font-semibold">@Model.Today.Hour:@Model.Today.Minute.ToString("D2"):@Model.Today.Second.ToString("D2")</p>
-                                </div>
-                                <default-button button-text="Inklokken" button-type="primary"></default-button>
-                            </div>
-                        }
+                            <default-button button-text="Inklokken" button-type="primary"></default-button>
+                        </div>
                     </div>
                 </div>
             }
@@ -74,6 +74,10 @@
                             <p class="text-sm">@schedule.StartTime - @schedule.EndTime</p>
                         </div>
                     }
+                }
+                @if (string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
+                {
+                    <p>Je hebt geen shifts (meer) deze week</p>
                 }
             </div>
         </div>
