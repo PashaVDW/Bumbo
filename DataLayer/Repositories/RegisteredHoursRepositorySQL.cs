@@ -22,7 +22,7 @@ namespace DataLayer.Repositories
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
             return _context.RegisteredHours.Where(r => r.EmployeeId.Equals(employeeId) 
                                                         && r.StartTime.Month == today.Month
-                                                        && r.EndTime.Month == today.Month).ToList();
+                                                        && r.EndTime.Value.Month == today.Month).ToList();
         }
 
         public void AddShift(RegisteredHours newShift)

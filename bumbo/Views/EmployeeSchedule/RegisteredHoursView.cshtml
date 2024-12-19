@@ -31,7 +31,7 @@
                                     <p id="current-time" class="font-semibold"></p>
                                 </div>
                                 <form method="post" asp-action="ClockOut">
-                                    <input type="hidden" name="week" value="@Model.Week" />
+                                    <input type="hidden" name="month" value="@Model.Month" />
                                     <input type="hidden" name="year" value="@Model.Year" />
                                     <default-button button-type="primary" button-text="Uitklokken"></default-button>
                                 </form>
@@ -66,12 +66,12 @@
                                     <p id="current-time" class="font-semibold"></p>
                                 </div>
                                 <form method="post" asp-action="ClockIn">
-                                    <input type="hidden" name="week" value="@Model.Week" />
+                                    <input type="hidden" name="month" value="@Model.Month" />
                                     <input type="hidden" name="year" value="@Model.Year" />
                                     <default-button button-type="primary" button-text="Inklokken"></default-button>
                                 </form>
                             </div>
-                        }
+                        </div>
                     </div>
                 </div>
             }
@@ -132,9 +132,9 @@
                                 int i = 0;
                                 foreach (RegisteredHours hour in Model.RegisteredHoursSchedule)
                                 {
-                                    if (hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Day == schedule.Date.Day)
+                                    if (hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Value.Day == schedule.Date.Day)
                                     {
-                                        <p class="text-sm font-semibold">Geklokte tijd: @hour.StartTime.Hour:@hour.StartTime.Minute.ToString("D2") - @hour.EndTime.Hour:@hour.EndTime.Minute.ToString("D2")</p>
+                                        <p class="text-sm font-semibold">Geklokte tijd: @hour.StartTime.Hour:@hour.StartTime.Minute.ToString("D2") - @hour.EndTime.Value.Hour:@hour.EndTime.Value.Minute.ToString("D2")</p>
                                         i++;
                                         break;
                                     }
