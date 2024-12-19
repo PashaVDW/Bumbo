@@ -1,4 +1,5 @@
-﻿using bumbo.ViewModels;
+﻿using bumbo.Models;
+using bumbo.ViewModels;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
@@ -12,12 +13,14 @@ namespace bumbo.Controllers
     {
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IRegisteredHoursRepository _registeredHoursRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
         private readonly UserManager<Employee> _userManager;
 
-        public EmployeeScheduleController(IScheduleRepository scheduleRepository, IRegisteredHoursRepository registeredHoursRepository, UserManager<Employee> userManager)
+        public EmployeeScheduleController(IScheduleRepository scheduleRepository, IRegisteredHoursRepository registeredHoursRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, UserManager<Employee> userManager)
         {
             _scheduleRepository = scheduleRepository;
             _registeredHoursRepository = registeredHoursRepository;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
             _userManager = userManager;
 
         }
@@ -102,6 +105,8 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
+            string employeeId = user.Id;
+
             DateTime today = DateTime.Now;
             DateTime firstDayThisWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Monday);
             DateTime lastDayThisWeek = ISOWeek.ToDateTime(today.Year, today.GetWeekOfYear(), DayOfWeek.Sunday);
@@ -139,7 +144,7 @@ namespace bumbo.Controllers
 
             EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
             {
-                HasStarted = false,
+                ClockedInTime = _registeredHoursRepository.GetClockedInTime(employeeId),
                 Today = today,
                 DayName = GetDayNameByDate(today),
                 WeekSchedule = thisWeekWeekSchedule,
@@ -249,6 +254,50 @@ namespace bumbo.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> ClockIn(int week, int year)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            DateTime time = DateTime.Now;
+
+            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(currentUser.Id);
+
+            BranchHasEmployee branchHasEmployee = branches.FirstOrDefault();
+
+            RegisteredHours newShift = new RegisteredHours()
+            {
+                EmployeeId = currentUser.Id,
+                EmployeeBID = currentUser.BID,
+                BranchId = branchHasEmployee.BranchId,
+                StartTime = time,
+            };
+
+            _registeredHoursRepository.AddShift(newShift);
+
+            return RedirectToAction("RegisteredHoursView", new { year, week });
+        }
+        
+        public async Task<IActionResult> ClockOut(int week, int year)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            string employeeId = currentUser.Id;
+
+            DateTime time = DateTime.Now;
+
+            _registeredHoursRepository.ClockOut(employeeId, time);
+
+            return RedirectToAction("RegisteredHoursView", new { year, week });
         }
 
         private void SetUpToast(string toastId)

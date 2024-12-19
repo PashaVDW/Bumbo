@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using bumbo.Models;
 using DataLayer.Models;
 using System.Reflection.Emit;
+using System.Xml;
 
 namespace bumbo.Data
 {
@@ -1324,13 +1325,24 @@ namespace bumbo.Data
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
 
             modelBuilder.Entity<RegisteredHours>()
-                .HasKey(rh => new { rh.EmployeeBID, rh.StartTime });
+                .HasKey(rh => new { rh.EmployeeId, rh.RegistrationNumber });
+
+            modelBuilder.Entity<RegisteredHours>()
+                .Property(e => e.RegistrationNumber)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<RegisteredHours>()
                 .HasOne<Employee>()
                 .WithMany(e => e.RegisteredHours)
                 .HasForeignKey(rh => rh.EmployeeBID)
                 .HasPrincipalKey(e => e.BID)
+                .HasForeignKey(rh => rh.EmployeeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<RegisteredHours>()
+                .HasOne<Branch>()
+                .WithMany(e => e.RegisteredHours)
+                .HasForeignKey(rh => rh.BranchId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Employee>()

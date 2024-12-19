@@ -12,30 +12,35 @@
                 <p class="font-semibold">Vandaag</p>
                 <p class="font-semibold">@Model.DayName[0]@Model.DayName[1] @Model.Today.Day</p>
             </div>
-            @if(Model.HasStarted)
+            @if (Model.ClockedInTime.HasValue)
             {
                 <div class="bg-gray-200 rounded-xl">
                     <div class="p-4 flex justify-between">
-                        <p class="text-sm font-bold">Tijd aan het werk:</p>
-                        <p class="font-bold">[1:01:10]</p>
+                        <p class="text-sm font-bold">Aan het werk sinds:</p>
+                        <p class="font-bold"> @Model.ClockedInTime.Value.ToString("HH:mm:ss")</p>
                     </div>
                     <div class="bg-zinc-300 rounded-xl">
                         <div class="p-4">
                             <div>
-                                <p>[Vakkenvullen]</p>
-                                <p class="text-gray-500 text-sm">Geplande tijd: [11:00 - 15:00]</p>
+                                <p>(Dept)</p>
+                                <p class="text-gray-500 text-sm">Geplande tijd: (tijd)</p>
                             </div>
                             <div class="mt-8 gap-3 flex justify-end">
                                 <div>
-                                    <p class="text-xs">Begintijd nu:</p>
-                                    <p class="font-semibold">[11:01:26]</p>
+                                    <p class="text-xs">eindtijd:</p>
+                                    <p id="current-time" class="font-semibold"></p>
                                 </div>
-                                <default-button button-text="Uitklokken" button-type="secondary"></default-button>
+                                <form method="post" asp-action="ClockOut">
+                                    <input type="hidden" name="week" value="@Model.Week" />
+                                    <input type="hidden" name="year" value="@Model.Year" />
+                                    <default-button button-type="primary" button-text="Uitklokken"></default-button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            } else
+            }
+            else
             {
                 <div class="bg-zinc-300 rounded-xl">
                     <div class="p-4">
@@ -55,12 +60,22 @@
                                 <p class="text-xs">Begintijd nu:</p>
                                 <p class="font-semibold">@Model.Today.Hour:@Model.Today.Minute.ToString("D2"):@Model.Today.Second.ToString("D2")</p>
                             </div>
-                            <default-button button-text="Inklokken" button-type="primary"></default-button>
-                        </div>
+                            <div class="mt-8 gap-3 flex justify-end">
+                                <div>
+                                    <p class="text-xs">Begintijd:</p>
+                                    <p id="current-time" class="font-semibold"></p>
+                                </div>
+                                <form method="post" asp-action="ClockIn">
+                                    <input type="hidden" name="week" value="@Model.Week" />
+                                    <input type="hidden" name="year" value="@Model.Year" />
+                                    <default-button button-type="primary" button-text="Inklokken"></default-button>
+                                </form>
+                            </div>
+                        }
                     </div>
                 </div>
             }
-        
+
             <div class="mx-2 my-3">
                 @if (!string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
                 {
@@ -138,3 +153,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateTime() {
+        const now = new Date();
+        document.getElementById('current-time').textContent = now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+</script>
