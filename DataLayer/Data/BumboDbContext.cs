@@ -1293,6 +1293,7 @@ namespace bumbo.Data
                     StartTime = new DateTime(2024, 12, 5, 8, 1, 12),
                     EndTime = new DateTime(2024, 12, 5, 14, 2, 27),
                     BranchId = 1,
+                    IsDefenitive = true,
                 },
                 new RegisteredHours()
                 {
@@ -1302,6 +1303,7 @@ namespace bumbo.Data
                     StartTime = new DateTime(2024, 12, 16, 8, 58, 52),
                     EndTime = new DateTime(2024, 12, 16, 12, 0, 44),
                     BranchId = 1,
+                    IsDefenitive = true,
                 },
                 new RegisteredHours()
                 {
@@ -1311,6 +1313,7 @@ namespace bumbo.Data
                     StartTime = new DateTime(2024, 12, 17, 13, 2, 42),
                     EndTime = new DateTime(2024, 12, 17, 17, 1, 25),
                     BranchId = 1,
+                    IsDefenitive = true,
                 },
                 new RegisteredHours()
                 {
@@ -1320,6 +1323,7 @@ namespace bumbo.Data
                     StartTime = new DateTime(2024, 12, 24, 7, 59, 33),
                     EndTime = new DateTime(2024, 12, 24, 16, 1, 26),
                     BranchId = 1,
+                    IsDefenitive = true,
                 }
             );
 

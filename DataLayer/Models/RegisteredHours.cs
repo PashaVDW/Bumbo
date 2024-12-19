@@ -17,5 +17,6 @@ namespace DataLayer.Models
         public string EmployeeBID { get; set; }
         [Required]
         public string EmployeeId { get; set; }
+        public bool IsDefenitive { get; set; }
     }
 }
