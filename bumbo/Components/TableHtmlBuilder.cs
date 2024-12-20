@@ -27,13 +27,19 @@
                                    "<div class='flex justify-between items-center mb-4'>" +
                                    "<h2 class='mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900'>" + title + "</h2>" +
                                    "<form method='get' class='flex items-center space-x-4'>" +
-                                   "<input type='text' name='searchTerm' value='" + searchTerm + "' placeholder='Zoek naar " + title.ToLower() + "' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />" +
-                                   "<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>" +
-                                   "</form>" +
-                                   "<button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>" +
-                                   "</div>"
-                                   );
-            htmlBuilder.AppendLine("<div class='w-full p-6'>");
+                                   "<input id='searchInput' type='text' name='searchTerm' value='" + searchTerm + "' placeholder='Zoek naar " + title.ToLower() + "' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />");
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                htmlBuilder.AppendLine("<button onclick =\"document.getElementById('searchInput').value = ''\" type='submit' class='bg-gray-100 text-gray-500 py-2 px-6 rounded-full hover:bg-gray-300'><i class=\"fa-sharp fa-regular fa-x\"></i></button>");
+                htmlBuilder.AppendLine("<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>");
+            }
+            else
+            {
+                htmlBuilder.AppendLine("<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>"
+                                                   );
+            }
+            htmlBuilder.AppendLine("</form><button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>");
+            htmlBuilder.AppendLine("</div><div class='w-full p-6'>");
             htmlBuilder.AppendLine("<div class='overflow-x-auto w-full'>");
             htmlBuilder.AppendLine("<table class='min-w-full table-auto border-collapse'>");
 

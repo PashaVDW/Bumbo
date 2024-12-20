@@ -66,7 +66,7 @@ public class NormsController : Controller
         var tableBuilder = new TableHtmlBuilder<ReadNormViewModel>();
         var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, list, "/Norms/Create/", item =>
 {
-            return $@"
+    return $@"
                     <td class='py-2 px-4'>{item.Year}</td>
                     <td class='py-2 px-4'>{item.Week}</td>
                     <td class='py-2 px-4'>{item.UnloadColis} minuten</td>
@@ -77,7 +77,7 @@ public class NormsController : Controller
                     <td class='py-2 px-4 text-right'>
                     <button onclick = ""window.location.href='../Norms/Update?NormId={item.NormId}'"">✏️</button> 
                     </td>";
-        }, searchTerm, page);
+}, searchTerm, page);
 
 
         ViewBag.HtmlTable = htmlTable;
@@ -121,7 +121,11 @@ public class NormsController : Controller
                 TempData["AutoHide"] = "no";
             }
         }
-
+        var currentNorms = await _normsRepository.GetNorms();
+        viewModel.ExistingNormsWeeks = currentNorms
+            .Where(n => n.branchId == user.ManagerOfBranchId)
+            .Select(n => n.week)
+            .ToList();
         ViewData["ViewModel"] = viewModel;
 
         if (user == null || user.ManagerOfBranchId == null)
@@ -149,8 +153,8 @@ public class NormsController : Controller
 
         AddNormViewModel viewModel = new AddNormViewModel();
 
-        viewModel.UnloadColis = norms.ToList()[0].normInSeconds/60;
-        viewModel.FillShelves = norms.ToList()[1].normInSeconds/60;
+        viewModel.UnloadColis = norms.ToList()[0].normInSeconds / 60;
+        viewModel.FillShelves = norms.ToList()[1].normInSeconds / 60;
         viewModel.Cashier = norms.ToList()[2].normInSeconds;
         viewModel.Fresh = norms.ToList()[3].normInSeconds;
         viewModel.Fronting = norms.ToList()[4].normInSeconds;
@@ -189,8 +193,8 @@ public class NormsController : Controller
         viewModel.BranchId = user.ManagerOfBranchId.Value;
         viewModel.Week = selectedNorms[0].week;
         viewModel.Year = selectedNorms[0].year;
-        viewModel.UnloadColis = selectedNorms[0].normInSeconds/60;
-        viewModel.FillShelves = selectedNorms[1].normInSeconds/60;
+        viewModel.UnloadColis = selectedNorms[0].normInSeconds / 60;
+        viewModel.FillShelves = selectedNorms[1].normInSeconds / 60;
         viewModel.Cashier = selectedNorms[2].normInSeconds;
         viewModel.Fresh = selectedNorms[3].normInSeconds;
         viewModel.Fronting = selectedNorms[4].normInSeconds;
@@ -256,7 +260,7 @@ public class NormsController : Controller
             // checks if there are already norms for the selected week. If so, insertion will be interupted to avoid an error
             if (normsCheck.Count > 0)
             {
-                TempData["ToastMessage"] = "Normering toevoegen mislukt. Er is al een normering voor deze week."; 
+                TempData["ToastMessage"] = "Normering toevoegen mislukt. Er is al een normering voor deze week.";
                 TempData["ToastType"] = "error";
 
                 TempData["ToastId"] = "insertNormToast";
@@ -265,7 +269,7 @@ public class NormsController : Controller
                 return RedirectToAction("Create");
             }
             else if (norms[0].normInSeconds < 0 || norms[1].normInSeconds < 0 || norms[2].normInSeconds < 0
-                    || norms[3].normInSeconds < 0 || norms[4].normInSeconds < 0) 
+                    || norms[3].normInSeconds < 0 || norms[4].normInSeconds < 0)
             {
                 TempData["ToastMessage"] = "Normering toevoegen mislukt. Er kunnen geen negatieve getallen worden toegevoegd.";
                 TempData["ToastType"] = "error";
@@ -282,8 +286,8 @@ public class NormsController : Controller
                 TempData["ToastMessage"] = "Normering successvol toegevoegd!";
                 TempData["ToastType"] = "success";
 
-                TempData["ToastId"] = "insertNormToast"; 
-                TempData["AutoHide"] = "yes"; 
+                TempData["ToastId"] = "insertNormToast";
+                TempData["AutoHide"] = "yes";
                 TempData["MilSecHide"] = 3000;
 
                 return RedirectToAction("Index");
@@ -307,7 +311,7 @@ public class NormsController : Controller
 
         try
         {
-            if (viewModel.UnloadColis < 0 ||viewModel.FillShelves < 0 || viewModel.Cashier < 0
+            if (viewModel.UnloadColis < 0 || viewModel.FillShelves < 0 || viewModel.Cashier < 0
                     || viewModel.Fresh < 0 || viewModel.Fronting < 0)
             {
                 TempData["ToastMessage"] = "Normering updaten mislukt. Een waarde kan niet worden aangepast naar een negatieve waarde.";
@@ -361,7 +365,7 @@ public class NormsController : Controller
 
                 return RedirectToAction("Index");
             }
-            
+
         }
         catch (Exception ex)
         {

@@ -11,5 +11,6 @@ namespace bumbo.Models.ViewModels.Norms
         public int Cashier { get; set; }
         public int Fresh { get; set; }
         public int Fronting { get; set; }
+        public List<int>? ExistingNormsWeeks { get; set; }
     }
 }

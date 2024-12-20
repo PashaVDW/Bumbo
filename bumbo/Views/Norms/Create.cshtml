@@ -42,9 +42,13 @@
                 <label for="week">Kies een week</label>
                 <select class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight" id="week" name="@nameof(AddNormViewModel.Week)">
                     @{
+
                         for (int i = 1; i < 53; i++)
                         {
-                            <option value="@i">Week @i</option>
+                            if (!ViewModel.ExistingNormsWeeks.Any(n => n == i))
+                            {
+                                <option value="@i">Week @i</option>
+                            }
                         }
                     }
                 </select>
