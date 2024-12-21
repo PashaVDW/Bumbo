@@ -32,7 +32,7 @@ namespace bumbo.Controllers
         [HttpGet("RegisteredHoursPDF")]
         public IActionResult RegisteredHoursPDF()
         {
-            string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Views", "RegisteredHours", "EmployeesHoursOverview.pdf");
+            string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Views", "PDF", "EmployeesHoursOverview.pdf");
             var contentType = "application/pdf";
 
             return PhysicalFile(filePath, contentType);
@@ -63,10 +63,13 @@ namespace bumbo.Controllers
             document.Pages.Add(page);
 
             string labelText = $"{registeredHours}";
+            string labelTextTwo = $"Hier kan je de informatie neerzetten van de geregistreerde uren.";
             Label label = new Label(labelText, 0, 0, 504, 100, Font.Helvetica, 18, TextAlign.Center);
+            Label labelTwo = new Label(labelTextTwo, 0, label.Y + label.Height, 504, 100, Font.Helvetica, 18, TextAlign.Center);
             page.Elements.Add(label);
+            page.Elements.Add(labelTwo);
 
-            document.Draw(@"Views/RegisteredHours/EmployeesHoursOverview.pdf");
+            document.Draw(@"Views/PDF/EmployeesHoursOverview.pdf");
         }
     }
 }
