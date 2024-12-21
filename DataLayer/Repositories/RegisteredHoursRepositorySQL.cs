@@ -21,6 +21,7 @@ namespace DataLayer.Repositories
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
             return _context.RegisteredHours.Where(r => r.EmployeeId.Equals(employeeId) 
+                                                        && r.EndTime != null
                                                         && r.StartTime.Month == today.Month
                                                         && r.EndTime.Value.Month == today.Month).ToList();
         }

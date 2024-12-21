@@ -140,7 +140,34 @@ namespace bumbo.Controllers
             DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddSeconds(-1);
 
             List<Schedule> registeredHoursInMonthPlanned = _scheduleRepository.GetRegisteredHoursInMonthScheduleForEmployee(user.Id, firstDayOfMonth, lastDayOfMonth);
-            List<RegisteredHours> registeredHoursInMonthSchedule = _registeredHoursRepository.GetRegisteredHoursFromEmployee(user.Id);
+            List<RegisteredHours> registeredHoursInMonthSchedule = _registeredHoursRepository.GetRegisteredHoursFromEmployee(user.Id).Where(r => r.EndTime.Value.Date < today).ToList();
+
+            List<RegisteredHours> tempHours = new List<RegisteredHours>();
+            List<RegisteredHours> extraRegisteredHoursInMonthSchedule = new List<RegisteredHours>();
+
+            foreach (Schedule schedule in registeredHoursInMonthPlanned)
+            {
+                foreach (RegisteredHours hour in registeredHoursInMonthSchedule)
+                {
+                    if (!tempHours.Contains(hour) && hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Value.Day == schedule.Date.Day)
+                    {
+                        tempHours.Add(hour);
+                    }
+                }
+            }
+
+            foreach (RegisteredHours hour in registeredHoursInMonthSchedule)
+            {
+                foreach (Schedule schedule in registeredHoursInMonthPlanned)
+                {
+                    if (!tempHours.Contains(hour) 
+                        && !extraRegisteredHoursInMonthSchedule.Contains(hour)
+                        && !(hour.StartTime.Day == schedule.Date.Day))
+                    {
+                        extraRegisteredHoursInMonthSchedule.Add(hour);
+                    }
+                }
+            }
 
             EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
             {
@@ -155,6 +182,7 @@ namespace bumbo.Controllers
                 MonthName = GetMonthNameByDate(date),
                 RegisteredHoursPlanned = registeredHoursInMonthPlanned,
                 RegisteredHoursSchedule = registeredHoursInMonthSchedule,
+                ExtraRegisteredHoursSchedule = extraRegisteredHoursInMonthSchedule,
             };
 
             return View(viewModel);
