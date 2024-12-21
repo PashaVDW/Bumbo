@@ -32,9 +32,17 @@
         <main role="main">
             @RenderBody()
         </main>
+    @if (IsSectionDefined("Footer"))
+    {
+        @RenderSection("Footer", required: false)
+    }
+    else
+    {
         <footer class="mt-[47px]">
-
+            
         </footer>
+    }
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

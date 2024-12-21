@@ -29,12 +29,6 @@ namespace bumbo.Controllers
             return View();
         }
 
-        public IActionResult Download()
-        {
-
-            return View();
-        }
-
         [HttpGet("GetPDF")]
         public IActionResult GetPDF()
         {
@@ -56,6 +50,7 @@ namespace bumbo.Controllers
             }
 
             DrawPDF(registeredHours);
+            ViewData["HideLayoutElements"] = true;
 
             return View();
         }
