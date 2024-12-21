@@ -62,14 +62,29 @@ namespace bumbo.Controllers
             Page page = new Page(PageSize.Letter, PageOrientation.Portrait, 54.0f);
             document.Pages.Add(page);
 
-            string labelText = $"{registeredHours}";
-            string labelTextTwo = $"Hier kan je de informatie neerzetten van de geregistreerde uren.";
-            Label label = new Label(labelText, 0, 0, 504, 100, Font.Helvetica, 18, TextAlign.Center);
-            Label labelTwo = new Label(labelTextTwo, 0, label.Y + label.Height, 504, 100, Font.Helvetica, 18, TextAlign.Center);
-            page.Elements.Add(label);
-            page.Elements.Add(labelTwo);
+            AddText(page, registeredHours);
 
             document.Draw(@"Views/PDF/EmployeesHoursOverview.pdf");
+        }
+
+        private void AddText(Page page, List<RegisteredHours> registeredHours)
+        {
+            int width = 500;
+            int height = 100;
+            int fontSize = 18;
+            int x = 0;
+            int multiplier = 40;
+
+            int y = 0;
+            foreach (RegisteredHours hour in registeredHours)
+            {
+                Employee emp = _employeeRepository.GetEmployeeById(hour.EmployeeId);
+                string text = $"{emp.FirstName} {emp.MiddleName} {emp.LastName}: {hour.StartTime} - {hour.EndTime}";
+                Label label = new Label(text, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Center);
+                page.Elements.Add(label);
+
+                y++;
+            }
         }
     }
 }
