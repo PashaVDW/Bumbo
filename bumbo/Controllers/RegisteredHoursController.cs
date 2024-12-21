@@ -29,8 +29,8 @@ namespace bumbo.Controllers
             return View();
         }
 
-        [HttpGet("GetPDF")]
-        public IActionResult GetPDF()
+        [HttpGet("RegisteredHoursPDF")]
+        public IActionResult RegisteredHoursPDF()
         {
             string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Views", "RegisteredHours", "EmployeesHoursOverview.pdf");
             var contentType = "application/pdf";
