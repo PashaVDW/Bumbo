@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
-using bumbo.Models;  // Ensure the namespace matches your Employee model
-using DataLayer;
+using bumbo.Data;
+using bumbo.Models;
 using DataLayer.Interfaces;
 using DataLayer.Repositories;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using bumbo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddDbContext<BumboDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
 
@@ -21,7 +21,6 @@ builder.Services.AddScoped<IPrognosisHasDaysHasDepartments, PrognosisHasDaysHasD
 builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepositorySql>();
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
 builder.Services.AddScoped<ISchoolScheduleRepository, SchoolScheduleRepositorySql>();
-builder.Services.AddScoped<IDaysRepositorySQL, DaysRepositorySQL>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
@@ -32,6 +31,7 @@ builder.Services.AddScoped<IBranchRequestsEmployeeRepository, BranchRequestsEmpl
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
 builder.Services.AddScoped<ILabourRulesRepository, LabourRulesRepositorySql>();
 builder.Services.AddScoped<ICountryRepository, CountryRepositorySql>();
+builder.Services.AddScoped<IDaysRepositorySQL, DaysRepositorySQL>();
 builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepositorySql>();
 
 builder.Services.AddTransient<IPrognosisCalculator, PrognosisCalculator>();
@@ -40,11 +40,28 @@ builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[] {
+        new CultureInfo("en-US"),
+        new CultureInfo("nl-NL"),
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("nl-NL");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseRequestLocalization();
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -53,16 +70,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Routing for the default pages
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Custom routes for specific pages
 app.MapControllerRoute(
     name: "prognosis",
     pattern: "prognoses",
@@ -72,11 +88,6 @@ app.MapControllerRoute(
     name: "scheduleManager",
     pattern: "roosterManager",
     defaults: new { controller = "ScheduleManager", action = "Index" });
-
-app.MapControllerRoute(
-    name: "forecasts",
-    pattern: "prognoses",
-    defaults: new { controller = "Forecasts", action = "Index" });
 
 app.MapControllerRoute(
     name: "schoolSchedule",
@@ -137,10 +148,5 @@ app.MapControllerRoute(
     name: "availability",
     pattern: "beschikbaarheid",
     defaults: new { controller = "Availability", action = "Index" });
-
-app.MapControllerRoute(
-    name: "shiftSwapChooseEmployee",
-    pattern: "ShiftSwap/ChooseEmployee",
-    defaults: new { controller = "SwapShift", action = "ChooseEmployee" });
 
 app.Run();
