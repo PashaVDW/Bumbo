@@ -101,9 +101,13 @@ namespace bumbo.Controllers
             {
                 var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
                 var messageFirstPart = item.Message;
-                if (messageFirstPart.Length > 20)
+                if (messageFirstPart != null && messageFirstPart.Length > 20)
                 {
                     messageFirstPart = item.Message.Substring(0, 20) + "...";
+                }
+                else
+                {
+                    messageFirstPart = "";
                 }
                 var branch = _branchesRepository.GetBranch(item.RequestToBranchId);
                 return $@"

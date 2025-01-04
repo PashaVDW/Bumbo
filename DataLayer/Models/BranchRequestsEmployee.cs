@@ -6,7 +6,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace bumbo.Models
 {
-    [PrimaryKey(nameof(BranchId), nameof(EmployeeId), nameof(RequestToBranchId))]
+    [PrimaryKey(nameof(BranchId), nameof(EmployeeId), nameof(RequestToBranchId), nameof(DateNeeded))]
     public class BranchRequestsEmployee
     {
         [Required]
