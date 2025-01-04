@@ -41,8 +41,18 @@ namespace bumbo.Controllers
 
         public IActionResult HoursOverview()
         {
-            List<RegisteredHours> registeredHours = new List<RegisteredHours>();
             List<Employee> employees = _employeeRepository.GetAllEmployees();
+            List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees);
+
+            DrawPDF(registeredHours, employees);
+            ViewData["HideLayoutElements"] = true;
+
+            return View();
+        }
+
+        private List<RegisteredHours> FillRegisteredHoursList(List<Employee> employees)
+        {
+            List<RegisteredHours> registeredHours = new List<RegisteredHours>();
             foreach (Employee emp in employees)
             {
                 foreach (RegisteredHours hour in _registeredHoursRepository.GetRegisteredHoursFromEmployee(emp.Id))
@@ -50,11 +60,7 @@ namespace bumbo.Controllers
                     registeredHours.Add(hour);
                 }
             }
-
-            DrawPDF(registeredHours, employees);
-            ViewData["HideLayoutElements"] = true;
-
-            return View();
+            return registeredHours;
         }
 
         private void DrawPDF(List<RegisteredHours> registeredHours, List<Employee> employees)
@@ -125,11 +131,11 @@ namespace bumbo.Controllers
                 }
                 if (hour.EndTime.Hour - hour.StartTime.Hour == 0)
                 {
-                    text += $" {hour.EndTime.Minute - hour.StartTime.Minute} minuten";
+                    text += $"{hour.EndTime.Minute - hour.StartTime.Minute} minuten | ";
                 }
                 else
                 {
-                    text += $" {hour.EndTime.Hour - hour.StartTime.Hour} uur";
+                    text += $"{hour.EndTime.Hour - hour.StartTime.Hour} uur | ";
                 }
             }
             return text;

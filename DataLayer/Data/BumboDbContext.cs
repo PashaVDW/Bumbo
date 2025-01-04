@@ -1289,32 +1289,32 @@ namespace bumbo.Data
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                     EmployeeBID = "B002",
                     RegistrationNumber = 1,
-                    StartTime = new DateTime(2024, 12, 5, 8, 1, 12),
-                    EndTime = new DateTime(2024, 12, 5, 14, 2, 27)
+                    StartTime = new DateTime(2025, 1, 5, 8, 1, 12),
+                    EndTime = new DateTime(2025, 1, 5, 14, 2, 27)
                 },
                 new RegisteredHours()
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                     EmployeeBID = "B002",
                     RegistrationNumber = 2,
-                    StartTime = new DateTime(2024, 12, 16, 8, 58, 52),
-                    EndTime = new DateTime(2024, 12, 16, 12, 0, 44),
+                    StartTime = new DateTime(2025, 1, 16, 8, 58, 52),
+                    EndTime = new DateTime(2025, 1, 16, 12, 0, 44),
                 },
                 new RegisteredHours()
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                     EmployeeBID = "B002",
                     RegistrationNumber = 3,
-                    StartTime = new DateTime(2024, 12, 17, 13, 2, 42),
-                    EndTime = new DateTime(2024, 12, 17, 17, 1, 25)
+                    StartTime = new DateTime(2025, 1, 17, 13, 2, 42),
+                    EndTime = new DateTime(2025, 1, 17, 17, 1, 25)
                 },
                 new RegisteredHours()
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                     EmployeeBID = "B002",
                     RegistrationNumber = 4,
-                    StartTime = new DateTime(2024, 12, 24, 7, 59, 33),
-                    EndTime = new DateTime(2024, 12, 24, 16, 1, 26),
+                    StartTime = new DateTime(2025, 1, 24, 7, 59, 33),
+                    EndTime = new DateTime(2025, 1, 24, 16, 1, 26),
                 }
             );
 
