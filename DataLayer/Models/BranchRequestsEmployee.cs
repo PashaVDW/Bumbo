@@ -21,7 +21,7 @@ namespace bumbo.Models
         public string RequestStatusName { get; set; }
         public RequestStatus RequestStatus { get; set; }
         [StringLength(300)]
-        public string Message { get; set; }
+        public string? Message { get; set; }
         [Required]
         public DateTime DateNeeded { get; set; }
         [Required]

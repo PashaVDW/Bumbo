@@ -377,7 +377,7 @@ namespace bumbo.Controllers
                 return RedirectToAction("AddEmployee",  new { previousPage = "Create" });
             }
 
-            if (model.Request.Message == null || model.Request.DateNeeded == DateTime.MinValue || 
+            if (model.Request.DateNeeded == DateTime.MinValue || 
                 model.Request.StartTime == TimeOnly.MinValue || model.Request.EndTime == TimeOnly.MinValue)
             {
                 SetTempDataForToast("formFail");
