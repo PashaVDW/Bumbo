@@ -537,6 +537,36 @@ namespace bumbo.Controllers
             return Redirect("Index");
         }
 
+        public async Task<IActionResult> RemoveRequest(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var branchId = user.ManagerOfBranchId.Value;
+            var requests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(branchId);
+            var request = requests.Where(r => r.Id == id).SingleOrDefault();
+
+            SetTempDataForToast("createRequest");
+
+            if (request == null)
+            {
+                TempData["ToastMessage"] = "Uitgaand verzoek bestaat niet!";
+                TempData["ToastType"] = "error";
+            }
+            else
+            {
+                _branchRequestsEmployeeRepository.RemoveOutgoingRequest(request);
+                TempData["ToastMessage"] = "Uitgaand verzoek succesvol verwijdered!";
+                TempData["ToastType"] = "error";
+            }
+
+
+            return Redirect("Index");
+        }
+
         // Private methodes
 
         private void SetTempDataForToast(string toastId)
