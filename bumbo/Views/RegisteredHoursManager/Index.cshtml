@@ -1,68 +1,135 @@
-﻿@model bumbo.ViewModels.RegisteredHoursManagerOverview
+﻿@model RegisteredHoursManagerOverview
 
-<h1>Overzicht Geregistreerde Uren</h1>
+@{
+    ViewData["Title"] = "Overzicht gewerkte uren";
+}
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Naam Medewerker</th>
-            <th>Totaal Ingeplande Uren</th>
-            <th>Totaal Gemaakte Uren</th>
-            <th>Verschil</th>
-            <th>Bonus Uren</th>
-            <th>Acties</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var employee in Model.Employees)
-        {
-            <tr>
-                <td>@employee.FullName</td>
-                <td>@employee.TotalScheduledHours</td>
-                <td>@employee.TotalWorkedHours</td>
-                <td>@employee.Difference</td>
-                <td>@employee.BonusHours</td>
-                <td>
-                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#details-@employee.EmployeeId">
-                        Details
-                    </button>
-                </td>
-            </tr>
-            <tr id="details-@employee.EmployeeId" class="collapse">
-                <td colspan="6">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Datum</th>
-                                <th>Geplande Start</th>
-                                <th>Geplande Eind</th>
-                                <th>Gewerkte Start</th>
-                                <th>Gewerkte Eind</th>
-                                <th>Verschil</th>
-                                <th>Acties</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var detail in employee.RegisteredHours)
-                            {
-                                <tr>
-                                    <td>@detail.Date.ToShortDateString()</td>
-                                    <td>@detail.ScheduledStartTime</td>
-                                    <td>@detail.ScheduledEndTime</td>
-                                    <td>@detail.StartTime</td>
-                                    <td>@detail.EndTime</td>
-                                    <td>@detail.Difference</td>
-                                    <td>
-                                        <a href="#" class="btn btn-primary">
-                                            Bewerken
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
+<div class="mx-4 mt-4">
+    <h2 class="text-2xl font-bold mb-4">
+        Overzicht gewerkte uren - @Model.DisplayMonth.ToString("00")/@Model.DisplayYear
+    </h2>
+
+    <div class="mb-6 flex justify-between items-center">
+        <form method="get" class="flex items-center space-x-2">
+            <input type="text" name="searchTerm"
+                   class="border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                   placeholder="Zoek naar medewerker" />
+            <button type="submit"
+                    class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full hover:bg-gray-300">
+                Zoeken
+            </button>
+        </form>
+    </div>
+
+    <div class="overflow-x-auto w-full">
+        <table class="min-w-full table-auto border-collapse">
+            <thead>
+                <tr class="text-left text-gray-600 font-bold bg-gray-200">
+                    <th class="py-2 px-4"></th>
+                    <th class="py-2 px-4">Medewerker</th>
+                    <th class="py-2 px-4">Ingeplande uren (Totaal)</th>
+                    <th class="py-2 px-4">Geklokte uren (Totaal)</th>
+                    <th class="py-2 px-4">Afwijking (Totaal)</th>
+                    <th class="py-2 px-4">Toeslag uren (Totaal)</th>
+                    <th class="py-2 px-4">Totaal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Employees)
+                {
+                    string arrowId = $"arrow-{row.EmployeeId}";
+                    string detailRowId = $"details-{row.EmployeeId}";
+
+                    <tr class="border-b bg-white hover:bg-gray-50">
+                        <td class="py-2 px-4">
+                            <button type="button"
+                                    class="p-1 bg-transparent border-0 focus:outline-none"
+                                    onclick="toggleDetails('@detailRowId','@arrowId')">
+                                <svg id="@arrowId"
+                                     class="transition-transform duration-300"
+                                     width="19" height="38"
+                                     viewBox="0 0 19 38"
+                                     fill="none"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     style="transform-origin: center;">
+                                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5"
+                                          stroke="black"
+                                          stroke-width="3.125"
+                                          stroke-miterlimit="10"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </td>
+                        <td class="py-2 px-4">@row.FullName</td>
+                        <td class="py-2 px-4">@row.TotalScheduledHours.ToString("F1")</td>
+                        <td class="py-2 px-4">@row.TotalWorkedHours.ToString("F1")</td>
+                        <td class="py-2 px-4">@row.Difference.ToString("F1")</td>
+                        <td class="py-2 px-4">@row.BonusHours.ToString("F1")</td>
+                        <td class="py-2 px-4">@((row.TotalWorkedHours + row.BonusHours).ToString("F1"))</td>
+                    </tr>
+
+                    <tr id="@detailRowId" class="hidden bg-gray-100">
+                        <td colspan="7" class="p-4">
+                            <table class="min-w-full table-auto border-collapse">
+                                <thead>
+                                    <tr class="text-left font-semibold">
+                                        <th class="py-1 px-2">Datum</th>
+                                        <th class="py-1 px-2">Ingepland</th>
+                                        <th class="py-1 px-2">Geklokt</th>
+                                        <th class="py-1 px-2">Afwijking</th>
+                                        <th class="py-1 px-2">Bijzonderheden</th>
+                                        <th class="py-1 px-2">Corrigeren</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var d in row.RegisteredHours)
+                                    {
+                                        string schedStr = (d.ScheduledStartTime.HasValue && d.ScheduledEndTime.HasValue)
+                                        ? $"{d.ScheduledStartTime:hh\\:mm} - {d.ScheduledEndTime:hh\\:mm}"
+                                        : "-";
+
+                                        string workedStr = (d.WorkedStartTime.HasValue && d.WorkedEndTime.HasValue)
+                                        ? $"{d.WorkedStartTime:hh\\:mm} - {d.WorkedEndTime:hh\\:mm}"
+                                        : "-";
+
+                                        <tr class="border-b">
+                                            <td class="py-1 px-2">@d.Date.ToString("dd-MM-yyyy")</td>
+                                            <td class="py-1 px-2">@schedStr</td>
+                                            <td class="py-1 px-2">@workedStr</td>
+                                            <td class="py-1 px-2">@d.Difference.ToString("F1")</td>
+                                            <td class="py-1 px-2">@d.Notes</td>
+                                            <td class="py-1 px-2">
+                                                <button class="text-orange-600 hover:text-orange-800">
+                                                    ✏️
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .rotate-90 {
+        transform: rotate(90deg);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function toggleDetails(rowId, arrowId) {
+                const row = document.getElementById(rowId);
+                const arrow = document.getElementById(arrowId);
+                if (row) row.classList.toggle('hidden');
+                if (arrow) arrow.classList.toggle('rotate-90');
         }
-    </tbody>
-</table>
+    </script>
+}
+

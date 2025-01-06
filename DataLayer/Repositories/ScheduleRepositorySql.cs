@@ -172,7 +172,7 @@ namespace DataLayer.Repositories
         public Schedule GetScheduleByEmployeeBranchDate(string employeeId, int branchId, DateOnly date)
         {
             return _context.Set<Schedule>()
-                .Include(s => s.Employee) 
+                .Include(s => s.Employee)
                 .Include(s => s.Branch)
                 .Include(s => s.Department)
                 .FirstOrDefault(s =>
@@ -181,7 +181,8 @@ namespace DataLayer.Repositories
                     s.Date == date);
         }
 
-        public void UpdateSchedule(Schedule schedule) {
+        public void UpdateSchedule(Schedule schedule)
+        {
             _context.Schedule.Update(schedule);
             _context.SaveChanges();
         }
@@ -250,5 +251,15 @@ namespace DataLayer.Repositories
 
             return existingSchedule != null;
         }
+
+        public List<Schedule> GetSchedulesForBranchByMonth(int branchId, int year, int month)
+        {
+            return _context.Schedule
+                .Where(s => s.BranchId == branchId
+                         && s.Date.Year == year
+                         && s.Date.Month == month)
+                .ToList();
+        }
+
     }
 }
