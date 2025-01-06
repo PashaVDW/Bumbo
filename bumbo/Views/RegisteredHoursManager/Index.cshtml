@@ -1,0 +1,68 @@
+﻿@model bumbo.ViewModels.RegisteredHoursManagerOverview
+
+<h1>Overzicht Geregistreerde Uren</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Naam Medewerker</th>
+            <th>Totaal Ingeplande Uren</th>
+            <th>Totaal Gemaakte Uren</th>
+            <th>Verschil</th>
+            <th>Bonus Uren</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model.Employees)
+        {
+            <tr>
+                <td>@employee.FullName</td>
+                <td>@employee.TotalScheduledHours</td>
+                <td>@employee.TotalWorkedHours</td>
+                <td>@employee.Difference</td>
+                <td>@employee.BonusHours</td>
+                <td>
+                    <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#details-@employee.EmployeeId">
+                        Details
+                    </button>
+                </td>
+            </tr>
+            <tr id="details-@employee.EmployeeId" class="collapse">
+                <td colspan="6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Datum</th>
+                                <th>Geplande Start</th>
+                                <th>Geplande Eind</th>
+                                <th>Gewerkte Start</th>
+                                <th>Gewerkte Eind</th>
+                                <th>Verschil</th>
+                                <th>Acties</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var detail in employee.RegisteredHours)
+                            {
+                                <tr>
+                                    <td>@detail.Date.ToShortDateString()</td>
+                                    <td>@detail.ScheduledStartTime</td>
+                                    <td>@detail.ScheduledEndTime</td>
+                                    <td>@detail.StartTime</td>
+                                    <td>@detail.EndTime</td>
+                                    <td>@detail.Difference</td>
+                                    <td>
+                                        <a href="#" class="btn btn-primary">
+                                            Bewerken
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
