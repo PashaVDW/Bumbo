@@ -143,7 +143,6 @@ namespace bumbo.Controllers
             List<RegisteredHours> registeredHoursInMonthSchedule = _registeredHoursRepository.GetRegisteredHoursFromEmployee(user.Id).Where(r => r.EndTime.Value.Date < today).ToList();
 
             List<RegisteredHours> tempHours = new List<RegisteredHours>();
-            List<RegisteredHours> extraRegisteredHoursInMonthSchedule = new List<RegisteredHours>();
 
             foreach (Schedule schedule in registeredHoursInMonthPlanned)
             {
@@ -152,19 +151,6 @@ namespace bumbo.Controllers
                     if (!tempHours.Contains(hour) && hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Value.Day == schedule.Date.Day)
                     {
                         tempHours.Add(hour);
-                    }
-                }
-            }
-
-            foreach (RegisteredHours hour in registeredHoursInMonthSchedule)
-            {
-                foreach (Schedule schedule in registeredHoursInMonthPlanned)
-                {
-                    if (!tempHours.Contains(hour) 
-                        && !extraRegisteredHoursInMonthSchedule.Contains(hour)
-                        && !(hour.StartTime.Day == schedule.Date.Day))
-                    {
-                        extraRegisteredHoursInMonthSchedule.Add(hour);
                     }
                 }
             }
@@ -182,7 +168,6 @@ namespace bumbo.Controllers
                 MonthName = GetMonthNameByDate(date),
                 RegisteredHoursPlanned = registeredHoursInMonthPlanned,
                 RegisteredHoursSchedule = registeredHoursInMonthSchedule,
-                ExtraRegisteredHoursSchedule = extraRegisteredHoursInMonthSchedule,
             };
 
             return View(viewModel);
