@@ -922,7 +922,7 @@ modelBuilder.Entity<Schedule>().HasData(
         EndTime = new TimeOnly(16, 0),
         DepartmentName = "Vakkenvullen",
         IsFinal = true,
-        IsSick = false
+        IsSick = true
     },
     new Schedule
     {
@@ -945,7 +945,7 @@ modelBuilder.Entity<Schedule>().HasData(
         EndTime = new TimeOnly(14, 0),
         DepartmentName = "Vers",
         IsFinal = true,
-        IsSick = false
+        IsSick = true
     },
     new Schedule
     {

@@ -4,22 +4,100 @@
     ViewData["Title"] = "Overzicht gewerkte uren";
 }
 
-<div class="mx-4 mt-4">
-    <h2 class="text-2xl font-bold mb-4">
-        Overzicht gewerkte uren - @Model.DisplayMonth.ToString("00")/@Model.DisplayYear
-    </h2>
+@{
+    // Stel dat je huidige maand/jaar in je model zit:
+    int currentMonth = Model.DisplayMonth;
+    int currentYear = Model.DisplayYear;
 
-    <div class="mb-6 flex justify-between items-center">
-        <form method="get" class="flex items-center space-x-2">
-            <input type="text" name="searchTerm"
-                   class="border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                   placeholder="Zoek naar medewerker" />
+    // Vorige maand berekenen
+    int prevMonth = currentMonth - 1;
+    int prevYear = currentYear;
+    if (prevMonth < 1)
+    {
+        prevMonth = 12;
+        prevYear--;
+    }
+
+    // Volgende maand berekenen
+    int nextMonth = currentMonth + 1;
+    int nextYear = currentYear;
+    if (nextMonth > 12)
+    {
+        nextMonth = 1;
+        nextYear++;
+    }
+}
+
+<div class="mt-10 p-6 bg-white mx-auto max-w-full">
+    <h1 class="mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900">Overzicht gewerkte uren</h1>
+
+    <div class="mb-6 flex items-center justify-between">
+        <div class="space-x-4 flex items-center">
+            <!-- Pijlknop voor 'vorige' maand -->
+            <button class="p-2"
+                    onclick="window.location.href='@Url.Action("Index", new { monthNumber = prevMonth, year = prevYear })'">
+                <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5"
+                          stroke="black" stroke-width="3.125" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <!-- Pijlknop voor 'volgende' maand -->
+            <button class="p-2"
+                    onclick="window.location.href='@Url.Action("Index", new { monthNumber = nextMonth, year = nextYear })'">
+                <svg width="19" height="38" viewBox="0 0 19 38" fill="none"
+                     xmlns="http://www.w3.org/2000/svg" class="rotate-180 transform">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5"
+                          stroke="black" stroke-width="3.125" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <form method="get" class="space-x-4 flex items-end">
+            <div>
+                <label for="monthSelect" class="text-gray-700 block text-sm font-medium">Maand</label>
+                <select name="monthNumber" id="monthSelect" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-32 rounded border leading-tight">
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        var monthName = new DateTime(2000, i, 1).ToString("MMMM");
+                        if (i == Model.DisplayMonth)
+                        {
+                            <option value="@i" selected>@monthName</option>
+                        }
+                        else
+                        {
+                            <option value="@i">@monthName</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label for="yearInput" class="text-gray-700 block text-sm font-medium">Jaar</label>
+                <input type="number"
+                       id="yearInput"
+                       name="year"
+                       class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-32 rounded border leading-tight"
+                       value="@Model.DisplayYear" />
+            </div>
+
             <button type="submit"
-                    class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full hover:bg-gray-300">
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white
+                   font-semibold py-2 px-6 rounded-lg">
                 Zoeken
             </button>
         </form>
+
+
+        <form method="post" action="console.log('test');" class="flex items-end">
+            <input type="hidden" name="monthNumber" value="1" />
+            <input type="hidden" name="year" value="2000" />
+            <default-button button-text="Downloaden" button-type="primary" typeof="submit"></default-button>
+        </form>
     </div>
+
 
     <div class="overflow-x-auto w-full">
         <table class="min-w-full table-auto border-collapse">
@@ -73,14 +151,19 @@
                         <td colspan="7" class="p-4">
                             <table class="min-w-full table-auto border-collapse">
                                 <thead>
+                                <thead>
                                     <tr class="text-left font-semibold">
                                         <th class="py-1 px-2">Datum</th>
                                         <th class="py-1 px-2">Ingepland</th>
                                         <th class="py-1 px-2">Geklokt</th>
+                                        <th class="py-1 px-2">Uren</th>
                                         <th class="py-1 px-2">Afwijking</th>
                                         <th class="py-1 px-2">Bijzonderheden</th>
+                                        <th class="py-1 px-2">Toeslag</th>
                                         <th class="py-1 px-2">Corrigeren</th>
                                     </tr>
+                                </thead>
+
                                 </thead>
                                 <tbody>
                                     @foreach (var d in row.RegisteredHours)
@@ -97,8 +180,10 @@
                                             <td class="py-1 px-2">@d.Date.ToString("dd-MM-yyyy")</td>
                                             <td class="py-1 px-2">@schedStr</td>
                                             <td class="py-1 px-2">@workedStr</td>
+                                            <td class="py-1 px-2">@d.WorkedHoursDay.ToString("F1")</td>
                                             <td class="py-1 px-2">@d.Difference.ToString("F1")</td>
                                             <td class="py-1 px-2">@d.Notes</td>
+                                            <td class="py-1 px-2">@d.BonusHours.ToString("F1")</td>
                                             <td class="py-1 px-2">
                                                 <button class="text-orange-600 hover:text-orange-800">
                                                     ✏️
@@ -107,6 +192,7 @@
                                         </tr>
                                     }
                                 </tbody>
+    
                             </table>
                         </td>
                     </tr>
@@ -114,6 +200,7 @@
             </tbody>
         </table>
     </div>
+
 </div>
 
 <style>

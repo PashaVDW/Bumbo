@@ -1,6 +1,7 @@
 ﻿using bumbo.Data;
 using bumbo.Models;
 using DataLayer.Interfaces;
+using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories
@@ -75,6 +76,43 @@ namespace DataLayer.Repositories
                      .Where(joined => joined.bhe.BranchId == branchId)
                      .Select(joined => joined.e)
                      .ToList();
+        }
+
+        private int CalculateAge(DateTime birthDate)
+        {
+            var today = DateTime.Today;
+            int age = today.Year - birthDate.Year;
+            if (birthDate.Date > today.AddYears(-age)) age--;
+            return age;
+        }
+
+        LabourRules IEmployeeRepository.GetLabourRulesForEmployee(Employee employee)
+        {
+            string countryName = "Netherlands";
+            int age = CalculateAge(employee.BirthDate);
+            string ageGroup;
+            if (age < 16)
+                ageGroup = "<16";
+            else if (age <= 17)
+                ageGroup = "16-17";
+            else
+                ageGroup = ">17";
+
+            LabourRules rule = _context.LabourRules
+                .FirstOrDefault(r => r.CountryName == countryName && r.AgeGroup == ageGroup);
+
+            if (rule == null)
+            {
+                return new LabourRules
+                {
+                    CountryName = countryName,
+                    AgeGroup = ageGroup,
+                    SickPayPercentage = 70000m,
+                    OvertimePayPercentage = 50000m
+                };
+            }
+
+            return rule;
         }
     }
 }

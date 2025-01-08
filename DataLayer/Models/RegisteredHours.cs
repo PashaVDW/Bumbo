@@ -14,7 +14,6 @@ namespace DataLayer.Models
 
         [Required]
         public string EmployeeBID { get; set; }
-
         public Employee Employee { get; set; }
 
     }

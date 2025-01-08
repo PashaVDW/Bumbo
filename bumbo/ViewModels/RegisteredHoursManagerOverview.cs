@@ -36,6 +36,9 @@
         public double WorkedHoursDay { get; set; }
         public double Difference { get; set; }
         public string Notes { get; set; }
+        public double OverworkHours { get; internal set; }
+        public double OverworkPay { get; internal set; }
+        public double BonusHours { get; internal set; }
     }
 
 }

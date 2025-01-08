@@ -124,5 +124,6 @@ namespace DataLayer.Repositories
             labourRules.MaxOvertimeHoursPerWeek = maxOvertimeHoursPerWeek;
             _context.SaveChanges();
         }
+
     }
 }
