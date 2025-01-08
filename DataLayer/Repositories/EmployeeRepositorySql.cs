@@ -114,5 +114,16 @@ namespace DataLayer.Repositories
 
             return rule;
         }
+        
+        public void AddNormalizedEmail(string email, string employeeId)
+        {
+            var employee = _context.Users.FirstOrDefault(e => e.Id == employeeId);
+            if (employee != null)
+            {
+                employee.NormalizedEmail = email.ToUpperInvariant();
+                _context.Users.Update(employee);
+                _context.SaveChanges();
+            }
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace DataLayer.Interfaces
         Task<List<Employee>> GetEmployeesOfBranch(int? branchId);
         LabourRules GetLabourRulesForEmployee(Employee employee);
 
+        void AddNormalizedEmail(string email, string employeeId);
     }
 }
