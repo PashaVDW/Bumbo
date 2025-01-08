@@ -50,34 +50,33 @@
         </div>
     </div>
     @if (Model.IsAuthenticated && !Model.IsBranchManager && !Model.IsSystemManager)
-        { 
-            <div class="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:bg-white max-md:border-t max-md:border-gray-300">
-                <div class="gap-6 p-2 flex justify-around">
-                    <div class="max-md:flex max-md:flex-col max-md:items-center">
-                        <i class="fas fa-calendar-alt text-xl"></i>
-                        <a asp-controller="EmployeeSchedule" asp-action="RegisteredHoursView" class="max-md:text-xs">Rooster</a>
-                    </div>
-                    <div class="max-md:flex max-md:flex-col max-md:items-center">
-                        <i class="fas fa-user-clock text-xl"></i>
-                        <a asp-controller="Availability" asp-action="Index" class="max-md:text-xs">Beschikbaarheid</a>
-                    </div>
-                    <div class="max-md:flex max-md:flex-col max-md:items-center">
-                        <i class="fas fa-exchange-alt text-xl"></i>
-                        <a asp-controller="ShiftSwap" asp-action="Index" class="max-md:text-xs">Dienstruil</a>
-                    </div>
-                    <div class="max-md:flex max-md:flex-col max-md:items-center">
-                        <i class="fas fa-school text-xl"></i>
-                        <a asp-controller="SchoolSchedule" asp-action="Index" class="max-md:text-xs">Schoolrooster</a>
-                    </div>
+    {
+        <div class="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:bg-white max-md:border-t max-md:border-gray-300">
+            <div class="gap-6 p-2 flex justify-around">
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
+                    <i class="fas fa-calendar-alt text-xl"></i>
+                    <a asp-controller="EmployeeSchedule" asp-action="RegisteredHoursView" class="max-md:text-xs">Rooster</a>
+                </div>
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
+                    <i class="fas fa-user-clock text-xl"></i>
+                    <a asp-controller="Availability" asp-action="Index" class="max-md:text-xs">Beschikbaarheid</a>
+                </div>
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
+                    <i class="fas fa-exchange-alt text-xl"></i>
+                    <a asp-controller="ShiftSwap" asp-action="Index" class="max-md:text-xs">Dienstruil</a>
+                </div>
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
+                    <i class="fas fa-school text-xl"></i>
+                    <a asp-controller="SchoolSchedule" asp-action="Index" class="max-md:text-xs">Schoolrooster</a>
                 </div>
             </div>
-        }
+        </div>
+    }
     <div class="space-x-4 flex items-center">
-        @if (Model.IsAuthenticated)
-        { 
-            <div class="text-right">
-                <div class="text-gray-700">@Model.FirstName</div>
-                @if (Model.IsBranchManager || Model.IsSystemManager)
+        <div class="space-x-2 flex items-center">
+            <label for="languageDropdown" class="text-sm">@Localizer["Select Language"]:</label>
+            <select id="languageDropdown" class="border-gray-300 p-1 rounded-md text-sm" onchange="changeLanguage(this)">
+                @if (CultureInfo.CurrentCulture.Name == "nl-NL")
                 {
                     <option value="nl-NL" selected>@Localizer["Dutch"]</option>
                     <option value="en-US">@Localizer["English"]</option>
@@ -88,24 +87,24 @@
                     <option value="en-US" selected>@Localizer["English"]</option>
                 }
             </select>
-    </div>
-
-    @if (Model.IsAuthenticated)
-    {
-        <div class="text-right">
-            <div class="text-gray-700">@Model.FirstName</div>
-            @if (Model.IsBranchManager || Model.IsSystemManager)
-            {
-                <div class="text-gray-500 text-sm">@Model.Email</div>
-            }
-            <a href="/uitloggen" class="text-sm hover:text-gray-600">@Localizer["Logout"]</a>
         </div>
-    }
-    else
-    {
-        <a href="/inloggen" class="text-sm hover:text-gray-600">@Localizer["Login"]</a>
-    }
-</div>
+
+        @if (Model.IsAuthenticated)
+        {
+            <div class="text-right">
+                <div class="text-gray-700">@Model.FirstName</div>
+                @if (Model.IsBranchManager || Model.IsSystemManager)
+                {
+                    <div class="text-gray-500 text-sm">@Model.Email</div>
+                }
+                <a href="/uitloggen" class="text-sm hover:text-gray-600">@Localizer["Logout"]</a>
+            </div>
+        }
+        else
+        {
+            <a href="/inloggen" class="text-sm hover:text-gray-600">@Localizer["Login"]</a>
+        }
+    </div>
 </div>
 <script>
     function changeLanguage(element) {
