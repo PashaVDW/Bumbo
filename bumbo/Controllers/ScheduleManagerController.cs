@@ -123,9 +123,12 @@ namespace bumbo.Controllers
                             .OrderBy(s => s.StartTime)
                             .ToList();
 
-                        double hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
-                            .Sum(pd => pd.HoursOfWorkNeeded);
+                        int hoursNeededForDepartment = prognosisDetails
+                            .Where(pd => pd.DaysName.Equals(date.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
+                            .Select(pd => pd.HoursOfWorkNeeded)
+                            .FirstOrDefault();
+
+                        Console.WriteLine(date.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")));
 
                         return new DepartmentScheduleViewModel
                         {
