@@ -20,10 +20,10 @@
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </div>
-                    <ul class="group-hover:block bg-gray-100 absolute top-full z-50 hidden min-w-max left-0">
-                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/prognoses" class="hover:text-gray-600">@Localizer["Prognoses"]</a></li>
-                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/normeringen" class="hover:text-gray-600">@Localizer["Norms"]</a></li>
-                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/standaard-templates" class="hover:text-gray-600">@Localizer["Templates"]</a></li>
+                    <ul class="group-hover:block bg-gray-100 left-0 absolute top-full z-50 hidden min-w-max">
+                        <li class="p-3 pt-6 whitespace-nowrap border-b-2"><a href="/prognoses" class="hover:text-gray-600">@Localizer["Prognoses"]</a></li>
+                        <li class="p-3 whitespace-nowrap border-b-2"><a href="/normeringen" class="hover:text-gray-600">@Localizer["Norms"]</a></li>
+                        <li class="p-3 whitespace-nowrap border-b-2"><a href="/standaard-templates" class="hover:text-gray-600">@Localizer["Templates"]</a></li>
                     </ul>
                 </div>
 
@@ -34,9 +34,9 @@
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </div>
-                    <ul class="group-hover:block bg-gray-100 absolute top-full z-50 hidden min-w-max left-0">
-                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/medewerkers" class="hover:text-gray-600">@Localizer["Employees"]</a></li>
-                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/verzoeken" class="hover:text-gray-600">@Localizer["Requests"]</a></li>
+                    <ul class="group-hover:block bg-gray-100 left-0 absolute top-full z-50 hidden min-w-max">
+                        <li class="p-3 pt-6 whitespace-nowrap border-b-2"><a href="/medewerkers" class="hover:text-gray-600">@Localizer["Employees"]</a></li>
+                        <li class="p-3 whitespace-nowrap border-b-2"><a href="/verzoeken" class="hover:text-gray-600">@Localizer["Requests"]</a></li>
                     </ul>
                 </div>
 
@@ -47,10 +47,10 @@
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </div>
-                    <ul class="group-hover:block bg-gray-100 absolute top-full z-50 hidden min-w-max left-0">
-                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/roosterManager" class="hover:text-gray-600">@Localizer["Schedule"]</a></li>
-                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="#" class="hover:text-gray-600">Klokken</a></li>
-                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="#" class="hover:text-gray-600">Geregistreerde uren</a></li>
+                    <ul class="group-hover:block bg-gray-100 left-0 absolute top-full z-50 hidden min-w-max">
+                        <li class="p-3 pt-6 whitespace-nowrap border-b-2"><a href="/roosterManager" class="hover:text-gray-600">@Localizer["Schedule"]</a></li>
+                        <li class="p-3 whitespace-nowrap border-b-2"><a href="#" class="hover:text-gray-600">Klokken</a></li>
+                        <li class="p-3 whitespace-nowrap border-b-2"><a href="#" class="hover:text-gray-600">Geregistreerde uren</a></li>
                     </ul>
                 </div>
             }
@@ -65,19 +65,19 @@
 
     @if (Model.IsAuthenticated && !Model.IsBranchManager && !Model.IsSystemManager)
     {
-        <div class="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:bg-white max-md:border-t max-md:border-gray-300 ">
-            <div class="flex gap-6 justify-around p-2">
+        <div class="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:bg-white max-md:border-t max-md:border-gray-300">
+            <div class="gap-6 p-2 flex justify-around">
                 <div class="max-md:flex max-md:flex-col max-md:items-center">
                     <i class="fas fa-calendar-alt text-xl"></i>
                     <a asp-controller="EmployeeSchedule" asp-action="Index" class="max-md:text-xs">Rooster</a>
                 </div>
-                <div class="max-md:flex max-md:flex-col max-md:items-center ">
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
                     <i class="fas fa-user-clock text-xl"></i>
                     <a asp-controller="Availability" asp-action="Index" class="max-md:text-xs">Beschikbaarheid</a>
                 </div>
-                <div class="max-md:flex max-md:flex-col max-md:items-center ">
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
                     <i class="fas fa-clock text-xl"></i>
-                    <a asp-controller="#" asp-action="Index" class="max-md:text-xs">Klokken</a>
+                    <a asp-controller="EmployeeSchedule" asp-action="RegisteredHoursView" class="max-md:text-xs">Klokken</a>
                 </div>
                 <div class="max-md:flex max-md:flex-col max-md:items-center">
                     <i class="fas fa-exchange-alt text-xl"></i>
@@ -92,9 +92,9 @@
     }
 
     <div class="space-x-4 flex items-center">
-        <div class="flex items-center space-x-2">
+        <div class="space-x-2 flex items-center">
             <label for="languageDropdown" class="text-sm">@Localizer["Select Language"]:</label>
-            <select id="languageDropdown" class="border-gray-300 rounded-md text-sm p-1" onchange="changeLanguage(this)">
+            <select id="languageDropdown" class="border-gray-300 p-1 rounded-md text-sm" onchange="changeLanguage(this)">
                 @if (CultureInfo.CurrentCulture.Name == "nl-NL")
                 {
                     <option value="nl-NL" selected>@Localizer["Dutch"]</option>

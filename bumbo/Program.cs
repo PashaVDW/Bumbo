@@ -33,6 +33,7 @@ builder.Services.AddScoped<ILabourRulesRepository, LabourRulesRepositorySql>();
 builder.Services.AddScoped<ICountryRepository, CountryRepositorySql>();
 builder.Services.AddScoped<IDaysRepositorySQL, DaysRepositorySQL>();
 builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepositorySql>();
+builder.Services.AddScoped<IRegisteredHoursRepository, RegisteredHoursRepositorySQL>();
 
 builder.Services.AddTransient<IPrognosisCalculator, PrognosisCalculator>();
 
