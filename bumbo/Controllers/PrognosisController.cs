@@ -68,20 +68,12 @@ namespace bumbo.Controllers
 
             if (!weekNumber.HasValue || !year.HasValue)
             {
-                prognosis = _prognosisRepository.GetLatestPrognosis(currentUser.ManagerOfBranchId.Value);
+                DateTime today = DateTime.Now;
+                GregorianCalendar gc = new GregorianCalendar();
+                weekNumber = gc.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                year = today.Year;
 
-                if (prognosis != null)
-                {
-                    weekNumber = prognosis.WeekNr;
-                    year = prognosis.Year;
-                }
-                else
-                {
-                    DateTime today = DateTime.Now;
-                    GregorianCalendar gc = new GregorianCalendar();
-                    weekNumber = gc.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-                    year = today.Year;
-                }
+                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value, currentUser.ManagerOfBranchId.Value);
             }
             else
             {

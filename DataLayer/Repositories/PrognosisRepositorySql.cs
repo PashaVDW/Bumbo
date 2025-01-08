@@ -61,18 +61,6 @@ namespace DataLayer.Repositories
             return _context.Prognoses.ToList();
         }
 
-        public Prognosis GetLatestPrognosis(int branchId)
-        {
-            List<Prognosis> prognosis = _context.Prognoses
-                .Include(p => p.PrognosisHasDays)
-                    .ThenInclude(phd => phd.PrognosisHasDaysHasDepartment)
-                .Where(p => p.BranchId == branchId)
-                .OrderByDescending(p => p.Year)
-                .ThenByDescending(p => p.WeekNr)
-                .ToList<Prognosis>();
-            return prognosis.FirstOrDefault();
-        }
-
         public Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year, int branchId)
         {
             List<Prognosis> prognosis = _context.Prognoses
