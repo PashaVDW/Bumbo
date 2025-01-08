@@ -70,7 +70,7 @@ namespace DataLayer.Repositories
                 .OrderByDescending(p => p.Year)
                 .ThenByDescending(p => p.WeekNr)
                 .ToList<Prognosis>();
-            return prognosis.First();
+            return prognosis.FirstOrDefault();
         }
 
         public Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year, int branchId)
