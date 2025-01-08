@@ -183,14 +183,15 @@ namespace bumbo.Controllers
                     titleDate = dayTitle,
                     Departments = departments.Select(department =>
                     {
-                        var schedulesForDepartment = schedules
+                        List<Schedule> schedulesForDepartment = schedules
                             .Where(s => s.Date == DateOnly.FromDateTime(dateTime) && s.DepartmentName == department)
                             .OrderBy(s => s.StartTime)
                             .ToList();
 
-                        var hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
-                            .Sum(pd => pd.HoursOfWorkNeeded);
+                        int hoursNeededForDepartment = prognosisDetails
+                            .Where(pd => pd.DaysName.Equals(dateTime.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
+                            .Select(pd => pd.HoursOfWorkNeeded)
+                            .FirstOrDefault();
 
                         return new DepartmentScheduleEditViewModel
                         {
@@ -599,9 +600,10 @@ namespace bumbo.Controllers
                                     .OrderBy(s => s.StartTime)
                                     .ToList();
 
-                                double hoursNeededForDepartment = prognosisDetails
-                                    .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
-                                    .Sum(pd => pd.HoursOfWorkNeeded);
+                                int hoursNeededForDepartment = prognosisDetails
+                                    .Where(pd => pd.DaysName.Equals(dateTime.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
+                                    .Select(pd => pd.HoursOfWorkNeeded)
+                                    .FirstOrDefault();
 
                                 return new DepartmentScheduleAddEmployeeViewModel
                                 {
