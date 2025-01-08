@@ -1,14 +1,11 @@
 ﻿using ceTe.DynamicPDF;
 using ceTe.DynamicPDF.PageElements;
-using CsvHelper;
-using CsvHelper.Configuration;
 using DataLayer.Interfaces;
 using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Metrics;
-using System.Drawing.Printing;
-using System.Globalization;
+using PublicHoliday;
+
 
 namespace bumbo.Controllers
 {
@@ -131,12 +128,74 @@ namespace bumbo.Controllers
                 }
                 if (hour.EndTime.Hour - hour.StartTime.Hour == 0)
                 {
+                    int amountOfMinutes = hour.EndTime.Minute - hour.StartTime.Minute;
+                    amountOfMinutes = GoThroughLabourRules(hour, amountOfMinutes/60);
+                    text = GetToManyHours(hour, amountOfMinutes / 60, text, employee);
                     text += $"{hour.EndTime.Minute - hour.StartTime.Minute} minuten | ";
                 }
                 else
                 {
-                    text += $"{hour.EndTime.Hour - hour.StartTime.Hour} uur | ";
+                    int amountOfHours = hour.EndTime.Hour - hour.StartTime.Hour;
+                    amountOfHours = GoThroughLabourRules(hour, amountOfHours);
+                    text = GetToManyHours(hour, amountOfHours, text, employee);
+                    text += $"{amountOfHours} uur | ";
                 }
+            }
+            return text;
+        }
+
+        private int GoThroughLabourRules(RegisteredHours hour, int amountOfHours)
+        {
+            if ((TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.MinValue
+                && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(6, 0, 0)))
+                && (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(21, 0, 0))
+                && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(24, 0, 0)))
+                && (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(18, 0, 0))
+                && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(24, 0, 0)) 
+                && hour.StartTime.DayOfWeek == DayOfWeek.Saturday && hour.EndTime.DayOfWeek == DayOfWeek.Saturday))
+            {
+                amountOfHours = (int)(amountOfHours * 1.5);
+            }
+            if (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(20, 0, 0))
+               && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(21, 0, 0)))
+            {
+                amountOfHours = (int)(amountOfHours * 1.333);
+            }
+            if (hour.StartTime.DayOfWeek == DayOfWeek.Sunday && hour.EndTime.DayOfWeek == DayOfWeek.Sunday)
+            {
+                amountOfHours = amountOfHours * 2;
+            }
+
+            DutchPublicHoliday dutchHolidays = new DutchPublicHoliday();
+            List<DateTime> holidays = dutchHolidays.PublicHolidays(2025).ToList();
+            foreach (DateTime holiday in holidays)
+            {
+                if (hour.StartTime.Equals(holiday) && hour.EndTime.Equals(holiday))
+                {
+                    amountOfHours = amountOfHours * 2;
+                }
+            }
+
+            return amountOfHours;
+        }
+        private string GetToManyHours(RegisteredHours hour, int amountOfHours, string text, Employee employee)
+        {
+            if (amountOfHours > 12)
+            {
+                text += $"({amountOfHours - 12} Teveel) ";
+            }
+
+            List<RegisteredHours> hoursThisWeek = _registeredHoursRepository.GetRegisteredHoursInWeekFromEmployee(employee.Id, hour.StartTime.GetWeekOfYear());
+            int count = 0;
+
+            foreach (RegisteredHours hourThisWeek in hoursThisWeek)
+            {
+                count += hour.EndTime.Hour - hour.StartTime.Hour;
+            }
+
+            if (count > 60)
+            {
+                text += $"({count - 60} teveel in week) ";
             }
             return text;
         }

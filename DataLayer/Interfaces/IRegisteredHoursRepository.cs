@@ -10,5 +10,6 @@ namespace DataLayer.Interfaces
     public interface IRegisteredHoursRepository
     {
         public List<RegisteredHours> GetRegisteredHoursFromEmployee(string employeeId);  
+        public List<RegisteredHours> GetRegisteredHoursInWeekFromEmployee(string employeeId, int week);  
     }
 }
