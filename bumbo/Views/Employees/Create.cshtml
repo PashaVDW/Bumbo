@@ -49,7 +49,11 @@
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
                 <label asp-for="PostalCode" class="block text-sm font-medium text-gray-700">Postcode</label>
-                <input asp-for="PostalCode" placeholder="1234AB" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                <input asp-for="PostalCode" placeholder="1234AB" 
+                       class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" 
+                       pattern="^[^\s]{6}$" 
+                       title="Postcode mag maar 6 tekens bevatten en geen spaties." 
+                       maxlength="6" />
                 <span asp-validation-for="PostalCode" class="text-sm text-red-600"></span>
             </div>
 
