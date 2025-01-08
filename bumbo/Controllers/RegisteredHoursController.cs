@@ -214,7 +214,7 @@ namespace bumbo.Controllers
             {
                 if (activeCountry.Equals("Netherlands"))
                 {
-                    if (rule.AgeGroup.Equals("<16"))
+                    if (rule.AgeGroup.Equals("<16") && employee.BirthDate.Year > DateTime.Now.Year - 16)
                     {
                         if (Employee16OrLessHasWorkedToMuch(employee, hour))
                         {
@@ -222,7 +222,9 @@ namespace bumbo.Controllers
                             return text;
                         }
                     }
-                    else if (rule.AgeGroup.Equals("16-17"))
+                    else if (rule.AgeGroup.Equals("16-17") 
+                        && (employee.BirthDate.Year == DateTime.Now.Year - 16 
+                        || employee.BirthDate.Year == DateTime.Now.Year - 17))
                     {
                         if (Employee16Or17HasWorkedToMuch(employee, hour))
                         {
