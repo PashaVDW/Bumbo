@@ -12,5 +12,6 @@ namespace DataLayer.Interfaces
         void AddSchoolSchedulesForEmployee(string employeeId, List<SchoolSchedule> schedules);
         List<SchoolSchedule> getSchedulesBetweenDates(DateTime startDate, DateTime endDate, string employeeId);
         SchoolSchedule GetEmployeeDaySchoolSchedule(DateTime date, string employeeId);
+        List<SchoolSchedule> GetEmployeeSchoolSchedule(string employeeId);
     }
 }

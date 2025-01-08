@@ -14,17 +14,21 @@ namespace bumbo.Controllers
         private readonly IRegisteredHoursRepository _registeredHoursRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ILabourRulesRepository _labourRulesRepository;
+        private readonly IScheduleRepository _scheduleRulesRepository;
+        private readonly ISchoolScheduleRepository _schoolScheduleRulesRepository;
 
         private readonly UserManager<Employee> _userManager;
 
         public RegisteredHoursController(IRegisteredHoursRepository registeredHoursRepository, IEmployeeRepository employeeRepository, 
-            UserManager<Employee> userManager, ILabourRulesRepository labourRulesRepository)
+            UserManager<Employee> userManager, ILabourRulesRepository labourRulesRepository, IScheduleRepository scheduleRulesRepository
+            , ISchoolScheduleRepository schoolScheduleRulesRepository)
         {
             _registeredHoursRepository = registeredHoursRepository;
             _employeeRepository = employeeRepository;
             _userManager = userManager;
             _labourRulesRepository = labourRulesRepository;
-
+            _scheduleRulesRepository = scheduleRulesRepository;
+            _schoolScheduleRulesRepository = schoolScheduleRulesRepository;
         }
         public IActionResult ButtonView()
         {
@@ -151,6 +155,9 @@ namespace bumbo.Controllers
         // Toeslagen
         private int GoThroughLabourRules(RegisteredHours hour, int amountOfHours, Employee employee)
         {
+            employee.Schedules = _scheduleRulesRepository.GetSchedulesForEmployee(employee.Id);
+            employee.SchoolSchedules = _schoolScheduleRulesRepository.GetEmployeeSchoolSchedule(employee.Id);
+
             foreach (Schedule schedule in employee.Schedules.Where(s => s.Date.Month == hour.EndTime.Month))
             {
                 if (schedule.Date == DateOnly.FromDateTime(hour.EndTime) && schedule.IsSick)
@@ -211,7 +218,7 @@ namespace bumbo.Controllers
                     {
                         if (Employee16OrLessHasWorkedToMuch(employee, hour))
                         {
-                            text += "teveel gewerkt";
+                            text += "teveel gewerkt ";
                             return text;
                         }
                     }
@@ -219,7 +226,7 @@ namespace bumbo.Controllers
                     {
                         if (Employee16Or17HasWorkedToMuch(employee, hour))
                         {
-                            text += "teveel gewerkt";
+                            text += "teveel gewerkt ";
                             return text;
                         }
                     }
