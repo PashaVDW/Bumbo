@@ -1,4 +1,7 @@
-﻿
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 <div class="min-h-24 max-h-24 bg-gray-100 p-4 px-12 flex items-center justify-between lg:px-24">
     <div class="flex items-center space-x-[30px] lg:space-x-[100px]">
         <a href="/">
@@ -12,28 +15,28 @@
             {
                 <div class="max-h-6 group relative">
                     <div class="flex">
-                        <p>Prognoses </p>
+                        <p>@Localizer["Prognosis"]</p>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 left-1 text-gray-500 relative top-[6px] transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </div>
                     <ul class="group-hover:block bg-gray-100 absolute top-full z-50 hidden min-w-max left-0">
-                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/prognoses" class="hover:text-gray-600">Prognoses</a></li>
-                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/normeringen" class="hover:text-gray-600">Normeringen</a></li>
-                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/standaard-templates" class="hover:text-gray-600">Standaard template</a></li>
+                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/prognoses" class="hover:text-gray-600">@Localizer["Prognoses"]</a></li>
+                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/normeringen" class="hover:text-gray-600">@Localizer["Norms"]</a></li>
+                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/standaard-templates" class="hover:text-gray-600">@Localizer["Templates"]</a></li>
                     </ul>
                 </div>
 
                 <div class="max-h-6 group relative hover:mr-1">
                     <div class="flex">
-                        <p>Medewerkers </p>
+                        <p>@Localizer["Employees"]</p>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 left-1 text-gray-500 relative top-[6px] transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </div>
                     <ul class="group-hover:block bg-gray-100 absolute top-full z-50 hidden min-w-max left-0">
-                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/medewerkers" class="hover:text-gray-600">Medewerkers</a></li>
-                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/verzoeken" class="hover:text-gray-600">Hulpverzoeken</a></li>
+                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/medewerkers" class="hover:text-gray-600">@Localizer["Employees"]</a></li>
+                        <li class="p-3 border-b-2 whitespace-nowrap"><a href="/verzoeken" class="hover:text-gray-600">@Localizer["Requests"]</a></li>
                     </ul>
                 </div>
 
@@ -45,61 +48,87 @@
                         </svg>
                     </div>
                     <ul class="group-hover:block bg-gray-100 absolute top-full z-50 hidden min-w-max left-0">
-                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/roosterManager" class="hover:text-gray-600">Rooster</a></li>
+                        <li class="p-3 pt-6 border-b-2 whitespace-nowrap"><a href="/roosterManager" class="hover:text-gray-600">@Localizer["Schedule"]</a></li>
                         <li class="p-3 border-b-2 whitespace-nowrap"><a href="#" class="hover:text-gray-600">Klokken</a></li>
                         <li class="p-3 border-b-2 whitespace-nowrap"><a href="#" class="hover:text-gray-600">Geregistreerde uren</a></li>
                     </ul>
                 </div>
             }
+
             @if (Model.IsSystemManager)
             {
-                <a href="/filialen" class="hover:text-gray-600">Filialen</a>
-                <a asp-controller="LabourRules" asp-action="Index" class="hover:text-gray-600">CAO regels</a>
+                <a href="/filialen" class="hover:text-gray-600">@Localizer["Branches"]</a>
+                <a asp-controller="LabourRules" asp-action="Index" class="hover:text-gray-600">@Localizer["LabourRules"]</a>
             }
         </div>
     </div>
+
     @if (Model.IsAuthenticated && !Model.IsBranchManager && !Model.IsSystemManager)
-        { 
-            <div class="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:bg-white max-md:border-t max-md:border-gray-300 ">
-                <div class="flex gap-6 justify-around p-2">
-                    <div class="max-md:flex max-md:flex-col max-md:items-center">
-                        <i class="fas fa-calendar-alt text-xl"></i>
-                        <a asp-controller="EmployeeSchedule" asp-action="Index" class="max-md:text-xs">Rooster</a>
-                    </div>
-                    <div class="max-md:flex max-md:flex-col max-md:items-center ">
+    {
+        <div class="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:bg-white max-md:border-t max-md:border-gray-300 ">
+            <div class="flex gap-6 justify-around p-2">
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
+                    <i class="fas fa-calendar-alt text-xl"></i>
+                    <a asp-controller="EmployeeSchedule" asp-action="Index" class="max-md:text-xs">Rooster</a>
+                </div>
+                <div class="max-md:flex max-md:flex-col max-md:items-center ">
                     <i class="fas fa-user-clock text-xl"></i>
-                        <a asp-controller="Availability" asp-action="Index" class="max-md:text-xs">Beschikbaarheid</a>
-                    </div>
-                    <div class="max-md:flex max-md:flex-col max-md:items-center ">
-                        <i class="fas fa-clock text-xl"></i>
-                        <a asp-controller="#" asp-action="Index" class="max-md:text-xs">Klokken</a>
-                    </div>
-                    <div class="max-md:flex max-md:flex-col max-md:items-center">
-                        <i class="fas fa-exchange-alt text-xl"></i>
-                        <a asp-controller="ShiftSwap" asp-action="Index" class="max-md:text-xs">Dienstuil</a>
-                    </div>
-                    <div class="max-md:flex max-md:flex-col max-md:items-center">
-                        <i class="fas fa-school text-xl"></i>
-                        <a asp-controller="SchoolSchedule" asp-action="Index" class="max-md:text-xs">Schoolrooster</a>
-                    </div>
+                    <a asp-controller="Availability" asp-action="Index" class="max-md:text-xs">Beschikbaarheid</a>
+                </div>
+                <div class="max-md:flex max-md:flex-col max-md:items-center ">
+                    <i class="fas fa-clock text-xl"></i>
+                    <a asp-controller="#" asp-action="Index" class="max-md:text-xs">Klokken</a>
+                </div>
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
+                    <i class="fas fa-exchange-alt text-xl"></i>
+                    <a asp-controller="ShiftSwap" asp-action="Index" class="max-md:text-xs">Dienstuil</a>
+                </div>
+                <div class="max-md:flex max-md:flex-col max-md:items-center">
+                    <i class="fas fa-school text-xl"></i>
+                    <a asp-controller="SchoolSchedule" asp-action="Index" class="max-md:text-xs">Schoolrooster</a>
                 </div>
             </div>
-        }
+        </div>
+    }
+
     <div class="space-x-4 flex items-center">
+        <div class="flex items-center space-x-2">
+            <label for="languageDropdown" class="text-sm">@Localizer["Select Language"]:</label>
+            <select id="languageDropdown" class="border-gray-300 rounded-md text-sm p-1" onchange="changeLanguage(this)">
+                @if (CultureInfo.CurrentCulture.Name == "nl-NL")
+                {
+                    <option value="nl-NL" selected>@Localizer["Dutch"]</option>
+                    <option value="en-US">@Localizer["English"]</option>
+                }
+                else
+                {
+                    <option value="nl-NL">@Localizer["Dutch"]</option>
+                    <option value="en-US" selected>@Localizer["English"]</option>
+                }
+            </select>
+        </div>
+
         @if (Model.IsAuthenticated)
-        { 
+        {
             <div class="text-right">
                 <div class="text-gray-700">@Model.FirstName</div>
                 @if (Model.IsBranchManager || Model.IsSystemManager)
                 {
                     <div class="text-gray-500 text-sm">@Model.Email</div>
                 }
+                <a href="/uitloggen" class="text-sm hover:text-gray-600">@Localizer["Logout"]</a>
             </div>
-            <a href="/uitloggen" class="text-sm hover:text-gray-600">Uitloggen</a>
         }
         else
         {
-            <a href="/inloggen" class="text-sm hover:text-gray-600">Inloggen</a>
+            <a href="/inloggen" class="text-sm hover:text-gray-600">@Localizer["Login"]</a>
         }
     </div>
 </div>
+
+<script>
+    function changeLanguage(element) {
+        const selectedLanguage = element.value;
+        window.location.href = `?culture=${selectedLanguage}`;
+    }
+</script>

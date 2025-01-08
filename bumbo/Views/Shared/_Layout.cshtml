@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/bumbo.styles.css" asp-append-version="true" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/7bf874b9cf.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
@@ -40,4 +41,25 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+<script>
+    function changeLanguage(element) {
+        const selectedLanguage = element.value;
+
+        fetch('/SetLanguage', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectedLanguage)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to update language.');
+            }
+        });
+    }
+</script>
+
 </html>
