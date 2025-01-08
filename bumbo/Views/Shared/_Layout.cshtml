@@ -41,4 +41,25 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+<script>
+    function changeLanguage(element) {
+        const selectedLanguage = element.value;
+
+        fetch('/SetLanguage', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectedLanguage)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Failed to update language.');
+            }
+        });
+    }
+</script>
+
 </html>

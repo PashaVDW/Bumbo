@@ -49,42 +49,43 @@
             }
         </div>
     </div>
-    <div class="space-x-4 flex items-center">
-        <!-- Language Toggle -->
-        <div class="flex items-center space-x-2">
-            <span class="text-sm">@Localizer["Dutch"]</span>
-            <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="languageToggle" class="sr-only peer"
-                @(CultureInfo.CurrentCulture.Name == "en-US" ? "checked" : "") onchange="toggleLanguage(this)" />
-                <div class="w-11 h-6 bg-gray-200 rounded-full peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-            </label>
-            <span class="text-sm">@Localizer["English"]</span>
-        </div>
-
-        @if (Model.IsAuthenticated)
-        {
-            <div class="text-right">
-                <div class="text-gray-700">@Model.FirstName</div>
-                @if (Model.IsBranchManager || Model.IsSystemManager)
+<div class="space-x-4 flex items-center">
+    <div class="flex items-center space-x-2">
+        <label for="languageDropdown" class="text-sm">@Localizer["Select Language"]:</label>
+            <select id="languageDropdown" class="border-gray-300 rounded-md text-sm p-1" onchange="changeLanguage(this)">
+                @if (CultureInfo.CurrentCulture.Name == "nl-NL")
                 {
-                    <div class="text-gray-500 text-sm">@Model.Email</div>
+                    <option value="nl-NL" selected>@Localizer["Dutch"]</option>
+                    <option value="en-US">@Localizer["English"]</option>
                 }
-                <a href="/uitloggen" class="text-sm hover:text-gray-600">@Localizer["Logout"]</a>
-            </div>
-        }
-        else
-        {
-            <a href="/inloggen" class="text-sm hover:text-gray-600">@Localizer["Login"]</a>
-        }
+                else
+                {
+                    <option value="nl-NL">@Localizer["Dutch"]</option>
+                    <option value="en-US" selected>@Localizer["English"]</option>
+                }
+            </select>
     </div>
-</div>
 
+    @if (Model.IsAuthenticated)
+    {
+        <div class="text-right">
+            <div class="text-gray-700">@Model.FirstName</div>
+            @if (Model.IsBranchManager || Model.IsSystemManager)
+            {
+                <div class="text-gray-500 text-sm">@Model.Email</div>
+            }
+            <a href="/uitloggen" class="text-sm hover:text-gray-600">@Localizer["Logout"]</a>
+        </div>
+    }
+    else
+    {
+        <a href="/inloggen" class="text-sm hover:text-gray-600">@Localizer["Login"]</a>
+    }
+</div>
+</div>
 <script>
-    function toggleLanguage(element) {
-        if (element.checked) {
-            window.location.href = '?culture=en-US';
-        } else {
-            window.location.href = '?culture=nl-NL';
-        }
+    function changeLanguage(element) {
+        const selectedLanguage = element.value;
+        window.location.href = `?culture=${selectedLanguage}`;
     }
 </script>

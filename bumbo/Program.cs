@@ -48,7 +48,8 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    var supportedCultures = new[] {
+    var supportedCultures = new[]
+    {
         new CultureInfo("en-US"),
         new CultureInfo("nl-NL"),
     };
@@ -56,9 +57,14 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.DefaultRequestCulture = new RequestCulture("nl-NL");
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
+
+    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
 });
 
+
 var app = builder.Build();
+
+app.UseMiddleware<bumbo.Middleware.LocalizationMiddleware>();
 
 app.UseRequestLocalization();
 
