@@ -14,6 +14,7 @@ namespace bumbo.Controllers
         private readonly IFunctionRepository _functionRepository;
         private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
         private readonly IEmployeeRepository _employeeRepository;
+        private static Random random = new Random();
 
         public EmployeesController(UserManager<Employee> userManager, IFunctionRepository functionRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, IEmployeeRepository employeeRepository)
         {
@@ -32,7 +33,7 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            var headers = new List<string> { "Naam", "Achternaam", "Email", "Telefoonnummer",  };
+            var headers = new List<string> { "Naam", "Achternaam", "Email", "Telefoonnummer", };
             var tableBuilder = new TableHtmlBuilder<Employee>();
             var htmlTable = tableBuilder.GenerateTable("Medewerkers", headers, _employeeRepository.GetAllEmployees(), "/medewerkers/aanmaken", item =>
             {
@@ -42,7 +43,8 @@ namespace bumbo.Controllers
                     <td class='py-2 px-4'>{item.Email}</td>
                     <td class='py-2 px-4'>{item.PhoneNumber}</td>
                     <td class='py-2 px-4 text-right'>
-                    <button onclick = ""window.location.href='/medewerkers/bewerken?medewerkerId={item.Id}'"">✏️</button> 
+                    <button onclick = ""window.location.href='/medewerkers/bewerken?medewerkerId={item.Id}'"">✏️</button>
+  
                     <td>";
             }, searchTerm, page);
 
@@ -50,8 +52,12 @@ namespace bumbo.Controllers
 
             return View();
         }
-
-
+        private string GenerateRandomString(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~|}{[]:;?><,./-=";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
 
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -62,7 +68,7 @@ namespace bumbo.Controllers
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
-
+            int paswordLength = 8;
             var model = new CreateEmployeeViewModel
             {
                 Functions = _functionRepository.GetAllFunctions().Select(f => new SelectListItem
@@ -70,8 +76,8 @@ namespace bumbo.Controllers
                     Value = f.FunctionName,
                     Text = f.FunctionName
                 }).ToList(),
-
-                IsSystemManager = user.IsSystemManager
+                Password = GenerateRandomString(paswordLength),
+                LogedInAsSystemManager = user.IsSystemManager
             };
 
             return View(model);
@@ -93,7 +99,7 @@ namespace bumbo.Controllers
 
             if (ModelState.IsValid)
             {
-               
+
                 bool isSuccess = false;
                 var employee = new Employee
                 {
@@ -111,7 +117,7 @@ namespace bumbo.Controllers
                     ManagerOfBranchId = model.ManagerOfBranchId
                 };
 
-                var result = await _userManager.CreateAsync(employee, "DefaultPassword123!");
+                var result = await _userManager.CreateAsync(employee, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -155,7 +161,6 @@ namespace bumbo.Controllers
 
             return View(model);
         }
-
         [HttpGet]
         public async Task<IActionResult> UpdateAsync(string medewerkerId)
         {
