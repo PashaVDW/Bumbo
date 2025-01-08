@@ -13,13 +13,17 @@ namespace bumbo.Controllers
     {
         private readonly IRegisteredHoursRepository _registeredHoursRepository;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly ILabourRulesRepository _labourRulesRepository;
+
         private readonly UserManager<Employee> _userManager;
 
-        public RegisteredHoursController(IRegisteredHoursRepository registeredHoursRepository, IEmployeeRepository employeeRepository, UserManager<Employee> userManager)
+        public RegisteredHoursController(IRegisteredHoursRepository registeredHoursRepository, IEmployeeRepository employeeRepository, 
+            UserManager<Employee> userManager, ILabourRulesRepository labourRulesRepository)
         {
             _registeredHoursRepository = registeredHoursRepository;
             _employeeRepository = employeeRepository;
             _userManager = userManager;
+            _labourRulesRepository = labourRulesRepository;
 
         }
         public IActionResult ButtonView()
@@ -129,23 +133,33 @@ namespace bumbo.Controllers
                 if (hour.EndTime.Hour - hour.StartTime.Hour == 0)
                 {
                     int amountOfMinutes = hour.EndTime.Minute - hour.StartTime.Minute;
-                    amountOfMinutes = GoThroughLabourRules(hour, amountOfMinutes/60);
-                    text = GetToManyHours(hour, amountOfMinutes / 60, text, employee);
+                    amountOfMinutes = GoThroughLabourRules(hour, amountOfMinutes/60, employee);
+                    text = GetToManyHoursWorked(hour, amountOfMinutes / 60, text, employee);
                     text += $"{hour.EndTime.Minute - hour.StartTime.Minute} minuten | ";
                 }
                 else
                 {
                     int amountOfHours = hour.EndTime.Hour - hour.StartTime.Hour;
-                    amountOfHours = GoThroughLabourRules(hour, amountOfHours);
-                    text = GetToManyHours(hour, amountOfHours, text, employee);
+                    amountOfHours = GoThroughLabourRules(hour, amountOfHours, employee);
+                    text = GetToManyHoursWorked(hour, amountOfHours, text, employee);
                     text += $"{amountOfHours} uur | ";
                 }
             }
             return text;
         }
 
-        private int GoThroughLabourRules(RegisteredHours hour, int amountOfHours)
+        // Toeslagen
+        private int GoThroughLabourRules(RegisteredHours hour, int amountOfHours, Employee employee)
         {
+            foreach (Schedule schedule in employee.Schedules.Where(s => s.Date.Month == hour.EndTime.Month))
+            {
+                if (schedule.Date == DateOnly.FromDateTime(hour.EndTime) && schedule.IsSick)
+                {
+                    amountOfHours *= (int)0.7;
+                    return amountOfHours;
+                }
+            }
+
             if ((TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.MinValue
                 && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(6, 0, 0)))
                 && (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(21, 0, 0))
@@ -163,7 +177,7 @@ namespace bumbo.Controllers
             }
             if (hour.StartTime.DayOfWeek == DayOfWeek.Sunday && hour.EndTime.DayOfWeek == DayOfWeek.Sunday)
             {
-                amountOfHours = amountOfHours * 2;
+                amountOfHours *= 2;
             }
 
             DutchPublicHoliday dutchHolidays = new DutchPublicHoliday();
@@ -172,14 +186,46 @@ namespace bumbo.Controllers
             {
                 if (hour.StartTime.Equals(holiday) && hour.EndTime.Equals(holiday))
                 {
-                    amountOfHours = amountOfHours * 2;
+                    amountOfHours *= 2;
                 }
             }
 
             return amountOfHours;
         }
-        private string GetToManyHours(RegisteredHours hour, int amountOfHours, string text, Employee employee)
+
+        // Regels algemeen
+        private string GetToManyHoursWorked(RegisteredHours hour, int amountOfHours, string text, Employee employee)
         {
+            string activeCountry = "Netherlands";
+            List<LabourRules> labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(activeCountry).ToList();
+            if (!labourRules.Any())
+            {
+                labourRules = _labourRulesRepository.CreateDefaultLabourRulesForCountry(activeCountry);
+            }
+
+            foreach (LabourRules rule in labourRules)
+            {
+                if (activeCountry.Equals("Netherlands"))
+                {
+                    if (rule.AgeGroup.Equals("<16"))
+                    {
+                        if (Employee16OrLessHasWorkedToMuch(employee, hour))
+                        {
+                            text += "teveel gewerkt";
+                            return text;
+                        }
+                    }
+                    else if (rule.AgeGroup.Equals("16-17"))
+                    {
+                        if (Employee16Or17HasWorkedToMuch(employee, hour))
+                        {
+                            text += "teveel gewerkt";
+                            return text;
+                        }
+                    }
+                }
+            }
+
             if (amountOfHours > 12)
             {
                 text += $"({amountOfHours - 12} Teveel) ";
@@ -190,14 +236,67 @@ namespace bumbo.Controllers
 
             foreach (RegisteredHours hourThisWeek in hoursThisWeek)
             {
-                count += hour.EndTime.Hour - hour.StartTime.Hour;
+                count += hourThisWeek.EndTime.Hour - hourThisWeek.StartTime.Hour;
             }
 
             if (count > 60)
             {
                 text += $"({count - 60} teveel in week) ";
-            }
+            } 
+
             return text;
+        }
+
+        // < 16 jaar
+        private bool Employee16OrLessHasWorkedToMuch(Employee employee, RegisteredHours registeredHour)
+        {
+            int hoursWorkedInWeek = 0;
+            List<RegisteredHours> registeredHours = _registeredHoursRepository.GetRegisteredHoursInWeekFromEmployee(employee.Id, registeredHour.StartTime.GetWeekOfYear());
+            List<DayOfWeek> daysWorked = new List<DayOfWeek>();
+            foreach (RegisteredHours hour in registeredHours)
+            {
+                hoursWorkedInWeek += hour.EndTime.Hour - hour.StartTime.Hour;
+                if (!daysWorked.Contains(hour.EndTime.DayOfWeek))
+                {
+                    daysWorked.Add(hour.EndTime.DayOfWeek);
+                }
+            }
+
+            int hoursWorked = registeredHour.EndTime.Hour - registeredHour.StartTime.Hour;
+            int hoursOnSchoolInWeek = 0;
+            foreach (SchoolSchedule schoolSchedule in employee.SchoolSchedules.Where(s => s.Date.Month == registeredHour.EndTime.Month))
+            {
+                if (schoolSchedule.Date == DateOnly.FromDateTime(registeredHour.EndTime))
+                {
+                    hoursWorked += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
+                }
+                hoursOnSchoolInWeek += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
+            }
+
+            return hoursWorkedInWeek > 40 || hoursWorked > 8 || registeredHour.EndTime.Hour > 19
+                || hoursWorkedInWeek - hoursOnSchoolInWeek > 12 || daysWorked.Count > 5;
+        }
+
+        // 16-17 jaar
+        private bool Employee16Or17HasWorkedToMuch(Employee employee, RegisteredHours registeredHour)
+        {
+            int hoursWorkedInWeek = 0;
+            List<RegisteredHours> registeredHours = _registeredHoursRepository.GetRegisteredHoursFromEmployee(employee.Id);
+            foreach (RegisteredHours hour in registeredHours)
+            {
+                hoursWorkedInWeek += hour.EndTime.Hour - hour.StartTime.Hour;
+            }
+
+            int hoursWorked = registeredHour.EndTime.Hour - registeredHour.StartTime.Hour;
+            foreach (SchoolSchedule schoolSchedule in employee.SchoolSchedules)
+            {
+                if (schoolSchedule.Date == DateOnly.FromDateTime(registeredHour.EndTime))
+                {
+                    hoursWorked += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
+                }
+            }
+            
+            return (hoursWorkedInWeek/4) > 40 || hoursWorked > 9;
         }
 
         private Page NextPage(Page page, Document document)
@@ -207,6 +306,12 @@ namespace bumbo.Controllers
             document.Pages.Add(nextPage);
 
             return page;
+        }
+
+        private List<DayOfWeek> GetDaysOfWeek()
+        {
+            return new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, 
+                DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday }; ;
         }
     }
 }
