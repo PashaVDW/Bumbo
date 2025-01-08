@@ -134,9 +134,9 @@ namespace DataLayer.Repositories
 
         public List<Schedule> GetRegisteredHoursInMonthScheduleForEmployee(string employeeId, DateTime firstDay, DateTime lastDay)
         {
-            var dateOnlyMonday = DateOnly.FromDateTime(firstDay);
-            var dateOnlySunday = DateOnly.FromDateTime(lastDay);
-            var dateOnlyToday = DateOnly.FromDateTime(DateTime.Now);
+            DateOnly dateOnlyMonday = DateOnly.FromDateTime(firstDay);
+            DateOnly dateOnlySunday = DateOnly.FromDateTime(lastDay);
+            DateOnly dateOnlyToday = DateOnly.FromDateTime(DateTime.Now);
             return _context.Schedule.Where(s => s.EmployeeId == employeeId 
                                             && s.Date >= dateOnlyMonday 
                                             && s.Date <= dateOnlySunday

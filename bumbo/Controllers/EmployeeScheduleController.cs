@@ -144,6 +144,8 @@ namespace bumbo.Controllers
 
             List<RegisteredHours> tempHours = new List<RegisteredHours>();
 
+            Console.WriteLine($"Count: {registeredHoursInMonthPlanned.Count}");
+
             foreach (Schedule schedule in registeredHoursInMonthPlanned)
             {
                 foreach (RegisteredHours hour in registeredHoursInMonthSchedule)
