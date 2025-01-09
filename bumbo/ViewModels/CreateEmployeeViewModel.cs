@@ -45,11 +45,13 @@ namespace bumbo.ViewModels
         public int? ManagerOfBranchId { get; set; } = null;
 
         public bool IsSystemManager { get; set; } = false;
+        public bool LogedInAsSystemManager { get; set; } = false;
 
         public string? SelectedFunction { get; set; }
 
         public List<SelectListItem>? Functions { get; set; }
 
         public DateTime AssignedDate { get; set; } = DateTime.Now;
+        public string? Password { get; set; }
     }
 }
