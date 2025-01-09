@@ -103,7 +103,7 @@ namespace bumbo.Controllers
             if (branchHasEmployee == null)
             {
                 TempData["Error"] = "U bent niet gekoppeld aan een filiaal. Neem contact op met uw beheerder voor ondersteuning.";
-                return RedirectToAction("Index", new { weekNumber = weekNumber, yearNumber = yearNumber });
+                return RedirectToAction("Index", new { weekNumber, yearNumber });
             }
 
             Branch branch = _branchesRepository.GetBranch(branchHasEmployee.BranchId);

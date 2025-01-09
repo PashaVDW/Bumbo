@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using bumbo.Models;
 using DataLayer.Models;
 using System.Reflection.Emit;
+using System.Xml;
 
 namespace bumbo.Data
 {
@@ -628,7 +629,6 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Schedule>().HasData(
-                // Maandag - Kassa
                 new Schedule
                 {
                     EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
@@ -652,7 +652,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Maandag - Vakkenvullen
                 new Schedule
                 {
                     EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
@@ -687,7 +686,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Maandag - Vers
                 new Schedule
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
@@ -722,7 +720,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Dinsdag
                 new Schedule
                 {
                     EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
@@ -746,7 +743,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Woensdag
                 new Schedule
                 {
                     EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
@@ -759,7 +755,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Donderdag
                 new Schedule
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
@@ -772,7 +767,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Vrijdag
                 new Schedule
                 {
                     EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
@@ -785,7 +779,6 @@ namespace bumbo.Data
                     IsSick = true
                 },
 
-                // Zaterdag
                 new Schedule
                 {
                     EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
@@ -798,7 +791,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Zondag
                 new Schedule
                 {
                     EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
@@ -807,6 +799,161 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(16, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 8),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 9),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 12),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 14),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 21),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 5),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 8),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 12),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 16),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 22),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 24),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 2, 3),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 2, 7),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 2, 9),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
                     IsFinal = true,
                     IsSick = false
                 }
@@ -1226,18 +1373,154 @@ namespace bumbo.Data
                 new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) }
             );
 
+            modelBuilder.Entity<RegisteredHours>().HasData(
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 1,
+                    StartTime = new DateTime(2024, 12, 5, 8, 1, 12),
+                    EndTime = new DateTime(2024, 12, 5, 14, 2, 27),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 2,
+                    StartTime = new DateTime(2024, 12, 16, 8, 58, 52),
+                    EndTime = new DateTime(2024, 12, 16, 12, 0, 44),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 3,
+                    StartTime = new DateTime(2024, 12, 17, 13, 2, 42),
+                    EndTime = new DateTime(2024, 12, 17, 17, 1, 25),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 4,
+                    StartTime = new DateTime(2024, 12, 24, 7, 59, 33),
+                    EndTime = new DateTime(2024, 12, 24, 16, 1, 26),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+
+
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 5,
+                    StartTime = new DateTime(2025, 1, 5, 9, 1, 12),
+                    EndTime = new DateTime(2025, 1, 5, 12, 2, 27),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 6,
+                    StartTime = new DateTime(2025, 1, 8, 11, 58, 52),
+                    EndTime = new DateTime(2025, 1, 8, 16, 0, 44),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 8,
+                    StartTime = new DateTime(2025, 1, 16, 7, 59, 33),
+                    EndTime = new DateTime(2025, 1, 16, 16, 1, 26),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 9,
+                    StartTime = new DateTime(2025, 1, 22, 11, 1, 12),
+                    EndTime = new DateTime(2025, 1, 22, 17, 2, 27),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 10,
+                    StartTime = new DateTime(2025, 1, 24, 8, 58, 52),
+                    EndTime = new DateTime(2025, 1, 24, 15, 0, 44),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 11,
+                    StartTime = new DateTime(2025, 2, 3, 9, 2, 42),
+                    EndTime = new DateTime(2025, 2, 3, 17, 1, 25),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 12,
+                    StartTime = new DateTime(2025, 2, 7, 10, 59, 33),
+                    EndTime = new DateTime(2025, 2, 7, 17, 1, 26),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 13,
+                    StartTime = new DateTime(2025, 2, 9, 8, 59, 33),
+                    EndTime = new DateTime(2025, 2, 9, 14, 59, 46),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                }
+            );
+
 
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
 
             modelBuilder.Entity<RegisteredHours>()
-                .HasKey(rh => new { rh.EmployeeBID, rh.StartTime });
+                .HasKey(rh => new { rh.EmployeeId, rh.RegistrationNumber });
+
+            modelBuilder.Entity<RegisteredHours>()
+                .Property(e => e.RegistrationNumber)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<RegisteredHours>()
                 .HasOne<Employee>()
                 .WithMany(e => e.RegisteredHours)
                 .HasForeignKey(rh => rh.EmployeeBID)
+                .HasPrincipalKey(e => e.BID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<RegisteredHours>()
+                .HasOne<Branch>()
+                .WithMany(e => e.RegisteredHours)
+                .HasForeignKey(rh => rh.BranchId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Employee>()
