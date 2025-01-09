@@ -54,9 +54,28 @@ namespace bumbo.Controllers
         }
         private string GenerateRandomString(int length)
         {
-            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~|}{[]:;?><,./-=";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+            if (length < 4)
+                throw new ArgumentException("Wachtwoordlengte moet minimaal 4 tekens zijn om aan de vereisten te voldoen.");
+
+            const string lowerCase = "abcdefghijklmnopqrstuvwxyz";
+            const string upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string digits = "0123456789";
+            const string specialChars = "!@#$%^&*()_+~|}{[]:;?><,./-=";
+            const string allChars = lowerCase + upperCase + digits + specialChars;
+
+            var randomPassword = new List<char>();
+
+            randomPassword.Add(lowerCase[random.Next(lowerCase.Length)]);
+            randomPassword.Add(upperCase[random.Next(upperCase.Length)]);
+            randomPassword.Add(digits[random.Next(digits.Length)]);
+            randomPassword.Add(specialChars[random.Next(specialChars.Length)]);
+
+            for (int i = randomPassword.Count; i < length; i++)
+            {
+                randomPassword.Add(allChars[random.Next(allChars.Length)]);
+            }
+
+            return new string(randomPassword.OrderBy(_ => random.Next()).ToArray());
         }
 
         [HttpGet]
