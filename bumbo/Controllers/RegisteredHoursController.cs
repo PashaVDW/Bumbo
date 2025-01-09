@@ -45,17 +45,29 @@ namespace bumbo.Controllers
             return PhysicalFile(filePath, contentType);
         }
 
-        public IActionResult HoursOverview(string activeCountry)
+        public async Task<IActionResult> HoursOverview(string activeCountry)
         {
-            TempData["ActiveCountry"] = activeCountry;
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranch != null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
-            List<Employee> employees = _employeeRepository.GetAllEmployees();
-            List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees);
+            try
+            {
+                TempData["ActiveCountry"] = activeCountry;
 
-            DrawPDF(registeredHours, employees);
-            ViewData["HideLayoutElements"] = true;
+                List<Employee> employees = _employeeRepository.GetAllEmployees();
+                List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees);
 
-            return View();
+                DrawPDF(registeredHours, employees);
+                ViewData["HideLayoutElements"] = true;
+
+                return View();
+            } catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         private List<RegisteredHours> FillRegisteredHoursList(List<Employee> employees)
