@@ -126,6 +126,8 @@ namespace bumbo.Controllers
                         };
 
                         await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchHasEmployee);
+
+                        _employeeRepository.AddNormalizedEmail(model.Email, employee.Id);
                     }
 
                     TempData["ToastMessage"] = "Medewerker succesvol toegevoegd!";
