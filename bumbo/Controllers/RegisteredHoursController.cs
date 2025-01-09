@@ -280,15 +280,15 @@ namespace bumbo.Controllers
         private bool EmployeeMinorHasWorkedToMuch(Employee employee, RegisteredHours registeredHour, LabourRules labourRule)
         {
 
-            int hoursWorkedOnDay = registeredHour.EndTime.Hour - registeredHour.StartTime.Hour;
+            int hoursWorkedOnDay = GetHours(registeredHour);
             int hoursOnSchoolInWeek = 0;
             foreach (SchoolSchedule schoolSchedule in employee.SchoolSchedules.Where(s => s.Date.Month == registeredHour.EndTime.Month))
             {
                 if (schoolSchedule.Date == DateOnly.FromDateTime(registeredHour.EndTime))
                 {
-                    hoursWorkedOnDay += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
+                    hoursWorkedOnDay += GetHours(schoolSchedule);
                 }
-                hoursOnSchoolInWeek += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
+                hoursOnSchoolInWeek += GetHours(schoolSchedule);
             }
 
             if (labourRule.AgeGroup.Equals("<16"))
@@ -312,7 +312,7 @@ namespace bumbo.Controllers
             int hoursWorkedInWeek = 0;
             foreach (RegisteredHours hour in registeredHours)
             {
-                hoursWorkedInWeek += hour.EndTime.Hour - hour.StartTime.Hour;
+                hoursWorkedInWeek += GetHours(hour);
                 if (!daysWorked.Contains(hour.EndTime.DayOfWeek))
                 {
                     daysWorked.Add(hour.EndTime.DayOfWeek);
@@ -339,7 +339,7 @@ namespace bumbo.Controllers
             List<RegisteredHours> registeredHours = _registeredHoursRepository.GetRegisteredHoursFromEmployee(employee.Id);
             foreach (RegisteredHours hour in registeredHours)
             {
-                hoursWorkedInMonth += hour.EndTime.Hour - hour.StartTime.Hour;
+                hoursWorkedInMonth += GetHours(hour);
             }
             return hoursWorkedInMonth;
         }
@@ -351,6 +351,14 @@ namespace bumbo.Controllers
             amountOfHours = Math.Round(amountOfHours, 0, MidpointRounding.AwayFromZero);
 
             return (int) amountOfHours;
+        }
+        private int GetHours(SchoolSchedule schoolSchedule)
+        {
+            TimeOnly time = TimeOnly.FromTimeSpan(schoolSchedule.EndTime - schoolSchedule.StartTime);
+            double amountOfHours = (double)(time.Hour + (double)time.Minute / 60);
+            amountOfHours = Math.Round(amountOfHours, 0, MidpointRounding.AwayFromZero);
+
+            return (int)amountOfHours;
         }
     }
 }
