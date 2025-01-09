@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Localization
 @inject IViewLocalizer Localizer
 
@@ -58,18 +58,18 @@
                     @foreach (var departmentName in Model.Days.First().DepartmentList.Select(d => d.DepartmentName).Distinct())
                     {
                         <tr class="border-b">
-                            <td class="p-4 font-medium text-left">@departmentName</td>
+                            <td class="p-4 text-left font-medium">@departmentName</td>
                             <!-- Loop door de dagen en toon de inputvelden voor uren en werknemers -->
                             @foreach (var day in Model.Days)
                             {
                                 var deptData = day.DepartmentList.FirstOrDefault(d => d.DepartmentName == departmentName);
 
                                 <td class="p-4 text-center">
-                                    <div class="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0">
-                                        <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
-                                            @deptData.HoursOfWorkNeeded.ToString("F1")
+                                    <div class="space-y-1 flex flex-col md:flex-row md:space-x-2 md:space-y-0">
+                                        <div class="w-20 h-12 flex items-center justify-center rounded-lg border text-center">
+                                            @deptData.HoursOfWorkNeeded
                                         </div>
-                                        <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
+                                        <div class="w-20 h-12 flex items-center justify-center rounded-lg border text-center">
                                             @deptData.AmountOfWorkersNeeded
                                         </div>
                                     </div>
