@@ -5,6 +5,7 @@ using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PublicHoliday;
+using System.Data;
 
 
 namespace bumbo.Controllers
@@ -44,8 +45,10 @@ namespace bumbo.Controllers
             return PhysicalFile(filePath, contentType);
         }
 
-        public IActionResult HoursOverview()
+        public IActionResult HoursOverview(string activeCountry)
         {
+            TempData["ActiveCountry"] = activeCountry;
+
             List<Employee> employees = _employeeRepository.GetAllEmployees();
             List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees);
 
@@ -125,6 +128,16 @@ namespace bumbo.Controllers
                 }
             }
         }
+
+        private Page NextPage(Page page, Document document)
+        {
+            Page nextPage = new Page(PageSize.A4, PageOrientation.Portrait, 54.0f);
+            page = nextPage;
+            document.Pages.Add(nextPage);
+
+            return page;
+        }
+
         private string SetLabelText(string text, RegisteredHours hour, int counter, Employee employee)
         {
             if (employee.Id == hour.EmployeeId &&
@@ -152,6 +165,8 @@ namespace bumbo.Controllers
             return text;
         }
 
+        // -------------------- Labour Rules --------------------
+
         // Toeslagen
         private int GoThroughLabourRules(RegisteredHours hour, int amountOfHours, Employee employee)
         {
@@ -169,9 +184,9 @@ namespace bumbo.Controllers
 
             if ((TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.MinValue
                 && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(6, 0, 0)))
-                && (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(21, 0, 0))
+                || (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(21, 0, 0))
                 && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(24, 0, 0)))
-                && (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(18, 0, 0))
+                || (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(18, 0, 0))
                 && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(24, 0, 0)) 
                 && hour.StartTime.DayOfWeek == DayOfWeek.Saturday && hour.EndTime.DayOfWeek == DayOfWeek.Saturday))
             {
@@ -200,10 +215,10 @@ namespace bumbo.Controllers
             return amountOfHours;
         }
 
-        // Regels algemeen
+        // Regels
         private string GetToManyHoursWorked(RegisteredHours hour, int amountOfHours, string text, Employee employee)
         {
-            string activeCountry = "Netherlands";
+            string activeCountry = TempData["ActiveCountry"].ToString();
             List<LabourRules> labourRules = _labourRulesRepository.GetAllLabourRulesForCountry(activeCountry).ToList();
             if (!labourRules.Any())
             {
@@ -212,32 +227,36 @@ namespace bumbo.Controllers
 
             foreach (LabourRules rule in labourRules)
             {
-                if (activeCountry.Equals("Netherlands"))
+                if (IsMinor(rule, employee))
                 {
-                    if (rule.AgeGroup.Equals("<16") && employee.BirthDate.Year > DateTime.Now.Year - 16)
+                    if (EmployeeMinorHasWorkedToMuch(employee, hour, rule))
                     {
-                        if (Employee16OrLessHasWorkedToMuch(employee, hour))
-                        {
-                            text += "teveel gewerkt ";
-                            return text;
-                        }
+                        text += "teveel gewerkt ";
+                        return text;
                     }
-                    else if (rule.AgeGroup.Equals("16-17") 
-                        && (employee.BirthDate.Year == DateTime.Now.Year - 16 
-                        || employee.BirthDate.Year == DateTime.Now.Year - 17))
-                    {
-                        if (Employee16Or17HasWorkedToMuch(employee, hour))
-                        {
-                            text += "teveel gewerkt ";
-                            return text;
-                        }
-                    }
+                }
+                else if (rule.AgeGroup.Equals(">17"))
+                {
+                    text = CheckIfEmployeeHasWorkedToMuch(text, rule, amountOfHours,employee, hour);
                 }
             }
 
-            if (amountOfHours > 12)
+            return text;
+        }
+
+        private bool IsMinor(LabourRules rule, Employee employee)
+        {
+            return (rule.AgeGroup.Equals("<16") && employee.BirthDate.Year > DateTime.Now.Year - 16) ||
+                (rule.AgeGroup.Equals("16-17") && (employee.BirthDate.Year == DateTime.Now.Year - 16
+                || employee.BirthDate.Year == DateTime.Now.Year - 17));
+        }
+
+        private string CheckIfEmployeeHasWorkedToMuch(string text, LabourRules rule, int amountOfHours, Employee employee, RegisteredHours hour)
+        {
+            int maxHoursPerDay = rule.MaxHoursPerDay;
+            if (amountOfHours > maxHoursPerDay)
             {
-                text += $"({amountOfHours - 12} Teveel) ";
+                text += $"({amountOfHours - maxHoursPerDay} Teveel) ";
             }
 
             List<RegisteredHours> hoursThisWeek = _registeredHoursRepository.GetRegisteredHoursInWeekFromEmployee(employee.Id, hour.StartTime.GetWeekOfYear());
@@ -248,20 +267,47 @@ namespace bumbo.Controllers
                 count += hourThisWeek.EndTime.Hour - hourThisWeek.StartTime.Hour;
             }
 
-            if (count > 60)
+            int maxHoursPerWeek = rule.MaxHoursPerWeek;
+            if (count > maxHoursPerWeek)
             {
-                text += $"({count - 60} teveel in week) ";
-            } 
-
+                text += $"({count - maxHoursPerWeek} teveel in week) ";
+            }
             return text;
         }
 
-        // < 16 jaar
-        private bool Employee16OrLessHasWorkedToMuch(Employee employee, RegisteredHours registeredHour)
+        private bool EmployeeMinorHasWorkedToMuch(Employee employee, RegisteredHours registeredHour, LabourRules labourRule)
         {
-            int hoursWorkedInWeek = 0;
+
+            int hoursWorkedOnDay = registeredHour.EndTime.Hour - registeredHour.StartTime.Hour;
+            int hoursOnSchoolInWeek = 0;
+            foreach (SchoolSchedule schoolSchedule in employee.SchoolSchedules.Where(s => s.Date.Month == registeredHour.EndTime.Month))
+            {
+                if (schoolSchedule.Date == DateOnly.FromDateTime(registeredHour.EndTime))
+                {
+                    hoursWorkedOnDay += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
+                }
+                hoursOnSchoolInWeek += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
+            }
+
+            if (labourRule.AgeGroup.Equals("<16"))
+            {
+                return CheckForLessThanSixteen(labourRule, employee, hoursWorkedOnDay, registeredHour, hoursOnSchoolInWeek);
+            }
+            if (labourRule.AgeGroup.Equals("16-17"))
+            {
+                return CheckForSixteenOrSeventeen(labourRule, employee, hoursWorkedOnDay);
+            }
+
+            return false;
+        }
+
+        private bool CheckForLessThanSixteen(LabourRules labourRule, Employee employee, int hoursWorkedOnDay, 
+            RegisteredHours registeredHour, int hoursOnSchoolInWeek)
+        {
             List<RegisteredHours> registeredHours = _registeredHoursRepository.GetRegisteredHoursInWeekFromEmployee(employee.Id, registeredHour.StartTime.GetWeekOfYear());
             List<DayOfWeek> daysWorked = new List<DayOfWeek>();
+
+            int hoursWorkedInWeek = 0;
             foreach (RegisteredHours hour in registeredHours)
             {
                 hoursWorkedInWeek += hour.EndTime.Hour - hour.StartTime.Hour;
@@ -271,56 +317,29 @@ namespace bumbo.Controllers
                 }
             }
 
-            int hoursWorked = registeredHour.EndTime.Hour - registeredHour.StartTime.Hour;
-            int hoursOnSchoolInWeek = 0;
-            foreach (SchoolSchedule schoolSchedule in employee.SchoolSchedules.Where(s => s.Date.Month == registeredHour.EndTime.Month))
-            {
-                if (schoolSchedule.Date == DateOnly.FromDateTime(registeredHour.EndTime))
-                {
-                    hoursWorked += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
-                }
-                hoursOnSchoolInWeek += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
-            }
-
-            return hoursWorkedInWeek > 40 || hoursWorked > 8 || registeredHour.EndTime.Hour > 19
-                || hoursWorkedInWeek - hoursOnSchoolInWeek > 12 || daysWorked.Count > 5;
+            return hoursWorkedInWeek > labourRule.MaxHoursPerWeek
+                || hoursWorkedOnDay > labourRule.MaxHoursPerDay
+                || registeredHour.EndTime.Hour > labourRule.MaxEndTime.Hours
+                || hoursWorkedInWeek - hoursOnSchoolInWeek > labourRule.MaxHoursWithSchool
+                || daysWorked.Count > labourRule.MaxWorkDaysPerWeek;
         }
 
-        // 16-17 jaar
-        private bool Employee16Or17HasWorkedToMuch(Employee employee, RegisteredHours registeredHour)
+        private bool CheckForSixteenOrSeventeen(LabourRules labourRule, Employee employee, int hoursWorkedOnDay)
         {
-            int hoursWorkedInWeek = 0;
+            int hoursWorkedInMonth = GetHoursWorkedInMonth(employee);
+            return (hoursWorkedInMonth / 4) > labourRule.MaxHoursPerWeek
+                || hoursWorkedOnDay > labourRule.MaxHoursPerDay;
+        }
+
+        private int GetHoursWorkedInMonth(Employee employee)
+        {
+            int hoursWorkedInMonth = 0;
             List<RegisteredHours> registeredHours = _registeredHoursRepository.GetRegisteredHoursFromEmployee(employee.Id);
             foreach (RegisteredHours hour in registeredHours)
             {
-                hoursWorkedInWeek += hour.EndTime.Hour - hour.StartTime.Hour;
+                hoursWorkedInMonth += hour.EndTime.Hour - hour.StartTime.Hour;
             }
-
-            int hoursWorked = registeredHour.EndTime.Hour - registeredHour.StartTime.Hour;
-            foreach (SchoolSchedule schoolSchedule in employee.SchoolSchedules)
-            {
-                if (schoolSchedule.Date == DateOnly.FromDateTime(registeredHour.EndTime))
-                {
-                    hoursWorked += schoolSchedule.EndTime.Hour - schoolSchedule.StartTime.Hour;
-                }
-            }
-            
-            return (hoursWorkedInWeek/4) > 40 || hoursWorked > 9;
-        }
-
-        private Page NextPage(Page page, Document document)
-        {
-            Page nextPage = new Page(PageSize.A4, PageOrientation.Portrait, 54.0f);
-            page = nextPage;
-            document.Pages.Add(nextPage);
-
-            return page;
-        }
-
-        private List<DayOfWeek> GetDaysOfWeek()
-        {
-            return new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, 
-                DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday }; ;
+            return hoursWorkedInMonth;
         }
     }
 }
