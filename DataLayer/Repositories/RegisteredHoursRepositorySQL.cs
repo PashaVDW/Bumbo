@@ -74,7 +74,7 @@ namespace DataLayer.Repositories
                 .Where(r => r.EmployeeId.Equals(employeeId))
                 .AsEnumerable()
                 .Where(r => ISOWeek.GetWeekOfYear(r.StartTime) == week
-                        && ISOWeek.GetWeekOfYear(r.EndTime) == week).ToList();
+                        && ISOWeek.GetWeekOfYear(r.EndTime.Value) == week).ToList();
         }
     }
 }

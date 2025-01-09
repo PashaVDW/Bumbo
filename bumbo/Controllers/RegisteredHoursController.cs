@@ -153,18 +153,18 @@ namespace bumbo.Controllers
         private string SetLabelText(string text, RegisteredHours hour, int counter, Employee employee)
         {
             if (employee.Id == hour.EmployeeId &&
-                        !(hour.EndTime.Minute - hour.StartTime.Minute == 0 && hour.EndTime.Hour - hour.StartTime.Hour == 0))
+                        !(hour.EndTime.Value.Minute - hour.StartTime.Minute == 0 && hour.EndTime.Value.Hour - hour.StartTime.Hour == 0))
             {
                 if (counter == 0)
                 {
                     text = $"";
                 }
-                if (hour.EndTime.Hour - hour.StartTime.Hour == 0)
+                if (GetHours(hour) == 0)
                 {
-                    int amountOfMinutes = hour.EndTime.Minute - hour.StartTime.Minute;
+                    int amountOfMinutes = hour.EndTime.Value.Minute - hour.StartTime.Minute;
                     amountOfMinutes = GoThroughLabourRules(hour, amountOfMinutes/60, employee);
                     text = GetToManyHoursWorked(hour, amountOfMinutes / 60, text, employee);
-                    text += $"{hour.EndTime.Minute - hour.StartTime.Minute} minuten | ";
+                    text += $"{hour.EndTime.Value.Minute - hour.StartTime.Minute} minuten | ";
                 }
                 else
                 {
@@ -185,9 +185,9 @@ namespace bumbo.Controllers
             employee.Schedules = _scheduleRulesRepository.GetSchedulesForEmployee(employee.Id);
             employee.SchoolSchedules = _schoolScheduleRulesRepository.GetEmployeeSchoolSchedule(employee.Id);
 
-            foreach (Schedule schedule in employee.Schedules.Where(s => s.Date.Month == hour.EndTime.Month))
+            foreach (Schedule schedule in employee.Schedules.Where(s => s.Date.Month == hour.EndTime.Value.Month))
             {
-                if (schedule.Date == DateOnly.FromDateTime(hour.EndTime) && schedule.IsSick)
+                if (schedule.Date == DateOnly.FromDateTime(hour.EndTime.Value) && schedule.IsSick)
                 {
                     amountOfHours *= (int)0.7;
                     return amountOfHours;
@@ -195,22 +195,22 @@ namespace bumbo.Controllers
             }
 
             if ((TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.MinValue
-                && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(6, 0, 0)))
+                && TimeOnly.FromTimeSpan(hour.EndTime.Value.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(6, 0, 0)))
                 || (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(21, 0, 0))
-                && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(24, 0, 0)))
+                && TimeOnly.FromTimeSpan(hour.EndTime.Value.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(24, 0, 0)))
                 || (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(18, 0, 0))
-                && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(24, 0, 0)) 
-                && hour.StartTime.DayOfWeek == DayOfWeek.Saturday && hour.EndTime.DayOfWeek == DayOfWeek.Saturday))
+                && TimeOnly.FromTimeSpan(hour.EndTime.Value.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(24, 0, 0)) 
+                && hour.StartTime.DayOfWeek == DayOfWeek.Saturday && hour.EndTime.Value.DayOfWeek == DayOfWeek.Saturday))
             {
                 amountOfHours = (int)(amountOfHours * 1.5);
             }
             if (TimeOnly.FromTimeSpan(hour.StartTime.TimeOfDay) >= TimeOnly.FromTimeSpan(new TimeSpan(20, 0, 0))
-               && TimeOnly.FromTimeSpan(hour.EndTime.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(21, 0, 0)))
+               && TimeOnly.FromTimeSpan(hour.EndTime.Value.TimeOfDay) <= TimeOnly.FromTimeSpan(new TimeSpan(21, 0, 0)))
             {
                 amountOfHours = (int)(amountOfHours * 1.333);
             }
 
-            if (hour.StartTime.DayOfWeek == DayOfWeek.Sunday && hour.EndTime.DayOfWeek == DayOfWeek.Sunday)
+            if (hour.StartTime.DayOfWeek == DayOfWeek.Sunday && hour.EndTime.Value.DayOfWeek == DayOfWeek.Sunday)
             {
                 amountOfHours *= 2;
             } else
@@ -219,7 +219,7 @@ namespace bumbo.Controllers
                 List<DateTime> holidays = dutchHolidays.PublicHolidays(2025).ToList();
                 foreach (DateTime holiday in holidays)
                 {
-                    if (hour.StartTime.DayOfYear == holiday.DayOfYear && hour.EndTime.DayOfYear == holiday.DayOfYear)
+                    if (hour.StartTime.DayOfYear == holiday.DayOfYear && hour.EndTime.Value.DayOfYear == holiday.DayOfYear)
                     {
                         amountOfHours *= 2;
                     }
@@ -278,7 +278,7 @@ namespace bumbo.Controllers
 
             foreach (RegisteredHours hourThisWeek in hoursThisWeek)
             {
-                count += hourThisWeek.EndTime.Hour - hourThisWeek.StartTime.Hour;
+                count += hourThisWeek.EndTime.Value.Hour - hourThisWeek.StartTime.Hour;
             }
 
             int maxHoursPerWeek = rule.MaxHoursPerWeek;
@@ -294,9 +294,9 @@ namespace bumbo.Controllers
 
             int hoursWorkedOnDay = GetHours(registeredHour);
             int hoursOnSchoolInWeek = 0;
-            foreach (SchoolSchedule schoolSchedule in employee.SchoolSchedules.Where(s => s.Date.Month == registeredHour.EndTime.Month))
+            foreach (SchoolSchedule schoolSchedule in employee.SchoolSchedules.Where(s => s.Date.Month == registeredHour.EndTime.Value.Month))
             {
-                if (schoolSchedule.Date == DateOnly.FromDateTime(registeredHour.EndTime))
+                if (schoolSchedule.Date == DateOnly.FromDateTime(registeredHour.EndTime.Value))
                 {
                     hoursWorkedOnDay += GetHours(schoolSchedule);
                 }
@@ -325,15 +325,15 @@ namespace bumbo.Controllers
             foreach (RegisteredHours hour in registeredHours)
             {
                 hoursWorkedInWeek += GetHours(hour);
-                if (!daysWorked.Contains(hour.EndTime.DayOfWeek))
+                if (!daysWorked.Contains(hour.EndTime.Value.DayOfWeek))
                 {
-                    daysWorked.Add(hour.EndTime.DayOfWeek);
+                    daysWorked.Add(hour.EndTime.Value.DayOfWeek);
                 }
             }
 
             return hoursWorkedInWeek > labourRule.MaxHoursPerWeek
                 || hoursWorkedOnDay > labourRule.MaxHoursPerDay
-                || registeredHour.EndTime.Hour > labourRule.MaxEndTime.Hours
+                || registeredHour.EndTime.Value.Hour > labourRule.MaxEndTime.Hours
                 || hoursWorkedInWeek - hoursOnSchoolInWeek > labourRule.MaxHoursWithSchool
                 || daysWorked.Count > labourRule.MaxWorkDaysPerWeek;
         }
@@ -358,7 +358,7 @@ namespace bumbo.Controllers
 
         private int GetHours(RegisteredHours hour)
         {
-            TimeOnly time = TimeOnly.FromTimeSpan(hour.EndTime - hour.StartTime);
+            TimeOnly time = TimeOnly.FromTimeSpan(hour.EndTime.Value - hour.StartTime);
             double amountOfHours = (double) (time.Hour + (double)time.Minute/60);
             amountOfHours = Math.Round(amountOfHours, 0, MidpointRounding.AwayFromZero);
 
