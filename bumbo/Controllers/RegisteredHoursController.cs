@@ -156,7 +156,7 @@ namespace bumbo.Controllers
                 }
                 else
                 {
-                    int amountOfHours = hour.EndTime.Hour - hour.StartTime.Hour;
+                    int amountOfHours = GetHours(hour);
                     amountOfHours = GoThroughLabourRules(hour, amountOfHours, employee);
                     text = GetToManyHoursWorked(hour, amountOfHours, text, employee);
                     text += $"{amountOfHours} uur | ";
@@ -197,18 +197,20 @@ namespace bumbo.Controllers
             {
                 amountOfHours = (int)(amountOfHours * 1.333);
             }
+
             if (hour.StartTime.DayOfWeek == DayOfWeek.Sunday && hour.EndTime.DayOfWeek == DayOfWeek.Sunday)
             {
                 amountOfHours *= 2;
-            }
-
-            DutchPublicHoliday dutchHolidays = new DutchPublicHoliday();
-            List<DateTime> holidays = dutchHolidays.PublicHolidays(2025).ToList();
-            foreach (DateTime holiday in holidays)
+            } else
             {
-                if (hour.StartTime.Equals(holiday) && hour.EndTime.Equals(holiday))
+                DutchPublicHoliday dutchHolidays = new DutchPublicHoliday();
+                List<DateTime> holidays = dutchHolidays.PublicHolidays(2025).ToList();
+                foreach (DateTime holiday in holidays)
                 {
-                    amountOfHours *= 2;
+                    if (hour.StartTime.DayOfYear == holiday.DayOfYear && hour.EndTime.DayOfYear == holiday.DayOfYear)
+                    {
+                        amountOfHours *= 2;
+                    }
                 }
             }
 
@@ -340,6 +342,15 @@ namespace bumbo.Controllers
                 hoursWorkedInMonth += hour.EndTime.Hour - hour.StartTime.Hour;
             }
             return hoursWorkedInMonth;
+        }
+
+        private int GetHours(RegisteredHours hour)
+        {
+            TimeOnly time = TimeOnly.FromTimeSpan(hour.EndTime - hour.StartTime);
+            double amountOfHours = (double) (time.Hour + (double)time.Minute/60);
+            amountOfHours = Math.Round(amountOfHours, 0, MidpointRounding.AwayFromZero);
+
+            return (int) amountOfHours;
         }
     }
 }
