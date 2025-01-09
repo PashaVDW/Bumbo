@@ -157,7 +157,7 @@ namespace bumbo.Controllers
 
             try
             {
-                
+
                 Schedule schedule = _scheduleRepository.GetScheduleByEmployeeBranchDate(employeeId, branchId, DateOnly.FromDateTime(date));
                 if (schedule == null)
                 {
@@ -388,7 +388,129 @@ namespace bumbo.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("ShiftSwap/Update")]
+        public async Task<IActionResult> Update(string sendToEmployeeId, string employeeId, int branchId, DateOnly date)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ToastMessage"] = "Je moet ingelogd zijn om diensten te bewerken.";
+                TempData["ToastType"] = "error";
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
+            var schedules = _scheduleRepository
+                .GetSchedulesForEmployee(user.Id)
+                .Select(s => new UpdateSwapShiftScheduleViewModel
+                {
+                    Date = s.Date,
+                    StartTime = s.StartTime,
+                    EndTime = s.EndTime,
+                    DepartmentName = s.DepartmentName
+                }).ToList();
+
+            var selectedRequest = _swapShiftRequestRepository.GetSwitchRequest(
+                sendToEmployeeId,
+                employeeId,
+                branchId,
+                date
+            );
+
+            if (selectedRequest == null)
+            {
+                TempData["ToastMessage"] = "De geselecteerde dienstwissel is niet gevonden.";
+                TempData["ToastType"] = "error";
+                return RedirectToAction("Index");
+            }
+
+            var viewModel = new UpdateSwapShiftViewModel
+            {
+                EmployeeId = employeeId,
+                BranchId = branchId,
+                Schedules = schedules,
+                SelectedUitgaandeDienstRuil = selectedRequest
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost("ShiftSwap/Update")]
+        public async Task<IActionResult> Update(UpdateSwapShiftViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData["ToastMessage"] = "Je moet ingelogd zijn om een dienstwissel bij te werken.";
+                TempData["ToastType"] = "error";
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            try
+            {
+                if (model.SelectedUitgaandeDienstRuil == null)
+                {
+                    TempData["ToastMessage"] = "Geen dienstwissel geselecteerd om bij te werken.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                var selectedSchedule = model.Schedules.FirstOrDefault(s => s.IsSelected);
+                if (selectedSchedule == null)
+                {
+                    TempData["ToastMessage"] = "Geen nieuwe dienst geselecteerd voor de update.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                var availableEmployees = _employeeRepository.GetAvailableEmployees(
+                    selectedSchedule.Date,
+                    selectedSchedule.StartTime,
+                    selectedSchedule.EndTime,
+                    model.SelectedUitgaandeDienstRuil.BranchId,
+                    selectedSchedule.DepartmentName
+                );
+
+                if (availableEmployees == null || !availableEmployees.Any())
+                {
+                    TempData["ToastMessage"] = "Geen beschikbare medewerkers gevonden voor deze dienst.";
+                    TempData["ToastType"] = "error";
+                    return RedirectToAction("Index");
+                }
+
+                var originalSwitchRequest = _swapShiftRequestRepository.GetSwitchRequest(
+                    model.SelectedUitgaandeDienstRuil.SendToEmployeeId,
+                    model.SelectedUitgaandeDienstRuil.EmployeeId,
+                    model.SelectedUitgaandeDienstRuil.BranchId,
+                    model.SelectedUitgaandeDienstRuil.Date
+                );
+
+                if (originalSwitchRequest != null)
+                {
+                    _swapShiftRequestRepository.RemoveSwitchRequest(originalSwitchRequest);
+                }
+
+                var viewModel = new ChooseEmployeeViewModel
+                {
+                    ScheduleDate = selectedSchedule.Date,
+                    StartTime = selectedSchedule.StartTime,
+                    EndTime = selectedSchedule.EndTime,
+                    DepartmentName = selectedSchedule.DepartmentName,
+                    AvailableEmployees = availableEmployees.Select(e => new EmployeeViewModel
+                    {
+                        EmployeeId = e.Id,
+                        Name = $"{e.FirstName} {e.LastName}"
+                    }).ToList()
+                };
+
+                return View("ChooseEmployee", viewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "Er is een fout opgetreden bij het bijwerken van de dienstwissel: " + ex.Message;
+                TempData["ToastType"] = "error";
+                return RedirectToAction("Index");
+            }
+        }
 
 
 
@@ -398,6 +520,5 @@ namespace bumbo.Controllers
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 10000;
         }
-
     }
 }
