@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using bumbo.ViewModels.Norms;
+using Microsoft.AspNetCore.Mvc;
 
 namespace bumbo.Models.ViewModels.Norms
 {
@@ -11,5 +12,6 @@ namespace bumbo.Models.ViewModels.Norms
         public int Cashier { get; set; }
         public int Fresh { get; set; }
         public int Fronting { get; set; }
+        public List<NormViewModel> Norms { get; set; }
     }
 }

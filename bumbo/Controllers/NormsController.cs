@@ -11,6 +11,7 @@ using DataLayer.Models.DTOs;
 using DataLayer.Interfaces;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using bumbo.ViewModels.Norms;
 
 namespace bumbo.Controllers;
 
@@ -85,7 +86,7 @@ public class NormsController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Create(Boolean lastWeek)
+    public async Task<IActionResult> Create(bool lastWeek, int? addYear)
     {
         var user = await _userManager.GetUserAsync(User);
 
@@ -94,46 +95,67 @@ public class NormsController : Controller
             return RedirectToAction("AccessDenied", "Home");
         }
 
-        AddNormViewModel viewModel = new AddNormViewModel();
+        var selectedYear = addYear ?? DateTime.Now.Year;
+
+        var norms = (await _normsRepository.GetNorms())
+            .Where(n => n.branchId == user.ManagerOfBranchId && n.year == selectedYear)
+            .Select(n => new NormViewModel
+            {
+                Week = n.week,
+                Year = n.year
+            })
+            .ToList();
+
+        var viewModel = new AddNormViewModel
+        {
+            Year = selectedYear,
+            Norms = norms
+        };
 
         if (lastWeek)
         {
             TempData["ToastId"] = "loadLastNormToast";
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 3000;
+
             var lastNorm = await GetLastWeek(user.ManagerOfBranchId.Value);
             if (lastNorm != null)
             {
-                viewModel = lastNorm;
+                viewModel.Week = lastNorm.Week;
+                viewModel.UnloadColis = lastNorm.UnloadColis;
+                viewModel.FillShelves = lastNorm.FillShelves;
+                viewModel.Cashier = lastNorm.Cashier;
+                viewModel.Fresh = lastNorm.Fresh;
+                viewModel.Fronting = lastNorm.Fronting;
+
                 int week = LastWeek();
                 int year = DateAndTime.Now.Year;
-                if (week == 0)week = 52 & year--;
+                if (week == 0) { week = 52; year--; }
+
                 if (lastNorm.Week == week && year == lastNorm.Year)
                 {
-                    TempData["ToastMessage"] = "Norm van vorige week successvol ingeladen!";
+                    TempData["ToastMessage"] = "Norm van vorige week succesvol ingeladen!";
                     TempData["ToastType"] = "success";
                 }
-                else 
+                else
                 {
-                    TempData["ToastMessage"] = "laatst aanwezige norm van week: " + lastNorm.Week + " jaar: "+  lastNorm.Year + " successvol ingeladen!";
+                    TempData["ToastMessage"] = $"Laatst aanwezige norm van week {lastNorm.Week}, jaar {lastNorm.Year} succesvol ingeladen!";
                     TempData["ToastType"] = "success";
                     TempData["AutoHide"] = "no";
                 }
-            } else
+            }
+            else
             {
                 TempData["ToastMessage"] = "Er zijn nog geen normeringen!";
                 TempData["ToastType"] = "error";
             }
         }
-
         ViewData["ViewModel"] = viewModel;
 
-        if (user == null || user.ManagerOfBranchId == null)
-        {
-            return RedirectToAction("AccessDenied", "Home");
-        }
         return View(viewModel);
     }
+
+
 
     private async Task<AddNormViewModel> GetLastWeek(int branchId)
     {
@@ -149,7 +171,7 @@ public class NormsController : Controller
         List<Norm> normList = await _normsRepository.GetNorms();
 
         IEnumerable<Norm> norms;
-            
+
         var lastWeekNorm = normList
             .Where(n => n.branchId == branchId && n.week == week && n.year == year).ToList();
 
@@ -173,6 +195,15 @@ public class NormsController : Controller
         viewModel.Fronting = norms.ToList()[4].normInSeconds;
         viewModel.Year = norms.ToList()[0].year;
         viewModel.Week = norms.ToList()[0].week;
+
+        var allNorms = await _normsRepository.GetNorms();
+        allNorms = allNorms.Where(n => n.branchId == branchId).ToList();
+        viewModel.Norms = allNorms.Select(n => new NormViewModel
+        {
+            Week = n.week,
+            Year = n.year
+        }).ToList();
+
         return viewModel;
     }
 

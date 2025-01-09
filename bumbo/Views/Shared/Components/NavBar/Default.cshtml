@@ -106,24 +106,24 @@
                     <option value="en-US" selected>@Localizer["English"]</option>
                 }
             </select>
-        </div>
-
-        @if (Model.IsAuthenticated)
-        {
-            <div class="text-right">
-                <div class="text-gray-700">@Model.FirstName</div>
-                @if (Model.IsBranchManager || Model.IsSystemManager)
-                {
-                    <div class="text-gray-500 text-sm">@Model.Email</div>
-                }
-                <a href="/uitloggen" class="text-sm hover:text-gray-600">@Localizer["Logout"]</a>
-            </div>
-        }
-        else
-        {
-            <a href="/inloggen" class="text-sm hover:text-gray-600">@Localizer["Login"]</a>
-        }
     </div>
+
+    @if (Model.IsAuthenticated)
+    {
+        <div class="text-right">
+            <div class="text-gray-700">@Model.FirstName</div>
+            @if (Model.IsBranchManager || Model.IsSystemManager)
+            {
+                <div class="text-gray-500 text-sm">@Model.Email</div>
+            }
+            <a href="/uitloggen" class="text-sm hover:text-gray-600">@Localizer["Logout"]</a>
+        </div>
+    }
+    else
+    {
+        <a href="/inloggen" class="text-sm hover:text-gray-600">@Localizer["Login"]</a>
+    }
+</div>
 </div>
 
 <script>
