@@ -118,7 +118,6 @@
             <table class="min-w-full table-auto border-collapse">
                 <thead>
                     <tr class="text-gray-600 text-left font-bold">
-                        <th class="py-2 px-4">Filiaal</th>
                         <th class="py-2 px-4">Functie</th>
                         <th class="py-2 px-4">Startdatum</th>
                         <th class="py-2 px-4"></th>
@@ -129,16 +128,6 @@
                     {
                         <tr class="border-b hover:bg-gray-50">
                             <td class="py-2 px-4">@assignment.BranchName</td>
-                            <td class="py-2 px-4">
-                                @if (string.IsNullOrEmpty(assignment.FunctionName))
-                                {
-                                    <span>Geen</span>
-                                }
-                                else
-                                {
-                                    @assignment.FunctionName
-                                }
-                            </td>
                             <td class="py-2 px-4">@assignment.StartDate.ToString("dd-MM-yyyy")</td>
                             <td class="py-2 px-4 flex justify-end">
                                 @if (Model.UserManagerOfBranchId == assignment.BranchId)

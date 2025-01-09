@@ -1196,7 +1196,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             DaysName = "Maandag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 24
                         },
@@ -1204,7 +1204,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             DaysName = "Maandag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 28
                         },
@@ -1212,7 +1212,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             DaysName = "Maandag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 5,
                             HoursOfWorkNeeded = 32
                         },
@@ -1220,7 +1220,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             DaysName = "Maandag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 2,
                             HoursOfWorkNeeded = 16
                         },
@@ -1228,7 +1228,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             DaysName = "Maandag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 20
                         },
@@ -1236,7 +1236,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             DaysName = "Dinsdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 25
                         },
@@ -1244,7 +1244,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             DaysName = "Dinsdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 30
                         },
@@ -1252,7 +1252,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             DaysName = "Dinsdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 5,
                             HoursOfWorkNeeded = 35
                         },
@@ -1260,7 +1260,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             DaysName = "Dinsdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 2,
                             HoursOfWorkNeeded = 18
                         },
@@ -1268,7 +1268,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             DaysName = "Dinsdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 22
                         },
@@ -1276,7 +1276,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             DaysName = "Woensdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 26
                         },
@@ -1284,7 +1284,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             DaysName = "Woensdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 29
                         },
@@ -1292,7 +1292,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             DaysName = "Woensdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 5,
                             HoursOfWorkNeeded = 34
                         },
@@ -1300,7 +1300,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             DaysName = "Woensdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 2,
                             HoursOfWorkNeeded = 17
                         },
@@ -1308,7 +1308,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             DaysName = "Woensdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 21
                         },
@@ -1316,7 +1316,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             DaysName = "Donderdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 24
                         },
@@ -1324,7 +1324,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             DaysName = "Donderdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 27
                         },
@@ -1332,7 +1332,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             DaysName = "Donderdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 5,
                             HoursOfWorkNeeded = 31
                         },
@@ -1340,7 +1340,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             DaysName = "Donderdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 2,
                             HoursOfWorkNeeded = 15
                         },
@@ -1348,7 +1348,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             DaysName = "Donderdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 19
                         },
@@ -1356,7 +1356,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             DaysName = "Vrijdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 28
                         },
@@ -1364,7 +1364,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             DaysName = "Vrijdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 5,
                             HoursOfWorkNeeded = 32
                         },
@@ -1372,7 +1372,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             DaysName = "Vrijdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 6,
                             HoursOfWorkNeeded = 36
                         },
@@ -1380,7 +1380,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             DaysName = "Vrijdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 20
                         },
@@ -1388,7 +1388,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             DaysName = "Vrijdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 24
                         },
@@ -1396,7 +1396,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             DaysName = "Zaterdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 30
                         },
@@ -1404,7 +1404,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             DaysName = "Zaterdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 5,
                             HoursOfWorkNeeded = 35
                         },
@@ -1412,7 +1412,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             DaysName = "Zaterdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 6,
                             HoursOfWorkNeeded = 38
                         },
@@ -1420,7 +1420,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             DaysName = "Zaterdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 22
                         },
@@ -1428,7 +1428,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             DaysName = "Zaterdag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 26
                         },
@@ -1436,7 +1436,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Coli uitladen",
                             DaysName = "Zondag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 27
                         },
@@ -1444,7 +1444,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vakkenvullen",
                             DaysName = "Zondag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 4,
                             HoursOfWorkNeeded = 30
                         },
@@ -1452,7 +1452,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Kassa",
                             DaysName = "Zondag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 5,
                             HoursOfWorkNeeded = 34
                         },
@@ -1460,7 +1460,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Vers",
                             DaysName = "Zondag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 2,
                             HoursOfWorkNeeded = 18
                         },
@@ -1468,7 +1468,7 @@ namespace DataLayer.Migrations
                         {
                             DepartmentName = "Spiegelen",
                             DaysName = "Zondag",
-                            PrognosisId = "prognosis_week_40_2024",
+                            PrognosisId = "prognosis_week_47_2024",
                             AmountOfWorkersNeeded = 3,
                             HoursOfWorkNeeded = 22
                         });
@@ -1476,160 +1476,24 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.RegisteredHours", b =>
                 {
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RegistrationNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationNumber"));
-
-                    b.Property<int>("BranchId")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmployeeBID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDefenitive")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("EmployeeId", "RegistrationNumber");
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("BranchId");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("EmployeeBID");
+                    b.HasKey("EmployeeBID", "StartTime");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("RegisteredHours");
-
-                    b.HasData(
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 1,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2024, 12, 5, 14, 2, 27, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2024, 12, 5, 8, 1, 12, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 2,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2024, 12, 16, 12, 0, 44, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2024, 12, 16, 8, 58, 52, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 3,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2024, 12, 17, 17, 1, 25, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2024, 12, 17, 13, 2, 42, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 4,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2024, 12, 24, 16, 1, 26, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2024, 12, 24, 7, 59, 33, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 5,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2025, 1, 5, 12, 2, 27, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 5, 9, 1, 12, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 6,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2025, 1, 8, 16, 0, 44, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 8, 11, 58, 52, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 8,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2025, 1, 16, 16, 1, 26, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 16, 7, 59, 33, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 9,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2025, 1, 22, 17, 2, 27, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 22, 11, 1, 12, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 10,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2025, 1, 24, 15, 0, 44, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 24, 8, 58, 52, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 11,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2025, 2, 3, 17, 1, 25, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2025, 2, 3, 9, 2, 42, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 12,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2025, 2, 7, 17, 1, 26, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2025, 2, 7, 10, 59, 33, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 13,
-                            BranchId = 1,
-                            EmployeeBID = "B002",
-                            EndTime = new DateTime(2025, 2, 9, 14, 59, 46, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            StartTime = new DateTime(2025, 2, 9, 8, 59, 33, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("DataLayer.Models.Schedule", b =>
@@ -1838,160 +1702,6 @@ namespace DataLayer.Migrations
                             IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 12, 8),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(12, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 12, 9),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(12, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 12, 12),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 12, 14),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(11, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2024, 12, 21),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(15, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 5),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(12, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 8),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(12, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 12),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(15, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(11, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 16),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 22),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(11, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 24),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(15, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 2, 3),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 2, 7),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(11, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 2, 9),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(15, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
                         });
                 });
 
@@ -2614,7 +2324,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BID")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("BirthDate")
@@ -2701,7 +2410,8 @@ namespace DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[BID] IS NOT NULL");
 
                     b.HasIndex("ManagerOfBranchId");
 
@@ -4037,18 +3747,19 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.RegisteredHours", b =>
                 {
-                    b.HasOne("Branch", null)
-                        .WithMany("RegisteredHours")
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Employee", null)
                         .WithMany("RegisteredHours")
                         .HasForeignKey("EmployeeBID")
-                        .HasPrincipalKey("BID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Schedule", b =>
@@ -4304,8 +4015,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Employees");
 
                     b.Navigation("Norm");
-
-                    b.Navigation("RegisteredHours");
 
                     b.Navigation("Schedules");
                 });
