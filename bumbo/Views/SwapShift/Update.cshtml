@@ -48,12 +48,12 @@
                             <input type="hidden" name="Schedules[@i].StartTime" value="@schedule.StartTime" />
                             <input type="hidden" name="Schedules[@i].EndTime" value="@schedule.EndTime" />
                             <input type="hidden" name="Schedules[@i].DepartmentName" value="@schedule.DepartmentName" />
-
                             <button type="button"
-                                    class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                                    class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-500"
                                     onclick="selectSchedule(@i)">
-                                Kies
+                                Kiezen
                             </button>
+
                         </td>
                     </tr>
                 }
@@ -61,9 +61,7 @@
         </table>
 
         <div class="mt-4 flex justify-end">
-            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                Opslaan
-            </button>
+            <default-button button-text="Opslaan" button-type="succes"></default-button>
         </div>
     </form>
 
@@ -100,11 +98,13 @@
     }
 
     function selectSchedule(index) {
+        // Find the hidden input for IsSelected and set it to true
         const input = document.querySelector(`input[name="Schedules[${index}].IsSelected"]`);
         if (input) {
             input.value = "true";
         }
 
+        // Submit the form but stay on the same page
         const form = document.getElementById("updateForm");
         const formData = new FormData(form);
 

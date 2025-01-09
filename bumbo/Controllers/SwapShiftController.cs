@@ -399,15 +399,28 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
+            // Get schedules for the employee and filter by available employees
             var schedules = _scheduleRepository
                 .GetSchedulesForEmployee(user.Id)
+                .Where(schedule =>
+                {
+                    var availableEmployees = _employeeRepository.GetAvailableEmployees(
+                        schedule.Date,
+                        schedule.StartTime,
+                        schedule.EndTime,
+                        branchId,
+                        schedule.DepartmentName
+                    );
+                    return availableEmployees != null && availableEmployees.Any();
+                })
                 .Select(s => new UpdateSwapShiftScheduleViewModel
                 {
                     Date = s.Date,
                     StartTime = s.StartTime,
                     EndTime = s.EndTime,
                     DepartmentName = s.DepartmentName
-                }).ToList();
+                })
+                .ToList();
 
             var selectedRequest = _swapShiftRequestRepository.GetSwitchRequest(
                 sendToEmployeeId,
@@ -423,6 +436,7 @@ namespace bumbo.Controllers
                 return RedirectToAction("Index");
             }
 
+            // Prepare the view model with filtered schedules
             var viewModel = new UpdateSwapShiftViewModel
             {
                 EmployeeId = employeeId,
@@ -433,6 +447,7 @@ namespace bumbo.Controllers
 
             return View(viewModel);
         }
+
 
         [HttpPost("ShiftSwap/Update")]
         public async Task<IActionResult> Update(UpdateSwapShiftViewModel model)
