@@ -85,7 +85,13 @@
                             <td class="px-4 py-2">
                                 @if (request.Status == "In afwachting")
                                 {
-                                    <a href="#" class="text-blue-500 hover:underline">Bewerken</a>
+                                    <form method="get" action="/ShiftSwap/Update">
+                                        <input type="hidden" name="sendToEmployeeId" value="@request.SendToEmployeeId" />
+                                        <input type="hidden" name="employeeId" value="@request.EmployeeId" />
+                                        <input type="hidden" name="branchId" value="@request.BranchId" />
+                                        <input type="hidden" name="date" value="@request.Date.ToString("yyyy-MM-dd")" />
+                                        <button type="submit" class="text-blue-500 hover:underline">Bewerken</button>
+                                    </form>
                                 }
                             </td>
                         </tr>

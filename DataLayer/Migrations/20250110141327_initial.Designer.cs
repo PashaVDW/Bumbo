@@ -12,7 +12,7 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20250110112335_initial")]
+    [Migration("20250110141327_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -1479,24 +1479,160 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.RegisteredHours", b =>
                 {
-                    b.Property<string>("EmployeeBID")
+                    b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("RegistrationNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationNumber"));
+
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployeeBID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDefenitive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("EmployeeId", "RegistrationNumber");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                    b.HasIndex("BranchId");
 
-                    b.HasKey("EmployeeBID", "StartTime");
-
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("EmployeeBID");
 
                     b.ToTable("RegisteredHours");
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 1,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2024, 12, 5, 14, 2, 27, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2024, 12, 5, 8, 1, 12, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 2,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2024, 12, 16, 12, 0, 44, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2024, 12, 16, 8, 58, 52, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 3,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2024, 12, 17, 17, 1, 25, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2024, 12, 17, 13, 2, 42, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 4,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2024, 12, 24, 16, 1, 26, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2024, 12, 24, 7, 59, 33, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 5,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2025, 1, 5, 12, 2, 27, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2025, 1, 5, 9, 1, 12, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 6,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2025, 1, 8, 16, 0, 44, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2025, 1, 8, 11, 58, 52, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 8,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2025, 1, 16, 16, 1, 26, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2025, 1, 16, 7, 59, 33, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 9,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2025, 1, 22, 17, 2, 27, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2025, 1, 22, 11, 1, 12, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 10,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2025, 1, 24, 15, 0, 44, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2025, 1, 24, 8, 58, 52, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 11,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2025, 2, 3, 17, 1, 25, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2025, 2, 3, 9, 2, 42, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 12,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2025, 2, 7, 17, 1, 26, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2025, 2, 7, 10, 59, 33, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 13,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
+                            EndTime = new DateTime(2025, 2, 9, 14, 59, 46, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            StartTime = new DateTime(2025, 2, 9, 8, 59, 33, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Models.Schedule", b =>
@@ -1705,6 +1841,160 @@ namespace DataLayer.Migrations
                             IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(8, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2024, 12, 8),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(12, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2024, 12, 9),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(12, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2024, 12, 12),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(8, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2024, 12, 14),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(11, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2024, 12, 21),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(15, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 5),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(12, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 8),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(12, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 12),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(15, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(11, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 16),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(8, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 22),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(11, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 24),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(15, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 2, 3),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(8, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 2, 7),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(11, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 2, 9),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(15, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
                         });
                 });
 
@@ -2327,6 +2617,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("BID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("BirthDate")
@@ -2413,8 +2704,7 @@ namespace DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BID")
-                        .IsUnique()
-                        .HasFilter("[BID] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("ManagerOfBranchId");
 
@@ -2435,7 +2725,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "ff785925-8d88-4975-b5ca-9436f925b1ee",
+                            ConcurrencyStamp = "a7418a5f-318c-4e3b-956c-31899af9b943",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -2447,11 +2737,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIk+T81VJJCf5GGaBLHgBps3tWlZlrYaKxpEAQ/PnA9OzUWMpwwtSGs4y5j9AwE8zQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGNjX2/dPAHkZ9NPLn4ZV/ZgVRng0xaMcrZNQa4OpKH8AmO3SmqlLVU1Acp/SPwrtw==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "fe7a3e1b-526b-4cce-8144-8bd274293a6b",
+                            SecurityStamp = "cbe832b2-0a33-4214-a533-a4314249a088",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -2462,7 +2752,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "01234567-5a6b-4715-bef2-86db7331aa0e",
+                            ConcurrencyStamp = "fc6fe60d-521e-437b-a67a-961f38fe8294",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -2473,11 +2763,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHPQfR7a+Fj4xPb7YoJukCSB0UM04RNkowtFIhgrcCavfBoy7laBoRpCTkodfr73qg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDe28vNYWMb8jmVgS4yy/NUCN8WfwyQ4f9Dudf7WVWlwFfbbm6et8ujDqsrLx/HBOg==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "9271 GB",
-                            SecurityStamp = "00ca95a8-71c8-4c86-9be6-db853e9efcd1",
+                            SecurityStamp = "85258d90-fe0d-4b67-aea7-e4236634f537",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -2488,7 +2778,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B003",
                             BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "3fc9a73d-349c-41eb-a257-c039c62862b5",
+                            ConcurrencyStamp = "c59b145a-fa71-4251-b59b-5008c896cbc4",
                             Email = "darlon.vandijk@hotmail.com",
                             EmailConfirmed = true,
                             FirstName = "Darlon",
@@ -2499,11 +2789,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DARLON.VANDIJK@HOTMAIL.COM",
                             NormalizedUserName = "DARLON.VANDIJK@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEERUOtYNpNbUYS3I4ydxw7q/hwlR2zQm3IPTT5rGnwq/KPCUfoPCqFa1/ql3/JSmng==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMEeML4NYc9YInOsjspi+M+j3cpg38HvjvOyEXjfmR/CTx0zcU0pCumLzKbB+ByWcQ==",
                             PhoneNumber = "+31 6 34567890",
                             PhoneNumberConfirmed = false,
                             PostalCode = "8329 SK",
-                            SecurityStamp = "3ca318c1-f791-466e-913a-37316544f093",
+                            SecurityStamp = "1085f909-8b12-40d0-a4ca-0167ae779108",
                             StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "darlon.vandijk@hotmail.com"
@@ -2514,7 +2804,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B004",
                             BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "d89c0c1d-61d3-4b01-9075-a8692cd64989",
+                            ConcurrencyStamp = "cd4146e0-1eae-4d88-9587-262833bc61e3",
                             Email = "pasha.bakker@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Pasha",
@@ -2526,11 +2816,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "PASHA.BAKKER@GMAIL.COM",
                             NormalizedUserName = "PASHA.BAKKER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPdNTo5glxMcZWXbPNAacn1o3uThpQTQxA+zq9d8t6YkNuywMsPJziFOeRBucHalww==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHMeZj9SZ5dY2S2yeVG2A4RySfWftlnussP80cxaTpgxQ76hn33tvI1F/rtCchlrDA==",
                             PhoneNumber = "+31 6 45678901",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3894 HT",
-                            SecurityStamp = "9003633a-72d9-484d-9f77-1c915cd7b8bd",
+                            SecurityStamp = "4c8aa8a1-bb43-4f85-9d9d-187c2fe24987",
                             StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "pasha.bakker@gmail.com"
@@ -2541,7 +2831,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B005",
                             BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "6640f705-feb7-4282-a70b-ea6364a313d3",
+                            ConcurrencyStamp = "d24100c3-509c-48b1-8ade-92ec133c5182",
                             Email = "sarah.vanderven@hotmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarah",
@@ -2552,11 +2842,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
                             NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECwccDFVuqW3PJyjQwXLIal8SRjaDpuWWwQJgQI6O+k8i5N6O0cF7AjDpnN6iAjJzQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIAXcX/XnJN44E2KPyWfzHSRid1leH2zhpi4SytKpB3naMXpraXpflHM6W5EjQ1J9A==",
                             PhoneNumber = "+31 6 56789012",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2933 KJ",
-                            SecurityStamp = "4904f158-a37f-430c-8b02-d20318200c30",
+                            SecurityStamp = "165d7941-5576-4f5e-92bc-0c6c501bb07b",
                             StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "sarah.vanderven@hotmail.com"
@@ -2567,7 +2857,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B006",
                             BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "c9aab71d-e81f-461f-82ca-7da248515ffd",
+                            ConcurrencyStamp = "62ff6b33-6963-452d-83dc-a6b108fb7486",
                             Email = "david.denboer@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "David",
@@ -2578,11 +2868,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
                             NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELPjd5huACo0bHgDkFbQrYLVLrQiAqILutBFbIWAXt8uAeAos7CacrZ8RoypI720bA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENJMx3Z/uM4d7lYKos69ANne+RVPtTZWw2BWDB7vhvvDjZoRR+sl5MNdV7c9o105jw==",
                             PhoneNumber = "+31 6 67890123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "4293 BF",
-                            SecurityStamp = "be15d66f-5bca-4d23-8ddf-b39d887b23cc",
+                            SecurityStamp = "a3a1d842-1a2b-43fb-8013-241f5f400996",
                             StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "david.denboer@gmail.com"
@@ -2593,7 +2883,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B012",
                             BirthDate = new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "84fee85c-a338-46de-9f63-1bf0c5932b9d",
+                            ConcurrencyStamp = "a0590ea1-3e83-4e2c-87c4-741f6b0149f1",
                             Email = "anthony.ross@example.com",
                             EmailConfirmed = true,
                             FirstName = "Anthony",
@@ -2605,12 +2895,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "ANTHONY.ROSS@EXAMPLE.COM",
                             NormalizedUserName = "ANTHONY.ROSS@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFnVOy7GugYA4DdhXZHy7cYr6QQfDs+VXLdSRrCY9VglV9+xjHJ+2gfysoXQBRQc1w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENKuTPyHe+FmKHiF91ogfL3JdvMi7lnTgEXl/MFlPGB87UyaIv1R3IqHP94AueVdhw==",
                             PhoneNumber = "+31 6 12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2234 AB",
-                            SecurityStamp = "47dfcf43-ae64-45bd-b0ea-1dff59e8ef5d",
-                            StartDate = new DateTime(2025, 1, 10, 12, 23, 34, 54, DateTimeKind.Local).AddTicks(551),
+                            SecurityStamp = "80ac025f-738f-4d06-82ab-39468c04938b",
+                            StartDate = new DateTime(2025, 1, 10, 15, 13, 25, 238, DateTimeKind.Local).AddTicks(768),
                             TwoFactorEnabled = false,
                             UserName = "anthony.ross@example.com"
                         },
@@ -2620,7 +2910,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B013",
                             BirthDate = new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "8132892b-5cf8-4897-8b9d-6b900b15d9f0",
+                            ConcurrencyStamp = "ac4bf000-dfc1-42f7-9374-cc25411727a3",
                             Email = "douwe.jansen@example.com",
                             EmailConfirmed = true,
                             FirstName = "Douwe",
@@ -2632,12 +2922,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DOUWE.JANSEN@EXAMPLE.COM",
                             NormalizedUserName = "DOUWE.JANSEN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENXIAQp6/Ep2ssjGT0ltsDdRVJyCLSYGk1jazUrCLw9yOZQse5x4uHNWWiceyLSMpQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHyZGMZ6ZDlCTxbXKwwk+X3qPOxpI48PZOCAY9VKqM+23kCDfE0mQX9FWxRs16XlhA==",
                             PhoneNumber = "+31 6 87654321",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3345 CD",
-                            SecurityStamp = "d3b3270d-0db7-4cb4-8f3d-fbdf82b6b983",
-                            StartDate = new DateTime(2025, 1, 10, 12, 23, 34, 130, DateTimeKind.Local).AddTicks(9708),
+                            SecurityStamp = "5e40142c-3ea9-431b-9c79-11a73cf75017",
+                            StartDate = new DateTime(2025, 1, 10, 15, 13, 25, 323, DateTimeKind.Local).AddTicks(3819),
                             TwoFactorEnabled = false,
                             UserName = "douwe.jansen@example.com"
                         });
@@ -2857,14 +3147,14 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             FunctionName = "Cashier",
-                            StartDate = new DateTime(2025, 1, 10, 12, 23, 34, 54, DateTimeKind.Local).AddTicks(551)
+                            StartDate = new DateTime(2025, 1, 10, 15, 13, 25, 238, DateTimeKind.Local).AddTicks(768)
                         },
                         new
                         {
                             BranchId = 2,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2025, 1, 10, 12, 23, 34, 130, DateTimeKind.Local).AddTicks(9708)
+                            StartDate = new DateTime(2025, 1, 10, 15, 13, 25, 323, DateTimeKind.Local).AddTicks(3819)
                         },
                         new
                         {
@@ -2925,7 +3215,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             RequestToBranchId = 2,
-                            DateNeeded = new DateTime(2025, 1, 17, 12, 23, 34, 211, DateTimeKind.Local).AddTicks(1642),
+                            DateNeeded = new DateTime(2025, 1, 17, 15, 13, 25, 441, DateTimeKind.Local).AddTicks(7122),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(17, 0, 0),
                             Message = "Overplaatsing nodig vanwege projectdeadline.",
@@ -2937,7 +3227,7 @@ namespace DataLayer.Migrations
                             BranchId = 2,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             RequestToBranchId = 1,
-                            DateNeeded = new DateTime(2025, 1, 24, 12, 23, 34, 211, DateTimeKind.Local).AddTicks(1701),
+                            DateNeeded = new DateTime(2025, 1, 24, 15, 13, 25, 441, DateTimeKind.Local).AddTicks(7193),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
@@ -2949,7 +3239,7 @@ namespace DataLayer.Migrations
                             BranchId = 3,
                             EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
                             RequestToBranchId = 4,
-                            DateNeeded = new DateTime(2025, 1, 20, 12, 23, 34, 211, DateTimeKind.Local).AddTicks(1705),
+                            DateNeeded = new DateTime(2025, 1, 20, 15, 13, 25, 441, DateTimeKind.Local).AddTicks(7197),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(17, 30, 0),
                             Message = "Hulp nodig vanwege ziekte van een collega.",
@@ -2961,7 +3251,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
                             RequestToBranchId = 3,
-                            DateNeeded = new DateTime(2025, 1, 30, 12, 23, 34, 211, DateTimeKind.Local).AddTicks(1709),
+                            DateNeeded = new DateTime(2025, 1, 30, 15, 13, 25, 441, DateTimeKind.Local).AddTicks(7202),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Overplaatsing voor trainingssessies.",
@@ -3750,19 +4040,18 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.RegisteredHours", b =>
                 {
-                    b.HasOne("Employee", null)
+                    b.HasOne("Branch", null)
                         .WithMany("RegisteredHours")
-                        .HasForeignKey("EmployeeBID")
+                        .HasForeignKey("BranchId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("Employee", null)
+                        .WithMany("RegisteredHours")
+                        .HasForeignKey("EmployeeBID")
+                        .HasPrincipalKey("BID")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Schedule", b =>
@@ -4018,6 +4307,8 @@ namespace DataLayer.Migrations
                     b.Navigation("Employees");
 
                     b.Navigation("Norm");
+
+                    b.Navigation("RegisteredHours");
 
                     b.Navigation("Schedules");
                 });

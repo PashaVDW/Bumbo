@@ -24,8 +24,17 @@ namespace DataLayer.Repositories
 
         public void UpdateSwitchRequest(SwitchRequest request)
         {
-            _context.SwitchRequest.Update(request);
-            _context.SaveChanges();
+            var existingRequest = _context.SwitchRequest.FirstOrDefault(r =>
+                r.SendToEmployeeId == request.SendToEmployeeId &&
+                r.EmployeeId == request.EmployeeId &&
+                r.BranchId == request.BranchId &&
+                r.Date == request.Date);
+
+            if (existingRequest != null)
+            {
+                existingRequest.Date = request.Date;
+                _context.SaveChanges();
+            }
         }
 
         public List<SwitchRequest> GetAllIncomingRequests(string employeeId)

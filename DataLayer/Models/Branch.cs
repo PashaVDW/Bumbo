@@ -37,5 +37,6 @@ public class Branch
     public ICollection<Employee> Employees { get; set; }
     public ICollection<Schedule> Schedules { get; set; }
     public virtual ICollection<Norm> Norm { get; set; }
+    public virtual ICollection<RegisteredHours> RegisteredHours { get; set; }
 
 }
