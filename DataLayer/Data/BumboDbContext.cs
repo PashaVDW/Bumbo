@@ -113,11 +113,9 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Department>().HasData(
-                new Department { DepartmentName = "Coli uitladen" },
                 new Department { DepartmentName = "Vakkenvullen" },
                 new Department { DepartmentName = "Kassa" },
-                new Department { DepartmentName = "Vers" },
-                new Department { DepartmentName = "Spiegelen" }
+                new Department { DepartmentName = "Vers" }
             );
 
             modelBuilder.Entity<Branch>().HasData(
@@ -391,7 +389,7 @@ namespace bumbo.Data
                 
                 new EmployeeHasDepartment() 
                 { 
-                    DepartmentName = "Vakkenvullen",
+                    DepartmentName = "Kassa",
                     EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd"
                 },
                 new EmployeeHasDepartment()
