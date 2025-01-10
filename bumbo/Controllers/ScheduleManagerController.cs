@@ -123,12 +123,9 @@ namespace bumbo.Controllers
                             .OrderBy(s => s.StartTime)
                             .ToList();
 
-                        int hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName.Equals(date.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
-                            .Select(pd => pd.HoursOfWorkNeeded)
-                            .FirstOrDefault();
-
-                        Console.WriteLine(date.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")));
+                        double hoursNeededForDepartment = prognosisDetails
+                            .Where(pd => pd.DaysName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
+                            .Sum(pd => pd.HoursOfWorkNeeded);
 
                         return new DepartmentScheduleViewModel
                         {
@@ -183,15 +180,14 @@ namespace bumbo.Controllers
                     titleDate = dayTitle,
                     Departments = departments.Select(department =>
                     {
-                        List<Schedule> schedulesForDepartment = schedules
+                        var schedulesForDepartment = schedules
                             .Where(s => s.Date == DateOnly.FromDateTime(dateTime) && s.DepartmentName == department)
                             .OrderBy(s => s.StartTime)
                             .ToList();
 
-                        int hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName.Equals(dateTime.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
-                            .Select(pd => pd.HoursOfWorkNeeded)
-                            .FirstOrDefault();
+                        var hoursNeededForDepartment = prognosisDetails
+                            .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                            .Sum(pd => pd.HoursOfWorkNeeded);
 
                         return new DepartmentScheduleEditViewModel
                         {
@@ -600,10 +596,9 @@ namespace bumbo.Controllers
                                     .OrderBy(s => s.StartTime)
                                     .ToList();
 
-                                int hoursNeededForDepartment = prognosisDetails
-                                    .Where(pd => pd.DaysName.Equals(dateTime.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
-                                    .Select(pd => pd.HoursOfWorkNeeded)
-                                    .FirstOrDefault();
+                                double hoursNeededForDepartment = prognosisDetails
+                                    .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
+                                    .Sum(pd => pd.HoursOfWorkNeeded);
 
                                 return new DepartmentScheduleAddEmployeeViewModel
                                 {

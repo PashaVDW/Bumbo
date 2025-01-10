@@ -10,6 +10,7 @@ namespace DataLayer.Interfaces
     public interface IRegisteredHoursRepository
     {
         public List<RegisteredHours> GetRegisteredHoursFromEmployee(string employeeId);  
+        public List<RegisteredHours> GetRegisteredHoursInWeekFromEmployee(string employeeId, int week);  
         void AddShift(RegisteredHours newShift);
         bool ClockOut(string employeeId, DateTime endTime);
         DateTime? GetClockedInTime(string employeeId);

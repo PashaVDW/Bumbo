@@ -3,6 +3,7 @@ using DataLayer.Interfaces;
 using DataLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,6 +66,15 @@ namespace DataLayer.Repositories
             };
 
             return activeShift.StartTime;
+        }
+
+        public List<RegisteredHours> GetRegisteredHoursInWeekFromEmployee(string employeeId, int week)
+        {
+            return _context.RegisteredHours
+                .Where(r => r.EmployeeId.Equals(employeeId))
+                .AsEnumerable()
+                .Where(r => ISOWeek.GetWeekOfYear(r.StartTime) == week
+                        && ISOWeek.GetWeekOfYear(r.EndTime.Value) == week).ToList();
         }
     }
 }

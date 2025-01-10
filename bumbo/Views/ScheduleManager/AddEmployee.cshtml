@@ -67,7 +67,7 @@
                                 <h3 class="text-md font-semibold">@department.DepartmentName</h3>
                                 <p class="text-sm">
                                     Totale uren ingepland: @department.TotalHours.ToString("F2")<br>
-                                    Benodigde uren: @department.HoursNeeded.ToString()
+                                    Benodigde uren: @department.HoursNeeded.ToString("F2")
                                 </p>
 
                                 @if (department.Employees.Any())
