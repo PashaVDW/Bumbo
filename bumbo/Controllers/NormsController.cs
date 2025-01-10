@@ -109,7 +109,8 @@ public class NormsController : Controller
         var viewModel = new AddNormViewModel
         {
             Year = selectedYear,
-            Norms = norms
+            Norms = norms,
+            ThisWeek = LastWeek() + 1
         };
 
         if (lastWeek)
@@ -168,8 +169,11 @@ public class NormsController : Controller
             year--;
         }
 
-        List<Norm> normList = await _normsRepository.GetNorms();
-
+        var normList = await _normsRepository.GetNorms();
+        if (!normList.Any())
+        {
+            return null;
+        }
         IEnumerable<Norm> norms;
 
         var lastWeekNorm = normList
@@ -183,7 +187,7 @@ public class NormsController : Controller
         {
             normList = normList.Where(n => n.branchId == branchId).ToList();
             var lastYearInDb = normList.Max(n => n.year);
-            var lastWeekInDb = normList.Where(n => n.year == year).Max(n => n.week);
+            var lastWeekInDb = normList.Where(n => n.year == lastYearInDb).Max(n => n.week);
             norms = normList.Where(n => n.week == lastWeekInDb && n.year == lastYearInDb).ToList();
         }
         AddNormViewModel viewModel = new AddNormViewModel();

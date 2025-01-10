@@ -13,5 +13,6 @@ namespace bumbo.Models.ViewModels.Norms
         public int Fresh { get; set; }
         public int Fronting { get; set; }
         public List<NormViewModel> Norms { get; set; }
+        public int ThisWeek { get; set; }
     }
 }
