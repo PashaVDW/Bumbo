@@ -24,7 +24,6 @@ namespace DataLayer.Repositories
         {
             return await _context.Norms.ToListAsync();
         }
-
         public async Task<List<NormOverviewDTO>> GetOverview()
         {
             var query = _context.Norms
