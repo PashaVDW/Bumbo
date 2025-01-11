@@ -5,7 +5,7 @@ namespace DataLayer.Interfaces
 {
     public interface ITemplatesRepository
     {
-        List<Template> GetAllTemplates();
+        List<Template> GetAllTemplatesFromBranch(int branchId);
 
         Task<Template> GetByNameAndBranchAsync(string name, int branchId);
         

@@ -584,11 +584,18 @@ namespace bumbo.Controllers
         }
 
 
-        public ActionResult AddTemplate(string searchTerm, int? templateId, int? weekNumber, int? yearNumber, int page = 1)
+        public async Task<ActionResult> AddTemplate(string searchTerm, int? templateId, int? weekNumber, int? yearNumber, int page = 1)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             AddTemplateViewModel viewmodel = new AddTemplateViewModel();
 
-            viewmodel.Templates = _TemplatesRepository.GetAllTemplates();
+            viewmodel.Templates = _TemplatesRepository.GetAllTemplatesFromBranch(currentUser.ManagerOfBranchId.Value);
             if (weekNumber != null && yearNumber != null)
             {
                 viewmodel.WeekNr = weekNumber;
