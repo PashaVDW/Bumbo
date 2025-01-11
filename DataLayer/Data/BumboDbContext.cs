@@ -429,31 +429,31 @@ namespace bumbo.Data
                 new Template
                 {
                     Id = 1,
-                    Name = "Basispakket",
+                    Name = "Groot bijbestellen",
                     BranchBranchId = 1
                 },
                 new Template
                 {
                     Id = 2,
-                    Name = "Standaardpakket",
+                    Name = "Standaard week",
                     BranchBranchId = 1
                 },
                 new Template
                 {
                     Id = 3,
-                    Name = "Premium pakket",
+                    Name = "vakantie week",
                     BranchBranchId = 2
                 },
                 new Template
                 {
                     Id = 4,
-                    Name = "Gezinspakket",
+                    Name = "rustige week",
                     BranchBranchId = 2
                 },
                 new Template
                 {
                     Id = 5,
-                    Name = "Wekelijkse special",
+                    Name = "aanbiedingen ombouw week",
                     BranchBranchId = 1
                 }
             );

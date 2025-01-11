@@ -304,8 +304,6 @@ namespace bumbo.Controllers
 
                         var employeeAvailability = _availabilityRepository.GetEmployeeDayAvailability(dateTime, employeeId);
                         var employeeSchoolSchedule = _schoolScheduleRepository.GetEmployeeDaySchoolSchedule(dateTime, employeeId);
-                        Console.WriteLine(employee.StartTime.ToString());
-                        Console.WriteLine(employee.EndTime.ToString());
                         if (employee.StartTime >= employee.EndTime)
                         {
                             isStartTimeBeforeEndTime = true;
