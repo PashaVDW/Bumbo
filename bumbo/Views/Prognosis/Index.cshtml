@@ -27,6 +27,12 @@
         @if (ViewBag.Message != null)
         {
             <div class="text-red-500">@ViewBag.Message</div>
+            @if (ViewBag.IsFutureWeek)
+            {
+                <a asp-action="Create" asp-route-weekNumber=@Model.WeekNr asp-route-yearNumber="@Model.Year">
+                    <default-button button-text="Maak prognose" button-type="primary"></default-button>
+                </a>
+            }
         }
 
         <button onclick="window.location.href='@Url.Action("Index", new { weekNumber = Model.WeekNr, year = Model.Year, weekInc = 1 })';" class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500">
@@ -47,7 +53,7 @@
                             <th class="p-4 text-center">
                                 <div class="font-bold">@day.Date.ToString("dd MMM")</div>
                                 <div>@day.DayName</div>
-                                <div>@Localizer["HoursLabel"]: @day.TotalHoursWorkNeeded.ToString("F1")</div>
+                                <div>@Localizer["HoursLabel"]: @day.TotalHoursWorkNeeded</div>
                                 <div>@Localizer["WorkersLabel"]: @day.TotalWorkersNeeded</div>
                             </th>
                         }
@@ -67,7 +73,7 @@
                                 <td class="p-4 text-center">
                                     <div class="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0">
                                         <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
-                                            @deptData.HoursOfWorkNeeded.ToString("F1")
+                                            @deptData.HoursOfWorkNeeded
                                         </div>
                                         <div class="w-20 h-12 text-center border rounded-lg flex items-center justify-center">
                                             @deptData.AmountOfWorkersNeeded

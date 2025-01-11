@@ -106,6 +106,12 @@ namespace bumbo.Controllers
                 ViewBag.MonthName += " - " + lastDayOfWeek.ToString("MMMM");
             }
 
+            var currentWeek = ISOWeek.GetWeekOfYear(DateTime.Now);
+            var currentYear = DateTime.Now.Year;
+
+            bool isFutureWeek = year > currentYear || (year == currentYear && weekNumber > currentWeek);
+            ViewBag.IsFutureWeek = isFutureWeek;
+
             ViewBag.Title = "Terugblik - Weekoverzicht";
 
             var days = new List<PrognosisDay>();
