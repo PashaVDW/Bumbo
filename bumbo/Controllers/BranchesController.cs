@@ -96,11 +96,11 @@ namespace bumbo.Controllers
             var branch = _branchesRepository.GetBranch(branchId);
             var viewModel = GetReadBranchViewModel(branch);
 
-            if (viewModel.Managers.Count == 0) 
+            if (viewModel.Managers.Count == 0)
             {
                 SetTempDataForToast("branchManagerAmountToast");
                 TempData["ToastMessage"] = "Er zijn op dit moment geen filiaalmanagers";
-                TempData["ToastType"] = "info";
+                TempData["ToastType"] = "error";
                 TempData["MilSecHide"] = 5000;
             }
 
@@ -118,8 +118,10 @@ namespace bumbo.Controllers
             var newBranch = _branchesRepository.GetBranch(branchId);
             newBranch.Employees = _branchesRepository.GetAllEmployees().Where(e => e.ManagerOfBranchId == null).ToList();
 
-            var viewModel = new CreateBranchManagerViewModel() { 
-                BranchId = branchId, Employees = newBranch.Employees.ToList() 
+            var viewModel = new CreateBranchManagerViewModel()
+            {
+                BranchId = branchId,
+                Employees = newBranch.Employees.ToList()
             };
 
             var employees = newBranch.Employees.ToList();
@@ -128,7 +130,7 @@ namespace bumbo.Controllers
             var tableBuilder = new TableHtmlBuilderAddBranchManager<Employee>();
             var htmlTable = tableBuilder.GenerateTable(headers, employees, item =>
             {
-            return $@"
+                return $@"
                  <td class='py-2 px-4'>{item.FirstName + " " + item.LastName}</td>
                  <td class='py-2 px-4 flex justify-end'><a href='/Branches/AddBranchManager?branchId={newBranch.BranchId}&amp;employeeId={item.Id}' class=""bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 float-left rounded-xl"" >Kiezen</a><td>";
             }, branchId, searchTerm, page);
@@ -164,7 +166,7 @@ namespace bumbo.Controllers
 
                 return RedirectToAction("BranchesView");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 TempData["ToastMessage"] = "Filiaal aanmaken mislukt";
                 TempData["ToastType"] = "error";
@@ -241,7 +243,7 @@ namespace bumbo.Controllers
                 var newBranch = _branchesRepository.GetBranch(branchId);
                 return View("UpdateBranchView", newBranch);
             }
-            
+
         }
 
         public async Task<IActionResult> AddBranchManager(string employeeId, int branchId)
@@ -307,7 +309,7 @@ namespace bumbo.Controllers
 
         private string CountryNameToDutch(string countryName)
         {
-            switch (countryName) 
+            switch (countryName)
             {
                 case "Netherlands":
                     return "Nederland";
