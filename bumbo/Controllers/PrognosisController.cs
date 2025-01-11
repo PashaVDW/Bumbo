@@ -110,7 +110,9 @@ namespace bumbo.Controllers
             var currentYear = DateTime.Now.Year;
 
             bool isFutureWeek = year > currentYear || (year == currentYear && weekNumber > currentWeek);
+            bool isCurrentWeek = year == currentYear && weekNumber == currentWeek;
             ViewBag.IsFutureWeek = isFutureWeek;
+            ViewBag.IsCurrentWeek = isCurrentWeek;
 
             ViewBag.Title = "Terugblik - Weekoverzicht";
 
