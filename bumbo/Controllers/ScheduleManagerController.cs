@@ -491,7 +491,7 @@ namespace bumbo.Controllers
                 <td class='py-2 px-4'>{item.ToPlanHours}</td>
                 <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                 <td class='py-2 px-4'>
-                    <button onclick=""window.location.href='/ScheduleManager/AddEmployee?date={item.Date.ToString("yyyy-MM-dd")}&employeeId={item.EmployeeId}'""
+                    <button onclick=""window.location.href='/ScheduleManager/AddEmployee?date={item.Date.ToString("yyyy-MM-dd")}&employeeId={item.EmployeeId}&searchTerm={searchTerm}'""
                     class='primary_bg_color hover:bg-yellow-400 text-white font-semibold py-2 px-6 rounded-xl'>Toevoegen</button>
                 </td>"
                 );
@@ -502,7 +502,7 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddEmployee(string date, string employeeId)
+        public async Task<IActionResult> AddEmployee(string date, string employeeId, string searchTerm)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
@@ -568,7 +568,7 @@ namespace bumbo.Controllers
                         Date = date,
                         EmployeeId = employeeId,
                         EmployeeName = employeeFullName,
-                        DepartmentName = departments.First(),
+                        DepartmentName = searchTerm,
                         StartTime = employeeAvailability.StartTime,
                         EndTime = employeeAvailability.EndTime,
                         EmployeeAvailableStartTime = employeeAvailability.StartTime,
