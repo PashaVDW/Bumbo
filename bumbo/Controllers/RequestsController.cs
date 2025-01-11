@@ -91,6 +91,7 @@ namespace bumbo.Controllers
             }, searchTerm, page);
 
             string tempHtmlTable = htmlTable.Replace("<button onclick = \"window.location.href='" + "" + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe inkomende aanvragen </button>", " ");
+            tempHtmlTable = tempHtmlTable.Replace("<button onclick=\"window.location.href='';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl'>Nieuwe inkomende aanvragen</button>", " ");
             string newHtmlTable = tempHtmlTable.Replace("text-4xl", "text-3xl");
             
             ViewBag.HtmlTable = newHtmlTable;
