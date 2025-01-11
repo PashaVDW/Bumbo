@@ -17,22 +17,23 @@
     </div>
     <div class="mb-6 flex">
         <div class="mr-5 w-full flex flex-col">
-            <default-button button-text="Importeer normering van vorige week" button-type="secondary" on-click="window.location.href='/Norms/Create?lastWeek=true'"></default-button>
+            <default-button button-text="Importeer normering van vorige week of laatst aanwezige" button-type="secondary" on-click="window.location.href='/Norms/Create?lastWeek=true&addYear=@Model.Year'"></default-button>
         </div>
     </div>
     <form asp-action="Insert" method="post">
         <div class="mt-6 flex">
             <div class="mr-2 w-full flex flex-col">
                 <label for="year">Kies een jaar</label>
-                <select class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight" id="year" name="@nameof(AddNormViewModel.Year)">
-                    @{
-                        for (int i = DateTime.Now.Year + 1; i > DateTime.Now.Year - 99; i--)
+                <select class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight"
+                        id="year" name="@nameof(AddNormViewModel.Year)" onchange="navigateToYear()">
+                    @for (int i = DateTime.Now.Year + 1; i >= DateTime.Now.Year; i--)
+                    {
+                        if (i == Model.Year)
                         {
-                            if (i == DateTime.Now.Year)
-                            {
-                                <option selected value="@i">@i</option>
-                                continue;
-                            }
+                            <option selected value="@i">@i</option>
+                        }
+                        else
+                        {
                             <option value="@i">@i</option>
                         }
                     }
@@ -40,16 +41,34 @@
             </div>
             <div class="mr-2 w-full flex flex-col">
                 <label for="week">Kies een week</label>
-                <select class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight" id="week" name="@nameof(AddNormViewModel.Week)">
-                    @{
-                        for (int i = 1; i < 53; i++)
+                <select class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight"
+                        id="week" name="@nameof(AddNormViewModel.Week)">
+                    @for (int i = 1; i < 53; i++)
+                    {
+                        if (i == Model.ThisWeek)
+                        {
+                            <option selected value="@i">Week @i</option>
+                        }
+                        else if (Model.Norms != null && !Model.Norms.Any(n => n.Week == i && n.Year == Model.Year))
                         {
                             <option value="@i">Week @i</option>
+                        }
+                        else
+                        {
+                            <option value="@i" disabled>Week @i (Bestaat al)</option>
                         }
                     }
                 </select>
             </div>
         </div>
+
+        <script>
+            function navigateToYear() {
+                const selectedYear = document.getElementById('year').value;
+                window.location.href = `/Norms/Create?addYear=${selectedYear}`;
+            }
+        </script>
+
         <div class="mt-6 flex">
             <div class="mr-2 w-full flex flex-col">
                 <label for="unloadColis">Coli uitladen (min)</label>

@@ -11,6 +11,7 @@ using DataLayer.Models.DTOs;
 using DataLayer.Interfaces;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using bumbo.ViewModels.Norms;
 
 namespace bumbo.Controllers;
 
@@ -66,7 +67,7 @@ public class NormsController : Controller
         var tableBuilder = new TableHtmlBuilder<ReadNormViewModel>();
         var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, list, "/Norms/Create/", item =>
 {
-            return $@"
+    return $@"
                     <td class='py-2 px-4'>{item.Year}</td>
                     <td class='py-2 px-4'>{item.Week}</td>
                     <td class='py-2 px-4'>{item.UnloadColis} minuten</td>
@@ -77,7 +78,7 @@ public class NormsController : Controller
                     <td class='py-2 px-4 text-right'>
                     <button onclick = ""window.location.href='../Norms/Update?NormId={item.NormId}'"">✏️</button> 
                     </td>";
-        }, searchTerm, page);
+}, searchTerm, page);
 
 
         ViewBag.HtmlTable = htmlTable;
@@ -85,7 +86,7 @@ public class NormsController : Controller
         return View();
     }
 
-    public async Task<IActionResult> Create(Boolean lastWeek)
+    public async Task<IActionResult> Create(bool lastWeek, int? addYear)
     {
         var user = await _userManager.GetUserAsync(User);
 
@@ -94,42 +95,68 @@ public class NormsController : Controller
             return RedirectToAction("AccessDenied", "Home");
         }
 
-        AddNormViewModel viewModel = new AddNormViewModel();
+        var selectedYear = addYear ?? DateTime.Now.Year;
+
+        var norms = (await _normsRepository.GetNorms())
+            .Where(n => n.branchId == user.ManagerOfBranchId && n.year == selectedYear)
+            .Select(n => new NormViewModel
+            {
+                Week = n.week,
+                Year = n.year
+            })
+            .ToList();
+
+        var viewModel = new AddNormViewModel
+        {
+            Year = selectedYear,
+            Norms = norms,
+            ThisWeek = LastWeek() + 1
+        };
 
         if (lastWeek)
         {
-            List<Norm> normsCheck = await _normsRepository.GetSelectedNorms(user.ManagerOfBranchId, DateTime.Now.Year, LastWeek());
+            TempData["ToastId"] = "loadLastNormToast";
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
 
-            // Checks if there is a norm for last week. If so that norm will be retrieved. If not, the process will be interupted.
-            if (normsCheck.Count > 0)
+            var lastNorm = await GetLastWeek(user.ManagerOfBranchId.Value);
+            if (lastNorm != null)
             {
-                TempData["ToastMessage"] = "Week successvol ingeladen!";
-                TempData["ToastType"] = "success";
+                viewModel.Week = lastNorm.Week;
+                viewModel.UnloadColis = lastNorm.UnloadColis;
+                viewModel.FillShelves = lastNorm.FillShelves;
+                viewModel.Cashier = lastNorm.Cashier;
+                viewModel.Fresh = lastNorm.Fresh;
+                viewModel.Fronting = lastNorm.Fronting;
 
-                TempData["ToastId"] = "loadLastWeekToast";
-                TempData["AutoHide"] = "yes";
-                TempData["MilSecHide"] = 3000;
+                int week = LastWeek();
+                int year = DateAndTime.Now.Year;
+                if (week == 0) { week = 52; year--; }
 
-                viewModel = await GetLastWeek(user.ManagerOfBranchId.Value);
+                if (lastNorm.Week == week && year == lastNorm.Year)
+                {
+                    TempData["ToastMessage"] = "Norm van vorige week succesvol ingeladen!";
+                    TempData["ToastType"] = "success";
+                }
+                else
+                {
+                    TempData["ToastMessage"] = $"Laatst aanwezige norm van week {lastNorm.Week}, jaar {lastNorm.Year} succesvol ingeladen!";
+                    TempData["ToastType"] = "success";
+                    TempData["AutoHide"] = "no";
+                }
             }
             else
             {
-                TempData["ToastMessage"] = "Ophalen week mislukt. Er is geen normering voor afgelopen week.";
+                TempData["ToastMessage"] = "Er zijn nog geen normeringen!";
                 TempData["ToastType"] = "error";
-
-                TempData["ToastId"] = "loadLastWeekToast";
-                TempData["AutoHide"] = "no";
             }
         }
-
         ViewData["ViewModel"] = viewModel;
 
-        if (user == null || user.ManagerOfBranchId == null)
-        {
-            return RedirectToAction("AccessDenied", "Home");
-        }
         return View(viewModel);
     }
+
+
 
     private async Task<AddNormViewModel> GetLastWeek(int branchId)
     {
@@ -142,18 +169,44 @@ public class NormsController : Controller
             year--;
         }
 
-        List<Norm> normList = await _normsRepository.GetNorms();
+        var normList = await _normsRepository.GetNorms();
+        if (!normList.Any())
+        {
+            return null;
+        }
+        IEnumerable<Norm> norms;
 
-        IEnumerable<Norm> norms = normList
+        var lastWeekNorm = normList
             .Where(n => n.branchId == branchId && n.week == week && n.year == year).ToList();
 
+        if (lastWeekNorm.Any())
+        {
+            norms = lastWeekNorm;
+        }
+        else
+        {
+            normList = normList.Where(n => n.branchId == branchId).ToList();
+            var lastYearInDb = normList.Max(n => n.year);
+            var lastWeekInDb = normList.Where(n => n.year == lastYearInDb).Max(n => n.week);
+            norms = normList.Where(n => n.week == lastWeekInDb && n.year == lastYearInDb).ToList();
+        }
         AddNormViewModel viewModel = new AddNormViewModel();
 
-        viewModel.UnloadColis = norms.ToList()[0].normInSeconds/60;
-        viewModel.FillShelves = norms.ToList()[1].normInSeconds/60;
+        viewModel.UnloadColis = norms.ToList()[0].normInSeconds / 60;
+        viewModel.FillShelves = norms.ToList()[1].normInSeconds / 60;
         viewModel.Cashier = norms.ToList()[2].normInSeconds;
         viewModel.Fresh = norms.ToList()[3].normInSeconds;
         viewModel.Fronting = norms.ToList()[4].normInSeconds;
+        viewModel.Year = norms.ToList()[0].year;
+        viewModel.Week = norms.ToList()[0].week;
+
+        var allNorms = await _normsRepository.GetNorms();
+        allNorms = allNorms.Where(n => n.branchId == branchId).ToList();
+        viewModel.Norms = allNorms.Select(n => new NormViewModel
+        {
+            Week = n.week,
+            Year = n.year
+        }).ToList();
 
         return viewModel;
     }
@@ -189,8 +242,8 @@ public class NormsController : Controller
         viewModel.BranchId = user.ManagerOfBranchId.Value;
         viewModel.Week = selectedNorms[0].week;
         viewModel.Year = selectedNorms[0].year;
-        viewModel.UnloadColis = selectedNorms[0].normInSeconds/60;
-        viewModel.FillShelves = selectedNorms[1].normInSeconds/60;
+        viewModel.UnloadColis = selectedNorms[0].normInSeconds / 60;
+        viewModel.FillShelves = selectedNorms[1].normInSeconds / 60;
         viewModel.Cashier = selectedNorms[2].normInSeconds;
         viewModel.Fresh = selectedNorms[3].normInSeconds;
         viewModel.Fronting = selectedNorms[4].normInSeconds;
@@ -256,7 +309,7 @@ public class NormsController : Controller
             // checks if there are already norms for the selected week. If so, insertion will be interupted to avoid an error
             if (normsCheck.Count > 0)
             {
-                TempData["ToastMessage"] = "Normering toevoegen mislukt. Er is al een normering voor deze week."; 
+                TempData["ToastMessage"] = "Normering toevoegen mislukt. Er is al een normering voor deze week.";
                 TempData["ToastType"] = "error";
 
                 TempData["ToastId"] = "insertNormToast";
@@ -265,7 +318,7 @@ public class NormsController : Controller
                 return RedirectToAction("Create");
             }
             else if (norms[0].normInSeconds < 0 || norms[1].normInSeconds < 0 || norms[2].normInSeconds < 0
-                    || norms[3].normInSeconds < 0 || norms[4].normInSeconds < 0) 
+                    || norms[3].normInSeconds < 0 || norms[4].normInSeconds < 0)
             {
                 TempData["ToastMessage"] = "Normering toevoegen mislukt. Er kunnen geen negatieve getallen worden toegevoegd.";
                 TempData["ToastType"] = "error";
@@ -282,8 +335,8 @@ public class NormsController : Controller
                 TempData["ToastMessage"] = "Normering successvol toegevoegd!";
                 TempData["ToastType"] = "success";
 
-                TempData["ToastId"] = "insertNormToast"; 
-                TempData["AutoHide"] = "yes"; 
+                TempData["ToastId"] = "insertNormToast";
+                TempData["AutoHide"] = "yes";
                 TempData["MilSecHide"] = 3000;
 
                 return RedirectToAction("Index");
@@ -307,7 +360,7 @@ public class NormsController : Controller
 
         try
         {
-            if (viewModel.UnloadColis < 0 ||viewModel.FillShelves < 0 || viewModel.Cashier < 0
+            if (viewModel.UnloadColis < 0 || viewModel.FillShelves < 0 || viewModel.Cashier < 0
                     || viewModel.Fresh < 0 || viewModel.Fronting < 0)
             {
                 TempData["ToastMessage"] = "Normering updaten mislukt. Een waarde kan niet worden aangepast naar een negatieve waarde.";
@@ -361,7 +414,7 @@ public class NormsController : Controller
 
                 return RedirectToAction("Index");
             }
-            
+
         }
         catch (Exception ex)
         {
