@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bumbo.Data;
 
@@ -11,9 +12,11 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    partial class BumboDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250112153604_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1356,24 +1359,8 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.RegisteredHours", b =>
                 {
-                    b.Property<string>("EmployeeBID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("BranchId")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDefenitive")
-                        .HasColumnType("bit");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RegistrationNumber")
                         .ValueGeneratedOnAdd()
@@ -1381,232 +1368,150 @@ namespace DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationNumber"));
 
-                    b.HasKey("EmployeeBID", "StartTime");
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployeeBID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDefenitive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("EmployeeId", "RegistrationNumber");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("EmployeeBID");
 
                     b.ToTable("RegisteredHours");
 
                     b.HasData(
                         new
                         {
-                            EmployeeBID = "B012",
-                            StartTime = new DateTime(2025, 1, 6, 9, 5, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            EndTime = new DateTime(2025, 1, 6, 16, 55, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B012",
-                            StartTime = new DateTime(2025, 1, 7, 9, 15, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            EndTime = new DateTime(2025, 1, 7, 17, 5, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B012",
-                            StartTime = new DateTime(2025, 1, 8, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            EndTime = new DateTime(2025, 1, 8, 17, 10, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B012",
-                            StartTime = new DateTime(2025, 1, 9, 10, 5, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            EndTime = new DateTime(2025, 1, 9, 15, 58, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B012",
-                            StartTime = new DateTime(2025, 1, 10, 9, 35, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            EndTime = new DateTime(2025, 1, 10, 17, 25, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 13, 8, 5, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            EndTime = new DateTime(2025, 1, 13, 13, 50, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 14, 8, 10, 0, 0, DateTimeKind.Unspecified),
+                            RegistrationNumber = 1,
                             BranchId = 1,
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            EndTime = new DateTime(2025, 1, 14, 14, 5, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
                             EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 15, 8, 35, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            EndTime = new DateTime(2025, 1, 15, 14, 55, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 16, 9, 5, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            EndTime = new DateTime(2025, 1, 16, 17, 2, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 17, 10, 2, 0, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            EndTime = new DateTime(2025, 1, 17, 14, 1, 0, 0, DateTimeKind.Unspecified),
-                            IsDefenitive = true,
-                            RegistrationNumber = 0
-                        },
-                        new
-                        {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2024, 12, 5, 8, 1, 12, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2024, 12, 5, 14, 2, 27, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 1
+                            StartTime = new DateTime(2024, 12, 5, 8, 1, 12, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2024, 12, 16, 8, 58, 52, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 2,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2024, 12, 16, 12, 0, 44, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 2
+                            StartTime = new DateTime(2024, 12, 16, 8, 58, 52, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2024, 12, 17, 13, 2, 42, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 3,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2024, 12, 17, 17, 1, 25, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 3
+                            StartTime = new DateTime(2024, 12, 17, 13, 2, 42, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2024, 12, 24, 7, 59, 33, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 4,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2024, 12, 24, 16, 1, 26, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 4
+                            StartTime = new DateTime(2024, 12, 24, 7, 59, 33, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 5, 9, 1, 12, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 5,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2025, 1, 5, 12, 2, 27, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 5
+                            StartTime = new DateTime(2025, 1, 5, 9, 1, 12, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 8, 11, 58, 52, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 6,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2025, 1, 8, 16, 0, 44, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 6
+                            StartTime = new DateTime(2025, 1, 8, 11, 58, 52, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 16, 7, 59, 33, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 8,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2025, 1, 16, 16, 1, 26, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 8
+                            StartTime = new DateTime(2025, 1, 16, 7, 59, 33, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 22, 11, 1, 12, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 9,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2025, 1, 22, 17, 2, 27, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 9
+                            StartTime = new DateTime(2025, 1, 22, 11, 1, 12, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 1, 24, 8, 58, 52, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 10,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2025, 1, 24, 15, 0, 44, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 10
+                            StartTime = new DateTime(2025, 1, 24, 8, 58, 52, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 2, 3, 9, 2, 42, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 11,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2025, 2, 3, 17, 1, 25, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 11
+                            StartTime = new DateTime(2025, 2, 3, 9, 2, 42, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 2, 7, 10, 59, 33, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 12,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2025, 2, 7, 17, 1, 26, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 12
+                            StartTime = new DateTime(2025, 2, 7, 10, 59, 33, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            EmployeeBID = "B002",
-                            StartTime = new DateTime(2025, 2, 9, 8, 59, 33, 0, DateTimeKind.Unspecified),
-                            BranchId = 1,
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            RegistrationNumber = 13,
+                            BranchId = 1,
+                            EmployeeBID = "B002",
                             EndTime = new DateTime(2025, 2, 9, 14, 59, 46, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            RegistrationNumber = 13
+                            StartTime = new DateTime(2025, 2, 9, 8, 59, 33, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1887,12 +1792,34 @@ namespace DataLayer.Migrations
                         {
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             BranchId = 1,
+                            Date = new DateOnly(2025, 1, 8),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(12, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
                             Date = new DateOnly(2025, 1, 12),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(15, 0, 0),
                             IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(11, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 16),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(8, 0, 0)
                         },
                         new
                         {
@@ -1948,116 +1875,6 @@ namespace DataLayer.Migrations
                             IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 6),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 7),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 8),
-                            DepartmentName = "Kassa",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 9),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsFinal = true,
-                            IsSick = true,
-                            StartTime = new TimeOnly(10, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 10),
-                            DepartmentName = "Kassa",
-                            EndTime = new TimeOnly(17, 30, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 30, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 13),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(14, 0, 0),
-                            IsFinal = true,
-                            IsSick = true,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 14),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(14, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 15),
-                            DepartmentName = "Vakkenvullen",
-                            EndTime = new TimeOnly(15, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 30, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 16),
-                            DepartmentName = "Kassa",
-                            EndTime = new TimeOnly(17, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(9, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 17),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(14, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(10, 0, 0)
                         });
                 });
 
@@ -2788,7 +2605,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "d755b66b-3100-48c8-9267-865a2ba9b7dc",
+                            ConcurrencyStamp = "50d2d7df-f963-44c7-8ae7-54613d6ba2c5",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -2800,11 +2617,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECktKCKExol9i40sOgiE+qAUjDtLDL5a+fMyZUZhLIvncVG6muBYGCiv0xbNAfL8VA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAZYRhusPvP6P8oSE6xqnFscjckiQKNAaCj/GPr6j2EkW5/PIAKPS80HDzjUJ+CR1w==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "58b6bf83-ff6c-40d0-965a-d6f950c3147d",
+                            SecurityStamp = "b82b76c9-6a7e-4c14-b564-e2baa25ef14b",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -2815,7 +2632,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "29ec249c-f204-4288-982a-cdd14573a839",
+                            ConcurrencyStamp = "7e8daf9d-fa02-41f4-96e3-616a9f426a08",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -2826,11 +2643,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAkBGnnWjt6k78oxrnHmyNOUAQ1jfkIxddkfnfDy6xeeAX5j9NouW5R3B5gOAaRwoA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENoWGveTlpU2l0rkY+oZj+LTX3KnN5ozCImxd1z32r5WChhNI4RpNX0dlMeEoMl6WA==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "9271 GB",
-                            SecurityStamp = "d399d79f-e856-410c-9c69-212347d17981",
+                            SecurityStamp = "4aae1ad2-239e-4101-9f22-f771259387ef",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -2841,7 +2658,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B003",
                             BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "9fcc1683-4234-430a-bf20-c29268682bc3",
+                            ConcurrencyStamp = "69102fcd-698a-47dc-849c-bb279f612109",
                             Email = "darlon.vandijk@hotmail.com",
                             EmailConfirmed = true,
                             FirstName = "Darlon",
@@ -2852,11 +2669,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DARLON.VANDIJK@HOTMAIL.COM",
                             NormalizedUserName = "DARLON.VANDIJK@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC7TtsYQju1wXg3hdnRdm5ErIsfvZ+PGG8lvRilHP5Gh2LAa1bSaRWJQnbhduwnc+Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMAQMfUQi1+G0ANe0hWbodYKh5d+dDrWVwd4gufyxSS0EydsmypmA2u0VZOJyCqhfQ==",
                             PhoneNumber = "+31 6 34567890",
                             PhoneNumberConfirmed = false,
                             PostalCode = "8329 SK",
-                            SecurityStamp = "1144987f-4d23-4e0f-8eab-a4053a3bf800",
+                            SecurityStamp = "1c73f978-e63f-4523-96e4-005c263ada30",
                             StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "darlon.vandijk@hotmail.com"
@@ -2867,7 +2684,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B004",
                             BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "b6d31d77-c2a0-4219-a22d-d2d86d299512",
+                            ConcurrencyStamp = "06c24388-dc0a-49b4-b89f-480df8752f36",
                             Email = "pasha.bakker@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Pasha",
@@ -2879,11 +2696,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "PASHA.BAKKER@GMAIL.COM",
                             NormalizedUserName = "PASHA.BAKKER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFBkRYBMkCh7pW6fcuvwuc1jvb9EF22lax3nxClZVyIhIIjFYBd8ZGkyN4N7RcrVxw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOEgDMCyIP1f/0FkWBpO0YOiP2Z2a5MrWwElXHFqOoD+dysd/fhCGmcTLwzI2TFpYQ==",
                             PhoneNumber = "+31 6 45678901",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3894 HT",
-                            SecurityStamp = "3d4bf6df-82d3-4cc7-8658-78a85717b41b",
+                            SecurityStamp = "1fce036e-3dce-4e33-8b6a-2fd82b571ad6",
                             StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "pasha.bakker@gmail.com"
@@ -2894,7 +2711,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B005",
                             BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "bd5aeb9e-8539-44e8-9088-905b84096d73",
+                            ConcurrencyStamp = "a1a8f349-c8be-4d23-b5dc-cfd0c0175ebd",
                             Email = "sarah.vanderven@hotmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarah",
@@ -2905,11 +2722,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
                             NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHk+H6o6yqNh3Z5wOqhA5kYfnDnklrxCfea4N2TaMolKduGo6lM0RC/sdqvbESogDA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELnqzQuOuOlZdxY79pIDNoV0ga0IvjuwyHpKHmeMVqTxRd2pq86iZHJ27o9bdcZCoQ==",
                             PhoneNumber = "+31 6 56789012",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2933 KJ",
-                            SecurityStamp = "c201c885-ad75-454a-959f-2891a8beb558",
+                            SecurityStamp = "ef863ae2-1bdd-493d-8f82-ba011f1178f4",
                             StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "sarah.vanderven@hotmail.com"
@@ -2920,7 +2737,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B006",
                             BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "70b66b5e-c29d-40f9-8815-11b58f24ab1b",
+                            ConcurrencyStamp = "35e5ca10-0e34-4cf8-82ab-3b306a386e08",
                             Email = "david.denboer@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "David",
@@ -2931,11 +2748,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
                             NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHw0BjAg/L8N6CPIXHOkwOPf0Tj+fkRscycfukjfttiKdFL9KnFcut3ogsIOil42Dg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELelSUdI6WuvRLnKJ5cSd6HcSEpNtcdx0LoIq1987yxkH6eBaoyDAme4deIWy50YpA==",
                             PhoneNumber = "+31 6 67890123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "4293 BF",
-                            SecurityStamp = "40d0dcce-fd97-42d6-84a4-ff81b01bf0a4",
+                            SecurityStamp = "02d1611c-38f0-472c-95ad-74fd233e2efc",
                             StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "david.denboer@gmail.com"
@@ -2946,7 +2763,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B012",
                             BirthDate = new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "59fa822b-2ca2-41d1-802f-0d9ab32a9116",
+                            ConcurrencyStamp = "0be595ae-f6bf-4b00-8672-4384c1a38d9b",
                             Email = "anthony.ross@example.com",
                             EmailConfirmed = true,
                             FirstName = "Anthony",
@@ -2958,12 +2775,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "ANTHONY.ROSS@EXAMPLE.COM",
                             NormalizedUserName = "ANTHONY.ROSS@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL1BUZEfB3gxaN26sZ9jwtJo3I9YN29Non843zP+yD8PsyW2aMrGcYxmCYdZwPg15w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAWWHvZ7WHUvOfAGz6fJhgEoqj5jzi4216RaE7a9wsVGoWCZN/y7EpgqxgzpgZ48kg==",
                             PhoneNumber = "+31 6 12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2234 AB",
-                            SecurityStamp = "4cf5b603-c4c0-4155-9d90-9982b89b58e4",
-                            StartDate = new DateTime(2025, 1, 12, 22, 47, 48, 685, DateTimeKind.Local).AddTicks(9903),
+                            SecurityStamp = "3eb5f9ef-8e35-4245-906e-c014811ba617",
+                            StartDate = new DateTime(2025, 1, 12, 16, 36, 3, 706, DateTimeKind.Local).AddTicks(2626),
                             TwoFactorEnabled = false,
                             UserName = "anthony.ross@example.com"
                         },
@@ -2973,7 +2790,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B013",
                             BirthDate = new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "84cd40f8-3e73-43d3-baae-a0c88fbdb3ba",
+                            ConcurrencyStamp = "70422b02-0fd7-4caf-a2f8-5e0bc6121a19",
                             Email = "douwe.jansen@example.com",
                             EmailConfirmed = true,
                             FirstName = "Douwe",
@@ -2985,12 +2802,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DOUWE.JANSEN@EXAMPLE.COM",
                             NormalizedUserName = "DOUWE.JANSEN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL+sU83Bxz5tqIbDNzkTt9eCdDqkLw2XeJcX7o/jbiIKKmnS2tSB4Dju+tNS3h+yhg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPqrG41DRCizmkeEwmK9B83RMZb1qlRzwv38iEpRWurKHvFzkQTrqwv7RixFGUDyxA==",
                             PhoneNumber = "+31 6 87654321",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3345 CD",
-                            SecurityStamp = "5fe8451b-3c72-4220-9c8e-58751df807bb",
-                            StartDate = new DateTime(2025, 1, 12, 22, 47, 48, 751, DateTimeKind.Local).AddTicks(7729),
+                            SecurityStamp = "4fc995f6-9d92-4b81-97bd-9d77802ca5ba",
+                            StartDate = new DateTime(2025, 1, 12, 16, 36, 3, 759, DateTimeKind.Local).AddTicks(2482),
                             TwoFactorEnabled = false,
                             UserName = "douwe.jansen@example.com"
                         });
@@ -3210,14 +3027,14 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             FunctionName = "Cashier",
-                            StartDate = new DateTime(2025, 1, 12, 22, 47, 48, 685, DateTimeKind.Local).AddTicks(9903)
+                            StartDate = new DateTime(2025, 1, 12, 16, 36, 3, 706, DateTimeKind.Local).AddTicks(2626)
                         },
                         new
                         {
                             BranchId = 2,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2025, 1, 12, 22, 47, 48, 751, DateTimeKind.Local).AddTicks(7729)
+                            StartDate = new DateTime(2025, 1, 12, 16, 36, 3, 759, DateTimeKind.Local).AddTicks(2482)
                         },
                         new
                         {
@@ -3277,7 +3094,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             RequestToBranchId = 2,
-                            DateNeeded = new DateTime(2025, 1, 19, 22, 47, 48, 820, DateTimeKind.Local).AddTicks(1616),
+                            DateNeeded = new DateTime(2025, 1, 19, 16, 36, 3, 809, DateTimeKind.Local).AddTicks(8596),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(17, 0, 0),
                             Message = "Overplaatsing nodig vanwege projectdeadline.",
@@ -3289,7 +3106,7 @@ namespace DataLayer.Migrations
                             BranchId = 2,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             RequestToBranchId = 1,
-                            DateNeeded = new DateTime(2025, 1, 26, 22, 47, 48, 820, DateTimeKind.Local).AddTicks(1683),
+                            DateNeeded = new DateTime(2025, 1, 26, 16, 36, 3, 809, DateTimeKind.Local).AddTicks(8664),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
@@ -3301,7 +3118,7 @@ namespace DataLayer.Migrations
                             BranchId = 3,
                             EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
                             RequestToBranchId = 4,
-                            DateNeeded = new DateTime(2025, 1, 22, 22, 47, 48, 820, DateTimeKind.Local).AddTicks(1687),
+                            DateNeeded = new DateTime(2025, 1, 22, 16, 36, 3, 809, DateTimeKind.Local).AddTicks(8668),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(17, 30, 0),
                             Message = "Hulp nodig vanwege ziekte van een collega.",
@@ -3313,7 +3130,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
                             RequestToBranchId = 3,
-                            DateNeeded = new DateTime(2025, 2, 1, 22, 47, 48, 820, DateTimeKind.Local).AddTicks(1690),
+                            DateNeeded = new DateTime(2025, 2, 1, 16, 36, 3, 809, DateTimeKind.Local).AddTicks(8674),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Overplaatsing voor trainingssessies.",
@@ -3464,546 +3281,6 @@ namespace DataLayer.Migrations
                             branchId = 1,
                             normInSeconds = 30,
                             week = 41,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 6,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 320,
-                            week = 42,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 7,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 260,
-                            week = 42,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 8,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 2,
-                            week = 42,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 9,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 2,
-                            week = 42,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 10,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 35,
-                            week = 42,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 11,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 310,
-                            week = 43,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 12,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 250,
-                            week = 43,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 13,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 43,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 14,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 43,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 15,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 40,
-                            week = 43,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 16,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 300,
-                            week = 44,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 17,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 240,
-                            week = 44,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 18,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 44,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 19,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 44,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 20,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 30,
-                            week = 44,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 21,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 290,
-                            week = 45,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 22,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 230,
-                            week = 45,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 23,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 45,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 24,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 45,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 25,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 25,
-                            week = 45,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 26,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 305,
-                            week = 46,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 27,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 245,
-                            week = 46,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 28,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 46,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 29,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 46,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 30,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 33,
-                            week = 46,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 31,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 310,
-                            week = 47,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 32,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 250,
-                            week = 47,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 33,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 47,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 34,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 47,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 35,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 30,
-                            week = 47,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 36,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 280,
-                            week = 48,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 37,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 220,
-                            week = 48,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 38,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 48,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 39,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 48,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 40,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 28,
-                            week = 48,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 41,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 295,
-                            week = 49,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 42,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 235,
-                            week = 49,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 43,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 49,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 44,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 49,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 45,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 32,
-                            week = 49,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 46,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 300,
-                            week = 50,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 47,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 240,
-                            week = 50,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 48,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 50,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 49,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 50,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 50,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 30,
-                            week = 50,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 51,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 290,
-                            week = 51,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 52,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 230,
-                            week = 51,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 53,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 51,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 54,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 51,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 55,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 28,
-                            week = 51,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 56,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 310,
-                            week = 52,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 57,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 250,
-                            week = 52,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 58,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 52,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 59,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 52,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 60,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 32,
-                            week = 52,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 61,
-                            activity = "Coli uitladen",
-                            branchId = 1,
-                            normInSeconds = 300,
-                            week = 53,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 62,
-                            activity = "Vakkenvullen",
-                            branchId = 1,
-                            normInSeconds = 240,
-                            week = 53,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 63,
-                            activity = "Kassa",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 53,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 64,
-                            activity = "Vers",
-                            branchId = 1,
-                            normInSeconds = 1,
-                            week = 53,
-                            year = 2024
-                        },
-                        new
-                        {
-                            normId = 65,
-                            activity = "Spiegelen",
-                            branchId = 1,
-                            normInSeconds = 30,
-                            week = 53,
                             year = 2024
                         });
                 });
@@ -4648,14 +3925,12 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Employee", "Employee")
+                    b.HasOne("Employee", null)
                         .WithMany("RegisteredHours")
                         .HasForeignKey("EmployeeBID")
                         .HasPrincipalKey("BID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Schedule", b =>

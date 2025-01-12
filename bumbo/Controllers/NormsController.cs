@@ -66,27 +66,26 @@ public class NormsController : Controller
         var headers = new List<string> { "Jaar", "Week", "Coli uitladen", "Vakken vullen", "Kassa", "Vers", "Spiegelen" };
         var tableBuilder = new TableHtmlBuilder<ReadNormViewModel>();
         var htmlTable = tableBuilder.GenerateTable("Normeringen", headers, list, "/Norms/Create/", item =>
-{
-    return $@"
-                    <td class='py-2 px-4'>{item.Year}</td>
-                    <td class='py-2 px-4'>{item.Week}</td>
-                    <td class='py-2 px-4'>{item.UnloadColis} minuten</td>
-                    <td class='py-2 px-4'>{item.FillShelves} minuten per coli</td>
-                    <td class='py-2 px-4'>{item.Cashier} kassières</td>
-                    <td class='py-2 px-4'>{item.Fresh} medewerkers</td>
-                    <td class='py-2 px-4'>{item.Fronting} seconden per meter</td>
-                    <td class='py-2 px-4 text-right'>
-                    <button onclick = ""window.location.href='../Norms/Update?NormId={item.NormId}'"">✏️</button> 
-                    </td>";
-}, searchTerm, page);
-
+        {
+            return $@"
+                <td class='py-2 px-4'>{item.Year}</td>
+                <td class='py-2 px-4'>{item.Week}</td>
+                <td class='py-2 px-4'>{item.UnloadColis} minuten</td>
+                <td class='py-2 px-4'>{item.FillShelves} minuten per coli</td>
+                <td class='py-2 px-4'>{item.Cashier} kassières</td>
+                <td class='py-2 px-4'>{item.Fresh} medewerkers</td>
+                <td class='py-2 px-4'>{item.Fronting} seconden per meter</td>
+                <td class='py-2 px-4 text-right'>
+                <button onclick = ""window.location.href='../Norms/Update?NormId={item.NormId}'"">✏️</button> 
+                </td>";
+        }, searchTerm, page);
 
         ViewBag.HtmlTable = htmlTable;
 
         return View();
     }
 
-    public async Task<IActionResult> Create(bool lastWeek, int? addYear)
+    public async Task<IActionResult> Create(bool lastWeek, int? addYear, int? addWeek)
     {
         var user = await _userManager.GetUserAsync(User);
 
@@ -95,7 +94,10 @@ public class NormsController : Controller
             return RedirectToAction("AccessDenied", "Home");
         }
 
-        var selectedYear = addYear ?? DateTime.Now.Year;
+        int selectedYear = addYear ?? DateTime.Now.Year;
+
+        int thisWeek = LastWeek() + 1;
+        int selectedWeek = addWeek ?? thisWeek;
 
         var norms = (await _normsRepository.GetNorms())
             .Where(n => n.branchId == user.ManagerOfBranchId && n.year == selectedYear)
@@ -109,8 +111,9 @@ public class NormsController : Controller
         var viewModel = new AddNormViewModel
         {
             Year = selectedYear,
+            Week = selectedWeek,
             Norms = norms,
-            ThisWeek = LastWeek() + 1
+            ThisWeek = thisWeek
         };
 
         if (lastWeek)
@@ -122,7 +125,6 @@ public class NormsController : Controller
             var lastNorm = await GetLastWeek(user.ManagerOfBranchId.Value);
             if (lastNorm != null)
             {
-                viewModel.Week = lastNorm.Week;
                 viewModel.UnloadColis = lastNorm.UnloadColis;
                 viewModel.FillShelves = lastNorm.FillShelves;
                 viewModel.Cashier = lastNorm.Cashier;
@@ -155,8 +157,6 @@ public class NormsController : Controller
 
         return View(viewModel);
     }
-
-
 
     private async Task<AddNormViewModel> GetLastWeek(int branchId)
     {
