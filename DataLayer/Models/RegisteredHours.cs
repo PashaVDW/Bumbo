@@ -15,6 +15,8 @@ namespace DataLayer.Models
         public int RegistrationNumber { get; set; }
         [Required]
         public string EmployeeBID { get; set; }
+        public Employee Employee { get; set; }
+
         [Required]
         public string EmployeeId { get; set; }
         public bool IsDefenitive { get; set; }
