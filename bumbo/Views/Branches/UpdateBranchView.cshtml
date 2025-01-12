@@ -69,11 +69,14 @@
             </div>
         </div>
         <div class="flex justify-end">
-            <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('delete-branch').classList.remove('hidden')" style="margin-right: 10px"></default-button>
             <default-button button-text="Bewerken" button-type="primary"></default-button>
         </div>
     </form>
-    
+
+    <div class="mr-32 mt-4 bottom-14 relative flex justify-end">
+        <input type="hidden" name="branchId" value="@Model.BranchId" />
+        <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('delete-branch').classList.remove('hidden')" style="margin-right: 10px"></default-button>
+    </div>
 
     <custom-modal modal-id="delete-branch" body-text="Weet je zeker dat je dit filiaal wilt verwijderen?">
         <default-button button-text="Delete" button-type="delete" on-click="window.location.href='/Branches/DeleteBranch?branchId=@Model.BranchId'"></default-button>
