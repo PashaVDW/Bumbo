@@ -105,7 +105,7 @@ namespace bumbo.Controllers
                 {
                     messageFirstPart = item.Message.Substring(0, 20) + "...";
                 }
-                else
+                else if(messageFirstPart == null)
                 {
                     messageFirstPart = "";
                 }
@@ -321,7 +321,7 @@ namespace bumbo.Controllers
                 return RedirectToAction("AddEmployee", new { previousPage = "Update" });
             }
 
-            if (model.Request.Message == null || model.Request.DateNeeded == DateTime.MinValue ||
+            if (model.Request.DateNeeded == DateTime.MinValue ||
                 model.Request.StartTime == TimeOnly.MinValue || model.Request.EndTime == TimeOnly.MinValue)
             {
                 SetTempDataForToast("formFail");
