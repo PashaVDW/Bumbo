@@ -16,8 +16,15 @@
                 <h1 class="text-3xl font-semibold">@Model.EmployeeName - toevoegen</h1>
             </div>
             <div>
-                <p><strong>Beschikbare tijd:</strong> @Model.EmployeeAvailableStartTime - @Model.EmployeeAvailableEndTime</p>
-                <p><strong>Nog mogelijk in te plannen uren:</strong> @Model.EmployeeLabourRulesOrAvailabilityAvailableTime</p>
+                <!-- Duidelijke weergave van de beschikbare tijd -->
+                <div class="bg-blue-100 border-blue-500 border-l-4 p-4 mb-6 rounded-lg">
+                    <p class="text-lg font-bold text-blue-700">
+                        Beschikbare tijd: @Model.EmployeeAvailableStartTime - @Model.EmployeeAvailableEndTime
+                    </p>
+                    <p class="text-base text-blue-600">
+                        Nog mogelijk in te plannen uren: @Model.EmployeeLabourRulesOrAvailabilityAvailableTime
+                    </p>
+                </div>
 
                 <form method="post" asp-action="AddEmployee" id="addEmployee" class="mt-5">
                     <input type="hidden" asp-for="@Model.Date" />
@@ -66,7 +73,7 @@
                             <div class="mt-4">
                                 <h3 class="text-md font-semibold">@department.DepartmentName</h3>
                                 <p class="text-sm">
-                                    Totale uren ingepland: @department.TotalHours.ToString("F2")<br>
+                                    Totale uren ingepland: @department.TotalHours.ToString("F1")<br>
                                     Benodigde uren: @department.HoursNeeded.ToString()
                                 </p>
 
@@ -111,4 +118,3 @@
         </div>
     </div>
 </div>
-

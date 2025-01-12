@@ -64,8 +64,8 @@
                         <div class="mt-4">
                             <h3 class="text-md font-semibold">@department.DepartmentName</h3>
                             <p class="text-sm">
-                                Totale uren ingepland: @department.TotalHours.ToString("F2")<br>
-                                Benodigde uren: @department.HoursNeeded.ToString()
+                                Totale uren ingepland: @department.TotalHours.ToString("F1")<br>
+                                Benodigde uren: @department.HoursNeeded.ToString("F1")
                             </p>
 
                             @if (department.Employees.Any())
@@ -125,7 +125,7 @@
         </toast-message>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                    showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
             });
         </script>
     }

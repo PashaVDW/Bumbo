@@ -4,7 +4,6 @@
     ViewData["Title"] = "EditDay";
 }
 
-
 <div class="mt-10 p-6 relative mx-auto max-w-2xl rounded">
     <custom-modal modal-id="removeEmployeeFromDay" body-text="Weet je zeker dat je de medewerker van deze dag wil halen?">
         <default-button id="removeEmployee" button-text="Verwijder" button-type="delete" onclick=""></default-button>
@@ -13,7 +12,7 @@
 
     <div class="flex justify-between">
         <div class="mb-6 flex">
-            <a href="/roosterManager" style="margin-right: 25px">
+            <a href="@Url.Action("Index", "ScheduleManager", new { weekNumber = ViewBag.WeekNumber, year = ViewBag.Year })" style="margin-right: 25px">
                 <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -28,6 +27,8 @@
     <form asp-action="EditDay" method="post" id="editDayForm">
         <input type="hidden" asp-for="Date" />
         <input type="hidden" asp-for="titleDate" />
+        <input type="hidden" name="weekNumber" value="@ViewBag.WeekNumber" />
+        <input type="hidden" name="year" value="@ViewBag.Year" />
 
         @for (var departmentIndex = 0; departmentIndex < Model.Departments.Count; departmentIndex++)
         {
@@ -68,9 +69,9 @@
                             <a class="text-red-500 justify-self-end" title="Delete" href="javascript:void(0);" onclick="
                                 document.getElementById('removeEmployeeFromDay').classList.remove('hidden');
                                 document.getElementById('removeEmployee').onclick = function() {
-                                    window.location.href = '@Url.Action("RemoveEmployeeFromDay", "ScheduleManager", new { specificDate = Model.Date, EmployeeId = employee.EmployeeId})';
+                                    window.location.href = '@Url.Action("RemoveEmployeeFromDay", "ScheduleManager", new { specificDate = Model.Date, EmployeeId = employee.EmployeeId })';
                                 };
-                                    ">
+                                                ">
                                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
