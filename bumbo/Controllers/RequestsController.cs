@@ -98,7 +98,7 @@ namespace bumbo.Controllers
 
             var headersTwo = new List<string> { "Nodige Medewerker", "Van Filiaal", "Bericht", "Datum Nodige", "Tijd Nodige", "Status", "Acties" };
             var tableBuilderTwo = new TableHtmlBuilder<BranchRequestsEmployee>();
-            var htmlTableTwo = tableBuilderTwo.GenerateTable("Uitgaande Aanvragen", headersTwo, outgoingRequests, "../Requests/Create", item =>
+            var htmlTableTwo = tableBuilderTwo.GenerateTable("Aanvragen", headersTwo, outgoingRequests, "../Requests/Create", item =>
             {
                 var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
                 var messageFirstPart = item.Message;
@@ -120,8 +120,7 @@ namespace bumbo.Controllers
 
             }, searchTerm, page);
 
-            string tempHtmlTableTwo = htmlTableTwo.Replace("Nieuwe uitgaande aanvragen", "Nieuwe aanvragen");
-            string newHtmlTableTwo = tempHtmlTableTwo.Replace("text-4xl", "text-3xl");
+            string newHtmlTableTwo = htmlTableTwo.Replace("text-4xl", "text-3xl");
 
             ViewBag.HtmlTableTwo = newHtmlTableTwo;
 

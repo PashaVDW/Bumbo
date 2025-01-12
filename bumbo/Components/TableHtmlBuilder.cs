@@ -41,9 +41,9 @@
             htmlBuilder.AppendLine("</form><button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>");
             htmlBuilder.AppendLine("</div><div class='w-full p-6'>");
             htmlBuilder.AppendLine("<div class='overflow-x-auto w-full'>");
-            htmlBuilder.AppendLine("<table class='min-w-full table-auto border-collapse'>");
             if (items.Any())
             {
+                htmlBuilder.AppendLine("<table class='min-w-full table-auto border-collapse'>");
                 htmlBuilder.AppendLine(
                     "<thead>" +
                     "<tr class='text-left text-gray-600 font-bold'>"
@@ -115,10 +115,9 @@
                 htmlBuilder.AppendLine("</div>");
             }
             htmlBuilder.AppendLine("</div>");
+            htmlBuilder.AppendLine("</div>");
 
             return htmlBuilder.ToString();
         }
-
-
     }
 }
