@@ -82,7 +82,7 @@ namespace DataLayer.Repositories
             return _context.RegisteredHours
                 .Where(r => r.StartTime.Month == month
                 && r.EndTime.Value.Month == month)
-                .OrderBy(r => r.EndTime)
+                .OrderByDescending(r => r.EndTime)
                 .ToList();
         }
     }
