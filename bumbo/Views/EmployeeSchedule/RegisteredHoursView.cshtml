@@ -1,159 +1,61 @@
-﻿@using DataLayer.Models
-@using System.Globalization
+﻿@using System.Globalization
+@using DataLayer.Models
 
 @model EmployeeRegisterHoursViewModel
 
 <div class="p-3 md:p-12">
-    <h1 class="text-3xl font-bold">Klokken</h1>
-
-    <div class="m-2 md:flex md:justify-between md:gap-8">
-        <div class="md:w-full">
-            <div class="mb-3 flex justify-between">
-                <p class="font-semibold">Vandaag</p>
-                <p class="font-semibold">@Model.DayName[0]@Model.DayName[1] @Model.Today.Day</p>
+    <div class="my-4 space-y-3 md:w-full">
+        <div class="mb-4 flex justify-between">
+            <button onclick="window.location.href='@Url.Action("NavigateMonth", new { newMonth = Model.Month, newYear = Model.Year, direction = "backwards", newView = "RegisteredHoursView" })';"
+                    class="flex items-center">
+                <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+            <div class="space-y-1">
+                <p class="text-center text-lg">Geregistreerde uren</p>
+                <p class="text-center text-sm">@Model.MonthName @Model.Year</p>
             </div>
-            @if (Model.ClockedInTime.HasValue)
-            {
-                <div class="bg-gray-200 rounded-xl">
-                    <div class="p-4 flex justify-between">
-                        <p class="text-sm font-bold">Aan het werk sinds:</p>
-                        <p class="font-bold"> @Model.ClockedInTime.Value.ToString("HH:mm:ss")</p>
-                    </div>
-                    <div class="bg-zinc-300 rounded-xl">
-                        <div class="p-4">
-                            <div>
-                                <p>(Dept)</p>
-                                <p class="text-gray-500 text-sm">Geplande tijd: (tijd)</p>
-                            </div>
-                            <div class="mt-8 gap-3 flex justify-end">
-                                <div>
-                                    <p class="text-xs">eindtijd:</p>
-                                    <p id="current-time" class="font-semibold"></p>
-                                </div>
-                                <form method="post" asp-action="ClockOut">
-                                    <input type="hidden" name="month" value="@Model.Month" />
-                                    <input type="hidden" name="year" value="@Model.Year" />
-                                    <default-button button-type="primary" button-text="Uitklokken"></default-button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="bg-zinc-300 rounded-xl">
-                    <div class="p-4">
-                        <div>
-                            <p>@Model.FirstShift.DepartmentName</p>
-                            @if (string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
-                            {
-                                <p class="text-gray-500 text-sm">Geplande tijd: --:--</p>
-                            } 
-                            else
-                            {
-                                <p class="text-gray-500 text-sm">Geplande tijd: @Model.FirstShift.StartTime - @Model.FirstShift.EndTime</p>
-                            }
-                        </div>
-                        <div class="mt-8 gap-3 flex justify-end">
-                            <div class="mt-8 gap-3 flex justify-end">
-                                <div>
-                                    <p class="text-xs">Begintijd:</p>
-                                    <p id="current-time" class="font-semibold"></p>
-                                </div>
-                                <form method="post" asp-action="ClockIn">
-                                    <input type="hidden" name="month" value="@Model.Month" />
-                                    <input type="hidden" name="year" value="@Model.Year" />
-                                    <default-button button-type="primary" button-text="Inklokken"></default-button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-
-            <div class="mx-2 my-3">
-                @if (!string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
-                {
-                    @foreach (Schedule schedule in Model.WeekSchedule)
-                    {
-                        <div class="border-gray-200 p-3 mt-2 flex justify-between rounded-xl border-2">
-                            <p class="text-sm font-bold">
-                                @schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).First().ToString().ToUpper()@schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).Substring(1)
-                                @schedule.Date.Day</p>
-                            <p class="text-sm">@schedule.DepartmentName</p>
-                            <p class="text-sm">@schedule.StartTime - @schedule.EndTime</p>
-                        </div>
-                    }
-                }
-                @if (string.IsNullOrEmpty(Model.FirstShift.EmployeeId))
-                {
-                    <p>Je hebt geen shifts (meer) deze week</p>
-                }
-            </div>
+            <button onclick="window.location.href='@Url.Action("NavigateMonth", new { newMonth = Model.Month, newYear = Model.Year, direction = "forward", newView = "RegisteredHoursView" })';"
+                    class="flex items-center">
+                <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180 transform">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
         </div>
-        <div class="my-4 space-y-3 md:w-full">
-            <div class="mb-4 flex justify-between">
-                <button onclick="window.location.href='@Url.Action("NavigateMonth", new { newMonth = Model.Month, newYear = Model.Year, direction = "backwards" })';"
-                        class="flex items-center">
-                    <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-                <div>
-                    <p class="text-center text-lg">Geklokte diensten</p>
-                    <p class="text-center text-sm">@Model.MonthName @Model.Year</p>
-                </div>
-                <button onclick="window.location.href='@Url.Action("NavigateMonth", new { newMonth = Model.Month, newYear = Model.Year, direction = "forward" })';"
-                        class="flex items-center">
-                    <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180 transform">
-                        <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-            </div>
-            <div class="mt-2">
-                @if (Model.RegisteredHoursPlanned.Count == 0)
-                {
-                    <p class="text-center font-semibold">Deze maand heeft geen diensten</p>
-                }
-                @foreach (Schedule schedule in Model.RegisteredHoursPlanned)
-                {
-                    <div class="border-b-gray-200 p-3 mt-2 flex justify-between rounded-xl border-b-2">
-                        <p class="text-sm font-bold">
-                            @schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).First().ToString().ToUpper()@schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).Substring(1)
-                            @schedule.Date.Day
-                        </p>
-                        <div>
-                            @{
-                                int i = 0;
-                                foreach (RegisteredHours hour in Model.RegisteredHoursSchedule)
+        <div class="mt-2">
+            @if (Model.RegisteredHoursPlanned.Count == 0)
+            {
+                <p class="text-center font-semibold">Deze maand heeft geen diensten</p>
+            }
+            @foreach (Schedule schedule in Model.RegisteredHoursPlanned)
+            {
+                <div class="border-b-gray-200 p-3 mt-2 flex justify-between rounded-xl border-b-2">
+                    <p class="text-sm font-bold">
+                        @schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).First().ToString().ToUpper()@schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).Substring(1)
+                        @schedule.Date.Day
+                    </p>
+                    <div>
+                        @{
+                            int i = 0;
+                            foreach (RegisteredHours hour in Model.RegisteredHoursSchedule)
+                            {
+                                if (hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Value.Day == schedule.Date.Day && hour.IsDefenitive)
                                 {
-                                    if (hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Value.Day == schedule.Date.Day && hour.IsDefenitive)
-                                    {
-                                        <p class="text-sm font-semibold">Geklokte tijd: @hour.StartTime.Hour:@hour.StartTime.Minute.ToString("D2") - @hour.EndTime.Value.Hour:@hour.EndTime.Value.Minute.ToString("D2")</p>
-                                        i++;
-                                    }
-                                }
-                                if (i == 0)
-                                {
-                                    <p class="text-sm font-semibold">Geklokte tijd: --:--</p>
+                                    <p class="text-sm font-semibold">Geklokte tijd: @hour.StartTime.Hour:@hour.StartTime.Minute.ToString("D2") - @hour.EndTime.Value.Hour:@hour.EndTime.Value.Minute.ToString("D2")</p>
+                                    i++;
                                 }
                             }
-                            
-                            <p class="text-gray-500 text-sm">Geplande tijd: @schedule.StartTime - @schedule.EndTime</p>
-                        </div>
+                            if (i == 0)
+                            {
+                                <p class="text-sm font-semibold">Geklokte tijd: --:--</p>
+                            }
+                        }
+
+                        <p class="text-gray-500 text-sm">Geplande tijd: @schedule.StartTime - @schedule.EndTime</p>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     </div>
 </div>
-
-<script>
-    function updateTime() {
-        const now = new Date();
-        document.getElementById('current-time').textContent = now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-</script>

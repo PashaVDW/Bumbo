@@ -123,9 +123,10 @@ namespace bumbo.Controllers
                             .OrderBy(s => s.StartTime)
                             .ToList();
 
-                        double hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName == date.DayOfWeek.ToString() && pd.DepartmentName == department)
-                            .Sum(pd => pd.HoursOfWorkNeeded);
+                        int hoursNeededForDepartment = prognosisDetails
+                            .Where(pd => pd.DaysName.Equals(date.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
+                            .Select(pd => pd.HoursOfWorkNeeded)
+                            .FirstOrDefault();
 
                         return new DepartmentScheduleViewModel
                         {
@@ -180,14 +181,15 @@ namespace bumbo.Controllers
                     titleDate = dayTitle,
                     Departments = departments.Select(department =>
                     {
-                        var schedulesForDepartment = schedules
+                        List<Schedule> schedulesForDepartment = schedules
                             .Where(s => s.Date == DateOnly.FromDateTime(dateTime) && s.DepartmentName == department)
                             .OrderBy(s => s.StartTime)
                             .ToList();
 
-                        var hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
-                            .Sum(pd => pd.HoursOfWorkNeeded);
+                        int hoursNeededForDepartment = prognosisDetails
+                            .Where(pd => pd.DaysName.Equals(dateTime.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
+                            .Select(pd => pd.HoursOfWorkNeeded)
+                            .FirstOrDefault();
 
                         return new DepartmentScheduleEditViewModel
                         {
@@ -445,26 +447,12 @@ namespace bumbo.Controllers
                             employeeAge--;
                         }
 
-                        string labourRulesToUseString;
-
-                        switch (employeeAge)
+                        string labourRulesToUseString = employeeAge switch
                         {
-                            case < 16:
-                                labourRulesToUseString = "<16";
-                                break;
-
-                            case 16:
-                                labourRulesToUseString = "16-17";
-                                break;
-
-                            case 17:
-                                labourRulesToUseString = "16-17";
-                                break;
-
-                            case > 17:
-                                labourRulesToUseString = ">17";
-                                break;
-                        }
+                            < 16 => "<16",
+                            16 or 17 => "16-17",
+                            > 17 => ">17"
+                        };
 
                         LabourRules labourRulesToUse = labourRules
                             .FirstOrDefault(l => l.AgeGroup.Equals(labourRulesToUseString));
@@ -501,8 +489,8 @@ namespace bumbo.Controllers
                 <td class='py-2 px-4'>{item.ToPlanHours}</td>
                 <td class='py-2 px-4'>{item.StartTime} - {item.EndTime}</td>
                 <td class='py-2 px-4'>
-                    <button onclick=""window.location.href='/ScheduleManager/AddEmployee?date={item.Date.ToString("yyyy-MM-dd")}&employeeId={item.EmployeeId}'""
-                    class='bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded'>Toevoegen</button>
+                    <button onclick=""window.location.href='/ScheduleManager/AddEmployee?date={item.Date.ToString("yyyy-MM-dd")}&employeeId={item.EmployeeId}&searchTerm={searchTerm}'""
+                    class='primary_bg_color hover:bg-yellow-400 text-white font-semibold py-2 px-6 rounded-xl'>Toevoegen</button>
                 </td>"
                 );
 
@@ -512,7 +500,7 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddEmployee(string date, string employeeId)
+        public async Task<IActionResult> AddEmployee(string date, string employeeId, string searchTerm)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == null)
@@ -578,7 +566,7 @@ namespace bumbo.Controllers
                         Date = date,
                         EmployeeId = employeeId,
                         EmployeeName = employeeFullName,
-                        DepartmentName = departments.First(),
+                        DepartmentName = searchTerm,
                         StartTime = employeeAvailability.StartTime,
                         EndTime = employeeAvailability.EndTime,
                         EmployeeAvailableStartTime = employeeAvailability.StartTime,
@@ -594,9 +582,10 @@ namespace bumbo.Controllers
                                     .OrderBy(s => s.StartTime)
                                     .ToList();
 
-                                double hoursNeededForDepartment = prognosisDetails
-                                    .Where(pd => pd.DaysName == dateTime.DayOfWeek.ToString() && pd.DepartmentName == department)
-                                    .Sum(pd => pd.HoursOfWorkNeeded);
+                                int hoursNeededForDepartment = prognosisDetails
+                                   .Where(pd => pd.DaysName.Equals(dateTime.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
+                                   .Select(pd => pd.HoursOfWorkNeeded)
+                                   .FirstOrDefault();
 
                                 return new DepartmentScheduleAddEmployeeViewModel
                                 {

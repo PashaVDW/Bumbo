@@ -15,5 +15,9 @@ namespace bumbo.ViewModels
         public string MonthName { get; set; }
         public List<Schedule> RegisteredHoursPlanned { get; set; }
         public List<RegisteredHours> RegisteredHoursSchedule { get; set; }
+
+
+
+        public List<RegisteredHours> ClockedHours { get; set; }
     }
 }

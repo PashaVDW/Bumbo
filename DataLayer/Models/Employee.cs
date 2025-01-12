@@ -38,7 +38,6 @@ public class Employee : IdentityUser
     public Branch? ManagerOfBranch { get; set; }
 
 
-    public virtual ICollection<RegisteredHours> RegisteredHours { get; set; }
     public ICollection<BranchHasEmployee> BranchEmployees { get; set; }
     public virtual ICollection<EmployeeHasDepartment> EmployeeHasDepartment { get; set; }
     public virtual ICollection<Availability> Availabilitys { get; set; }
@@ -46,4 +45,5 @@ public class Employee : IdentityUser
     public virtual ICollection<SwitchRequest> SwitchRequests { get; set; }
     public virtual ICollection<Schedule> Schedules { get; set; }
     public virtual ICollection<BranchRequestsEmployee> BranchRequestsEmployee { get; set; }
+    public virtual ICollection<RegisteredHours> RegisteredHours { get; set; }
 }
