@@ -12,6 +12,6 @@ namespace DataLayer.Interfaces
     {
         void CreateCalculation(string prognosisId, List<Days> days, List<int> cassiereHours, List<int> versWorkersHours, List<int> stockingHours, List<int> cassieresNeeded, List<int> workersNeeded, List<int> stockingWorkersNeeded);
         List<PrognosisHasDaysHasDepartment> GetPrognosisCalculations(string prognosisId);
-        void UpdateCalculations(List<PrognosisHasDaysHasDepartment> viewmodels);
+        void UpdatePrognosisDepartments(List<PrognosisHasDaysHasDepartment> viewmodels);
     }
 }

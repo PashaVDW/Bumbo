@@ -105,6 +105,7 @@ namespace DataLayer.Repositories
         {
             return _context.Prognoses
                 .Include(p => p.PrognosisHasDays)
+                    .ThenInclude(phd => phd.PrognosisHasDaysHasDepartment)
                 .FirstOrDefault(p => p.PrognosisId == id);
         }
 
