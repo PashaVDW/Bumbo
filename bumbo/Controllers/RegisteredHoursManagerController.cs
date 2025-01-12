@@ -72,11 +72,12 @@ namespace bumbo.Controllers
                     DateOnly day = DateOnly.FromDateTime(rh.StartTime.Date);
 
                     bool isSickDay = schedulesThisMonth.Any(s => s.Date == day && s.IsSick);
-                    if (!isSickDay)
+                    if (!isSickDay && rh.EndTime.HasValue)
                     {
-                        totalWorkedHours += (rh.EndTime - rh.StartTime).TotalHours;
+                        totalWorkedHours += (rh.EndTime.Value - rh.StartTime).TotalHours;
                     }
                 }
+
 
 
                 // Totale afwijking medewerker
@@ -119,11 +120,13 @@ namespace bumbo.Controllers
                     TimeOnly? scheduledEnd = scheduleOfDay?.EndTime;
 
                     TimeOnly? workedStart = rhOfDay != null
-                        ? TimeOnly.FromDateTime(rhOfDay.StartTime)
+                         ? TimeOnly.FromDateTime(rhOfDay.StartTime)
+                         : null;
+
+                    TimeOnly? workedEnd = rhOfDay != null && rhOfDay.EndTime.HasValue
+                        ? TimeOnly.FromDateTime(rhOfDay.EndTime.Value)
                         : null;
-                    TimeOnly? workedEnd = rhOfDay != null
-                        ? TimeOnly.FromDateTime(rhOfDay.EndTime)
-                        : null;
+
 
                     double dayScheduledHours = (scheduledStart != null && scheduledEnd != null)
                         ? (scheduledEnd.Value - scheduledStart.Value).TotalHours
