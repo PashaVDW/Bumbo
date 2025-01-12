@@ -42,10 +42,10 @@
             <div class="mr-2 w-full flex flex-col">
                 <label for="week">Kies een week</label>
                 <select class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight"
-                        id="week" name="@nameof(AddNormViewModel.Week)">
+                        id="week" name="@nameof(AddNormViewModel.Week)" onchange="navigateToWeek()">
                     @for (int i = 1; i < 53; i++)
                     {
-                        if (i == Model.ThisWeek)
+                        if (i == Model.Week)
                         {
                             <option selected value="@i">Week @i</option>
                         }
@@ -65,7 +65,14 @@
         <script>
             function navigateToYear() {
                 const selectedYear = document.getElementById('year').value;
-                window.location.href = `/Norms/Create?addYear=${selectedYear}`;
+                const selectedWeek = document.getElementById('week').value;
+                window.location.href = `/Norms/Create?addYear=${selectedYear}&addWeek=${selectedWeek}`;
+            }
+
+            function navigateToWeek() {
+                const selectedYear = document.getElementById('year').value;
+                const selectedWeek = document.getElementById('week').value;
+                window.location.href = `/Norms/Create?addYear=${selectedYear}&addWeek=${selectedWeek}`;
             }
         </script>
 
