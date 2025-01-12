@@ -125,10 +125,5 @@ namespace DataLayer.Repositories
                 _context.SaveChanges();
             }
         }
-        public Employee GetEmployeeByBID(string bid)
-        {
-            return _context.Users.FirstOrDefault(e => e.BID == bid);
-        }
-
     }
 }

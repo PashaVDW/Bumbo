@@ -14,7 +14,7 @@ namespace DataLayer.Interfaces
         List<Employee> GetAvailableEmployees(DateOnly date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
         Task<List<Employee>> GetEmployeesOfBranch(int? branchId);
         LabourRules GetLabourRulesForEmployee(Employee employee);
-        Employee GetEmployeeByBID(string bid);
+
         void AddNormalizedEmail(string email, string employeeId);
     }
 }

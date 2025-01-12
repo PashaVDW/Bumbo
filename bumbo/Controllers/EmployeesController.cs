@@ -116,14 +116,8 @@ namespace bumbo.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingEmployee = _employeeRepository.GetEmployeeByBID(model.BID);
-                if (existingEmployee != null)
-                {
-                    TempData["ToastMessage"] = "Een medewerker met dit BID bestaat al!";
-                    TempData["ToastType"] = "error";
-                    return View(model);
-                }
 
+                bool isSuccess = false;
                 var employee = new Employee
                 {
                     FirstName = model.FirstName,
@@ -137,45 +131,36 @@ namespace bumbo.Controllers
                     PhoneNumber = model.PhoneNumber,
                     UserName = model.Email,
                     IsSystemManager = model.IsSystemManager,
-                    ManagerOfBranchId = model.ManagerOfBranchId,
-                    BID = model.BID
+                    ManagerOfBranchId = model.ManagerOfBranchId
                 };
 
-                try
-                {
-                    var result = await _userManager.CreateAsync(employee, model.Password);
+                var result = await _userManager.CreateAsync(employee, model.Password);
 
-                    if (result.Succeeded)
+                if (result.Succeeded)
+                {
+                    if (user.ManagerOfBranchId != null)
                     {
-                        if (user.ManagerOfBranchId != null)
+                        var branchHasEmployee = new BranchHasEmployee
                         {
-                            var branchHasEmployee = new BranchHasEmployee
-                            {
-                                EmployeeId = employee.Id,
-                                BranchId = user.ManagerOfBranchId.Value,
-                                FunctionName = string.IsNullOrEmpty(model.SelectedFunction) ? null : model.SelectedFunction,
-                                StartDate = DateTime.Now
-                            };
+                            EmployeeId = employee.Id,
+                            BranchId = user.ManagerOfBranchId.Value,
+                            FunctionName = string.IsNullOrEmpty(model.SelectedFunction) ? null : model.SelectedFunction,
+                            StartDate = DateTime.Now
+                        };
 
-                            await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchHasEmployee);
+                        await _branchHasEmployeeRepository.AddBranchHasEmployeeAsync(branchHasEmployee);
 
-                            _employeeRepository.AddNormalizedEmail(model.Email, employee.Id);
-                        }
-
-                        TempData["ToastMessage"] = "Medewerker succesvol toegevoegd!";
-                        TempData["ToastType"] = "success";
-
-                        return RedirectToAction("Index");
+                        _employeeRepository.AddNormalizedEmail(model.Email, employee.Id);
                     }
-                    else
-                    {
-                        TempData["ToastMessage"] = "Er is iets mis gegaan, probeer het opnieuw.";
-                        TempData["ToastType"] = "error";
-                    }
+
+                    TempData["ToastMessage"] = "Medewerker succesvol toegevoegd!";
+                    TempData["ToastType"] = "success";
+
+                    return RedirectToAction("Index");
                 }
-                catch (Exception ex)
+                else
                 {
-                    TempData["ToastMessage"] = $"Er is een fout opgetreden: {ex.Message}";
+                    TempData["ToastMessage"] = "Er is iets mis gegaan, probeer het opnieuw.";
                     TempData["ToastType"] = "error";
                 }
             }
@@ -193,8 +178,6 @@ namespace bumbo.Controllers
 
             return View(model);
         }
-
-
         [HttpGet]
         public async Task<IActionResult> UpdateAsync(string medewerkerId)
         {
