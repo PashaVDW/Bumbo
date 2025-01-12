@@ -99,12 +99,672 @@ namespace bumbo.Data
                 normInSeconds = 30
             };
 
+            var weekFourtyTwoColi = new Norm
+            {
+                normId = 6,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 320
+            };
+
+            var weekFourtyTwoShelve = new Norm
+            {
+                normId = 7,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 260
+            };
+
+            var weekFourtyTwoCashier = new Norm
+            {
+                normId = 8,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 2
+            };
+
+            var weekFourtyTwoFresh = new Norm
+            {
+                normId = 9,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 2
+            };
+
+            var weekFourtyTwoFronting = new Norm
+            {
+                normId = 10,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 35
+            };
+
+            var weekFourtyThreeColi = new Norm
+            {
+                normId = 11,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 310
+            };
+
+            var weekFourtyThreeShelve = new Norm
+            {
+                normId = 12,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 250
+            };
+
+            var weekFourtyThreeCashier = new Norm
+            {
+                normId = 13,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyThreeFresh = new Norm
+            {
+                normId = 14,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyThreeFronting = new Norm
+            {
+                normId = 15,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 40
+            };
+
+            var weekFourtyFourColi = new Norm
+            {
+                normId = 16,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 300
+            };
+
+            var weekFourtyFourShelve = new Norm
+            {
+                normId = 17,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 240
+            };
+
+            var weekFourtyFourCashier = new Norm
+            {
+                normId = 18,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyFourFresh = new Norm
+            {
+                normId = 19,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyFourFronting = new Norm
+            {
+                normId = 20,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 30
+            };
+
+            var weekFourtyFiveColi = new Norm
+            {
+                normId = 21,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 290
+            };
+
+            var weekFourtyFiveShelve = new Norm
+            {
+                normId = 22,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 230
+            };
+
+            var weekFourtyFiveCashier = new Norm
+            {
+                normId = 23,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyFiveFresh = new Norm
+            {
+                normId = 24,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyFiveFronting = new Norm
+            {
+                normId = 25,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 25
+            };
+
+            var weekFourtySixColi = new Norm
+            {
+                normId = 26,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 305
+            };
+
+            var weekFourtySixShelve = new Norm
+            {
+                normId = 27,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 245
+            };
+
+            var weekFourtySixCashier = new Norm
+            {
+                normId = 28,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtySixFresh = new Norm
+            {
+                normId = 29,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtySixFronting = new Norm
+            {
+                normId = 30,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 33
+            };
+
+            var weekFourtySevenColi = new Norm
+            {
+                normId = 31,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 310
+            };
+
+            var weekFourtySevenShelve = new Norm
+            {
+                normId = 32,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 250
+            };
+
+            var weekFourtySevenCashier = new Norm
+            {
+                normId = 33,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtySevenFresh = new Norm
+            {
+                normId = 34,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtySevenFronting = new Norm
+            {
+                normId = 35,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 30
+            };
+
+            var weekFourtyEightColi = new Norm
+            {
+                normId = 36,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 280
+            };
+
+            var weekFourtyEightShelve = new Norm
+            {
+                normId = 37,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 220
+            };
+
+            var weekFourtyEightCashier = new Norm
+            {
+                normId = 38,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyEightFresh = new Norm
+            {
+                normId = 39,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyEightFronting = new Norm
+            {
+                normId = 40,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 28
+            };
+
+            var weekFourtyNineColi = new Norm
+            {
+                normId = 41,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 295
+            };
+
+            var weekFourtyNineShelve = new Norm
+            {
+                normId = 42,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 235
+            };
+
+            var weekFourtyNineCashier = new Norm
+            {
+                normId = 43,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyNineFresh = new Norm
+            {
+                normId = 44,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyNineFronting = new Norm
+            {
+                normId = 45,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 32
+            };
+
+            var weekFiftyColi = new Norm
+            {
+                normId = 46,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 300
+            };
+
+            var weekFiftyShelve = new Norm
+            {
+                normId = 47,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 240
+            };
+
+            var weekFiftyCashier = new Norm
+            {
+                normId = 48,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFiftyFresh = new Norm
+            {
+                normId = 49,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFiftyFronting = new Norm
+            {
+                normId = 50,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 30
+            };
+
+            var weekFiftyOneColi = new Norm
+            {
+                normId = 51,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 290
+            };
+
+            var weekFiftyOneShelve = new Norm
+            {
+                normId = 52,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 230
+            };
+
+            var weekFiftyOneCashier = new Norm
+            {
+                normId = 53,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFiftyOneFresh = new Norm
+            {
+                normId = 54,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFiftyOneFronting = new Norm
+            {
+                normId = 55,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 28
+            };
+
+            var weekFiftyTwoColi = new Norm
+            {
+                normId = 56,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 310
+            };
+
+            var weekFiftyTwoShelve = new Norm
+            {
+                normId = 57,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 250
+            };
+
+            var weekFiftyTwoCashier = new Norm
+            {
+                normId = 58,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFiftyTwoFresh = new Norm
+            {
+                normId = 59,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFiftyTwoFronting = new Norm
+            {
+                normId = 60,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 32
+            };
+
+            var weekFiftyThreeColi = new Norm
+            {
+                normId = 61,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 300
+            };
+
+            var weekFiftyThreeShelve = new Norm
+            {
+                normId = 62,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 240
+            };
+
+            var weekFiftyThreeCashier = new Norm
+            {
+                normId = 63,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFiftyThreeFresh = new Norm
+            {
+                normId = 64,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFiftyThreeFronting = new Norm
+            {
+                normId = 65,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 30
+            };
+
             modelBuilder.Entity<Norm>().HasData(
                 weekFourtyOneColi,
                 weekFourtyOneShelve,
                 weekFourtyOneCashier,
                 weekFourtyOneFresh,
-                weekFourtyOneFronting);
+                weekFourtyOneFronting,
+                weekFourtyTwoColi,
+                weekFourtyTwoShelve,
+                weekFourtyTwoCashier,
+                weekFourtyTwoFresh,
+                weekFourtyTwoFronting,
+                weekFourtyThreeColi,
+                weekFourtyThreeShelve,
+                weekFourtyThreeCashier,
+                weekFourtyThreeFresh,
+                weekFourtyThreeFronting,
+                weekFourtyFourColi,
+                weekFourtyFourShelve,
+                weekFourtyFourCashier,
+                weekFourtyFourFresh,
+                weekFourtyFourFronting,
+                weekFourtyFiveColi,
+                weekFourtyFiveShelve,
+                weekFourtyFiveCashier,
+                weekFourtyFiveFresh,
+                weekFourtyFiveFronting,
+                weekFourtySixColi,
+                weekFourtySixShelve,
+                weekFourtySixCashier,
+                weekFourtySixFresh,
+                weekFourtySixFronting,
+                weekFourtySevenColi,
+                weekFourtySevenShelve,
+                weekFourtySevenCashier,
+                weekFourtySevenFresh,
+                weekFourtySevenFronting,
+                weekFourtyEightColi,
+                weekFourtyEightShelve,
+                weekFourtyEightCashier,
+                weekFourtyEightFresh,
+                weekFourtyEightFronting,
+                weekFourtyNineColi,
+                weekFourtyNineShelve,
+                weekFourtyNineCashier,
+                weekFourtyNineFresh,
+                weekFourtyNineFronting,
+                weekFiftyColi,
+                weekFiftyShelve,
+                weekFiftyCashier,
+                weekFiftyFresh,
+                weekFiftyFronting,
+                weekFiftyOneColi,
+                weekFiftyOneShelve,
+                weekFiftyOneCashier,
+                weekFiftyOneFresh,
+                weekFiftyOneFronting,
+                weekFiftyTwoColi,
+                weekFiftyTwoShelve,
+                weekFiftyTwoCashier,
+                weekFiftyTwoFresh,
+                weekFiftyTwoFronting,
+                weekFiftyThreeColi,
+                weekFiftyThreeShelve,
+                weekFiftyThreeCashier,
+                weekFiftyThreeFresh,
+                weekFiftyThreeFronting);
 
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },

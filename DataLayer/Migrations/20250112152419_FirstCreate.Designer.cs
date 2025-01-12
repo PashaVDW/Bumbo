@@ -12,7 +12,7 @@ using bumbo.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(BumboDBContext))]
-    [Migration("20250111155331_FirstCreate")]
+    [Migration("20250112152419_FirstCreate")]
     partial class FirstCreate
     {
         /// <inheritdoc />
@@ -2605,7 +2605,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B001",
                             BirthDate = new DateTime(1985, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "c20550cd-dfff-4030-ad59-21d6912ea777",
+                            ConcurrencyStamp = "ec8bd63b-a3ab-4e44-b2d9-81e490c9d5ae",
                             Email = "john.doe@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -2617,11 +2617,11 @@ namespace DataLayer.Migrations
                             MiddleName = "A.",
                             NormalizedEmail = "JOHN.DOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHN.DOE@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENQrCaWjeqotHTPTWn7BzOhOrgdizpWMsMF9x0AVzW/dRnFWMWCZz++uiuUgZsgHMQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPHvmiwb4Vk86B+4R9ZwA9LeQzCWdDkyb2pY6CtAiBeLejDqh2jA+hSSfV97ngoPjw==",
                             PhoneNumber = "06-9876543",
                             PhoneNumberConfirmed = false,
                             PostalCode = "12345",
-                            SecurityStamp = "5d2a1546-8dd1-4c10-9595-16dbe3a29f63",
+                            SecurityStamp = "3d46cb00-09f3-4904-ad63-5cd4e2c07f16",
                             StartDate = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "john.doe@example.com"
@@ -2632,7 +2632,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B002",
                             BirthDate = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "9a5179f3-4f2a-4521-88e0-5f11ada826fe",
+                            ConcurrencyStamp = "14121cc6-f429-4b26-ad38-14c6cb112e3e",
                             Email = "jane.smith@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -2643,11 +2643,11 @@ namespace DataLayer.Migrations
                             MiddleName = "B.",
                             NormalizedEmail = "JANE.SMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANE.SMITH@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGIv5JF5PXL3s0k1ucp1kH7Nr+XU2SrVQGJNeT6HDn7r8cA45wz1PuB2XuRYQnEdbg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELzYsogdjSnnGuM34hXrXRmHBOyWwhz6OjIB/33NRgqRYTc/g5joQjcEw0xabOQW2Q==",
                             PhoneNumber = "06-12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "9271 GB",
-                            SecurityStamp = "96f2eaa7-d785-4b9e-9050-f672ae8e799b",
+                            SecurityStamp = "7ca3b99e-3e8f-4729-b779-d1b14f1cacbc",
                             StartDate = new DateTime(2012, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "jane.smith@example.com"
@@ -2658,7 +2658,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B003",
                             BirthDate = new DateTime(1992, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "80bab02f-6c42-4cb4-bf7a-d294c1036aed",
+                            ConcurrencyStamp = "04f4022f-bbd1-4344-a495-097854437759",
                             Email = "darlon.vandijk@hotmail.com",
                             EmailConfirmed = true,
                             FirstName = "Darlon",
@@ -2669,11 +2669,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DARLON.VANDIJK@HOTMAIL.COM",
                             NormalizedUserName = "DARLON.VANDIJK@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC+Cczk6Uk9kY/6nb/0evDZaZsTIkIwAdsXF6vYIWxeAPYx9bWoW6zVxsSqvnV7lJw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELdBBvchrK9Ue5iWLq6Ws5kN/3jMK5ZooCFP+V9GfRx84e6wKC/oexVEx13ioqrGKg==",
                             PhoneNumber = "+31 6 34567890",
                             PhoneNumberConfirmed = false,
                             PostalCode = "8329 SK",
-                            SecurityStamp = "4f7d4b17-f2dc-4772-83f0-cda80aa42927",
+                            SecurityStamp = "bb8f872b-75ec-420f-8d5e-85e14a854f79",
                             StartDate = new DateTime(2018, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "darlon.vandijk@hotmail.com"
@@ -2684,7 +2684,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B004",
                             BirthDate = new DateTime(1980, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "0b2e3f05-7d55-49f4-8ec5-6a24a3001c7d",
+                            ConcurrencyStamp = "8627f6a0-0862-45a6-9feb-616d5a3fab19",
                             Email = "pasha.bakker@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Pasha",
@@ -2696,11 +2696,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "PASHA.BAKKER@GMAIL.COM",
                             NormalizedUserName = "PASHA.BAKKER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPT5w/+3zTpyT0o7PNDIwOAa0d/nIRBnk2yeA/NRf9LhSVVzmGlSU6dgBvEFUjzPLw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJtpY/oDNLp55bI32LHLAMxx2GSEVEi/ZaI2g78ZV4SI8+FCgydbu7O7RyFsvX/zoQ==",
                             PhoneNumber = "+31 6 45678901",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3894 HT",
-                            SecurityStamp = "23e0bd06-732f-403f-b7c3-c73b45ad12f0",
+                            SecurityStamp = "cd0de0a6-213d-4fba-935e-0e32fae08f08",
                             StartDate = new DateTime(2010, 9, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "pasha.bakker@gmail.com"
@@ -2711,7 +2711,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B005",
                             BirthDate = new DateTime(1988, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "39d93f76-1019-4270-971d-401034309d7a",
+                            ConcurrencyStamp = "61770683-524e-49bf-990f-6e4b02996cb8",
                             Email = "sarah.vanderven@hotmail.com",
                             EmailConfirmed = false,
                             FirstName = "Sarah",
@@ -2722,11 +2722,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "SARAH.VANDERVEN@HOTMAIL.COM",
                             NormalizedUserName = "SARAH.VANDERVEN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMYMnwokREea9tu5n89lCdAjnO1fwBn6EeOckI4syuT3bdumBeuh0stowpgVLIZgmw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEsFfLut291LPKMbUExvFvytp9Q0r1nKNkb7Z9ehAzA5GvxeQ1jud9/HSgxAqPmUsg==",
                             PhoneNumber = "+31 6 56789012",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2933 KJ",
-                            SecurityStamp = "0df0759d-efe3-46ab-ae19-9527385a75ca",
+                            SecurityStamp = "dd5327e4-1cd5-4b24-a86f-24c6426b48ff",
                             StartDate = new DateTime(2017, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "sarah.vanderven@hotmail.com"
@@ -2737,7 +2737,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B006",
                             BirthDate = new DateTime(1995, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "29decca9-37bb-46ab-ac7f-6688c3311519",
+                            ConcurrencyStamp = "eaa853fe-d3ad-4162-8ade-f55299bbdf26",
                             Email = "david.denboer@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "David",
@@ -2748,11 +2748,11 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DAVID.DENBOER@GMAIL.COM",
                             NormalizedUserName = "DAVID.DENBOER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEI1eH4Jzn1ZSWFXXwegC0XIRx7D07BzRBsue/0jvFDIIDq0ap/6poSDbqYzh4If/g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAs+1G+1TiglMmVnfKA/G2+4Hpm/5/qP9zWi+3S50qfhCtbCm9+YWKO+Z4/aSUWr5Q==",
                             PhoneNumber = "+31 6 67890123",
                             PhoneNumberConfirmed = false,
                             PostalCode = "4293 BF",
-                            SecurityStamp = "d7c02f38-7fb6-454f-9247-82e06061da8f",
+                            SecurityStamp = "976185c8-1292-4c93-8231-c8e61a0da667",
                             StartDate = new DateTime(2020, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false,
                             UserName = "david.denboer@gmail.com"
@@ -2763,7 +2763,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B012",
                             BirthDate = new DateTime(1993, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "8f106d8a-3b8a-4cd1-8989-a37b5b809aa1",
+                            ConcurrencyStamp = "96f1405a-c109-444e-b8ce-c0936eec70ce",
                             Email = "anthony.ross@example.com",
                             EmailConfirmed = true,
                             FirstName = "Anthony",
@@ -2775,12 +2775,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "ANTHONY.ROSS@EXAMPLE.COM",
                             NormalizedUserName = "ANTHONY.ROSS@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE+eXU5wJijBSsQhO5koYLHbTGIHQWuO4cpUQ8XF7NCYAd8M340vascjrW5O0LXTXw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFWzg5JSmvh1p6f5x5V/nf8gsydFSvEeOeoYzsC9XsRP5YqEhrhAEXGrFRTGAuMEzg==",
                             PhoneNumber = "+31 6 12345678",
                             PhoneNumberConfirmed = false,
                             PostalCode = "2234 AB",
-                            SecurityStamp = "6cf49589-8fe7-44dd-9780-dd836a2afbc4",
-                            StartDate = new DateTime(2025, 1, 11, 16, 53, 30, 788, DateTimeKind.Local).AddTicks(9126),
+                            SecurityStamp = "c66344fc-2fb1-4c0e-a618-d7033026c29c",
+                            StartDate = new DateTime(2025, 1, 12, 16, 24, 18, 959, DateTimeKind.Local).AddTicks(1839),
                             TwoFactorEnabled = false,
                             UserName = "anthony.ross@example.com"
                         },
@@ -2790,7 +2790,7 @@ namespace DataLayer.Migrations
                             AccessFailedCount = 0,
                             BID = "B013",
                             BirthDate = new DateTime(1987, 9, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "c8b78e6b-f23d-47ee-bf39-2140191802a0",
+                            ConcurrencyStamp = "5b929ed3-09b1-4902-9ab0-8e8e2251871b",
                             Email = "douwe.jansen@example.com",
                             EmailConfirmed = true,
                             FirstName = "Douwe",
@@ -2802,12 +2802,12 @@ namespace DataLayer.Migrations
                             MiddleName = "",
                             NormalizedEmail = "DOUWE.JANSEN@EXAMPLE.COM",
                             NormalizedUserName = "DOUWE.JANSEN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG3KjBJtwzH7D43X0dtLSUgmspbku6cyB65+RtiZ22rtlx/MYgWSJ2MDPwvoqCtaTw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEzcv1pwg5VzADqleGh5P7/KpI/MhHNZMC2OfOusQgYZmekAgJ8YWDt2ihjrnu5GSA==",
                             PhoneNumber = "+31 6 87654321",
                             PhoneNumberConfirmed = false,
                             PostalCode = "3345 CD",
-                            SecurityStamp = "6468ff40-0715-438d-a069-6356e7be0519",
-                            StartDate = new DateTime(2025, 1, 11, 16, 53, 30, 825, DateTimeKind.Local).AddTicks(3426),
+                            SecurityStamp = "8e42d6e2-b0df-4c49-85aa-5482b311f5b7",
+                            StartDate = new DateTime(2025, 1, 12, 16, 24, 18, 995, DateTimeKind.Local).AddTicks(7239),
                             TwoFactorEnabled = false,
                             UserName = "douwe.jansen@example.com"
                         });
@@ -3027,14 +3027,14 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             FunctionName = "Cashier",
-                            StartDate = new DateTime(2025, 1, 11, 16, 53, 30, 788, DateTimeKind.Local).AddTicks(9126)
+                            StartDate = new DateTime(2025, 1, 12, 16, 24, 18, 959, DateTimeKind.Local).AddTicks(1839)
                         },
                         new
                         {
                             BranchId = 2,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             FunctionName = "Stocker",
-                            StartDate = new DateTime(2025, 1, 11, 16, 53, 30, 825, DateTimeKind.Local).AddTicks(3426)
+                            StartDate = new DateTime(2025, 1, 12, 16, 24, 18, 995, DateTimeKind.Local).AddTicks(7239)
                         },
                         new
                         {
@@ -3095,7 +3095,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab",
                             RequestToBranchId = 2,
-                            DateNeeded = new DateTime(2025, 1, 18, 16, 53, 30, 862, DateTimeKind.Local).AddTicks(7189),
+                            DateNeeded = new DateTime(2025, 1, 19, 16, 24, 19, 33, DateTimeKind.Local).AddTicks(5633),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(17, 0, 0),
                             Message = "Overplaatsing nodig vanwege projectdeadline.",
@@ -3107,7 +3107,7 @@ namespace DataLayer.Migrations
                             BranchId = 2,
                             EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
                             RequestToBranchId = 1,
-                            DateNeeded = new DateTime(2025, 1, 25, 16, 53, 30, 862, DateTimeKind.Local).AddTicks(7207),
+                            DateNeeded = new DateTime(2025, 1, 26, 16, 24, 19, 33, DateTimeKind.Local).AddTicks(5653),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Er zijn te weinig medewerkers op deze datum beschikbaar.",
@@ -3119,7 +3119,7 @@ namespace DataLayer.Migrations
                             BranchId = 3,
                             EmployeeId = "a2b2d3e4-56f7-8a90-b1c2-d3e4f5g6h7i8",
                             RequestToBranchId = 4,
-                            DateNeeded = new DateTime(2025, 1, 21, 16, 53, 30, 862, DateTimeKind.Local).AddTicks(7209),
+                            DateNeeded = new DateTime(2025, 1, 22, 16, 24, 19, 33, DateTimeKind.Local).AddTicks(5655),
                             DepartmentName = "Vakkenvullen",
                             EndTime = new TimeOnly(17, 30, 0),
                             Message = "Hulp nodig vanwege ziekte van een collega.",
@@ -3131,7 +3131,7 @@ namespace DataLayer.Migrations
                             BranchId = 1,
                             EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0",
                             RequestToBranchId = 3,
-                            DateNeeded = new DateTime(2025, 1, 31, 16, 53, 30, 862, DateTimeKind.Local).AddTicks(7210),
+                            DateNeeded = new DateTime(2025, 2, 1, 16, 24, 19, 33, DateTimeKind.Local).AddTicks(5657),
                             DepartmentName = "Kassa",
                             EndTime = new TimeOnly(16, 0, 0),
                             Message = "Overplaatsing voor trainingssessies.",
@@ -3282,6 +3282,546 @@ namespace DataLayer.Migrations
                             branchId = 1,
                             normInSeconds = 30,
                             week = 41,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 6,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 320,
+                            week = 42,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 7,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 260,
+                            week = 42,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 8,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 2,
+                            week = 42,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 9,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 2,
+                            week = 42,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 10,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 35,
+                            week = 42,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 11,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 310,
+                            week = 43,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 12,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 250,
+                            week = 43,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 13,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 43,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 14,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 43,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 15,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 40,
+                            week = 43,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 16,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 300,
+                            week = 44,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 17,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 240,
+                            week = 44,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 18,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 44,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 19,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 44,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 20,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 30,
+                            week = 44,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 21,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 290,
+                            week = 45,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 22,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 230,
+                            week = 45,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 23,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 45,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 24,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 45,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 25,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 25,
+                            week = 45,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 26,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 305,
+                            week = 46,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 27,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 245,
+                            week = 46,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 28,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 46,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 29,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 46,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 30,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 33,
+                            week = 46,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 31,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 310,
+                            week = 47,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 32,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 250,
+                            week = 47,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 33,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 47,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 34,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 47,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 35,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 30,
+                            week = 47,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 36,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 280,
+                            week = 48,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 37,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 220,
+                            week = 48,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 38,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 48,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 39,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 48,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 40,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 28,
+                            week = 48,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 41,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 295,
+                            week = 49,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 42,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 235,
+                            week = 49,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 43,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 49,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 44,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 49,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 45,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 32,
+                            week = 49,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 46,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 300,
+                            week = 50,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 47,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 240,
+                            week = 50,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 48,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 50,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 49,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 50,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 50,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 30,
+                            week = 50,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 51,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 290,
+                            week = 51,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 52,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 230,
+                            week = 51,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 53,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 51,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 54,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 51,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 55,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 28,
+                            week = 51,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 56,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 310,
+                            week = 52,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 57,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 250,
+                            week = 52,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 58,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 52,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 59,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 52,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 60,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 32,
+                            week = 52,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 61,
+                            activity = "Coli uitladen",
+                            branchId = 1,
+                            normInSeconds = 300,
+                            week = 53,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 62,
+                            activity = "Vakkenvullen",
+                            branchId = 1,
+                            normInSeconds = 240,
+                            week = 53,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 63,
+                            activity = "Kassa",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 53,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 64,
+                            activity = "Vers",
+                            branchId = 1,
+                            normInSeconds = 1,
+                            week = 53,
+                            year = 2024
+                        },
+                        new
+                        {
+                            normId = 65,
+                            activity = "Spiegelen",
+                            branchId = 1,
+                            normInSeconds = 30,
+                            week = 53,
                             year = 2024
                         });
                 });
