@@ -76,5 +76,14 @@ namespace DataLayer.Repositories
                 .Where(r => ISOWeek.GetWeekOfYear(r.StartTime) == week
                         && ISOWeek.GetWeekOfYear(r.EndTime.Value) == week).ToList();
         }
+
+        public List<RegisteredHours> GetClockedHoursInMonthFromEmployee(string employeeId, int month)
+        {
+            return _context.RegisteredHours
+                .Where(r => r.StartTime.Month == month
+                && r.EndTime.Value.Month == month)
+                .OrderByDescending(r => r.EndTime)
+                .ToList();
+        }
     }
 }

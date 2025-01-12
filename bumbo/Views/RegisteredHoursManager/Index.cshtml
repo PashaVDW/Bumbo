@@ -1,0 +1,222 @@
+﻿@model RegisteredHoursManagerOverview
+
+@{
+    ViewData["Title"] = "Overzicht gewerkte uren";
+}
+
+@{
+    // Stel dat je huidige maand/jaar in je model zit:
+    int currentMonth = Model.DisplayMonth;
+    int currentYear = Model.DisplayYear;
+
+    // Vorige maand berekenen
+    int prevMonth = currentMonth - 1;
+    int prevYear = currentYear;
+    if (prevMonth < 1)
+    {
+        prevMonth = 12;
+        prevYear--;
+    }
+
+    // Volgende maand berekenen
+    int nextMonth = currentMonth + 1;
+    int nextYear = currentYear;
+    if (nextMonth > 12)
+    {
+        nextMonth = 1;
+        nextYear++;
+    }
+}
+
+<div class="mt-10 p-6 bg-white mx-auto max-w-full">
+    <h1 class="mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900">Overzicht gewerkte uren</h1>
+
+    <div class="mb-6 flex items-center justify-between">
+        <div class="space-x-4 flex items-center">
+            <!-- Pijlknop voor 'vorige' maand -->
+            <button class="p-2"
+                    onclick="window.location.href='@Url.Action("Index", new { monthNumber = prevMonth, year = prevYear })'">
+                <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5"
+                          stroke="black" stroke-width="3.125" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+
+            <!-- Pijlknop voor 'volgende' maand -->
+            <button class="p-2"
+                    onclick="window.location.href='@Url.Action("Index", new { monthNumber = nextMonth, year = nextYear })'">
+                <svg width="19" height="38" viewBox="0 0 19 38" fill="none"
+                     xmlns="http://www.w3.org/2000/svg" class="rotate-180 transform">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5"
+                          stroke="black" stroke-width="3.125" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <form method="get" class="space-x-4 flex items-end">
+            <div>
+                <label for="monthSelect" class="text-gray-700 block text-sm font-medium">Maand</label>
+                <select name="monthNumber" id="monthSelect" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-32 rounded border leading-tight">
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        var monthName = new DateTime(2000, i, 1).ToString("MMMM");
+                        if (i == Model.DisplayMonth)
+                        {
+                            <option value="@i" selected>@monthName</option>
+                        }
+                        else
+                        {
+                            <option value="@i">@monthName</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label for="yearInput" class="text-gray-700 block text-sm font-medium">Jaar</label>
+                <input type="number"
+                       id="yearInput"
+                       name="year"
+                       class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-32 rounded border leading-tight"
+                       value="@Model.DisplayYear" />
+            </div>
+
+            <button type="submit"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white
+                   font-semibold py-2 px-6 rounded-lg">
+                Zoeken
+            </button>
+        </form>
+
+
+        <form method="post" action="console.log('test');" class="flex items-end">
+            <input type="hidden" name="monthNumber" value="1" />
+            <input type="hidden" name="year" value="2000" />
+            <default-button button-text="Downloaden" button-type="primary" typeof="submit"></default-button>
+        </form>
+    </div>
+
+
+    <div class="overflow-x-auto w-full">
+        <table class="min-w-full table-auto border-collapse">
+            <thead>
+                <tr class="text-left text-gray-600 font-bold bg-gray-200">
+                    <th class="py-2 px-4"></th>
+                    <th class="py-2 px-4">Medewerker</th>
+                    <th class="py-2 px-4">Ingeplande uren (Totaal)</th>
+                    <th class="py-2 px-4">Geklokte uren (Totaal)</th>
+                    <th class="py-2 px-4">Afwijking (Totaal)</th>
+                    <th class="py-2 px-4">Toeslag uren (Totaal)</th>
+                    <th class="py-2 px-4">Totaal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Employees)
+                {
+                    string arrowId = $"arrow-{row.EmployeeId}";
+                    string detailRowId = $"details-{row.EmployeeId}";
+
+                    <tr class="border-b bg-white hover:bg-gray-50">
+                        <td class="py-2 px-4">
+                            <button type="button"
+                                    class="p-1 bg-transparent border-0 focus:outline-none"
+                                    onclick="toggleDetails('@detailRowId','@arrowId')">
+                                <svg id="@arrowId"
+                                     class="transition-transform duration-300"
+                                     width="19" height="38"
+                                     viewBox="0 0 19 38"
+                                     fill="none"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     style="transform-origin: center;">
+                                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5"
+                                          stroke="black"
+                                          stroke-width="3.125"
+                                          stroke-miterlimit="10"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </td>
+                        <td class="py-2 px-4">@row.FullName</td>
+                        <td class="py-2 px-4">@row.TotalScheduledHours.ToString("F1")</td>
+                        <td class="py-2 px-4">@row.TotalWorkedHours.ToString("F1")</td>
+                        <td class="py-2 px-4">@row.Difference.ToString("F1")</td>
+                        <td class="py-2 px-4">@row.BonusHours.ToString("F1")</td>
+                        <td class="py-2 px-4">@((row.TotalWorkedHours + row.BonusHours).ToString("F1"))</td>
+                    </tr>
+
+                    <tr id="@detailRowId" class="hidden bg-gray-100">
+                        <td colspan="7" class="p-4">
+                            <table class="min-w-full table-auto border-collapse">
+                                <thead>
+                                <thead>
+                                    <tr class="text-left font-semibold">
+                                        <th class="py-1 px-2">Datum</th>
+                                        <th class="py-1 px-2">Ingepland</th>
+                                        <th class="py-1 px-2">Geklokt</th>
+                                        <th class="py-1 px-2">Uren</th>
+                                        <th class="py-1 px-2">Afwijking</th>
+                                        <th class="py-1 px-2">Bijzonderheden</th>
+                                        <th class="py-1 px-2">Toeslag</th>
+                                        <th class="py-1 px-2">Corrigeren</th>
+                                    </tr>
+                                </thead>
+
+                                </thead>
+                                <tbody>
+                                    @foreach (var d in row.RegisteredHours)
+                                    {
+                                        string schedStr = (d.ScheduledStartTime.HasValue && d.ScheduledEndTime.HasValue)
+                                        ? $"{d.ScheduledStartTime:hh\\:mm} - {d.ScheduledEndTime:hh\\:mm}"
+                                        : "-";
+
+                                        string workedStr = (d.WorkedStartTime.HasValue && d.WorkedEndTime.HasValue)
+                                        ? $"{d.WorkedStartTime:hh\\:mm} - {d.WorkedEndTime:hh\\:mm}"
+                                        : "-";
+
+                                        <tr class="border-b">
+                                            <td class="py-1 px-2">@d.Date.ToString("dd-MM-yyyy")</td>
+                                            <td class="py-1 px-2">@schedStr</td>
+                                            <td class="py-1 px-2">@workedStr</td>
+                                            <td class="py-1 px-2">@d.WorkedHoursDay.ToString("F1")</td>
+                                            <td class="py-1 px-2">@d.Difference.ToString("F1")</td>
+                                            <td class="py-1 px-2">@d.Notes</td>
+                                            <td class="py-1 px-2">@d.BonusHours.ToString("F1")</td>
+                                            <td class="py-1 px-2">
+                                                <button class="text-orange-600 hover:text-orange-800">
+                                                    ✏️
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+    
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<style>
+    .rotate-90 {
+        transform: rotate(90deg);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function toggleDetails(rowId, arrowId) {
+                const row = document.getElementById(rowId);
+                const arrow = document.getElementById(arrowId);
+                if (row) row.classList.toggle('hidden');
+                if (arrow) arrow.classList.toggle('rotate-90');
+        }
+    </script>
+}
+

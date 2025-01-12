@@ -1356,21 +1356,18 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.RegisteredHours", b =>
                 {
-                    b.Property<string>("EmployeeId")
+                    b.Property<string>("EmployeeBID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("RegistrationNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationNumber"));
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("BranchId")
                         .HasColumnType("int");
 
-                    b.Property<string>("EmployeeBID")
+                    b.Property<string>("EmployeeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
@@ -1378,137 +1375,238 @@ namespace DataLayer.Migrations
                     b.Property<bool>("IsDefenitive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("RegistrationNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasKey("EmployeeId", "RegistrationNumber");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationNumber"));
+
+                    b.HasKey("EmployeeBID", "StartTime");
 
                     b.HasIndex("BranchId");
-
-                    b.HasIndex("EmployeeBID");
 
                     b.ToTable("RegisteredHours");
 
                     b.HasData(
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 1,
+                            EmployeeBID = "B012",
+                            StartTime = new DateTime(2025, 1, 6, 9, 5, 0, 0, DateTimeKind.Unspecified),
                             BranchId = 1,
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            EndTime = new DateTime(2025, 1, 6, 16, 55, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B012",
+                            StartTime = new DateTime(2025, 1, 7, 9, 15, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            EndTime = new DateTime(2025, 1, 7, 17, 5, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B012",
+                            StartTime = new DateTime(2025, 1, 8, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            EndTime = new DateTime(2025, 1, 8, 17, 10, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B012",
+                            StartTime = new DateTime(2025, 1, 9, 10, 5, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            EndTime = new DateTime(2025, 1, 9, 15, 58, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B012",
+                            StartTime = new DateTime(2025, 1, 10, 9, 35, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            EndTime = new DateTime(2025, 1, 10, 17, 25, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 13, 8, 5, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            EndTime = new DateTime(2025, 1, 13, 13, 50, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 14, 8, 10, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            EndTime = new DateTime(2025, 1, 14, 14, 5, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 15, 8, 35, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            EndTime = new DateTime(2025, 1, 15, 14, 55, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 16, 9, 5, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            EndTime = new DateTime(2025, 1, 16, 17, 2, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 17, 10, 2, 0, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            EndTime = new DateTime(2025, 1, 17, 14, 1, 0, 0, DateTimeKind.Unspecified),
+                            IsDefenitive = true,
+                            RegistrationNumber = 0
+                        },
+                        new
+                        {
+                            EmployeeBID = "B002",
+                            StartTime = new DateTime(2024, 12, 5, 8, 1, 12, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2024, 12, 5, 14, 2, 27, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2024, 12, 5, 8, 1, 12, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 1
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 2,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2024, 12, 16, 8, 58, 52, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2024, 12, 16, 12, 0, 44, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2024, 12, 16, 8, 58, 52, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 2
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 3,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2024, 12, 17, 13, 2, 42, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2024, 12, 17, 17, 1, 25, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2024, 12, 17, 13, 2, 42, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 3
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 4,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2024, 12, 24, 7, 59, 33, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2024, 12, 24, 16, 1, 26, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2024, 12, 24, 7, 59, 33, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 4
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 5,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 5, 9, 1, 12, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2025, 1, 5, 12, 2, 27, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 5, 9, 1, 12, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 5
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 6,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 8, 11, 58, 52, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2025, 1, 8, 16, 0, 44, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 8, 11, 58, 52, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 6
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 8,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 16, 7, 59, 33, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2025, 1, 16, 16, 1, 26, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 16, 7, 59, 33, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 8
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 9,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 22, 11, 1, 12, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2025, 1, 22, 17, 2, 27, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 22, 11, 1, 12, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 9
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 10,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 1, 24, 8, 58, 52, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2025, 1, 24, 15, 0, 44, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2025, 1, 24, 8, 58, 52, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 10
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 11,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 2, 3, 9, 2, 42, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2025, 2, 3, 17, 1, 25, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2025, 2, 3, 9, 2, 42, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 11
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 12,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 2, 7, 10, 59, 33, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2025, 2, 7, 17, 1, 26, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2025, 2, 7, 10, 59, 33, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 12
                         },
                         new
                         {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            RegistrationNumber = 13,
-                            BranchId = 1,
                             EmployeeBID = "B002",
+                            StartTime = new DateTime(2025, 2, 9, 8, 59, 33, 0, DateTimeKind.Unspecified),
+                            BranchId = 1,
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             EndTime = new DateTime(2025, 2, 9, 14, 59, 46, 0, DateTimeKind.Unspecified),
                             IsDefenitive = true,
-                            StartTime = new DateTime(2025, 2, 9, 8, 59, 33, 0, DateTimeKind.Unspecified)
+                            RegistrationNumber = 13
                         });
                 });
 
@@ -1789,34 +1887,12 @@ namespace DataLayer.Migrations
                         {
                             EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
                             BranchId = 1,
-                            Date = new DateOnly(2025, 1, 8),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(12, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
                             Date = new DateOnly(2025, 1, 12),
                             DepartmentName = "Vers",
                             EndTime = new TimeOnly(15, 0, 0),
                             IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(11, 0, 0)
-                        },
-                        new
-                        {
-                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                            BranchId = 1,
-                            Date = new DateOnly(2025, 1, 16),
-                            DepartmentName = "Vers",
-                            EndTime = new TimeOnly(16, 0, 0),
-                            IsFinal = true,
-                            IsSick = false,
-                            StartTime = new TimeOnly(8, 0, 0)
                         },
                         new
                         {
@@ -1872,6 +1948,116 @@ namespace DataLayer.Migrations
                             IsFinal = true,
                             IsSick = false,
                             StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 6),
+                            DepartmentName = "Vakkenvullen",
+                            EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 7),
+                            DepartmentName = "Vakkenvullen",
+                            EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 8),
+                            DepartmentName = "Kassa",
+                            EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 9),
+                            DepartmentName = "Vakkenvullen",
+                            EndTime = new TimeOnly(16, 0, 0),
+                            IsFinal = true,
+                            IsSick = true,
+                            StartTime = new TimeOnly(10, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 10),
+                            DepartmentName = "Kassa",
+                            EndTime = new TimeOnly(17, 30, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 30, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 13),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(14, 0, 0),
+                            IsFinal = true,
+                            IsSick = true,
+                            StartTime = new TimeOnly(8, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 14),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(14, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(8, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 15),
+                            DepartmentName = "Vakkenvullen",
+                            EndTime = new TimeOnly(15, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(8, 30, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 16),
+                            DepartmentName = "Kassa",
+                            EndTime = new TimeOnly(17, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(9, 0, 0)
+                        },
+                        new
+                        {
+                            EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                            BranchId = 1,
+                            Date = new DateOnly(2025, 1, 17),
+                            DepartmentName = "Vers",
+                            EndTime = new TimeOnly(14, 0, 0),
+                            IsFinal = true,
+                            IsSick = false,
+                            StartTime = new TimeOnly(10, 0, 0)
                         });
                 });
 
@@ -3922,12 +4108,14 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Employee", null)
+                    b.HasOne("Employee", "Employee")
                         .WithMany("RegisteredHours")
                         .HasForeignKey("EmployeeBID")
                         .HasPrincipalKey("BID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Schedule", b =>
