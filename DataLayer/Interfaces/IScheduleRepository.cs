@@ -32,5 +32,7 @@ namespace DataLayer.Interfaces
         void AddHelpEmployeeToDay(Schedule schedule);
         void AddEmployee(string employeeId, int branchId, DateOnly date, string departmentName, TimeOnly startTime, TimeOnly endTime);
         bool EmployeeIsAlreadyPlanned(DateTime date, string employeeId);
+
+        List<Schedule> GetSchedulesForBranchByMonth(int branchId, int year, int month);
     }
 }
