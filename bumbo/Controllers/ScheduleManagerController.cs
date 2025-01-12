@@ -68,9 +68,20 @@ namespace bumbo.Controllers
 
             if (!weekNumber.HasValue || !year.HasValue)
             {
-                DateTime today = DateTime.Now;
-                weekNumber = today.GetWeekOfYear();
-                year = today.Year;
+                if (Request.Cookies.TryGetValue("SelectedWeek", out string weekCookie) &&
+                    Request.Cookies.TryGetValue("SelectedYear", out string yearCookie) &&
+                    int.TryParse(weekCookie, out int cookieWeek) &&
+                    int.TryParse(yearCookie, out int cookieYear))
+                {
+                    weekNumber = cookieWeek;
+                    year = cookieYear;
+                }
+                else
+                {
+                    DateTime today = DateTime.Now;
+                    weekNumber = today.GetWeekOfYear();
+                    year = today.Year;
+                }
             }
 
             if (weekInc.HasValue)
@@ -98,14 +109,14 @@ namespace bumbo.Controllers
                 }
             }
 
+            Response.Cookies.Append("SelectedWeek", weekNumber.Value.ToString(), new CookieOptions { Expires = DateTime.Now.AddDays(7) });
+            Response.Cookies.Append("SelectedYear", year.Value.ToString(), new CookieOptions { Expires = DateTime.Now.AddDays(7) });
+
             List<DateTime> dates = GetDatesOfWeek(year.Value, weekNumber.Value);
 
             List<string> departments = _scheduleRepository.GetDepartments();
-
             List<Schedule> schedules = _scheduleRepository.GetSchedulesForBranchByWeek(branchId, dates.Select(d => DateOnly.FromDateTime(d)).ToList());
-
             List<PrognosisHasDaysHasDepartment> prognosisDetails = _prognosisRepository.GetPrognosisDetailsByBranchWeekAndYear(branchId, weekNumber.Value, year.Value);
-
             Branch branch = _branchesRepository.GetBranch(branchId);
 
             var viewModel = new ScheduleManagerViewModel
@@ -124,7 +135,7 @@ namespace bumbo.Controllers
                             .ToList();
 
                         int hoursNeededForDepartment = prognosisDetails
-                            .Where(pd => pd.DaysName.Equals(date.ToString("dddd", new System.Globalization.CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
+                            .Where(pd => pd.DaysName.Equals(date.ToString("dddd", new CultureInfo("nl-NL")), StringComparison.OrdinalIgnoreCase) && pd.DepartmentName == department)
                             .Select(pd => pd.HoursOfWorkNeeded)
                             .FirstOrDefault();
 
