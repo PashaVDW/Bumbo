@@ -97,7 +97,7 @@ namespace bumbo.Controllers
             return View(employeeSchedulesViewModel);
         }
 
-        public async Task<IActionResult> RegisteredHoursView(int year, int month)
+        public async Task<IActionResult> ClockingView(int year, int month)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -126,6 +126,7 @@ namespace bumbo.Controllers
                 });
             }
 
+
             DateTime date;
             
             if (year <= 0 || month <= 0)
@@ -138,24 +139,11 @@ namespace bumbo.Controllers
             }
             DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddSeconds(-1);
+            
+            List<RegisteredHours> clockedHours = _registeredHoursRepository.GetClockedHoursInMonthFromEmployee(employeeId, date.Month);
 
             List<Schedule> registeredHoursInMonthPlanned = _scheduleRepository.GetRegisteredHoursInMonthScheduleForEmployee(user.Id, firstDayOfMonth, lastDayOfMonth);
             List<RegisteredHours> registeredHoursInMonthSchedule = _registeredHoursRepository.GetRegisteredHoursFromEmployee(user.Id).Where(r => r.EndTime.Value.Date < today).ToList();
-
-            List<RegisteredHours> tempHours = new List<RegisteredHours>();
-
-            Console.WriteLine($"Count: {registeredHoursInMonthPlanned.Count}");
-
-            foreach (Schedule schedule in registeredHoursInMonthPlanned)
-            {
-                foreach (RegisteredHours hour in registeredHoursInMonthSchedule)
-                {
-                    if (!tempHours.Contains(hour) && hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Value.Day == schedule.Date.Day)
-                    {
-                        tempHours.Add(hour);
-                    }
-                }
-            }
 
             EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
             {
@@ -170,12 +158,54 @@ namespace bumbo.Controllers
                 MonthName = GetMonthNameByDate(date),
                 RegisteredHoursPlanned = registeredHoursInMonthPlanned,
                 RegisteredHoursSchedule = registeredHoursInMonthSchedule,
+
+
+                ClockedHours = clockedHours,
+            };
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> RegisteredHoursView(int year, int month)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            string employeeId = user.Id;
+
+            DateTime today = DateTime.Now;
+            DateTime date;
+
+            if (year <= 0 || month <= 0)
+            {
+                date = today;
+            }
+            else
+            {
+                date = new DateTime(year, month, 1);
+            }
+            DateTime firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddSeconds(-1);
+
+            List<Schedule> registeredHoursInMonthPlanned = _scheduleRepository.GetRegisteredHoursInMonthScheduleForEmployee(user.Id, firstDayOfMonth, lastDayOfMonth);
+            List<RegisteredHours> registeredHoursInMonthSchedule = _registeredHoursRepository.GetRegisteredHoursFromEmployee(user.Id).Where(r => r.EndTime.Value.Date < today).ToList();
+
+            EmployeeRegisterHoursViewModel viewModel = new EmployeeRegisterHoursViewModel()
+            {
+                Year = date.Year,
+                Month = date.Month,
+                MonthName = GetMonthNameByDate(date),
+                RegisteredHoursPlanned = registeredHoursInMonthPlanned,
+                RegisteredHoursSchedule = registeredHoursInMonthSchedule,
             };
 
             return View(viewModel);
         }
         
-        public IActionResult NavigateMonth(string direction, int newYear, int newMonth)
+        public IActionResult NavigateMonth(string direction, int newYear, int newMonth, string newView)
         {
 
             if (direction.ToLower().Equals("forward"))
@@ -196,7 +226,7 @@ namespace bumbo.Controllers
                     newYear--;
                 }
             }
-            return RedirectToAction("RegisteredHoursView", new { year = newYear, month = newMonth } );
+            return RedirectToAction(newView, new { year = newYear, month = newMonth } );
         }
 
         public async Task<IActionResult> CallSick()
@@ -295,7 +325,7 @@ namespace bumbo.Controllers
 
             _registeredHoursRepository.AddShift(newShift);
 
-            return RedirectToAction("RegisteredHoursView", new { year, week });
+            return RedirectToAction("ClockingView", new { year, week });
         }
         
         public async Task<IActionResult> ClockOut(int week, int year)
@@ -312,7 +342,7 @@ namespace bumbo.Controllers
 
             _registeredHoursRepository.ClockOut(employeeId, time);
 
-            return RedirectToAction("RegisteredHoursView", new { year, week });
+            return RedirectToAction("ClockingView", new { year, week });
         }
 
         private void SetUpToast(string toastId)
