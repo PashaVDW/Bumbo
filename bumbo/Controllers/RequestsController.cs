@@ -90,14 +90,15 @@ namespace bumbo.Controllers
 
             }, searchTerm, page);
 
-            string tempHtmlTable = htmlTable.Replace("<button onclick = \"window.location.href='" + "" + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe inkomende aanvragen </button>", " ");
+            string tempHtmlTable = htmlTable.Replace("<button onclick = \"window.location.href='" + "" + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe inkomende aanvragen </button>", "");
+            tempHtmlTable = tempHtmlTable.Replace("<button onclick=\"window.location.href='';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl'>Nieuwe inkomende aanvragen</button>", "");
             string newHtmlTable = tempHtmlTable.Replace("text-4xl", "text-3xl");
             
             ViewBag.HtmlTable = newHtmlTable;
 
             var headersTwo = new List<string> { "Nodige Medewerker", "Van Filiaal", "Bericht", "Datum Nodige", "Tijd Nodige", "Status", "Acties" };
             var tableBuilderTwo = new TableHtmlBuilder<BranchRequestsEmployee>();
-            var htmlTableTwo = tableBuilderTwo.GenerateTable("Uitgaande Aanvragen", headersTwo, outgoingRequests, "../Requests/Create", item =>
+            var htmlTableTwo = tableBuilderTwo.GenerateTable("Aanvragen", headersTwo, outgoingRequests, "../Requests/Create", item =>
             {
                 var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
                 var messageFirstPart = item.Message;
@@ -119,8 +120,7 @@ namespace bumbo.Controllers
 
             }, searchTerm, page);
 
-            string tempHtmlTableTwo = htmlTableTwo.Replace("Nieuwe uitgaande aanvragen", "Nieuwe aanvragen");
-            string newHtmlTableTwo = tempHtmlTableTwo.Replace("text-4xl", "text-3xl");
+            string newHtmlTableTwo = htmlTableTwo.Replace("text-4xl", "text-3xl");
 
             ViewBag.HtmlTableTwo = newHtmlTableTwo;
 
