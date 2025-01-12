@@ -25,7 +25,7 @@
             <div class="mr-5 flex w-full flex-col">
                 <label asp-for="Street">Straatnaam</label>
                 <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="Street" required
-                        pattern="^[^\d]*$" title="Straatnaam mag geen cijfers bevatten." />
+                       pattern="[a-zA-ZÀ-ž0-9\s\-\.'']+" title="Straatnaam mag alleen letters en cijfers bevatten." />
                 <span asp-validation-for="Street" class="text-danger"></span>
             </div>
             <div class="w-25 flex flex-col">
