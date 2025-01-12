@@ -83,20 +83,25 @@
                             }
                         </tr>
                     }
+                    <tr>
+                        <td colspan ="@Model.Days.Count" class="text-center p-4">
+                            @if (ViewBag.IsCurrentWeek || ViewBag.IsFutureWeek)
+                            {
+                                <a asp-action="Edit" asp-route-prognosisId=@Model.PrognosisId>
+                                    <default-button button-text="Bewerken" button-type="primary"></default-button>
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="opacity-25">
+                                    <default-button button-text="Bewerken" button-type="primary"></default-button>
+                                </div>
+                            }
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            @if (ViewBag.IsCurrentWeek || ViewBag.IsFutureWeek)
-            {
-                <a asp-action="Edit" asp-route-prognosisId=@Model.PrognosisId>
-                    <default-button button-text="Bewerken" button-type="primary"></default-button>
-                </a>
-            }
-            else
-            {
-                <div class="opacity-25">
-                    <default-button button-text="Bewerken" button-type="primary"></default-button>
-                </div>
-            }
+
         </div>
     }
 </div>

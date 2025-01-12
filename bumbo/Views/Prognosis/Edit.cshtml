@@ -7,7 +7,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
+<div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
     <div class="mb-6 flex">
         <a href="/prognoses" style="margin-right: 25px">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,10 +94,8 @@
                     </tr>
                     }
                 <tr>
-                    <td colspan="@Model.Days.Count + 1" class="text-right p-4">
-                        <div class="mt-4 space-x-2 flex justify-end">
-                            <default-button button-text="Bewerken" button-type="primary submit"></default-button>
-                        </div>
+                    <td colspan="@Model.Days.Count" class="text-center p-4">
+                        <default-button button-text="Updaten" button-type="primary submit"></default-button>
                     </td>
                 </tr>
                 </form>
