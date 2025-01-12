@@ -98,5 +98,11 @@ namespace DataLayer.Repositories
 
             return availableEmployees;
         }
+
+        public void RemoveOutgoingRequest(BranchRequestsEmployee request)
+        {
+            _context.Set<BranchRequestsEmployee>().Remove(request);
+            _context.SaveChanges();
+        }
     }
 }

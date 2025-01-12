@@ -102,9 +102,13 @@ namespace bumbo.Controllers
             {
                 var emp = _branchesRepository.GetEmployeeById(item.EmployeeId);
                 var messageFirstPart = item.Message;
-                if (messageFirstPart.Length > 20)
+                if (messageFirstPart != null && messageFirstPart.Length > 20)
                 {
                     messageFirstPart = item.Message.Substring(0, 20) + "...";
+                }
+                else if(messageFirstPart == null)
+                {
+                    messageFirstPart = "";
                 }
                 var branch = _branchesRepository.GetBranch(item.RequestToBranchId);
                 return $@"
@@ -317,7 +321,7 @@ namespace bumbo.Controllers
                 return RedirectToAction("AddEmployee", new { previousPage = "Update" });
             }
 
-            if (model.Request.Message == null || model.Request.DateNeeded == DateTime.MinValue ||
+            if (model.Request.DateNeeded == DateTime.MinValue ||
                 model.Request.StartTime == TimeOnly.MinValue || model.Request.EndTime == TimeOnly.MinValue)
             {
                 SetTempDataForToast("formFail");
@@ -377,7 +381,7 @@ namespace bumbo.Controllers
                 return RedirectToAction("AddEmployee",  new { previousPage = "Create" });
             }
 
-            if (model.Request.Message == null || model.Request.DateNeeded == DateTime.MinValue || 
+            if (model.Request.DateNeeded == DateTime.MinValue || 
                 model.Request.StartTime == TimeOnly.MinValue || model.Request.EndTime == TimeOnly.MinValue)
             {
                 SetTempDataForToast("formFail");
@@ -529,6 +533,36 @@ namespace bumbo.Controllers
             var request = requests.Where(r => r.Id == id).SingleOrDefault();
 
             _branchRequestsEmployeeRepository.RejectRequest(request);
+
+            return Redirect("Index");
+        }
+
+        public async Task<IActionResult> RemoveRequest(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var branchId = user.ManagerOfBranchId.Value;
+            var requests = _branchRequestsEmployeeRepository.GetAllOutgoingRequests(branchId);
+            var request = requests.Where(r => r.Id == id).SingleOrDefault();
+
+            SetTempDataForToast("createRequest");
+
+            if (request == null)
+            {
+                TempData["ToastMessage"] = "Uitgaand verzoek bestaat niet!";
+                TempData["ToastType"] = "error";
+            }
+            else
+            {
+                _branchRequestsEmployeeRepository.RemoveOutgoingRequest(request);
+                TempData["ToastMessage"] = "Uitgaand verzoek succesvol verwijdered!";
+                TempData["ToastType"] = "error";
+            }
+
 
             return Redirect("Index");
         }
