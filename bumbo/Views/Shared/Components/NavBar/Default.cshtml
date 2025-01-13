@@ -4,11 +4,21 @@
 
 <div class="min-h-24 max-h-24 bg-gray-100 p-4 px-12 flex items-center justify-between lg:px-24">
     <div class="flex items-center space-x-[30px] lg:space-x-[100px]">
-        <a href="/">
-            <div class="h-16 flex max-w-[80px] items-center justify-center">
-                <img src="/media/bumbo-logo.png" alt="Logo" class="h-auto max-w-[80px]" />
-            </div>
-        </a>
+        @if (Model.IsAuthenticated && !Model.IsBranchManager && !Model.IsSystemManager)
+        {
+            <a asp-controller="EmployeeSchedule" asp-action="Index">
+                <div class="h-16 flex max-w-[80px] items-center justify-center">
+                    <img src="/media/bumbo-logo.png" alt="Logo" class="h-auto max-w-[80px]" />
+                </div>
+            </a>
+        } else 
+        {
+            <a href="/">
+                <div class="h-16 flex max-w-[80px] items-center justify-center">
+                    <img src="/media/bumbo-logo.png" alt="Logo" class="h-auto max-w-[80px]" />
+                </div>
+            </a>
+        }
 
         <div class="space-x-6 flex">
             @if (Model.IsBranchManager)
@@ -54,7 +64,7 @@
     @if (Model.IsAuthenticated && !Model.IsBranchManager && !Model.IsSystemManager)
     {
         <div class="max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:bg-white max-md:border-t max-md:border-gray-300">
-            <div class="gap-6 p-2 flex justify-around">
+            <div class="gap-4 p-2 flex justify-around md:gap-6">
                 <div class="max-md:flex max-md:flex-col max-md:items-center">
                     <i class="fas fa-calendar-alt text-xl"></i>
                     <a asp-controller="EmployeeSchedule" asp-action="Index" class="max-md:text-xs">Rooster</a>
