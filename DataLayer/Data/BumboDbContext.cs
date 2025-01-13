@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using bumbo.Models;
 using DataLayer.Models;
 using System.Reflection.Emit;
+using System.Xml;
 
 namespace bumbo.Data
 {
@@ -14,7 +15,7 @@ namespace bumbo.Data
         {
         }
 
-        public DbSet<RegisteredHours> RegisteredHours { get; set; }
+        
         public DbSet<Availability> Availability { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
@@ -36,6 +37,7 @@ namespace bumbo.Data
         public DbSet<Template> Templates { get; set; }
         public DbSet<TemplateHasDays> TemplateHasDays { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<RegisteredHours> RegisteredHours { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -98,12 +100,672 @@ namespace bumbo.Data
                 normInSeconds = 30
             };
 
+            var weekFourtyTwoColi = new Norm
+            {
+                normId = 6,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 320
+            };
+
+            var weekFourtyTwoShelve = new Norm
+            {
+                normId = 7,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 260
+            };
+
+            var weekFourtyTwoCashier = new Norm
+            {
+                normId = 8,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 2
+            };
+
+            var weekFourtyTwoFresh = new Norm
+            {
+                normId = 9,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 2
+            };
+
+            var weekFourtyTwoFronting = new Norm
+            {
+                normId = 10,
+                branchId = 1,
+                week = 42,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 35
+            };
+
+            var weekFourtyThreeColi = new Norm
+            {
+                normId = 11,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 310
+            };
+
+            var weekFourtyThreeShelve = new Norm
+            {
+                normId = 12,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 250
+            };
+
+            var weekFourtyThreeCashier = new Norm
+            {
+                normId = 13,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyThreeFresh = new Norm
+            {
+                normId = 14,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyThreeFronting = new Norm
+            {
+                normId = 15,
+                branchId = 1,
+                week = 43,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 40
+            };
+
+            var weekFourtyFourColi = new Norm
+            {
+                normId = 16,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 300
+            };
+
+            var weekFourtyFourShelve = new Norm
+            {
+                normId = 17,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 240
+            };
+
+            var weekFourtyFourCashier = new Norm
+            {
+                normId = 18,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyFourFresh = new Norm
+            {
+                normId = 19,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyFourFronting = new Norm
+            {
+                normId = 20,
+                branchId = 1,
+                week = 44,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 30
+            };
+
+            var weekFourtyFiveColi = new Norm
+            {
+                normId = 21,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 290
+            };
+
+            var weekFourtyFiveShelve = new Norm
+            {
+                normId = 22,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 230
+            };
+
+            var weekFourtyFiveCashier = new Norm
+            {
+                normId = 23,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyFiveFresh = new Norm
+            {
+                normId = 24,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyFiveFronting = new Norm
+            {
+                normId = 25,
+                branchId = 1,
+                week = 45,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 25
+            };
+
+            var weekFourtySixColi = new Norm
+            {
+                normId = 26,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 305
+            };
+
+            var weekFourtySixShelve = new Norm
+            {
+                normId = 27,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 245
+            };
+
+            var weekFourtySixCashier = new Norm
+            {
+                normId = 28,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtySixFresh = new Norm
+            {
+                normId = 29,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtySixFronting = new Norm
+            {
+                normId = 30,
+                branchId = 1,
+                week = 46,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 33
+            };
+
+            var weekFourtySevenColi = new Norm
+            {
+                normId = 31,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 310
+            };
+
+            var weekFourtySevenShelve = new Norm
+            {
+                normId = 32,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 250
+            };
+
+            var weekFourtySevenCashier = new Norm
+            {
+                normId = 33,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtySevenFresh = new Norm
+            {
+                normId = 34,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtySevenFronting = new Norm
+            {
+                normId = 35,
+                branchId = 1,
+                week = 47,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 30
+            };
+
+            var weekFourtyEightColi = new Norm
+            {
+                normId = 36,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 280
+            };
+
+            var weekFourtyEightShelve = new Norm
+            {
+                normId = 37,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 220
+            };
+
+            var weekFourtyEightCashier = new Norm
+            {
+                normId = 38,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyEightFresh = new Norm
+            {
+                normId = 39,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyEightFronting = new Norm
+            {
+                normId = 40,
+                branchId = 1,
+                week = 48,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 28
+            };
+
+            var weekFourtyNineColi = new Norm
+            {
+                normId = 41,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 295
+            };
+
+            var weekFourtyNineShelve = new Norm
+            {
+                normId = 42,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 235
+            };
+
+            var weekFourtyNineCashier = new Norm
+            {
+                normId = 43,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFourtyNineFresh = new Norm
+            {
+                normId = 44,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFourtyNineFronting = new Norm
+            {
+                normId = 45,
+                branchId = 1,
+                week = 49,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 32
+            };
+
+            var weekFiftyColi = new Norm
+            {
+                normId = 46,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 300
+            };
+
+            var weekFiftyShelve = new Norm
+            {
+                normId = 47,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 240
+            };
+
+            var weekFiftyCashier = new Norm
+            {
+                normId = 48,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFiftyFresh = new Norm
+            {
+                normId = 49,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFiftyFronting = new Norm
+            {
+                normId = 50,
+                branchId = 1,
+                week = 50,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 30
+            };
+
+            var weekFiftyOneColi = new Norm
+            {
+                normId = 51,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 290
+            };
+
+            var weekFiftyOneShelve = new Norm
+            {
+                normId = 52,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 230
+            };
+
+            var weekFiftyOneCashier = new Norm
+            {
+                normId = 53,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFiftyOneFresh = new Norm
+            {
+                normId = 54,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFiftyOneFronting = new Norm
+            {
+                normId = 55,
+                branchId = 1,
+                week = 51,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 28
+            };
+
+            var weekFiftyTwoColi = new Norm
+            {
+                normId = 56,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 310
+            };
+
+            var weekFiftyTwoShelve = new Norm
+            {
+                normId = 57,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 250
+            };
+
+            var weekFiftyTwoCashier = new Norm
+            {
+                normId = 58,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFiftyTwoFresh = new Norm
+            {
+                normId = 59,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFiftyTwoFronting = new Norm
+            {
+                normId = 60,
+                branchId = 1,
+                week = 52,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 32
+            };
+
+            var weekFiftyThreeColi = new Norm
+            {
+                normId = 61,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Coli uitladen",
+                normInSeconds = 300
+            };
+
+            var weekFiftyThreeShelve = new Norm
+            {
+                normId = 62,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Vakkenvullen",
+                normInSeconds = 240
+            };
+
+            var weekFiftyThreeCashier = new Norm
+            {
+                normId = 63,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Kassa",
+                normInSeconds = 1
+            };
+
+            var weekFiftyThreeFresh = new Norm
+            {
+                normId = 64,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Vers",
+                normInSeconds = 1
+            };
+
+            var weekFiftyThreeFronting = new Norm
+            {
+                normId = 65,
+                branchId = 1,
+                week = 53,
+                year = 2024,
+                activity = "Spiegelen",
+                normInSeconds = 30
+            };
+
             modelBuilder.Entity<Norm>().HasData(
                 weekFourtyOneColi,
                 weekFourtyOneShelve,
                 weekFourtyOneCashier,
                 weekFourtyOneFresh,
-                weekFourtyOneFronting);
+                weekFourtyOneFronting,
+                weekFourtyTwoColi,
+                weekFourtyTwoShelve,
+                weekFourtyTwoCashier,
+                weekFourtyTwoFresh,
+                weekFourtyTwoFronting,
+                weekFourtyThreeColi,
+                weekFourtyThreeShelve,
+                weekFourtyThreeCashier,
+                weekFourtyThreeFresh,
+                weekFourtyThreeFronting,
+                weekFourtyFourColi,
+                weekFourtyFourShelve,
+                weekFourtyFourCashier,
+                weekFourtyFourFresh,
+                weekFourtyFourFronting,
+                weekFourtyFiveColi,
+                weekFourtyFiveShelve,
+                weekFourtyFiveCashier,
+                weekFourtyFiveFresh,
+                weekFourtyFiveFronting,
+                weekFourtySixColi,
+                weekFourtySixShelve,
+                weekFourtySixCashier,
+                weekFourtySixFresh,
+                weekFourtySixFronting,
+                weekFourtySevenColi,
+                weekFourtySevenShelve,
+                weekFourtySevenCashier,
+                weekFourtySevenFresh,
+                weekFourtySevenFronting,
+                weekFourtyEightColi,
+                weekFourtyEightShelve,
+                weekFourtyEightCashier,
+                weekFourtyEightFresh,
+                weekFourtyEightFronting,
+                weekFourtyNineColi,
+                weekFourtyNineShelve,
+                weekFourtyNineCashier,
+                weekFourtyNineFresh,
+                weekFourtyNineFronting,
+                weekFiftyColi,
+                weekFiftyShelve,
+                weekFiftyCashier,
+                weekFiftyFresh,
+                weekFiftyFronting,
+                weekFiftyOneColi,
+                weekFiftyOneShelve,
+                weekFiftyOneCashier,
+                weekFiftyOneFresh,
+                weekFiftyOneFronting,
+                weekFiftyTwoColi,
+                weekFiftyTwoShelve,
+                weekFiftyTwoCashier,
+                weekFiftyTwoFresh,
+                weekFiftyTwoFronting,
+                weekFiftyThreeColi,
+                weekFiftyThreeShelve,
+                weekFiftyThreeCashier,
+                weekFiftyThreeFresh,
+                weekFiftyThreeFronting);
 
             modelBuilder.Entity<Country>().HasData(
                 new Country { Name = "Netherlands" },
@@ -112,11 +774,9 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Department>().HasData(
-                new Department { DepartmentName = "Coli uitladen" },
                 new Department { DepartmentName = "Vakkenvullen" },
                 new Department { DepartmentName = "Kassa" },
-                new Department { DepartmentName = "Vers" },
-                new Department { DepartmentName = "Spiegelen" }
+                new Department { DepartmentName = "Vers" }
             );
 
             modelBuilder.Entity<Branch>().HasData(
@@ -430,31 +1090,31 @@ namespace bumbo.Data
                 new Template
                 {
                     Id = 1,
-                    Name = "Basispakket",
+                    Name = "Groot bijbestellen",
                     BranchBranchId = 1
                 },
                 new Template
                 {
                     Id = 2,
-                    Name = "Standaardpakket",
+                    Name = "Standaard week",
                     BranchBranchId = 1
                 },
                 new Template
                 {
                     Id = 3,
-                    Name = "Premium pakket",
+                    Name = "vakantie week",
                     BranchBranchId = 2
                 },
                 new Template
                 {
                     Id = 4,
-                    Name = "Gezinspakket",
+                    Name = "rustige week",
                     BranchBranchId = 2
                 },
                 new Template
                 {
                     Id = 5,
-                    Name = "Wekelijkse special",
+                    Name = "aanbiedingen ombouw week",
                     BranchBranchId = 1
                 }
             );
@@ -628,7 +1288,6 @@ namespace bumbo.Data
             );
 
             modelBuilder.Entity<Schedule>().HasData(
-                // Maandag - Kassa
                 new Schedule
                 {
                     EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
@@ -652,7 +1311,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Maandag - Vakkenvullen
                 new Schedule
                 {
                     EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
@@ -687,7 +1345,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Maandag - Vers
                 new Schedule
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
@@ -722,7 +1379,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Dinsdag
                 new Schedule
                 {
                     EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
@@ -746,7 +1402,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Woensdag
                 new Schedule
                 {
                     EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony Ross
@@ -759,7 +1414,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Donderdag
                 new Schedule
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
@@ -772,7 +1426,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Vrijdag
                 new Schedule
                 {
                     EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0", // Sarah van der Ven
@@ -785,7 +1438,6 @@ namespace bumbo.Data
                     IsSick = true
                 },
 
-                // Zaterdag
                 new Schedule
                 {
                     EmployeeId = "f7g7h8i9-01j2-3c45-g6h7-i8j9k0l1m2n3", // John Doe
@@ -798,7 +1450,6 @@ namespace bumbo.Data
                     IsSick = false
                 },
 
-                // Zondag
                 new Schedule
                 {
                     EmployeeId = "b3c3d4e5-67f8-9a01-c2d3-e4f5g6h7i8j9", // Pasha Bakker
@@ -807,6 +1458,139 @@ namespace bumbo.Data
                     StartTime = new TimeOnly(8, 0),
                     EndTime = new TimeOnly(16, 0),
                     DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 8),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 9),
+                    StartTime = new TimeOnly(12, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 12),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }, 
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 14),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2024, 12, 21),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 5),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(12, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 12),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 22),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 24),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 2, 3),
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 2, 7),
+                    StartTime = new TimeOnly(11, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 2, 9),
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vers",
                     IsFinal = true,
                     IsSick = false
                 }
@@ -877,48 +1661,249 @@ namespace bumbo.Data
                 }
             );
 
+
+
+modelBuilder.Entity<Schedule>().HasData(
+    new Schedule
+    {
+        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 6), // Maandag
+        StartTime = new TimeOnly(9, 0),
+        EndTime = new TimeOnly(17, 0),
+        DepartmentName = "Vakkenvullen",
+        IsFinal = true,
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 7), // Dinsdag
+        StartTime = new TimeOnly(9, 0),
+        EndTime = new TimeOnly(17, 0),
+        DepartmentName = "Vakkenvullen",
+        IsFinal = true,
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 8), // Woensdag
+        StartTime = new TimeOnly(9, 0),
+        EndTime = new TimeOnly(17, 0),
+        DepartmentName = "Kassa",
+        IsFinal = true,
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 9), // Donderdag
+        StartTime = new TimeOnly(10, 0),
+        EndTime = new TimeOnly(16, 0),
+        DepartmentName = "Vakkenvullen",
+        IsFinal = true,
+        IsSick = true
+    },
+    new Schedule
+    {
+        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 10), // Vrijdag
+        StartTime = new TimeOnly(9, 30),
+        EndTime = new TimeOnly(17, 30),
+        DepartmentName = "Kassa",
+        IsFinal = true,
+        IsSick = false
+    },
+
+    new Schedule
+    {
+        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 13), // Maandag
+        StartTime = new TimeOnly(8, 0),
+        EndTime = new TimeOnly(14, 0),
+        DepartmentName = "Vers",
+        IsFinal = true,
+        IsSick = true
+    },
+    new Schedule
+    {
+        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 14), // Dinsdag
+        StartTime = new TimeOnly(8, 0),
+        EndTime = new TimeOnly(14, 0),
+        DepartmentName = "Vers",
+        IsFinal = true,
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 15), // Woensdag
+        StartTime = new TimeOnly(8, 30),
+        EndTime = new TimeOnly(15, 0),
+        DepartmentName = "Vakkenvullen",
+        IsFinal = true,
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 16), // Donderdag
+        StartTime = new TimeOnly(9, 0),
+        EndTime = new TimeOnly(17, 0),
+        DepartmentName = "Kassa",
+        IsFinal = true,
+        IsSick = false
+    },
+    new Schedule
+    {
+        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+        BranchId = 1,
+        Date = new DateOnly(2025, 1, 17), // Vrijdag
+        StartTime = new TimeOnly(10, 0),
+        EndTime = new TimeOnly(14, 0),
+        DepartmentName = "Vers",
+        IsFinal = true,
+        IsSick = false
+    }
+);
+
+
+            modelBuilder.Entity<RegisteredHours>().HasData(
+                // == Anthony (BID = "B012") ==
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 6, 9, 5, 0),
+                    EndTime = new DateTime(2025, 1, 6, 16, 55, 0),
+                    EmployeeBID = "B012",
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 7, 9, 15, 0),
+                    EndTime = new DateTime(2025, 1, 7, 17, 5, 0),
+                    EmployeeBID = "B012",
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 8, 9, 0, 0),
+                    EndTime = new DateTime(2025, 1, 8, 17, 10, 0),
+                    EmployeeBID = "B012",
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 9, 10, 5, 0),
+                    EndTime = new DateTime(2025, 1, 9, 15, 58, 0),
+                    EmployeeBID = "B012",
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 10, 9, 35, 0),
+                    EndTime = new DateTime(2025, 1, 10, 17, 25, 0),
+                    EmployeeBID = "B012",
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+
+                // == Jane (BID = "B002") ==
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 13, 8, 5, 0),
+                    EndTime = new DateTime(2025, 1, 13, 13, 50, 0),
+                    EmployeeBID = "B002",
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 14, 8, 10, 0),
+                    EndTime = new DateTime(2025, 1, 14, 14, 5, 0),
+                    EmployeeBID = "B002",
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 15, 8, 35, 0),
+                    EndTime = new DateTime(2025, 1, 15, 14, 55, 0),
+                    EmployeeBID = "B002",
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 16, 9, 5, 0),
+                    EndTime = new DateTime(2025, 1, 16, 17, 2, 0),
+                    EmployeeBID = "B002",
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    BranchId = 1,
+                    IsDefenitive = true
+                },
+                new RegisteredHours
+                {
+                    StartTime = new DateTime(2025, 1, 17, 10, 2, 0),
+                    EndTime = new DateTime(2025, 1, 17, 14, 1, 0),
+                    EmployeeBID = "B002",
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    BranchId = 1,
+                    IsDefenitive = true
+                }
+            );
+
+
+
             modelBuilder.Entity<PrognosisHasDaysHasDepartment>().HasData(
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DaysName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 24 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 28 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 32 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 16 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DaysName = "Maandag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 20 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Maandag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 28 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Maandag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 32 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Maandag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 16 },
 
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DaysName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 25 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 30 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 35 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 18 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DaysName = "Dinsdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 22 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Dinsdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 30 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Dinsdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 35 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Dinsdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 18 },
 
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DaysName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 26 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 29 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 34 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 17 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DaysName = "Woensdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 21 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Woensdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 29 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Woensdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 34 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Woensdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 17 },
 
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DaysName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 24 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 27 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 31 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 15 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DaysName = "Donderdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 19 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Donderdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 27 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Donderdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 31 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Donderdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 15 },
 
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DaysName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 28 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 32 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 6, HoursOfWorkNeeded = 36 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 20 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DaysName = "Vrijdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 24 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Vrijdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 32 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Vrijdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 6, HoursOfWorkNeeded = 36 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Vrijdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 20 },
 
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DaysName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 30 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 35 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 6, HoursOfWorkNeeded = 38 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 22 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DaysName = "Zaterdag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 26 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Zaterdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 35 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Zaterdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 6, HoursOfWorkNeeded = 38 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Zaterdag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 22 },
 
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Coli uitladen", DaysName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 27 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 30 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 34 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 18 },
-                new PrognosisHasDaysHasDepartment { DepartmentName = "Spiegelen", DaysName = "Zondag", PrognosisId = "prognosis_week_40_2024", AmountOfWorkersNeeded = 3, HoursOfWorkNeeded = 22 }
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Zondag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 30 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Zondag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 34 },
+                new PrognosisHasDaysHasDepartment { DepartmentName = "Vers", DaysName = "Zondag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 2, HoursOfWorkNeeded = 18 }
             );
             modelBuilder.Entity<LabourRules>().HasData(
               new LabourRules
@@ -1226,18 +2211,154 @@ namespace bumbo.Data
                 new SchoolSchedule { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 11, 29), StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(17, 30) }
             );
 
+            modelBuilder.Entity<RegisteredHours>().HasData(
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 1,
+                    StartTime = new DateTime(2024, 12, 5, 8, 1, 12),
+                    EndTime = new DateTime(2024, 12, 5, 14, 2, 27),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 2,
+                    StartTime = new DateTime(2024, 12, 16, 8, 58, 52),
+                    EndTime = new DateTime(2024, 12, 16, 12, 0, 44),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 3,
+                    StartTime = new DateTime(2024, 12, 17, 13, 2, 42),
+                    EndTime = new DateTime(2024, 12, 17, 17, 1, 25),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 4,
+                    StartTime = new DateTime(2024, 12, 24, 7, 59, 33),
+                    EndTime = new DateTime(2024, 12, 24, 16, 1, 26),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+
+
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 5,
+                    StartTime = new DateTime(2025, 1, 5, 9, 1, 12),
+                    EndTime = new DateTime(2025, 1, 5, 12, 2, 27),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 6,
+                    StartTime = new DateTime(2025, 1, 8, 11, 58, 52),
+                    EndTime = new DateTime(2025, 1, 8, 16, 0, 44),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 8,
+                    StartTime = new DateTime(2025, 1, 16, 7, 59, 33),
+                    EndTime = new DateTime(2025, 1, 16, 16, 1, 26),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 9,
+                    StartTime = new DateTime(2025, 1, 22, 11, 1, 12),
+                    EndTime = new DateTime(2025, 1, 22, 17, 2, 27),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 10,
+                    StartTime = new DateTime(2025, 1, 24, 8, 58, 52),
+                    EndTime = new DateTime(2025, 1, 24, 15, 0, 44),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 11,
+                    StartTime = new DateTime(2025, 2, 3, 9, 2, 42),
+                    EndTime = new DateTime(2025, 2, 3, 17, 1, 25),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 12,
+                    StartTime = new DateTime(2025, 2, 7, 10, 59, 33),
+                    EndTime = new DateTime(2025, 2, 7, 17, 1, 26),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                },
+                new RegisteredHours()
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
+                    EmployeeBID = "B002",
+                    RegistrationNumber = 13,
+                    StartTime = new DateTime(2025, 2, 9, 8, 59, 33),
+                    EndTime = new DateTime(2025, 2, 9, 14, 59, 46),
+                    BranchId = 1,
+                    IsDefenitive = true,
+                }
+            );
+
 
             // Relations
             modelBuilder.Entity<BranchHasEmployee>()
                 .HasKey(bhw => new { bhw.BranchId, bhw.EmployeeId });
 
             modelBuilder.Entity<RegisteredHours>()
-                .HasKey(rh => new { rh.EmployeeBID, rh.StartTime });
+                .HasKey(rh => new { rh.EmployeeId, rh.RegistrationNumber });
+
+            modelBuilder.Entity<RegisteredHours>()
+                .Property(e => e.RegistrationNumber)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<RegisteredHours>()
                 .HasOne<Employee>()
                 .WithMany(e => e.RegisteredHours)
                 .HasForeignKey(rh => rh.EmployeeBID)
+                .HasPrincipalKey(e => e.BID)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<RegisteredHours>()
+                .HasOne<Branch>()
+                .WithMany(e => e.RegisteredHours)
+                .HasForeignKey(rh => rh.BranchId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Employee>()
@@ -1383,6 +2504,22 @@ namespace bumbo.Data
                 .WithMany(rs => rs.BranchRequestsEmployee)
                 .HasForeignKey(bre => bre.RequestStatusName)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RegisteredHours>()
+                .HasKey(rh => new { rh.EmployeeBID, rh.StartTime });
+
+            modelBuilder.Entity<RegisteredHours>()
+                .HasOne(rh => rh.Employee)
+                .WithMany(e => e.RegisteredHours)
+                .HasForeignKey(rh => rh.EmployeeBID)
+                .HasPrincipalKey(e => e.BID)    // <---- cruciaal!
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.BID)
+                .IsUnique(); // BID moet uniek zijn
+
+
         }
     }
 }
