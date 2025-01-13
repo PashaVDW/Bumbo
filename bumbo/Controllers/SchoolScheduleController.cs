@@ -130,6 +130,15 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
+            foreach (DaySchoolScheduleViewModel day in viewModel.Days)
+            {
+                if ((day.StartTime != null && day.EndTime == null)
+                    || day.StartTime == null && day.EndTime != null)
+                {
+                    ModelState.AddModelError("", $"De start- of eindtijd is nog niet ingevuld voor {day.DayName}.");
+                }
+            }
+
             SetTempDataForSchoolScheduleToast("addSchoolScheduleToast");
 
             string employeeId = user.Id;

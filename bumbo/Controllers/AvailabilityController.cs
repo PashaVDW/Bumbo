@@ -151,6 +151,15 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
+            foreach (AvailabilityDayInputViewModel day in model.Days)
+            {
+                if((day.StartTime != null && day.EndTime == null)
+                    || day.StartTime == null && day.EndTime != null)
+                {
+                    ModelState.AddModelError("", $"De start- of eindtijd is nog niet ingevuld voor {day.DayName}.");
+                }
+            }
+
             string employeeId = currentUser.Id;
 
             if (model.EndYear < model.StartYear ||
