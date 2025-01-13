@@ -125,6 +125,24 @@ namespace DataLayer.Repositories
             return _context.Schedule.Where(s => s.EmployeeId == employeeId && s.Date >= dateOnlyMonday && s.Date <= dateOnlySunday).ToList();
         }
 
+        public List<Schedule> GetMonthScheduleForEmployee(string employeeId, DateTime firstDay, DateTime lastDay)
+        {
+            var dateOnlyMonday = DateOnly.FromDateTime(firstDay);
+            var dateOnlySunday = DateOnly.FromDateTime(lastDay);
+            return _context.Schedule.Where(s => s.EmployeeId == employeeId && s.Date >= dateOnlyMonday && s.Date <= dateOnlySunday).ToList();
+        }
+
+        public List<Schedule> GetRegisteredHoursInMonthScheduleForEmployee(string employeeId, DateTime firstDay, DateTime lastDay)
+        {
+            DateOnly dateOnlyMonday = DateOnly.FromDateTime(firstDay);
+            DateOnly dateOnlySunday = DateOnly.FromDateTime(lastDay);
+            DateOnly dateOnlyToday = DateOnly.FromDateTime(DateTime.Now);
+            return _context.Schedule.Where(s => s.EmployeeId == employeeId 
+                                            && s.Date >= dateOnlyMonday 
+                                            && s.Date <= dateOnlySunday
+                                            && s.Date <= dateOnlyToday).ToList();
+        }
+
         public void UpdateEmployeeDaySchedule(string employeeId, DateTime date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName)
         {
             var existingSchedule = _context.Schedule
@@ -172,7 +190,7 @@ namespace DataLayer.Repositories
         public Schedule GetScheduleByEmployeeBranchDate(string employeeId, int branchId, DateOnly date)
         {
             return _context.Set<Schedule>()
-                .Include(s => s.Employee) 
+                .Include(s => s.Employee)
                 .Include(s => s.Branch)
                 .Include(s => s.Department)
                 .FirstOrDefault(s =>
@@ -181,7 +199,8 @@ namespace DataLayer.Repositories
                     s.Date == date);
         }
 
-        public void UpdateSchedule(Schedule schedule) {
+        public void UpdateSchedule(Schedule schedule)
+        {
             _context.Schedule.Update(schedule);
             _context.SaveChanges();
         }
@@ -250,5 +269,15 @@ namespace DataLayer.Repositories
 
             return existingSchedule != null;
         }
+
+        public List<Schedule> GetSchedulesForBranchByMonth(int branchId, int year, int month)
+        {
+            return _context.Schedule
+                .Where(s => s.BranchId == branchId
+                         && s.Date.Year == year
+                         && s.Date.Month == month)
+                .ToList();
+        }
+
     }
 }

@@ -37,7 +37,7 @@ namespace bumbo.Controllers
             var tableBuilder = new TableHtmlBuilder<TemplatesViewModel>();
 
             List<Template> templates = _templatesRepository
-                .GetAllTemplates()
+                .GetAllTemplatesFromBranch(user.ManagerOfBranchId.Value)
                 .Where(template => template.BranchBranchId == branchId)
                 .ToList();
 
@@ -249,7 +249,7 @@ namespace bumbo.Controllers
             }
 
             List<TemplateHasDays> templateHasDays = _templatesHasDaysRepository.GetAllTemplateHasDays();
-            List<Template> templates = _templatesRepository.GetAllTemplates();
+            List<Template> templates = _templatesRepository.GetAllTemplatesFromBranch(user.ManagerOfBranchId.Value);
 
             var dayOrder = new[] { "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag" };
 

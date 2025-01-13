@@ -20,6 +20,8 @@ namespace DataLayer.Interfaces
         bool CanRemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId);
         void RemoveEmployeeFromDay(DateOnly dayDate, string employeeId, int branchId);
         List<Schedule> GetWeekScheduleForEmployee(string? employeeId, DateTime monday, DateTime sunday);
+        public List<Schedule> GetMonthScheduleForEmployee(string employeeId, DateTime firstDay, DateTime lastDay);
+        public List<Schedule> GetRegisteredHoursInMonthScheduleForEmployee(string employeeId, DateTime firstDay, DateTime lastDay);
         void UpdateEmployeeDaySchedule(string employeeId, DateTime date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
         void FinalizeSchedules(int branchId, List<DateOnly> weekDates);
         List<Schedule> GetSchedulesForEmployee(string employeeId);
@@ -30,5 +32,7 @@ namespace DataLayer.Interfaces
         void AddHelpEmployeeToDay(Schedule schedule);
         void AddEmployee(string employeeId, int branchId, DateOnly date, string departmentName, TimeOnly startTime, TimeOnly endTime);
         bool EmployeeIsAlreadyPlanned(DateTime date, string employeeId);
+
+        List<Schedule> GetSchedulesForBranchByMonth(int branchId, int year, int month);
     }
 }
