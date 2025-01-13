@@ -77,7 +77,7 @@ namespace bumbo.Controllers
                     Date = currentDate,
                     Status = availability != null
                         ? $"{availability.StartTime} - {availability.EndTime}"
-                        : "Nog in te vullen"
+                        : "Leeg"
                 });
             }
 
