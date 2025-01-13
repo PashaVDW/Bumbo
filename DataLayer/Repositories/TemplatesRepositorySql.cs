@@ -15,9 +15,9 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public List<Template> GetAllTemplates()
+        public List<Template> GetAllTemplatesFromBranch(int branchId)
         {
-            return _context.Templates.ToList();
+            return _context.Templates.Where(t => t.BranchBranchId == branchId).ToList();
         }
 
         public async Task<Template> GetByNameAndBranchAsync(string name, int branchId)

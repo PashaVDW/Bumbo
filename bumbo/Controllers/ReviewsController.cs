@@ -35,20 +35,12 @@ namespace bumbo.Controllers
 
             if (!weekNumber.HasValue || !year.HasValue)
             {
-                prognosis = _prognosisRepository.GetLatestPrognosis(user.ManagerOfBranchId.Value);
+                DateTime today = DateTime.Now;
+                GregorianCalendar gc = new GregorianCalendar();
+                weekNumber = gc.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                year = today.Year;
 
-                if (prognosis != null)
-                {
-                    weekNumber = prognosis.WeekNr;
-                    year = prognosis.Year;
-                }
-                else
-                {
-                    DateTime today = DateTime.Now;
-                    GregorianCalendar gc = new GregorianCalendar();
-                    weekNumber = gc.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-                    year = today.Year;
-                }
+                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value, user.ManagerOfBranchId.Value);
             }
             else
             {
@@ -80,7 +72,7 @@ namespace bumbo.Controllers
                     if (weekNumber.Value == 53)
                     {
                         lastDayOfWeek = LastDateOfWeek(year.Value, weekNumber.Value);
-                        if (lastDayOfWeek.CompareTo(firstWeekStart) >= 0) 
+                        if (lastDayOfWeek.CompareTo(firstWeekStart) >= 0)
                         {
                             weekNumber = 1;
                             year = (year ?? DateTime.Now.Year) + 1;

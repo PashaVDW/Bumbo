@@ -1,10 +1,13 @@
-﻿@model bumbo.ViewModels.Prognosis.PrognosisEditViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+@model bumbo.ViewModels.PrognosisViewModel
 ﻿
 @{
     ViewData["Title"] = "Edit";
 }
 
-<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
+<div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
     <div class="mb-6 flex">
         <a href="/prognoses" style="margin-right: 25px">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,44 +37,69 @@
                            message="@TempData["ToastMessage"]"
                            message-type="@TempData["ToastType"]">
             </toast-message>
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
-                });
-            </script>
         }
     }
 
-    <form method="post" action="/Prognosis/Update">
-        @Html.AntiForgeryToken()
-        <fieldset>
-            <div class="mt-4 mx-auto max-w-screen-lg">
-                <div class="gap-2 grid grid-cols-3">
-                    <div class="max-w-xs font-bold">Dag</div>
-                    <div class="max-w-xs font-bold">Aantal Verwachte Klanten</div>
-                    <div class="max-w-xs font-bold">Aantal Verwachte Collies</div>
-
-                    <input name="PrognosisId" type="hidden" value="@Model.PrognosisId" />
-
-                    @for (int i = 0; i < Model.Days_name.Count; i++)
+    <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border-collapse">
+            <thead>
+                <tr class="border-b">
+                    <th class="p-4 text-left"></th>
+                    @foreach (var day in Model.Days)
                     {
-                        <input type="hidden" name="Days[@i].Name" value="@Model.Days_name[i]" />
-                        <div class="max-w-xs">@Model.Days_name[i]</div>
-
-                        <div>
-                            <input value="@Model.CustomerAmount[i]" min="0" name="CustomerAmount[@i]" type="number" class="p-1 w-full rounded border" required />
-                        </div>
-
-                        <div>
-                            <input value="@Model.PackagesAmount[i]" min="0" name="PackagesAmount[@i]" type="number" class="p-1 w-full rounded border" required />
-                        </div>
+                        <th class="p-4 text-center">
+                            <div class="font-bold">@day.Date.ToString("dd MMM")</div>
+                            <div>@day.DayName</div>
+                            <div>Uren: @day.TotalHoursWorkNeeded</div>
+                            <div>Medewerkers: @day.TotalWorkersNeeded</div>
+                        </th>
                     }
-                </div>
+                </tr>
+            </thead>
+            <tbody>
+                <form method="post" asp-action="Update" asp-controller="Prognosis">
+                    <input type="hidden" asp-for="@Model.PrognosisId" />
+                    <input type="hidden" asp-for="@Model.currentWeek" />
+                    <input type="hidden" asp-for="@Model.currentYear" />
+                    <input type="hidden" asp-for="@Model.Year" />
+                    <input type="hidden" asp-for="@Model.WeekNr" />
 
-                <div class="mt-4 space-x-2 flex justify-end">
-                    <default-button button-text="Bewerken" button-type="primary submit"></default-button>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+                    @for (int i = 0; i < Model.Days.First().DepartmentList.Select(d => d.DepartmentName).Distinct().Count(); i++)
+                    {
+                        var departmentName = Model.Days.First().DepartmentList.Select(d => d.DepartmentName).Distinct().ElementAt(i);
+
+                    <tr class="border-b">
+                        <td class="p-4 font-medium text-left">@departmentName</td>
+
+                            @for (int j = 0; j < Model.Days.Count; j++)
+                            {
+                                var day = Model.Days[j];
+                                var deptData = day.DepartmentList.FirstOrDefault(d => d.DepartmentName == departmentName);
+
+                            <td class="p-4 text-center">
+                                <div class="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0">
+                                    <!-- Hidden inputs voor dag- en afdelinggegevens -->
+                                    <input type="hidden" asp-for="Days[@j].Date" />
+                                    <input type="hidden" asp-for="Days[@j].DayName" />
+                                    <input type="hidden" asp-for="Days[@j].DepartmentList[@i].DepartmentName" />
+                                    <input type="hidden" asp-for="Days[@j].DepartmentList[@i].DaysName" />
+                                    <input type="hidden" asp-for="Days[@j].DepartmentList[@i].PrognosisId" value="@Model.PrognosisId" />
+
+                                    <!-- Bewerkbare inputvelden -->
+                                    <input type="number" min="1" max="2000" asp-for="Days[@j].DepartmentList[@i].HoursOfWorkNeeded" class="w-20 h-12 text-center border rounded-lg" />
+                                    <input type="number" min="1" max="500" asp-for="Days[@j].DepartmentList[@i].AmountOfWorkersNeeded" class="w-20 h-12 text-center border rounded-lg" />
+                                </div>
+                            </td>
+                            }
+                    </tr>
+                    }
+                <tr>
+                    <td colspan="@Model.Days.Count" class="text-center p-4">
+                        <default-button button-text="Updaten" button-type="primary submit"></default-button>
+                    </td>
+                </tr>
+                </form>
+            </tbody>
+        </table>
+    </div>
 </div>
