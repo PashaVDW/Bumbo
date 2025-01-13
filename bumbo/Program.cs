@@ -84,7 +84,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=ScheduleManager}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "prognosis",

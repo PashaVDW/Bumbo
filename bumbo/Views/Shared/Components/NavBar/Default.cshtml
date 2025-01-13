@@ -40,19 +40,7 @@
                     </ul>
                 </div>
 
-                <div class="max-h-6 group relative hover:mr-1">
-                    <div class="flex">
-                        <p>Uren </p>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 left-1 text-gray-500 relative top-[6px] transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                    <ul class="group-hover:block bg-gray-100 left-0 absolute top-full z-50 hidden min-w-max">
-                        <li class="p-3 pt-6 whitespace-nowrap border-b-2"><a href="/roosterManager" class="hover:text-gray-600">@Localizer["Schedule"]</a></li>
-                        <li class="p-3 whitespace-nowrap border-b-2"><a href="#" class="hover:text-gray-600">Klokken</a></li>
-                        <li class="p-3 whitespace-nowrap border-b-2"><a href="#" class="hover:text-gray-600">Geregistreerde uren</a></li>
-                    </ul>
-                </div>
+                <a href="/roosterManager" class="hover:text-gray-600">@Localizer["Schedule"]</a>
             }
 
             @if (Model.IsSystemManager)
