@@ -65,9 +65,9 @@ namespace DataLayer.Repositories
                       .ToList();
         }
 
-        public void UpdateCalculations(List<PrognosisHasDaysHasDepartment> viewmodels)
+        public void UpdatePrognosisDepartments(List<PrognosisHasDaysHasDepartment> departments)
         {
-            _context.PrognosisHasDaysHasDepartment.UpdateRange(viewmodels);
+            _context.PrognosisHasDaysHasDepartment.UpdateRange(departments);
             _context.SaveChanges();
         }
     }

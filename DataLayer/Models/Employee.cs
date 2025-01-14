@@ -33,9 +33,9 @@ public class Employee : IdentityUser
 
     public bool IsSystemManager { get; set; }
 
-    public int? ManagerOfBranchId { get; set; }  // Nullable ManagerOfBranchId
+    public int? ManagerOfBranchId { get; set; }
 
-    public Branch? ManagerOfBranch { get; set; }  // Nullable ManagerOfBranch
+    public Branch? ManagerOfBranch { get; set; }
 
 
     public ICollection<BranchHasEmployee> BranchEmployees { get; set; }

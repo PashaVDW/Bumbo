@@ -40,6 +40,14 @@ public class AccountController : Controller
 
                 if (result.Succeeded)
                 {
+                    if (user.ManagerOfBranchId != null)
+                    {
+                        return RedirectToAction("Index", "ScheduleManager");
+                    }
+                    if(user.ManagerOfBranchId == null && !user.IsSystemManager)
+                    {
+                        return RedirectToAction("Index", "EmployeeSchedule");
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else

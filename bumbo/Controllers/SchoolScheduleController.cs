@@ -77,7 +77,7 @@ namespace bumbo.Controllers
                     Date = currentDate,
                     Status = schedule != null
                         ? $"{schedule.StartTime} - {schedule.EndTime}"
-                        : "Nog in te vullen"
+                        : "Leeg"
                 });
             }
 
@@ -128,6 +128,15 @@ namespace bumbo.Controllers
             if (user == null)
             {
                 return RedirectToAction("AccessDenied", "Home");
+            }
+
+            foreach (DaySchoolScheduleViewModel day in viewModel.Days)
+            {
+                if ((day.StartTime != null && day.EndTime == null)
+                    || day.StartTime == null && day.EndTime != null)
+                {
+                    ModelState.AddModelError("", $"De start- of eindtijd is nog niet ingevuld voor {day.DayName}.");
+                }
             }
 
             SetTempDataForSchoolScheduleToast("addSchoolScheduleToast");
