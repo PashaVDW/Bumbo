@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using bumbo.Services;
+using bumbo.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -155,5 +156,10 @@ app.MapControllerRoute(
     name: "availability",
     pattern: "beschikbaarheid",
     defaults: new { controller = "Availability", action = "Index" });
+
+app.MapControllerRoute(
+    name: "RegisteredHoursManager",
+    pattern: "uren-registratie",
+    defaults: new { controller = "RegisteredHoursManager", action = "Index" });
 
 app.Run();
