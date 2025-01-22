@@ -109,17 +109,18 @@ namespace bumbo.Controllers
             int counter = 0;
             foreach (Employee employee in employees) 
             {
-                string text = $"{employee.FirstName} {employee.LastName} ({employee.Email}): ";
+                string text = $"{employee.FirstName} {employee.MiddleName} {employee.LastName} ({employee.Email}): ";
                 Label employeeName = new Label(text, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
                 page.Elements.Add(employeeName);
                 counter = 0;
+
                 foreach (RegisteredHours hour in registeredHours)
                 {
                     text = SetLabelText(text, hour, counter, employee);
 
                     counter++;
                 }
-                if (!text.Equals($"{employee.FirstName} {employee.LastName} ({employee.Email}): "))
+                if (!text.Equals(""))
                 {
                     y++;
                     if (y * multiplier >= pageHeight)
@@ -141,6 +142,19 @@ namespace bumbo.Controllers
             }
         }
 
+        private bool ContainsText(string text, Page page)
+        {
+            foreach (var element in page.Elements)
+            {
+                if(element is string elementString && elementString.Equals(text))
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
         private Page NextPage(Page page, Document document)
         {
             Page nextPage = new Page(PageSize.A4, PageOrientation.Portrait, 54.0f);
@@ -152,19 +166,18 @@ namespace bumbo.Controllers
 
         private string SetLabelText(string text, RegisteredHours hour, int counter, Employee employee)
         {
+            if (counter == 0)
+            {
+                text = $"";
+            }
             if (employee.Id == hour.EmployeeId &&
                         !(hour.EndTime.Value.Minute - hour.StartTime.Minute == 0 && hour.EndTime.Value.Hour - hour.StartTime.Hour == 0))
             {
-                if (counter == 0)
-                {
-                    text = $"";
-                }
                 if (GetHours(hour) == 0)
                 {
-                    int amountOfMinutes = hour.EndTime.Value.Minute - hour.StartTime.Minute;
-                    amountOfMinutes = GoThroughLabourRules(hour, amountOfMinutes/60, employee);
-                    text = GetToManyHoursWorked(hour, amountOfMinutes / 60, text, employee);
-                    text += $"{hour.EndTime.Value.Minute - hour.StartTime.Minute} minuten | ";
+                    double amountOfMinutes = (hour.EndTime.Value.Minute - hour.StartTime.Minute)/60;
+                    if(amountOfMinutes >= 0.5)
+                        text += "1 uur | ";
                 }
                 else
                 {
