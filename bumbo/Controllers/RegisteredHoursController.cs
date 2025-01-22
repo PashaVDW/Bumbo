@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PublicHoliday;
 using System.Data;
+using System.Globalization;
 
 
 namespace bumbo.Controllers
@@ -20,6 +21,8 @@ namespace bumbo.Controllers
 
         private readonly UserManager<Employee> _userManager;
 
+        private List<int> _weeksEmployeeOverworkedIn;
+
         public RegisteredHoursController(IRegisteredHoursRepository registeredHoursRepository, IEmployeeRepository employeeRepository, 
             UserManager<Employee> userManager, ILabourRulesRepository labourRulesRepository, IScheduleRepository scheduleRulesRepository
             , ISchoolScheduleRepository schoolScheduleRulesRepository)
@@ -30,6 +33,8 @@ namespace bumbo.Controllers
             _labourRulesRepository = labourRulesRepository;
             _scheduleRulesRepository = scheduleRulesRepository;
             _schoolScheduleRulesRepository = schoolScheduleRulesRepository;
+
+            _weeksEmployeeOverworkedIn = new List<int>();
         }
         public IActionResult ButtonView()
         {
@@ -107,12 +112,18 @@ namespace bumbo.Controllers
 
             int y = 0;
             int counter = 0;
+
             foreach (Employee employee in employees) 
             {
+                if (_registeredHoursRepository.GetRegisteredHoursFromEmployee(employee.Id).Count == 0)
+                {
+                    continue;
+                }
                 string text = $"{employee.FirstName} {employee.MiddleName} {employee.LastName} ({employee.Email}): ";
                 Label employeeName = new Label(text, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
                 page.Elements.Add(employeeName);
                 counter = 0;
+                _weeksEmployeeOverworkedIn = new List<int>();
 
                 foreach (RegisteredHours hour in registeredHours)
                 {
@@ -132,6 +143,13 @@ namespace bumbo.Controllers
                     Label hoursText = new Label(text, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
                     page.Elements.Add(hoursText);
                     y++;
+                    if (_weeksEmployeeOverworkedIn.Count > 0)
+                    {
+                        string weeks = WriteOverworkedHours();
+                        Label weeksLabel = new Label(weeks, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
+                        page.Elements.Add(weeksLabel);
+                        y++;
+                    }
                 }
                 y++;
                 if (y * multiplier >= pageHeight)
@@ -140,6 +158,28 @@ namespace bumbo.Controllers
                     y = 0;
                 }
             }
+        }
+
+        private string WriteOverworkedHours()
+        {
+            string weeks = "Weken teveel gewerkt: ";
+            int i = 0;
+            foreach (int week in _weeksEmployeeOverworkedIn)
+            {
+                if (!weeks.Contains(week.ToString()))
+                {
+                    if (i == 0)
+                    {
+                        weeks += $"{week}";
+                    }
+                    else
+                    {
+                        weeks += $", {week}";
+                    }
+                    i++;
+                }
+            }
+            return weeks;
         }
 
         private Page NextPage(Page page, Document document)
@@ -165,7 +205,7 @@ namespace bumbo.Controllers
                 {
                     double amountOfMinutes = (hour.EndTime.Value.Minute - hour.StartTime.Minute)/60;
                     if(amountOfMinutes >= 0.5)
-                        text += "1 uur | ";
+                        text += $"1 uur | ";
                 }
                 else
                 {
@@ -284,7 +324,7 @@ namespace bumbo.Controllers
             int maxHoursPerWeek = rule.MaxHoursPerWeek;
             if (count > maxHoursPerWeek)
             {
-                text += $"({count - maxHoursPerWeek} teveel in week) ";
+                _weeksEmployeeOverworkedIn.Add(ISOWeek.GetWeekOfYear(hour.EndTime.Value));
             }
             return text;
         }
