@@ -142,19 +142,6 @@ namespace bumbo.Controllers
             }
         }
 
-        private bool ContainsText(string text, Page page)
-        {
-            foreach (var element in page.Elements)
-            {
-                if(element is string elementString && elementString.Equals(text))
-                {
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-
         private Page NextPage(Page page, Document document)
         {
             Page nextPage = new Page(PageSize.A4, PageOrientation.Portrait, 54.0f);
@@ -173,7 +160,8 @@ namespace bumbo.Controllers
             if (employee.Id == hour.EmployeeId &&
                         !(hour.EndTime.Value.Minute - hour.StartTime.Minute == 0 && hour.EndTime.Value.Hour - hour.StartTime.Hour == 0))
             {
-                if (GetHours(hour) == 0)
+                int amountOfHours = GetHours(hour);
+                if (amountOfHours == 0)
                 {
                     double amountOfMinutes = (hour.EndTime.Value.Minute - hour.StartTime.Minute)/60;
                     if(amountOfMinutes >= 0.5)
@@ -181,7 +169,6 @@ namespace bumbo.Controllers
                 }
                 else
                 {
-                    int amountOfHours = GetHours(hour);
                     amountOfHours = GoThroughLabourRules(hour, amountOfHours, employee);
                     text = GetToManyHoursWorked(hour, amountOfHours, text, employee);
                     text += $"{amountOfHours} uur | ";
