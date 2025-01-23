@@ -1,4 +1,5 @@
-﻿using ceTe.DynamicPDF;
+﻿using bumbo.Models;
+using ceTe.DynamicPDF;
 using ceTe.DynamicPDF.PageElements;
 using DataLayer.Interfaces;
 using DataLayer.Models;
@@ -18,6 +19,7 @@ namespace bumbo.Controllers
         private readonly ILabourRulesRepository _labourRulesRepository;
         private readonly IScheduleRepository _scheduleRulesRepository;
         private readonly ISchoolScheduleRepository _schoolScheduleRulesRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
 
         private readonly UserManager<Employee> _userManager;
 
@@ -25,7 +27,7 @@ namespace bumbo.Controllers
 
         public RegisteredHoursController(IRegisteredHoursRepository registeredHoursRepository, IEmployeeRepository employeeRepository, 
             UserManager<Employee> userManager, ILabourRulesRepository labourRulesRepository, IScheduleRepository scheduleRulesRepository
-            , ISchoolScheduleRepository schoolScheduleRulesRepository)
+            , ISchoolScheduleRepository schoolScheduleRulesRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository)
         {
             _registeredHoursRepository = registeredHoursRepository;
             _employeeRepository = employeeRepository;
@@ -33,6 +35,7 @@ namespace bumbo.Controllers
             _labourRulesRepository = labourRulesRepository;
             _scheduleRulesRepository = scheduleRulesRepository;
             _schoolScheduleRulesRepository = schoolScheduleRulesRepository;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
 
             _weeksEmployeeOverworkedIn = new List<int>();
         }
@@ -52,8 +55,9 @@ namespace bumbo.Controllers
 
         public async Task<IActionResult> HoursOverview(string activeCountry)
         {
+
             var user = await _userManager.GetUserAsync(User);
-            if (user == null || user.ManagerOfBranch != null)
+            if (user == null || user.ManagerOfBranchId == 0)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
@@ -62,7 +66,9 @@ namespace bumbo.Controllers
             {
                 TempData["ActiveCountry"] = activeCountry;
 
-                List<Employee> employees = _employeeRepository.GetAllEmployees();
+                int branchId = user.ManagerOfBranchId.Value;
+                
+                List<Employee> employees = _employeeRepository.GetEmployeesOfBranch(branchId).Result;
                 List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees);
 
                 DrawPDF(registeredHours, employees);
@@ -71,7 +77,7 @@ namespace bumbo.Controllers
                 return View();
             } catch (NullReferenceException)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "ScheduleManager");
             }
         }
 
