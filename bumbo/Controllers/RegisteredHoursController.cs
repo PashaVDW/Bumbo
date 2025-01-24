@@ -53,8 +53,12 @@ namespace bumbo.Controllers
             return PhysicalFile(filePath, contentType);
         }
 
-        public async Task<IActionResult> HoursOverview(string activeCountry)
+        public async Task<IActionResult> HoursOverview(string activeCountry, int month, int year)
         {
+            if(month == 0 && year == 0 && string.IsNullOrEmpty(activeCountry))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null || user.ManagerOfBranchId == 0)
@@ -69,9 +73,9 @@ namespace bumbo.Controllers
                 int branchId = user.ManagerOfBranchId.Value;
                 
                 List<Employee> employees = _employeeRepository.GetEmployeesOfBranch(branchId).Result;
-                List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees);
+                List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees, month, year);
 
-                DrawPDF(registeredHours, employees);
+                DrawPDF(registeredHours, employees, month, year);
                 ViewData["HideLayoutElements"] = true;
 
                 return View();
@@ -81,32 +85,32 @@ namespace bumbo.Controllers
             }
         }
 
-        private List<RegisteredHours> FillRegisteredHoursList(List<Employee> employees)
+        private List<RegisteredHours> FillRegisteredHoursList(List<Employee> employees, int month, int year)
         {
             List<RegisteredHours> registeredHours = new List<RegisteredHours>();
             foreach (Employee emp in employees)
             {
-                foreach (RegisteredHours hour in _registeredHoursRepository.GetRegisteredHoursFromEmployee(emp.Id))
+                foreach (RegisteredHours hour in _registeredHoursRepository.GetRegisteredHoursFromEmployeeInMonthAndYear(emp.Id, month, year))
                 {
-                    registeredHours.Add(hour);
+                    registeredHours.Add(hour);   
                 }
             }
             return registeredHours;
         }
 
-        private void DrawPDF(List<RegisteredHours> registeredHours, List<Employee> employees)
+        private void DrawPDF(List<RegisteredHours> registeredHours, List<Employee> employees, int month, int year)
         {
             Document document = new Document();
 
             Page page = new Page(PageSize.A4, PageOrientation.Portrait, 54.0f);
             document.Pages.Add(page);
 
-            AddText(page, registeredHours, employees, document);
+            AddText(page, registeredHours, employees, document, month, year);
 
             document.Draw(@"Views/PDF/EmployeesHoursOverview.pdf");
         }
 
-        private void AddText(Page page, List<RegisteredHours> registeredHours, List<Employee> employees, Document document)
+        private void AddText(Page page, List<RegisteredHours> registeredHours, List<Employee> employees, Document document, int month, int year)
         {
             int pageHeight = 700;
 
@@ -121,7 +125,7 @@ namespace bumbo.Controllers
 
             foreach (Employee employee in employees) 
             {
-                if (_registeredHoursRepository.GetRegisteredHoursFromEmployee(employee.Id).Count == 0)
+                if (_registeredHoursRepository.GetRegisteredHoursFromEmployeeInMonthAndYear(employee.Id, month, year).Count == 0)
                 {
                     continue;
                 }

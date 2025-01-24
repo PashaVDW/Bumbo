@@ -90,9 +90,9 @@
         </form>
 
 
-        <form method="post" asp-action="HoursOverview" target="_blank" asp-controller="RegisteredHours" asp-route-activeCountry="Netherlands" class="flex items-end">
-            <input type="hidden" name="monthNumber" value="1" />
-            <input type="hidden" name="year" value="2000" />
+        <form method="post" asp-action="HoursOverview" target="_blank" asp-controller="RegisteredHours"
+              asp-route-activeCountry="Netherlands" asp-route-month="@Model.DisplayMonth" 
+              asp-route-year="@Model.DisplayYear" class="flex items-end">
             <default-button button-text="Downloaden" button-type="primary" typeof="submit"></default-button>
         </form>
     </div>
