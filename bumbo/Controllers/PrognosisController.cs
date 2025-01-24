@@ -342,7 +342,7 @@ namespace bumbo.Controllers
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 5000;
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { weekNumber = model.WeekNr, year = model.Year });
         }
 
         private InputCalculateViewModel ToInputCalculateViewModel(List<PrognosisHasDays> uncalculatedViewmodel, List<Days> days)
