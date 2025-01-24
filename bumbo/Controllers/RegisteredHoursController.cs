@@ -179,34 +179,34 @@ namespace bumbo.Controllers
         private int SetTotalHours(string text)
         {
 
-            int sum = 0;
-            string[] splitted = text.Split(" uur | ");
-            foreach (string str in splitted)
+            int totalHours = 0;
+            string[] splittedText = text.Split(" uur | ");
+            foreach (string textPart in splittedText)
             {
-                if (int.TryParse(str, out int result))
+                if (int.TryParse(textPart, out int result))
                 {
-                    sum += result;
+                    totalHours += result;
                 }
-                else if (str.Contains('(') && str.Contains(')'))
+                else if (textPart.Contains('(') && textPart.Contains(')'))
                 {
-                    sum = SplitToManyHours(str, sum);
+                    totalHours = SplitToManyHours(textPart, totalHours);
                 }
             }
 
-            return sum;
+            return totalHours;
         }
 
-        private int SplitToManyHours(string str, int sum)
+        private int SplitToManyHours(string textPart, int totalHours)
         {
-            string[] splittedStr = str.Split(new[] { '(', ')' });
-            foreach (string s in splittedStr)
+            string[] splittedTextPart = textPart.Split(new[] { '(', ')' });
+            foreach (string str in splittedTextPart)
             {
-                if (int.TryParse(s, out int resultTwo))
+                if (int.TryParse(str, out int resultTwo))
                 {
-                    sum += resultTwo;
+                    totalHours += resultTwo;
                 }
             }
-            return sum;
+            return totalHours;
         }
 
         private string WriteOverworkedHours()
