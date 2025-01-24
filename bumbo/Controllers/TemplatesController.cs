@@ -114,11 +114,12 @@ namespace bumbo.Controllers
 
             bool isSuccess = true;
             bool isNameEmpty = string.IsNullOrEmpty(name);
+            bool nameHasToManyCharacters = name.Length > 64;
             bool isTemplateDuplicate = false;
             bool hasCustomerErrors = false;
             bool hasContainerErrors = false;
 
-            if (isNameEmpty)
+            if (isNameEmpty || nameHasToManyCharacters)
             {
                 isSuccess = false;
             }
@@ -157,6 +158,11 @@ namespace bumbo.Controllers
                 if (isNameEmpty)
                 {
                     errorMessages.Add("Voer een geldige naam in voor de template.");
+                }
+
+                if (nameHasToManyCharacters)
+                {
+                    errorMessages.Add("Naam mag niet langer zijn dan 64 karakters.");
                 }
 
                 if (isTemplateDuplicate)
