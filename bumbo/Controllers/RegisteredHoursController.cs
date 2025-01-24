@@ -149,6 +149,12 @@ namespace bumbo.Controllers
                     Label hoursText = new Label(text, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
                     page.Elements.Add(hoursText);
                     y++;
+
+                    string totalHours = $"Totaal: {SetTotalHours(text)} uur";
+                    Label totalHoursLabel = new Label(totalHours.ToString(), x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
+                    page.Elements.Add(totalHoursLabel);
+                    y++;
+
                     if (_weeksEmployeeOverworkedIn.Count > 0)
                     {
                         string weeks = WriteOverworkedHours();
@@ -164,6 +170,19 @@ namespace bumbo.Controllers
                     y = 0;
                 }
             }
+        }
+
+        private int SetTotalHours(string text)
+        {
+            int sum = 0;
+            foreach (char textChar in text)
+            {
+                if (char.IsNumber(textChar))
+                {
+                    sum += int.Parse(textChar.ToString());
+                }
+            }
+            return sum;
         }
 
         private string WriteOverworkedHours()
