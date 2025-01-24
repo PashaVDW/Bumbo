@@ -1,4 +1,5 @@
-﻿using ceTe.DynamicPDF;
+﻿using bumbo.Models;
+using ceTe.DynamicPDF;
 using ceTe.DynamicPDF.PageElements;
 using DataLayer.Interfaces;
 using DataLayer.Models;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PublicHoliday;
 using System.Data;
+using System.Globalization;
 
 
 namespace bumbo.Controllers
@@ -17,12 +19,15 @@ namespace bumbo.Controllers
         private readonly ILabourRulesRepository _labourRulesRepository;
         private readonly IScheduleRepository _scheduleRulesRepository;
         private readonly ISchoolScheduleRepository _schoolScheduleRulesRepository;
+        private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
 
         private readonly UserManager<Employee> _userManager;
 
+        private List<int> _weeksEmployeeOverworkedIn;
+
         public RegisteredHoursController(IRegisteredHoursRepository registeredHoursRepository, IEmployeeRepository employeeRepository, 
             UserManager<Employee> userManager, ILabourRulesRepository labourRulesRepository, IScheduleRepository scheduleRulesRepository
-            , ISchoolScheduleRepository schoolScheduleRulesRepository)
+            , ISchoolScheduleRepository schoolScheduleRulesRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository)
         {
             _registeredHoursRepository = registeredHoursRepository;
             _employeeRepository = employeeRepository;
@@ -30,6 +35,9 @@ namespace bumbo.Controllers
             _labourRulesRepository = labourRulesRepository;
             _scheduleRulesRepository = scheduleRulesRepository;
             _schoolScheduleRulesRepository = schoolScheduleRulesRepository;
+            _branchHasEmployeeRepository = branchHasEmployeeRepository;
+
+            _weeksEmployeeOverworkedIn = new List<int>();
         }
         public IActionResult ButtonView()
         {
@@ -45,10 +53,15 @@ namespace bumbo.Controllers
             return PhysicalFile(filePath, contentType);
         }
 
-        public async Task<IActionResult> HoursOverview(string activeCountry)
+        public async Task<IActionResult> HoursOverview(string activeCountry, int month, int year)
         {
+            if(month == 0 && year == 0 && string.IsNullOrEmpty(activeCountry))
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             var user = await _userManager.GetUserAsync(User);
-            if (user == null || user.ManagerOfBranch != null)
+            if (user == null || user.ManagerOfBranchId == 0)
             {
                 return RedirectToAction("AccessDenied", "Home");
             }
@@ -57,45 +70,47 @@ namespace bumbo.Controllers
             {
                 TempData["ActiveCountry"] = activeCountry;
 
-                List<Employee> employees = _employeeRepository.GetAllEmployees();
-                List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees);
+                int branchId = user.ManagerOfBranchId.Value;
+                
+                List<Employee> employees = _employeeRepository.GetEmployeesOfBranch(branchId).Result;
+                List<RegisteredHours> registeredHours = FillRegisteredHoursList(employees, month, year);
 
-                DrawPDF(registeredHours, employees);
+                DrawPDF(registeredHours, employees, month, year);
                 ViewData["HideLayoutElements"] = true;
 
                 return View();
             } catch (NullReferenceException)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "ScheduleManager");
             }
         }
 
-        private List<RegisteredHours> FillRegisteredHoursList(List<Employee> employees)
+        private List<RegisteredHours> FillRegisteredHoursList(List<Employee> employees, int month, int year)
         {
             List<RegisteredHours> registeredHours = new List<RegisteredHours>();
             foreach (Employee emp in employees)
             {
-                foreach (RegisteredHours hour in _registeredHoursRepository.GetRegisteredHoursFromEmployee(emp.Id))
+                foreach (RegisteredHours hour in _registeredHoursRepository.GetRegisteredHoursFromEmployeeInMonthAndYear(emp.Id, month, year))
                 {
-                    registeredHours.Add(hour);
+                    registeredHours.Add(hour);   
                 }
             }
             return registeredHours;
         }
 
-        private void DrawPDF(List<RegisteredHours> registeredHours, List<Employee> employees)
+        private void DrawPDF(List<RegisteredHours> registeredHours, List<Employee> employees, int month, int year)
         {
             Document document = new Document();
 
             Page page = new Page(PageSize.A4, PageOrientation.Portrait, 54.0f);
             document.Pages.Add(page);
 
-            AddText(page, registeredHours, employees, document);
+            AddText(page, registeredHours, employees, document, month, year);
 
             document.Draw(@"Views/PDF/EmployeesHoursOverview.pdf");
         }
 
-        private void AddText(Page page, List<RegisteredHours> registeredHours, List<Employee> employees, Document document)
+        private void AddText(Page page, List<RegisteredHours> registeredHours, List<Employee> employees, Document document, int month, int year)
         {
             int pageHeight = 700;
 
@@ -107,19 +122,26 @@ namespace bumbo.Controllers
 
             int y = 0;
             int counter = 0;
+
             foreach (Employee employee in employees) 
             {
-                string text = $"{employee.FirstName} {employee.LastName} ({employee.Email}): ";
+                if (_registeredHoursRepository.GetRegisteredHoursFromEmployeeInMonthAndYear(employee.Id, month, year).Count == 0)
+                {
+                    continue;
+                }
+                string text = $"{employee.FirstName} {employee.MiddleName} {employee.LastName} ({employee.Email}): ";
                 Label employeeName = new Label(text, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
                 page.Elements.Add(employeeName);
                 counter = 0;
+                _weeksEmployeeOverworkedIn = new List<int>();
+
                 foreach (RegisteredHours hour in registeredHours)
                 {
                     text = SetLabelText(text, hour, counter, employee);
 
                     counter++;
                 }
-                if (!text.Equals($"{employee.FirstName} {employee.LastName} ({employee.Email}): "))
+                if (!text.Equals(""))
                 {
                     y++;
                     if (y * multiplier >= pageHeight)
@@ -131,6 +153,19 @@ namespace bumbo.Controllers
                     Label hoursText = new Label(text, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
                     page.Elements.Add(hoursText);
                     y++;
+
+                    string totalHours = $"Totaal: {SetTotalHours(text)} uur";
+                    Label totalHoursLabel = new Label(totalHours.ToString(), x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
+                    page.Elements.Add(totalHoursLabel);
+                    y++;
+
+                    if (_weeksEmployeeOverworkedIn.Count > 0)
+                    {
+                        string weeks = WriteOverworkedHours();
+                        Label weeksLabel = new Label(weeks, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
+                        page.Elements.Add(weeksLabel);
+                        y++;
+                    }
                 }
                 y++;
                 if (y * multiplier >= pageHeight)
@@ -139,6 +174,61 @@ namespace bumbo.Controllers
                     y = 0;
                 }
             }
+        }
+
+        private int SetTotalHours(string text)
+        {
+
+            int totalHours = 0;
+            string[] splittedText = text.Split(" uur | ");
+            foreach (string textPart in splittedText)
+            {
+                if (int.TryParse(textPart, out int result))
+                {
+                    totalHours += result;
+                }
+                else if (textPart.Contains('(') && textPart.Contains(')'))
+                {
+                    totalHours = SplitToManyHours(textPart, totalHours);
+                }
+            }
+
+            return totalHours;
+        }
+
+        private int SplitToManyHours(string textPart, int totalHours)
+        {
+            string[] splittedTextPart = textPart.Split(new[] { '(', ')' });
+            foreach (string str in splittedTextPart)
+            {
+                if (int.TryParse(str, out int resultTwo))
+                {
+                    totalHours += resultTwo;
+                }
+            }
+            return totalHours;
+        }
+
+        private string WriteOverworkedHours()
+        {
+            string weeks = "Weken teveel gewerkt: ";
+            int i = 0;
+            foreach (int week in _weeksEmployeeOverworkedIn)
+            {
+                if (!weeks.Contains(week.ToString()))
+                {
+                    if (i == 0)
+                    {
+                        weeks += $"{week}";
+                    }
+                    else
+                    {
+                        weeks += $", {week}";
+                    }
+                    i++;
+                }
+            }
+            return weeks;
         }
 
         private Page NextPage(Page page, Document document)
@@ -152,23 +242,22 @@ namespace bumbo.Controllers
 
         private string SetLabelText(string text, RegisteredHours hour, int counter, Employee employee)
         {
+            if (counter == 0)
+            {
+                text = $"";
+            }
             if (employee.Id == hour.EmployeeId &&
                         !(hour.EndTime.Value.Minute - hour.StartTime.Minute == 0 && hour.EndTime.Value.Hour - hour.StartTime.Hour == 0))
             {
-                if (counter == 0)
+                int amountOfHours = GetHours(hour);
+                if (amountOfHours == 0)
                 {
-                    text = $"";
-                }
-                if (GetHours(hour) == 0)
-                {
-                    int amountOfMinutes = hour.EndTime.Value.Minute - hour.StartTime.Minute;
-                    amountOfMinutes = GoThroughLabourRules(hour, amountOfMinutes/60, employee);
-                    text = GetToManyHoursWorked(hour, amountOfMinutes / 60, text, employee);
-                    text += $"{hour.EndTime.Value.Minute - hour.StartTime.Minute} minuten | ";
+                    double amountOfMinutes = (hour.EndTime.Value.Minute - hour.StartTime.Minute)/60;
+                    if(amountOfMinutes >= 0.5)
+                        text += $"1 uur | ";
                 }
                 else
                 {
-                    int amountOfHours = GetHours(hour);
                     amountOfHours = GoThroughLabourRules(hour, amountOfHours, employee);
                     text = GetToManyHoursWorked(hour, amountOfHours, text, employee);
                     text += $"{amountOfHours} uur | ";
@@ -284,7 +373,7 @@ namespace bumbo.Controllers
             int maxHoursPerWeek = rule.MaxHoursPerWeek;
             if (count > maxHoursPerWeek)
             {
-                text += $"({count - maxHoursPerWeek} teveel in week) ";
+                _weeksEmployeeOverworkedIn.Add(ISOWeek.GetWeekOfYear(hour.EndTime.Value));
             }
             return text;
         }
