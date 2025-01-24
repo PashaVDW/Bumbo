@@ -530,7 +530,7 @@ namespace bumbo.Controllers
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 3000;
 
-            return RedirectToAction(nameof(PrognosisController.Index), "Prognosis");
+            return RedirectToAction("Index", new { weekNumber = model.WeekNr, year = model.Year });
         }
 
 
