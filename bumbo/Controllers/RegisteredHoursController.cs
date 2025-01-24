@@ -178,12 +178,32 @@ namespace bumbo.Controllers
 
         private int SetTotalHours(string text)
         {
+
             int sum = 0;
-            foreach (char textChar in text)
+            string[] splitted = text.Split(" uur | ");
+            foreach (string str in splitted)
             {
-                if (char.IsNumber(textChar))
+                if (int.TryParse(str, out int result))
                 {
-                    sum += int.Parse(textChar.ToString());
+                    sum += result;
+                }
+                else if (str.Contains('(') && str.Contains(')'))
+                {
+                    sum = SplitToManyHours(str, sum);
+                }
+            }
+
+            return sum;
+        }
+
+        private int SplitToManyHours(string str, int sum)
+        {
+            string[] splittedStr = str.Split(new[] { '(', ')' });
+            foreach (string s in splittedStr)
+            {
+                if (int.TryParse(s, out int resultTwo))
+                {
+                    sum += resultTwo;
                 }
             }
             return sum;
