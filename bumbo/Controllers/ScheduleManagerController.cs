@@ -108,6 +108,7 @@ namespace bumbo.Controllers
 
             Branch branch = _branchesRepository.GetBranch(branchId);
 
+            bool isComplete = false;
             var viewModel = new ScheduleManagerViewModel
             {
                 Year = year.Value,
@@ -128,16 +129,23 @@ namespace bumbo.Controllers
                             .Select(pd => pd.HoursOfWorkNeeded)
                             .FirstOrDefault();
 
-                        return new DepartmentScheduleViewModel
+                        DepartmentScheduleViewModel departmentScheduleViewModel = new DepartmentScheduleViewModel
                         {
                             DepartmentName = department,
                             Employees = BuildEmployeeAndGapList(schedulesForDepartment, branch),
                             TotalHours = schedulesForDepartment
                                 .Where(s => s.StartTime < s.EndTime && !s.IsSick)
                                 .Sum(s => (s.EndTime - s.StartTime).TotalHours),
-                            HoursNeeded = hoursNeededForDepartment
+                            HoursNeeded = hoursNeededForDepartment,
                         };
-                    }).ToList()
+                        isComplete = departmentScheduleViewModel.TotalHours >= departmentScheduleViewModel.HoursNeeded;
+
+                        return departmentScheduleViewModel;
+                    }
+                    ).ToList(),
+
+                    IsComplete = isComplete
+
                 }).ToList()
             };
 

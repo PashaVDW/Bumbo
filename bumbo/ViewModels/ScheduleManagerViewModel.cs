@@ -11,6 +11,7 @@
     public class DayScheduleViewModel
     {
         public DateTime Date { get; set; }
+        public bool IsComplete { get; set; }
         public List<DepartmentScheduleViewModel> Departments { get; set; } = new List<DepartmentScheduleViewModel>();
     }
 
