@@ -172,7 +172,7 @@ namespace bumbo.Controllers
                     schedule.EndTime,
                     schedule.BranchId,
                     schedule.DepartmentName
-                );
+                ).Where(e => e.Id != user.Id).ToList();
 
                 if (availableEmployees == null || !availableEmployees.Any())
                 {
@@ -477,13 +477,13 @@ namespace bumbo.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var availableEmployees = _employeeRepository.GetAvailableEmployees(
+                List<Employee> availableEmployees = _employeeRepository.GetAvailableEmployees(
                     selectedSchedule.Date,
                     selectedSchedule.StartTime,
                     selectedSchedule.EndTime,
                     model.SelectedUitgaandeDienstRuil.BranchId,
                     selectedSchedule.DepartmentName
-                );
+                ).Where(e => e.Id != user.Id).ToList();
 
                 if (availableEmployees == null || !availableEmployees.Any())
                 {
