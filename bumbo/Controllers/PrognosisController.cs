@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.VisualBasic;
 using System.Globalization;
 
 namespace bumbo.Controllers
@@ -68,20 +69,12 @@ namespace bumbo.Controllers
 
             if (!weekNumber.HasValue || !year.HasValue)
             {
-                prognosis = _prognosisRepository.GetLatestPrognosis(currentUser.ManagerOfBranchId.Value);
+                DateTime today = DateTime.Now;
+                GregorianCalendar gc = new GregorianCalendar();
+                weekNumber = gc.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                year = today.Year;
 
-                if (prognosis != null)
-                {
-                    weekNumber = prognosis.WeekNr;
-                    year = prognosis.Year;
-                }
-                else
-                {
-                    DateTime today = DateTime.Now;
-                    GregorianCalendar gc = new GregorianCalendar();
-                    weekNumber = gc.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-                    year = today.Year;
-                }
+                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value, currentUser.ManagerOfBranchId.Value);
             }
             else
             {
@@ -113,6 +106,14 @@ namespace bumbo.Controllers
             {
                 ViewBag.MonthName += " - " + lastDayOfWeek.ToString("MMMM");
             }
+
+            var currentWeek = ISOWeek.GetWeekOfYear(DateTime.Now);
+            var currentYear = DateTime.Now.Year;
+
+            bool isFutureWeek = year > currentYear || (year == currentYear && weekNumber > currentWeek);
+            bool isCurrentWeek = year == currentYear && weekNumber == currentWeek;
+            ViewBag.IsFutureWeek = isFutureWeek;
+            ViewBag.IsCurrentWeek = isCurrentWeek;
 
             ViewBag.Title = "Terugblik - Weekoverzicht";
 
@@ -154,8 +155,7 @@ namespace bumbo.Controllers
                     };
                 }).ToList();
             }
-
-            if (prognosis == null)
+            else
             {
                 ViewBag.Message = "Geen prognose gevonden.";
 
@@ -342,7 +342,7 @@ namespace bumbo.Controllers
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 5000;
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { weekNumber = model.WeekNr, year = model.Year });
         }
 
         private InputCalculateViewModel ToInputCalculateViewModel(List<PrognosisHasDays> uncalculatedViewmodel, List<Days> days)
@@ -432,131 +432,105 @@ namespace bumbo.Controllers
 
             _prognosisHasDaysRepository.UpdatePrognosisHasDays(uncalculatedViewmodel);
 
-            _prognosisHasDaysHasDepartments.UpdateCalculations(calculations);
+            _prognosisHasDaysHasDepartments.UpdatePrognosisDepartments(calculations);
         }
 
         // GET: Prognosis/Edit/1
         [HttpGet]
         public ActionResult Edit(string prognosisId)
         {
-            PrognosisEditViewModel viewmodel = new PrognosisEditViewModel();
-
             Prognosis prognosis = _prognosisRepository.GetPrognosisById(prognosisId);
 
-            List<PrognosisHasDays> hasDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(prognosisId);
+            DateTime firstDayOfWeek = FirstDateOfWeek(prognosis.Year, prognosis.WeekNr);
 
-            List<string> day_names = new List<string>();
-            List<int> customerAmount = new List<int>();
-            List<int> packagesAmount = new List<int>();
+            var days = new List<PrognosisDay>();
 
-            List<Days> days = _daysRepository.getAllDaysOrdered();
-
-            foreach (Days day in days)
+            if (prognosis != null)
             {
-                foreach (PrognosisHasDays dayName in hasDays)
+                days = prognosis.PrognosisHasDays
+                .OrderBy(d => d.DayName switch
                 {
-                    if (day.Name == dayName.DayName)
-                    {
-                        day_names.Add(dayName.DayName);
-                        customerAmount.Add(dayName.CustomerAmount);
-                        packagesAmount.Add(dayName.PackagesAmount);
-                    }
-                }
-            }
-
-            viewmodel.PrognosisId = prognosisId;
-            viewmodel.Days_name = day_names;
-            viewmodel.CustomerAmount = customerAmount;
-            viewmodel.PackagesAmount = packagesAmount;
-            viewmodel.CurrentWeek = _currentWeek;
-            viewmodel.CurrentYear = _currentYear;
-            viewmodel.WeekNr = prognosis.WeekNr;
-            viewmodel.Year = prognosis.Year;
-
-            return View(viewmodel);
-        }
-
-        // POST: Prognosis/Edit/1
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, List<int> CustomerAmount, List<int> PackagesAmount)
-        {
-            try
-            {
-                _prognosisRepository.UpdatePrognosis(id, CustomerAmount, PackagesAmount);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public ActionResult Update(PrognosisUpdateViewModel updatedViewModel)
-        {
-            List<Days> daysOrdered = _daysRepository.getAllDaysOrdered();
-            List<Days> daysUnordered = _daysRepository.getAllDaysUnordered();
-            Prognosis prognosis = _prognosisRepository.GetPrognosisById(updatedViewModel.PrognosisId);
-            List<PrognosisHasDays> prognosisDays = _prognosisHasDaysRepository.GetPrognosisHasDaysByPrognosisId(updatedViewModel.PrognosisId);
-
-            int highestValue = 0;
-            bool negativeNumber = false;
-            for (int i = 0; i < prognosisDays.Count; i++)
-            {
-                for (int j = 0; j < daysUnordered.Count; j++)
+                    "Maandag" => 1,
+                    "Dinsdag" => 2,
+                    "Woensdag" => 3,
+                    "Donderdag" => 4,
+                    "Vrijdag" => 5,
+                    "Zaterdag" => 6,
+                    "Zondag" => 7,
+                    _ => 8
+                })
+                .Select((day, index) =>
                 {
-                    if (daysOrdered[i] == daysUnordered[j])
+                    var departmentList = day.PrognosisHasDaysHasDepartment.Select(dept => new PrognosisHasDaysHasDepartment
                     {
-                        prognosisDays[j].CustomerAmount = updatedViewModel.CustomerAmount[i];
-                        prognosisDays[j].PackagesAmount = updatedViewModel.PackagesAmount[i];
+                        DepartmentName = dept.DepartmentName,
+                        AmountOfWorkersNeeded = dept.AmountOfWorkersNeeded,
+                        HoursOfWorkNeeded = dept.HoursOfWorkNeeded
+                    }).ToList();
 
-                        if (highestValue < updatedViewModel.CustomerAmount[i])
-                            highestValue = updatedViewModel.CustomerAmount[i];
-                        if (highestValue < updatedViewModel.PackagesAmount[i])
-                            highestValue = updatedViewModel.PackagesAmount[i];
-                        if (updatedViewModel.CustomerAmount[i] < 0 || updatedViewModel.PackagesAmount[i] < 0)
-                            negativeNumber = true;
-                    }
-                }
-            }
+                    int totalWorkersNeeded = departmentList.Sum(d => d.AmountOfWorkersNeeded);
+                    int totalHoursWorkNeeded = departmentList.Sum(d => d.HoursOfWorkNeeded);
 
-            if (prognosis.Year <= _currentYear && prognosis.WeekNr <= _currentWeek)
-            {
-                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. Deze prognoses is al in gebruik.";
-                TempData["ToastType"] = "error";
-
-                TempData["ToastId"] = "updatePrognosisToast";
-                TempData["AutoHide"] = "no";
-            }
-            else if (highestValue > 9999)
-            {
-                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. De maximale waarde is 9999.";
-                TempData["ToastType"] = "error";
-
-                TempData["ToastId"] = "updatePrognosisToast";
-                TempData["AutoHide"] = "no";
-            }
-            else if (negativeNumber)
-            {
-                TempData["ToastMessage"] = "Prognoses bijwerken mislukt. Een waarde mag niet negatief zijn.";
-                TempData["ToastType"] = "error";
-
-                TempData["ToastId"] = "updatePrognosisToast";
-                TempData["AutoHide"] = "no";
+                    return new PrognosisDay
+                    {
+                        DayName = day.DayName,
+                        Date = firstDayOfWeek.AddDays(index),
+                        DepartmentList = departmentList,
+                        TotalWorkersNeeded = totalWorkersNeeded,
+                        TotalHoursWorkNeeded = totalHoursWorkNeeded
+                    };
+                }).ToList();
             }
             else
             {
-                TempData["ToastMessage"] = "Prognoses succesvol bijgewerkt!";
-                TempData["ToastType"] = "success";
-
-                TempData["ToastId"] = "updatePrognosisToast";
-                TempData["AutoHide"] = "yes";
-                TempData["MilSecHide"] = 3000;
-
-                UpdateCalculations(prognosisDays);
+                return RedirectToAction("Index");
             }
 
-            return RedirectToAction(nameof(PrognosisController.Index), "Prognosis");
+            var viewModel = new PrognosisViewModel
+            {
+                Year = prognosis.Year,
+                WeekNr = prognosis.WeekNr,
+                Days = days, // Vul het model met de berekende dagen
+                PrognosisId = prognosis.PrognosisId,
+                currentWeek = _currentWeek,
+                currentYear = _currentYear
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Update(PrognosisViewModel model)
+        {
+            List<PrognosisHasDaysHasDepartment> updatedDepartments = new List<PrognosisHasDaysHasDepartment>();
+
+            foreach (var day in model.Days)
+            {
+                foreach (var department in day.DepartmentList)
+                {
+                    var updatedDepartment = new PrognosisHasDaysHasDepartment
+                    {
+                        DepartmentName = department.DepartmentName,
+                        DaysName = day.DayName,
+                        PrognosisId = department.PrognosisId,
+                        HoursOfWorkNeeded = department.HoursOfWorkNeeded,
+                        AmountOfWorkersNeeded = department.AmountOfWorkersNeeded
+                    };
+
+                    updatedDepartments.Add(updatedDepartment);
+                }
+            }
+
+            _prognosisHasDaysHasDepartments.UpdatePrognosisDepartments(updatedDepartments);
+
+            TempData["ToastMessage"] = "Prognoses succesvol bijgewerkt!";
+            TempData["ToastType"] = "success";
+
+            TempData["ToastId"] = "updatePrognosisToast";
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
+
+            return RedirectToAction("Index", new { weekNumber = model.WeekNr, year = model.Year });
         }
 
 
@@ -584,11 +558,18 @@ namespace bumbo.Controllers
         }
 
 
-        public ActionResult AddTemplate(string searchTerm, int? templateId, int? weekNumber, int? yearNumber, int page = 1)
+        public async Task<ActionResult> AddTemplate(string searchTerm, int? templateId, int? weekNumber, int? yearNumber, int page = 1)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
             AddTemplateViewModel viewmodel = new AddTemplateViewModel();
 
-            viewmodel.Templates = _TemplatesRepository.GetAllTemplates();
+            viewmodel.Templates = _TemplatesRepository.GetAllTemplatesFromBranch(currentUser.ManagerOfBranchId.Value);
             if (weekNumber != null && yearNumber != null)
             {
                 viewmodel.WeekNr = weekNumber;

@@ -8,7 +8,6 @@ namespace DataLayer.Interfaces
     {
         List<Prognosis> GetAllPrognosis();
         Prognosis GetPrognosisByWeekAndYear(int weekNumber, int year, int branchId);
-        Prognosis GetLatestPrognosis(int value);
         List<PrognosisHasDaysHasDepartment> GetPrognosisDetailsByBranchWeekAndYear(int branchId, int weekNumber, int year);
         string AddPrognosis(List<Days> days, List<int> CustomerAmount, List<int> PackagesAmount, int week, int year, int managerOfBranchId);
         Prognosis GetPrognosisById(string branchId);

@@ -87,7 +87,7 @@ namespace DataLayer.Repositories
                     NumHoursWorkedBeforeBreak = 4,
                     MinutesOfBreak = 30,
                     SickPayPercentage = 70m,
-                    OvertimePayPercentage = 150m,
+                    OvertimePayPercentage = 100m,
                     MinRestHoursBetweenShifts = 11,
                     MaxShiftDuration = 12,
                     MaxOvertimeHoursPerWeek = 20
