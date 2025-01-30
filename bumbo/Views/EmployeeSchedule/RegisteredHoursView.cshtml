@@ -1,0 +1,61 @@
+﻿@using System.Globalization
+@using DataLayer.Models
+
+@model EmployeeRegisterHoursViewModel
+
+<div class="p-3 md:p-12">
+    <div class="my-4 space-y-3 md:w-full">
+        <div class="mb-4 flex justify-between">
+            <button onclick="window.location.href='@Url.Action("NavigateMonth", new { newMonth = Model.Month, newYear = Model.Year, direction = "backwards", newView = "RegisteredHoursView" })';"
+                    class="flex items-center">
+                <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+            <div class="space-y-1">
+                <p class="text-center text-lg">Geregistreerde uren</p>
+                <p class="text-center text-sm">@Model.MonthName @Model.Year</p>
+            </div>
+            <button onclick="window.location.href='@Url.Action("NavigateMonth", new { newMonth = Model.Month, newYear = Model.Year, direction = "forward", newView = "RegisteredHoursView" })';"
+                    class="flex items-center">
+                <svg width="10" height="20" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg" class="rotate-180 transform">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+        <div class="mt-2">
+            @if (Model.RegisteredHoursPlanned.Count == 0)
+            {
+                <p class="text-center font-semibold">Deze maand heeft geen diensten</p>
+            }
+            @foreach (Schedule schedule in Model.RegisteredHoursPlanned)
+            {
+                <div class="border-b-gray-200 p-3 mt-2 flex justify-between rounded-xl border-b-2">
+                    <p class="text-sm font-bold">
+                        @schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).First().ToString().ToUpper()@schedule.Date.ToString("dddd", new CultureInfo("nl-NL")).Substring(1)
+                        @schedule.Date.Day
+                    </p>
+                    <div>
+                        @{
+                            int i = 0;
+                            foreach (RegisteredHours hour in Model.RegisteredHoursSchedule)
+                            {
+                                if (hour.StartTime.Day == schedule.Date.Day && hour.EndTime.Value.Day == schedule.Date.Day && hour.IsDefenitive)
+                                {
+                                    <p class="text-sm font-semibold">Geklokte tijd: @hour.StartTime.Hour:@hour.StartTime.Minute.ToString("D2") - @hour.EndTime.Value.Hour:@hour.EndTime.Value.Minute.ToString("D2")</p>
+                                    i++;
+                                }
+                            }
+                            if (i == 0)
+                            {
+                                <p class="text-sm font-semibold">Geklokte tijd: --:--</p>
+                            }
+                        }
+
+                        <p class="text-gray-500 text-sm">Geplande tijd: @schedule.StartTime - @schedule.EndTime</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

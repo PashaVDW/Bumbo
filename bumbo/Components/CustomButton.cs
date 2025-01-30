@@ -12,7 +12,7 @@ namespace bumbo.Components
         /// </summary>
         public string ButtonType { get; set; }
         public string OnClick { get; set; }
-
+        public string CustomStyle { get; set; }
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "button";

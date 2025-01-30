@@ -1,0 +1,100 @@
+﻿@using bumbo.ViewModels
+@{
+
+}
+
+@model RequestsUpdateViewModel
+
+<div class="mx-24 mt-12 mx-auto max-w-2xl">
+    <div class="mb-12 flex">
+        <a href="Index" class="mr-6">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+        <h1 class="text-3xl font-semibold">Hulpverzoek toevoegen</h1>
+    </div>
+    <form asp-action="CreateRequest" class="mx-12">
+        <button type="submit" name="action" value="default" style="display: none;"></button>
+        <input type="hidden" asp-for="HasChosenEmployee"/>
+        <input type="hidden" asp-for="Employee" />
+        <input type="hidden" asp-for="Branch" />
+
+        <div class="mb-6">
+            <label class="font-semibold">Datum nodig</label>
+            <input asp-for="Request.DateNeeded" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" placeholder="Date"
+                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+        </div>
+        <div class="mb-6 flex justify-between">
+            <div class="w-64">
+                <label class="font-semibold">Begintijd nodig</label>
+                <input asp-for="Request.StartTime" type="time" required 
+                    class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            </div>
+            <div class="w-64">
+                <label class="font-semibold">Eindtijd nodig</label>
+                <input asp-for="Request.EndTime" type="time" required
+                    class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="font-semibold">Afdeling</label>
+            <select asp-for="DepartmentName"
+                    class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight">
+                <option value="Vakkenvuller">Vakkenvuller</option>
+                <option value="Vers">Vers</option>
+                <option value="Kassa">Kassa</option>
+            </select>
+            
+        </div>
+        <div class="mb-6">
+            <label class="font-semibold">Nodige medewerker</label>
+            <div>
+                @if(!Model.HasChosenEmployee)
+                {
+                    <button type="submit" name="action" value="addEmployee"
+                       class="h-12 text-white bg-gray-600 border-gray-400 py-2 px-3 text-gray-700 flex w-full appearance-none items-center justify-center border leading-tight hover:bg-gray-500"
+                       >Kies een beschikbare medewerker van een andere filiaal</button>
+                } else
+                {
+                    <div class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 flex w-full appearance-none items-center justify-between border leading-tight">
+                        <p>@Model.Employee.FirstName @Model.Employee.MiddleName @Model.Employee.LastName</p>
+                        <p>@Model.Branch.Name</p>
+                        <button class="bg-gray-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-gray-500"
+                                type="submit" name="action" value="addEmployee">Wijzigen</button>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="font-semibold">Omschrijving</label>
+            <textarea asp-for="Request.Message"
+                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 h-36 w-full appearance-none rounded border leading-tight"></textarea>
+        </div>
+        <div class="mt-6 flex justify-end">
+            <default-button button-text="Toevoegen" button-type="primary" name="action" value="createRequest"></default-button>
+        </div>
+        @if(Model.Employee != null){
+            <input type="hidden" asp-for="EmployeeId"/>
+            <input type="hidden" asp-for="BranchId" />
+        }
+    </form>
+
+    <!-- White Space -->
+    <div class="h-20"></div>
+</div>
+
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}

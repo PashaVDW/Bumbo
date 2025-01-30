@@ -1,0 +1,108 @@
+﻿@model bumbo.ViewModels.SwapShiftViewModel
+<div class="px-4 mx-auto flex max-w-4xl flex-col items-center relative">
+    <div class="w-full flex justify-between items-center">
+        <div class="flex flex-col self-start">
+            <h1 class="mt-8 text-3xl font-bold">Dienstruil</h1>
+        </div>
+
+        <form asp-action="Create" method="get" class="inline">
+            <default-button button-text="Nieuwe" button-type="primary"></default-button>
+        </form>
+    </div>
+
+    <div class="w-full mt-8">
+        <h2 class="text-2xl font-semibold mb-4">Inkomende dienstruil aanvragen</h2>
+        @if (Model.IncomingRequests.Any())
+        {
+            <div class="space-y-4">
+                @foreach (var request in Model.IncomingRequests)
+                {
+                    <div class="p-4 border rounded-lg shadow-sm flex justify-between items-center">
+                        <div>
+                            <p class="text-base">
+                                <strong>@request.RequesterName</strong> vraagt of jij zijn dienst van
+                                <strong>@request.Date</strong>
+                                <strong>@request.StartTime</strong> - <strong>@request.EndTime</strong>
+                                wilt overnemen in de afdeling <strong>@request.Department</strong>.
+                            </p>
+                        </div>
+                        <div class="flex space-x-4">
+                            <form asp-action="AcceptSwitchRequest" method="post">
+                                <input type="hidden" name="SendToEmployeeId" value="@request.SendToEmployeeId" />
+                                <input type="hidden" name="EmployeeId" value="@request.EmployeeId" />
+                                <input type="hidden" name="Date" value="@request.Date.ToString("yyyy-MM-dd")" />
+                                <input type="hidden" name="BranchId" value="@request.BranchId" />
+                                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+                                    Accepteren
+                                </button>
+                            </form>
+
+                            <form asp-action="DeclineSwitchRequest" method="post">
+                                <input type="hidden" name="SendToEmployeeId" value="@request.SendToEmployeeId" />
+                                <input type="hidden" name="EmployeeId" value="@request.EmployeeId" />
+                                <input type="hidden" name="BranchId" value="@request.BranchId" />
+                                <input type="hidden" name="Date" value="@request.Date" />
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                                    Weigeren
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-600">Geen inkomende aanvragen gevonden.</p>
+        }
+    </div>
+
+    <div class="w-full mt-8">
+        <h2 class="text-2xl font-semibold mb-4">Uitgaande dienstruil aanvragen</h2>
+        @if (Model.OutgoingRequests.Any())
+        {
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-300">
+                        <th class="text-left px-4 py-2">Aan</th>
+                        <th class="text-left px-4 py-2">Datum</th>
+                        <th class="text-left px-4 py-2">Tijd</th>
+                        <th class="text-left px-4 py-2">Afdeling</th>
+                        <th class="text-left px-4 py-2">Status</th>
+                        <th class="text-left px-4 py-2">Actie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model.OutgoingRequests)
+                    {
+                        <tr class="hover:bg-gray-50 border-b border-gray-200">
+                            <td class="px-4 py-2">@request.ReceiverName</td>
+                            <td class="px-4 py-2">@request.Date:dd-MM-yyyy</td>
+                            <td class="px-4 py-2">@request.StartTime - @request.EndTime</td>
+                            <td class="px-4 py-2">@request.Department</td>
+                            <td class="px-4 py-2">@request.Status</td>
+                            <td class="px-4 py-2">
+                                @if (request.Status == "In afwachting")
+                                {
+                                    <form method="get" action="/ShiftSwap/Update">
+                                        <input type="hidden" name="sendToEmployeeId" value="@request.SendToEmployeeId" />
+                                        <input type="hidden" name="employeeId" value="@request.EmployeeId" />
+                                        <input type="hidden" name="branchId" value="@request.BranchId" />
+                                        <input type="hidden" name="date" value="@request.Date.ToString("yyyy-MM-dd")" />
+                                        <button type="submit" class="text-blue-500 hover:underline">Bewerken</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-gray-600">Geen uitgaande aanvragen gevonden.</p>
+        }
+    </div>
+</div>

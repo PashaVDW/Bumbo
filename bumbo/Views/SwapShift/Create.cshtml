@@ -1,0 +1,34 @@
+﻿@model bumbo.ViewModels.CreateSwapShiftViewModel
+
+<div class="p-4">
+    <h1 class="text-2xl font-bold mb-4">Beschikbare Diensten</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @foreach (var schedule in Model.Schedules)
+        {
+            <div class="bg-white shadow-md rounded-lg p-4">
+                <div class="mb-2">
+                    <p class="text-sm text-gray-500">Datum</p>
+                    <p class="text-lg font-semibold">@schedule.Date</p>
+                </div>
+                <div class="mb-2">
+                    <p class="text-sm text-gray-500">Tijd</p>
+                    <p class="text-lg font-semibold">@schedule.StartTime - @schedule.EndTime</p>
+                </div>
+                <div class="mb-2">
+                    <p class="text-sm text-gray-500">Afdeling</p>
+                    <p class="text-lg font-semibold">@schedule.DepartmentName</p>
+                </div>
+                <form method="post" action="/ShiftSwap/ChooseEmployee">
+                    <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
+                    <input type="hidden" name="branchId" value="@Model.BranchId" />
+                    <input type="hidden" name="date" value="@schedule.Date.ToDateTime(TimeOnly.MinValue)" />
+                    <button type="submit" class="w-full bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
+                        Selecteren
+                    </button>
+                </form>
+
+            </div>
+        }
+    </div>
+</div>

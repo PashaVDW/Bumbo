@@ -1,6 +1,4 @@
-﻿
-
-namespace bumbo.ViewModels
+﻿namespace bumbo.ViewModels
 {
     public class WeekOverviewViewModel
     {

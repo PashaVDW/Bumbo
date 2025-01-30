@@ -1,4 +1,6 @@
 ﻿using bumbo.Models;
+using DataLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Interfaces
 {
@@ -9,5 +11,10 @@ namespace DataLayer.Interfaces
         Employee GetEmployeeById(string employeeId);
         void UpdateEmployee(Employee employee);
         void DeleteEmployee(string employeeId);
+        List<Employee> GetAvailableEmployees(DateOnly date, TimeOnly startTime, TimeOnly endTime, int branchId, string departmentName);
+        Task<List<Employee>> GetEmployeesOfBranch(int? branchId);
+        LabourRules GetLabourRulesForEmployee(Employee employee);
+        Employee GetEmployeeByBID(string bid);
+        void AddNormalizedEmail(string email, string employeeId);
     }
 }

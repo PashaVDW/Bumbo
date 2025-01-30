@@ -1,0 +1,81 @@
+﻿@model bumbo.ViewModels.AddSchoolScheduleViewModel
+
+<div class="max-w-4xl mx-auto mt-10 p-6 rounded relative bg-white">
+    <div class="mb-6 flex justify-between items-center">
+        <h1 class="text-2xl font-semibold">Schoolrooster toevoegen</h1>
+    </div>
+
+    <form asp-action="AddSchoolSchedule" method="post" class="space-y-6">
+        <div asp-validation-summary="All" class="text-red-600 text-sm mb-4"></div>
+        <div class="flex flex-col space-y-4">
+            <div class="flex space-x-8">
+                <div>
+                    <label for="StartWeek" class="font-medium text-sm">Begin week / jaar</label>
+                    <div class="flex space-x-2">
+                        <input type="number" asp-for="StartWeek" max="53" class="border rounded px-2 py-1 w-12" />
+                        <input type="number" asp-for="StartYear" class="border rounded px-2 py-1 w-20" />
+                    </div>
+                </div>
+                <div>
+                    <label for="EndWeek" class="font-medium text-sm">Eind week / jaar</label>
+                    <div class="flex space-x-2">
+                        <input type="number" asp-for="EndWeek" max="53" class="border rounded px-2 py-1 w-12" />
+                        <input type="number" asp-for="EndYear" class="border rounded px-2 py-1 w-20" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table-auto w-full border-collapse mt-4">
+            <tbody>
+                @for (int i = 0; i < Model.Days.Count; i++)
+                {
+                    <tr class="hover:bg-gray-50
+                    @(i == 0 ? "" : "border-t")
+                    @(i == Model.Days.Count - 1 ? "" : "border-b")
+                    border-gray-300">
+                        <td class="px-4 py-2">@Model.Days[i].DayName</td>
+                        <input type="hidden" asp-for="Days[i].DayNumber" value="@Model.Days[i].DayNumber" />
+                        <input type="hidden" asp-for="Days[i].DayName" value="@Model.Days[i].DayName" />
+
+                        <td class="px-4 py-2">
+                            <div class="flex justify-end items-center space-x-4">
+                                <div class="flex flex-col items-begin">
+                                    <label for="Days[i].StartTime" class="text-xs font-medium text-gray-600 mb-1">Start</label>
+                                    <input type="time" asp-for="Days[i].StartTime" id="start-@i" class="w-24 border border-gray-300 rounded-md px-1 py-1 text-sm" />
+                                </div>
+
+                                <div class="flex flex-col items-begin">
+                                    <label for="Days[i].EndTime" class="text-xs font-medium text-gray-600 mb-1">Eind</label>
+                                    <input type="time" asp-for="Days[i].EndTime" id="end-@i" class="w-24 border border-gray-300 rounded-md px-1 py-1 text-sm" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Opslaan knop -->
+        <div class="flex justify-end mt-6">
+            <default-button button-text="Opslaan" button-type="primary" typeof="submit"></default-button>
+        </div>
+    </form>
+</div>
+
+
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}
+

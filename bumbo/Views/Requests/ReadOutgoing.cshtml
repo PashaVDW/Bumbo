@@ -1,0 +1,52 @@
+﻿@using bumbo.ViewModels
+
+@model RequestsReadViewModel
+
+<div class="mx-24 mt-12 mx-auto max-w-2xl">
+
+    <custom-modal modal-id="delete-request" body-text="Weet je zeker dat je deze aanvraag wilt verwijderen?">
+        <default-button button-text="Verwijderen" button-type="delete" on-click="window.location.href='/Requests/RemoveRequest?id=@Model.Request.Id'"></default-button>
+        <default-button button-text="Afbreken" button-type="secondary" on-click="document.getElementById('delete-request').classList.add('hidden')"></default-button>
+    </custom-modal>
+
+    <div class="mb-12 flex">
+        <a href="/verzoeken" class="mr-6">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+        <h1 class="text-3xl font-semibold">Uitgaande hulpverzoek bekijken</h1>
+    </div>
+    <div class="mx-12">
+        <div class="mb-6">
+            <p class="font-semibold">Naam aanvrager</p>
+            <p>@Model.Employee.FirstName @Model.Employee.MiddleName @Model.Employee.LastName</p>
+        </div class="mb-6">
+        <div class="mb-6">
+            <p class="font-semibold">Omschrijving</p>
+            <p>@Model.Request.Message</p>
+        </div>
+        <div class="mb-6">
+            <p class="font-semibold">Datum nodige</p>
+            <p>@Model.Request.DateNeeded.Day-@Model.Request.DateNeeded.Month-@Model.Request.DateNeeded.Year</p>
+        </div>
+        <div class="mb-6">
+            <p class="font-semibold">Tijd nodige</p>
+            <p>@Model.Request.StartTime - @Model.Request.EndTime</p>
+        </div>
+        <div class="mb-6">
+            <p class="font-semibold">Status</p>
+            <p>@Model.Request.RequestStatusName</p>
+        </div>
+    </div>
+
+    <div class="mt-6 mx-12">
+        <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('delete-request').classList.remove('hidden')" style="margin-right: 10px"></default-button>
+        <a class="primary_bg_color text-white py-3 px-7 rounded-xl font-semibold hover:bg-yellow-400"
+            asp-action="Update"  asp-route-requestId="@Model.Request.Id">Wijzig</a>
+    </div>
+
+    <!-- Extra -->
+    <div class="h-20"></div>
+
+</div>

@@ -1,0 +1,117 @@
+﻿@model ScheduleManagerEditViewModel
+
+@{
+    ViewData["Title"] = "EditDay";
+}
+
+
+<div class="mt-10 p-6 relative mx-auto max-w-2xl rounded">
+    <custom-modal modal-id="removeEmployeeFromDay" body-text="Weet je zeker dat je de medewerker van deze dag wil halen?">
+        <default-button id="removeEmployee" button-text="Verwijder" button-type="delete" onclick=""></default-button>
+        <default-button button-text="Annuleren" button-type="secondary" on-click="document.getElementById('removeEmployeeFromDay').classList.add('hidden')"></default-button>
+    </custom-modal>
+
+    <div class="flex justify-between">
+        <div class="mb-6 flex">
+            <a href="/roosterManager" style="margin-right: 25px">
+                <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+            <h1 class="text-3xl font-semibold">@Model.titleDate</h1>
+        </div>
+        <div>
+            <default-button button-text="Opslaan" button-type="primary" on-click="document.getElementById('editDayForm').submit();"></default-button>
+        </div>
+    </div>
+
+    <form asp-action="EditDay" method="post" id="editDayForm">
+        <input type="hidden" asp-for="Date" />
+        <input type="hidden" asp-for="titleDate" />
+
+        @for (var departmentIndex = 0; departmentIndex < Model.Departments.Count; departmentIndex++)
+        {
+            var department = Model.Departments[departmentIndex];
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold">@department.DepartmentName</h2>
+                <div class="mb-4 flex items-center justify-between">
+                    <div>
+                        <span class="mr-4 font-bold">Benodigde uren: @department.HoursNeeded</span>
+                        <span class="font-bold">Ingeplande uren: @department.TotalHours</span>
+                    </div>
+                </div>
+                @if (Model.Departments[departmentIndex].Employees.Count > 0)
+                {
+                    @for (var employeeIndex = 0; employeeIndex < department.Employees.Count; employeeIndex++)
+                    {
+                        var employee = department.Employees[employeeIndex];
+                        <input type="hidden" name="Departments[@departmentIndex].DepartmentName" value="@department.DepartmentName" />
+                        <input type="hidden" name="Departments[@departmentIndex].Employees[@employeeIndex].EmployeeId" value="@employee.EmployeeId" />
+                        <input type="hidden" name="Departments[@departmentIndex].Employees[@employeeIndex].EmployeeName" value="@employee.EmployeeName" />
+
+                        <div class="gap-4 mb-2 p-5 border-gray-400 grid grid-cols-10 items-center rounded border">
+                            <span class="mr-4 col-span-2">@employee.EmployeeName</span>
+
+                            <select asp-for="Departments[@departmentIndex].Employees[@employeeIndex].DepartmentName"
+                                    asp-items="@(new SelectList(Model.Departments, "DepartmentName", "DepartmentName", employee.DepartmentName))"
+                                    class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 col-span-3 rounded border leading-tight">
+                            </select>
+
+                            <input type="time"
+                                   asp-for="Departments[@departmentIndex].Employees[@employeeIndex].StartTime"
+                                   class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 col-span-2 appearance-none rounded border leading-tight" />
+
+                            <input type="time"
+                                   asp-for="Departments[@departmentIndex].Employees[@employeeIndex].EndTime"
+                                   class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 col-span-2 appearance-none rounded border leading-tight" />
+
+                            <a class="text-red-500 justify-self-end" title="Delete" href="javascript:void(0);" onclick="
+                                document.getElementById('removeEmployeeFromDay').classList.remove('hidden');
+                                document.getElementById('removeEmployee').onclick = function() {
+                                    window.location.href = '@Url.Action("RemoveEmployeeFromDay", "ScheduleManager", new { specificDate = Model.Date, EmployeeId = employee.EmployeeId})';
+                                };
+                                    ">
+                                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </a>
+                        </div>
+                        @if (employee.ValidationErrors.Any())
+                        {
+                            <ul class="text-sm text-red-600">
+                                @foreach (var error in employee.ValidationErrors)
+                                {
+                                    <li>@error</li>
+                                }
+                            </ul>
+                        }
+                    }
+                }
+                else
+                {
+                    <input type="hidden" name="Departments[@departmentIndex].DepartmentName" value="@Model.Departments[departmentIndex].DepartmentName" />
+                }
+                <a class="border-gray-400 p-4 mt-4 flex w-full items-center justify-center rounded border border-dashed" href="@Url.Action("ChooseEmployee", "ScheduleManager", new { dateString = Model.Date, searchTerm = department.DepartmentName })">
+                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    <span class="ml-2">Medewerker toevoegen</span>
+                </a>
+            </div>
+        }
+    </form>
+</div>
+@{
+    if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+    {
+        <toast-message toast-id="@TempData["ToastId"]"
+                       message="@TempData["ToastMessage"]"
+                       message-type="@TempData["ToastType"]">
+        </toast-message>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showToast('@TempData["ToastId"]', '@TempData["AutoHide"]', @TempData["MilSecHide"]);
+            });
+        </script>
+    }
+}

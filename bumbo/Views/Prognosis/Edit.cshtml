@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+@model bumbo.ViewModels.PrognosisViewModel
+﻿
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="px-2 mx-auto flex max-w-4xl flex-col items-center">
+    <div class="mb-6 flex">
+        <a href="/prognoses" style="margin-right: 25px">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+        <h1 class="text-3xl font-semibold">Prognose aanpassen</h1>
+    </div>
+
+    <div class="mt-4 mx-auto max-w-screen-lg">
+        <div class="space-x-4 flex items-center">
+            <div class="flex flex-grow flex-col">
+                <label class="text-gray-700 block text-sm font-medium">Week</label>
+                <input type="text" dis value="@Model.WeekNr" class="mt-1 p-2 border-gray-300 w-full rounded border" disabled />
+            </div>
+            <div class="flex flex-grow flex-col">
+                <label class="text-gray-700 block text-sm font-medium">Jaar</label>
+                <input type="text" value="@Model.Year" class="mt-1 p-2 border-gray-300 w-full rounded border" disabled />
+            </div>
+        </div>
+
+    </div>
+    @{
+        if (TempData["ToastMessage"] != null && TempData["ToastType"] != null)
+        {
+            <toast-message toast-id="@TempData["ToastId"]"
+                           message="@TempData["ToastMessage"]"
+                           message-type="@TempData["ToastType"]">
+            </toast-message>
+        }
+    }
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full table-auto border-collapse">
+            <thead>
+                <tr class="border-b">
+                    <th class="p-4 text-left"></th>
+                    @foreach (var day in Model.Days)
+                    {
+                        <th class="p-4 text-center">
+                            <div class="font-bold">@day.Date.ToString("dd MMM")</div>
+                            <div>@day.DayName</div>
+                            <div>Uren: @day.TotalHoursWorkNeeded</div>
+                            <div>Medewerkers: @day.TotalWorkersNeeded</div>
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <form method="post" asp-action="Update" asp-controller="Prognosis">
+                    <input type="hidden" asp-for="@Model.PrognosisId" />
+                    <input type="hidden" asp-for="@Model.currentWeek" />
+                    <input type="hidden" asp-for="@Model.currentYear" />
+                    <input type="hidden" asp-for="@Model.Year" />
+                    <input type="hidden" asp-for="@Model.WeekNr" />
+
+                    @for (int i = 0; i < Model.Days.First().DepartmentList.Select(d => d.DepartmentName).Distinct().Count(); i++)
+                    {
+                        var departmentName = Model.Days.First().DepartmentList.Select(d => d.DepartmentName).Distinct().ElementAt(i);
+
+                    <tr class="border-b">
+                        <td class="p-4 font-medium text-left">@departmentName</td>
+
+                            @for (int j = 0; j < Model.Days.Count; j++)
+                            {
+                                var day = Model.Days[j];
+                                var deptData = day.DepartmentList.FirstOrDefault(d => d.DepartmentName == departmentName);
+
+                            <td class="p-4 text-center">
+                                <div class="flex flex-col md:flex-row md:space-x-2 space-y-1 md:space-y-0">
+                                    <!-- Hidden inputs voor dag- en afdelinggegevens -->
+                                    <input type="hidden" asp-for="Days[@j].Date" />
+                                    <input type="hidden" asp-for="Days[@j].DayName" />
+                                    <input type="hidden" asp-for="Days[@j].DepartmentList[@i].DepartmentName" />
+                                    <input type="hidden" asp-for="Days[@j].DepartmentList[@i].DaysName" />
+                                    <input type="hidden" asp-for="Days[@j].DepartmentList[@i].PrognosisId" value="@Model.PrognosisId" />
+
+                                    <!-- Bewerkbare inputvelden -->
+                                    <input type="number" min="1" max="2000" asp-for="Days[@j].DepartmentList[@i].HoursOfWorkNeeded" class="w-20 h-12 text-center border rounded-lg" />
+                                    <input type="number" min="1" max="500" asp-for="Days[@j].DepartmentList[@i].AmountOfWorkersNeeded" class="w-20 h-12 text-center border rounded-lg" />
+                                </div>
+                            </td>
+                            }
+                    </tr>
+                    }
+                <tr>
+                    <td colspan="@Model.Days.Count" class="text-center p-4">
+                        <default-button button-text="Updaten" button-type="primary submit"></default-button>
+                    </td>
+                </tr>
+                </form>
+            </tbody>
+        </table>
+    </div>
+</div>

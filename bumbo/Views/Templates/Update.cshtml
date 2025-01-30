@@ -2,82 +2,49 @@
     ViewData["Title"] = "Update";
 }
 
-<div class="p-8 container mx-auto max-w-6xl">
-    <div class="p-8">
-        <!-- Main section title -->
-        <div class="mb-6 flex items-center">
-            <default-button button-text="Terug" button-type="secondary" on-click="window.location.href='../standaard-templates'"></default-button>
-            <h1 class="text-3xl font-semibold">Standaard template bewerken</h1>
-        </div>
-        <div>
-            <form>
-                <div class="mb-10">
-                    <label for="Naam">Naam:</label><br />
-                    <input type="text" id="Naam" name="Naam" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
-                </div>
-                <div class="py-2 border-b">
-                    <div class="gap-4 grid grid-cols-3">
-                        <label><b>Dag</b></label>
-                        <label>Aantal verwachte klanten</label>
-                        <label>Aantal verwachte coli</label>
-                    </div>
-                </div>
-                <div class="py-2 border-b">
-                    <div class="gap-4 grid grid-cols-3">
-                        <label><b>Ma</b></label>
-                        <input type="number" id="Monday_Customers" name="Monday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" id="Monday_Containers" name="Monday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                    </div>
-                </div>
-                <div class="py-2 border-b">
-                    <div class="gap-4 grid grid-cols-3">
-                        <label><b>Di</b></label>
-                        <input type="number" id="Teusday_Customers" name="Tuesday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" id="Teusday_Containers" name="Tuesday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                    </div>
-                </div>
-                <div class="py-2 border-b">
-                    <div class="gap-4 grid grid-cols-3">
-                        <label><b>Wo</b></label>
-                        <input type="number" id="Wednesday_Customers" name="Wednesday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" id="Wednesday_Containers" name="Wednesday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                    </div>
-                </div>
-                <div class="py-2 border-b">
-                    <div class="gap-4 grid grid-cols-3">
-                        <label><b>Do</b></label>
-                        <input type="number" id="Thursday_Customers" name="Thursday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" id="Thursday_Containers" name="Thursday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                    </div>
-                </div>
-                <div class="py-2 border-b">
-                    <div class="gap-4 grid grid-cols-3">
-                        <label><b>Vr</b></label>
-                        <input type="number" id="Friday_Customers" name="Friday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" id="Friday_Containers" name="Friday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                    </div>
-                </div>
-                <div class="py-2 border-b">
-                    <div class="gap-4 grid grid-cols-3">
-                        <label><b>Za</b></label>
-                        <input type="number" id="Saturday_Customers" name="Saturday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" id="Saturday_Containers" name="Saturday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                    </div>
-                </div>
-                <div class="py-2 border-b">
-                    <div class="gap-4 grid grid-cols-3">
-                        <label><b>Zo</b></label>
-                        <input type="number" id="Sunday_Customers" name="Sunday_Customers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" id="Sunday_Containers" name="Sunday_Containers" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                    </div>
-                </div>
+<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
 
-                <div class="mt-5">
-                    <default-button button-text="Delete" button-type="secondary"></default-button>
-                    <default-button button-text="Update" button-type="primary"></default-button>
+    <custom-modal modal-id="delete-template" body-text="Weet je zeker dat je deze template wilt verwijderen?">
+        <default-button button-text="Verwijderen" button-type="delete" on-click="window.location.href='/Templates/Delete?templateId=@ViewBag.Template.TemplateId'"></default-button>
+        <default-button button-text="Afbreken" button-type="secondary" on-click="document.getElementById('delete-template').classList.add('hidden')"></default-button>
+    </custom-modal>
+
+    <div class="mb-6 flex">
+        <a href="/standaard-templates" style="margin-right: 25px">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+        <h1 class="text-3xl font-semibold">Standaard template bewerken</h1>
+    </div>
+    <div>
+        <form asp-action="Update" method="post" id="updateForm">
+            <input type="hidden" name="templateId" value="@ViewBag.Template.TemplateId" />
+            <div class="mb-10">
+                <label for="Name">Naam:</label><br />
+                <input type="text" id="Name" name="Name" value="@ViewBag.Template.Name" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
+            </div>
+            <div class="py-2 border-b">
+                <div class="gap-4 grid grid-cols-3">
+                    <label><b>Dag</b></label>
+                    <label>Aantal verwachte klanten</label>
+                    <label>Aantal verwachte coli</label>
                 </div>
-            </form>
+            </div>
+            @foreach (TemplateHasDaysViewModel day in ViewBag.Template.HasDays)
+            {
+                <div class="py-2 border-b">
+                    <div class="gap-4 grid grid-cols-3">
+                        <label><b>@day.DayName</b></label>
+                        <input type="number" min="1" max="50000" name="customerData[@day.DayName]" value="@day.CustomerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" min="1" max="1000" name="containerData[@day.DayName]" value="@day.ContainerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                    </div>
+                </div>
+            }
+        </form>
+        <div class="mt-6 flex justify-end">
+            <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('delete-template').classList.remove('hidden')" style="margin-right: 10px"></default-button>
+            <default-button button-text="Updaten" button-type="primary" on-click="document.getElementById('updateForm').submit();"></default-button>
         </div>
     </div>
 </div>
-

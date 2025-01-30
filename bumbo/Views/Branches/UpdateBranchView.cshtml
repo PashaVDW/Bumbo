@@ -4,56 +4,82 @@
 
 @model Branch
 
-<div class="ml-60 mt-12">
-    <div>
-        <h1 class="text-4xl"><strong><a href="javascript:history.back()">< </a>Filiaal bewerken</strong></h1>
-    </div> 
+<div class="mt-10 p-6 relative mx-auto max-w-2xl rounded">
+    <div class="mb-6 flex">
+        <a asp-area="" asp-controller="Branches" asp-action="ReadBranchView" asp-route-branchId="@Model.BranchId" style="margin-right: 25px">
+            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+        <h1 class="text-3xl font-semibold">Filiaal bewerken</h1>
+    </div>
 
-    <form asp-action="UpdateBranch" method="post">
+    <form asp-action="UpdateBranch" method="post" id="update-branch">
 
         <input type="hidden" asp-for="BranchId" />
 
-        <div class="mt-6 mb-6 ml-6 flex">
-            <div class="mr-5 w-96 flex flex-col">
+        <div class="mt-6 mb-6 flex">
+            <div class="flex w-full flex-col">
                 <label asp-for="Name">Naam</label>
-                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="Name" />
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="Name" required />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
-        <div class="mt-6 mb-6 ml-6 flex">
-            
-            <div class="mr-5 w-60 flex flex-col">
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 flex w-full flex-col">
                 <label asp-for="Street">Straatnaam</label>
-                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="Street" />
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="Street" required
+                       pattern="[a-zA-ZÀ-ž0-9\s\-\.'']+" title="Straatnaam mag alleen letters en cijfers bevatten." />
                 <span asp-validation-for="Street" class="text-danger"></span>
             </div>
-            <div class="mr-5 w-32 flex flex-col">
+            <div class="w-25 flex flex-col">
                 <label asp-for="HouseNumber">Huisnummer</label>
-                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="HouseNumber" />
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="HouseNumber" required
+                       pattern="^\d+\s*([a-zA-Z]?)$" title="Voer een geldig huisnummer in zoals 17 of 17b" />
                 <span asp-validation-for="HouseNumber" class="text-danger"></span>
             </div>
         </div>
-        <div class="mt-6 mb-6 ml-6 flex">
-            <div class="mr-5 w-32 flex flex-col">
-                <label asp-for="PostalCode">Postcode</label>
-                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="PostalCode" />
-                <span asp-validation-for="PostalCode" class="text-danger"></span>
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 flex w-1/2 flex-col">
+                <label asp-for="OpeningTime">Openingstijd</label>
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="OpeningTime" required
+                       title="Openingstijd moet een tijd zijn." type="time" />
+                <span asp-validation-for="OpeningTime" class="text-danger"></span>
             </div>
-            <div class="mr-5 w-60 flex flex-col">
-                <label asp-for="CountryName">Land</label>
-                <input class="bg-light text-sm-start p-2 rounded border-2 border-solid" asp-for="CountryName" />
-                <span asp-validation-for="CountryName" class="text-danger"></span>
+            <div class="flex w-1/2 flex-col">
+                <label asp-for="ClosingTime">Sluitingstijd</label>
+                <input class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="ClosingTime" required
+                       title="Sluitingstijd moet een tijd zijn" type="time" />
+                <span asp-validation-for="ClosingTime" class="text-danger"></span>
             </div>
         </div>
-        <div class="ml-72 mt-4">
-            <default-button  button-text="Bewerken" button-type="primary"></default-button>
+        <div class="mt-6 mb-6 flex">
+            <div class="mr-5 w-32 flex flex-col">
+                <label asp-for="PostalCode">Postcode</label>
+                <input placeholder="1234AB" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" asp-for="PostalCode" required />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+            <div class="flex w-full flex-col">
+                <label asp-for="CountryName">Land</label>
+                <select asp-for="CountryName" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full rounded border leading-tight">
+                    <option value='Netherlands'>Nederland</option>
+                    <option value='Belgium'>België</option>
+                    <option value='Germany'>Duitsland</option>
+                </select>
+            </div>
+        </div>
+        <div class="flex justify-end">
+            <default-button button-text="Bewerken" button-type="primary"></default-button>
         </div>
     </form>
 
-    <div class="w-32 ml-36 mt-4 bottom-14 relative">
-        <form asp-action="DeleteBranch" asp-controller="Branches" method="post">
-            <input type="hidden" name="branchId" value="@Model.BranchId" />
-            <default-button button-text="Verwijderen" button-type="secondary"></default-button>
-        </form>        
+    <div class="mr-32 mt-4 bottom-14 relative flex justify-end">
+        <input type="hidden" name="branchId" value="@Model.BranchId" />
+        <default-button button-text="Verwijderen" button-type="delete" on-click="document.getElementById('delete-branch').classList.remove('hidden')" style="margin-right: 10px"></default-button>
     </div>
+
+    <custom-modal modal-id="delete-branch" body-text="Weet je zeker dat je dit filiaal wilt verwijderen?">
+        <default-button button-text="Delete" button-type="delete" on-click="window.location.href='/Branches/DeleteBranch?branchId=@Model.BranchId'"></default-button>
+        <default-button button-text="Cancel" button-type="secondary" on-click="document.getElementById('delete-branch').classList.add('hidden')"></default-button>
+    </custom-modal>
 </div>
