@@ -3,10 +3,8 @@ using DataLayer.Interfaces;
 using System.Globalization;
 using DataLayer.Models;
 using bumbo.ViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using bumbo.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace bumbo.Controllers
 {
@@ -64,6 +62,11 @@ namespace bumbo.Controllers
             weekView.Year = (int)yearNumber;
             weekView.Month = startDate.ToString("MMMM", new CultureInfo("nl-NL"));
             weekView.Week = (int)weekNumber;
+
+            if (availabilities.Count > 0)
+            {
+                weekView.Edit = true;
+            }
 
             for (int i = 0; i < 7; i++)
             {
@@ -135,6 +138,58 @@ namespace bumbo.Controllers
                     DayName = currentDate.ToString("dddd", new CultureInfo("nl-NL")),
                     Date = currentDate,
                     DayNumber = i
+                });
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int weekNumber, int yearNumber)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            string employeeId = currentUser.Id;
+
+            List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(employeeId);
+
+            BranchHasEmployee branchHasEmployee = branches.FirstOrDefault();
+
+            Branch branch = _branchesRepository.GetBranch(branchHasEmployee.BranchId);
+
+            DateTime startDate = FirstDateOfWeek(yearNumber, weekNumber);
+            DateTime endDate = LastDateOfWeek(yearNumber, weekNumber);
+
+            var model = new AvailabilityInputViewModel
+            {
+                StartWeek = weekNumber,
+                StartYear = yearNumber,
+                EndWeek = weekNumber,
+                EndYear = yearNumber,
+                OpeningTime = branch.OpeningTime,
+                ClosingTime = branch.ClosingTime
+            };
+
+            List<Availability> availabilities = _availabilityRepository.GetAvailabilitiesBetweenDates(startDate, endDate, employeeId);
+
+            for (int i = 0; i < 7; i++)
+            {
+                DateTime currentDate = startDate.AddDays(i);
+
+                var availability = availabilities.FirstOrDefault(a => a.Date == DateOnly.FromDateTime(currentDate));
+
+                model.Days.Add(new AvailabilityDayInputViewModel
+                {
+                    DayName = currentDate.ToString("dddd", new CultureInfo("nl-NL")),
+                    Date = currentDate,
+                    DayNumber = i,
+                    StartTime = availability != null ? availability.StartTime : null,
+                    EndTime = availability != null ? availability.EndTime : null
                 });
             }
 
@@ -242,8 +297,6 @@ namespace bumbo.Controllers
                 return View(model);
             }
         }
-
-
 
         public static DateTime LastDateOfWeek(int year, int weekOfYear)
         {

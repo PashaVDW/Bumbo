@@ -9,6 +9,7 @@ namespace bumbo.ViewModels
         public int Year { get; set; }
         public string Month { get; set; }
         public int Week { get; set; }
+        public bool Edit { get; set; } = false;
     }
 
     public class AvailabilityDayOverview
