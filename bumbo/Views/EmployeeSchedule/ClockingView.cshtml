@@ -61,11 +61,13 @@
                                     <p class="text-xs">Begintijd:</p>
                                     <p id="current-time" class="font-semibold"></p>
                                 </div>
-                                <form method="post" asp-action="ClockIn">
-                                    <input type="hidden" name="month" value="@Model.Month" />
-                                    <input type="hidden" name="year" value="@Model.Year" />
-                                    <default-button button-type="primary" button-text="Inklokken"></default-button>
-                                </form>
+                                @if(!Model.HasClocked){      
+                                    <form method="post" asp-action="ClockIn">
+                                        <input type="hidden" name="month" value="@Model.Month" />
+                                        <input type="hidden" name="year" value="@Model.Year" />
+                                        <default-button button-type="primary" button-text="Inklokken"></default-button>
+                                    </form>
+                                }
                             </div>
                         </div>
                     </div>

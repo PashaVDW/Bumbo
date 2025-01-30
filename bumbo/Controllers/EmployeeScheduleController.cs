@@ -126,7 +126,6 @@ namespace bumbo.Controllers
                 });
             }
 
-
             DateTime date;
             
             if (year <= 0 || month <= 0)
@@ -162,6 +161,8 @@ namespace bumbo.Controllers
 
                 ClockedHours = clockedHours,
             };
+
+            viewModel.HasClocked = _registeredHoursRepository.HasCompleteClockedHours(date, employeeId);
 
             return View(viewModel);
         }
