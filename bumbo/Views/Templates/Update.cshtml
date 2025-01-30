@@ -2,7 +2,7 @@
     ViewData["Title"] = "Update";
 }
 
-<div class="mt-10 p-6 relative mx-auto max-w-2xl rounded">
+<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
 
     <custom-modal modal-id="delete-template" body-text="Weet je zeker dat je deze template wilt verwijderen?">
         <default-button button-text="Verwijderen" button-type="delete" on-click="window.location.href='/Templates/Delete?templateId=@ViewBag.Template.TemplateId'"></default-button>
@@ -22,8 +22,7 @@
             <input type="hidden" name="templateId" value="@ViewBag.Template.TemplateId" />
             <div class="mb-10">
                 <label for="Name">Naam:</label><br />
-                <input type="text" id="Name" name="Name" value="@ViewBag.Template.Name" required maxlength="64"
-                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
+                <input type="text" id="Name" name="Name" value="@ViewBag.Template.Name" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
             </div>
             <div class="py-2 border-b">
                 <div class="gap-4 grid grid-cols-3">
@@ -38,7 +37,7 @@
                     <div class="gap-4 grid grid-cols-3">
                         <label><b>@day.DayName</b></label>
                         <input type="number" min="1" max="50000" name="customerData[@day.DayName]" value="@day.CustomerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" min="0" max="1000" name="containerData[@day.DayName]" value="@day.ContainerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" min="1" max="1000" name="containerData[@day.DayName]" value="@day.ContainerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                     </div>
                 </div>
             }

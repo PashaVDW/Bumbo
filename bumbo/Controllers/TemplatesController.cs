@@ -114,11 +114,11 @@ namespace bumbo.Controllers
 
             bool isSuccess = true;
             bool isNameEmpty = string.IsNullOrEmpty(name);
-            bool nameHasToManyCharacters = name.Length > 64;
             bool isTemplateDuplicate = false;
             bool hasCustomerErrors = false;
+            bool hasContainerErrors = false;
 
-            if (isNameEmpty || nameHasToManyCharacters)
+            if (isNameEmpty)
             {
                 isSuccess = false;
             }
@@ -141,6 +141,15 @@ namespace bumbo.Controllers
                 }
             }
 
+            foreach (var kvp in containerData)
+            {
+                if (kvp.Value <= 0)
+                {
+                    isSuccess = false;
+                    hasContainerErrors = true;
+                }
+            }
+
             if (!isSuccess)
             {
                 var errorMessages = new List<string>();
@@ -150,19 +159,26 @@ namespace bumbo.Controllers
                     errorMessages.Add("Voer een geldige naam in voor de template.");
                 }
 
-                if (nameHasToManyCharacters)
-                {
-                    errorMessages.Add("Naam mag niet langer zijn dan 64 karakters.");
-                }
-
                 if (isTemplateDuplicate)
                 {
                     errorMessages.Add("Een template met deze naam bestaat al.");
                 }
 
-                if (hasCustomerErrors)
+                if (hasCustomerErrors && hasContainerErrors)
                 {
-                    errorMessages.Add("Aantal klanten moeten voor alle dagen groter zijn dan nul.");
+                    errorMessages.Add("Alle klant en coli gegevens moeten meer dan nul zijn.");
+                }
+                else
+                {
+                    if (hasCustomerErrors)
+                    {
+                        errorMessages.Add("Aantal klanten moeten voor alle dagen groter zijn dan nul.");
+                    }
+
+                    if (hasContainerErrors)
+                    {
+                        errorMessages.Add("Aantal coli moet voor alle dagen groter zijn dan nul.");
+                    }
                 }
 
                 TempData["ToastMessage"] = string.Join(" ", errorMessages);
@@ -273,6 +289,7 @@ namespace bumbo.Controllers
             bool isNameEmpty = string.IsNullOrEmpty(name);
             bool isTemplateDuplicate = false;
             bool hasCustomerErrors = false;
+            bool hasContainerErrors = false;
 
             if (isNameEmpty)
             {
@@ -297,6 +314,15 @@ namespace bumbo.Controllers
                 }
             }
 
+            foreach (var kvp in containerData)
+            {
+                if (kvp.Value <= 0)
+                {
+                    isSuccess = false;
+                    hasContainerErrors = true;
+                }
+            }
+
             if (!isSuccess)
             {
                 var errorMessages = new List<string>();
@@ -311,9 +337,21 @@ namespace bumbo.Controllers
                     errorMessages.Add("Een template met deze naam bestaat al.");
                 }
 
-                if (hasCustomerErrors)
+                if (hasCustomerErrors && hasContainerErrors)
                 {
-                    errorMessages.Add("Aantal klanten moeten voor alle dagen groter zijn dan nul.");
+                    errorMessages.Add("Alle klant en coli gegevens moeten meer dan nul zijn.");
+                }
+                else
+                {
+                    if (hasCustomerErrors)
+                    {
+                        errorMessages.Add("Aantal klanten moeten voor alle dagen groter zijn dan nul.");
+                    }
+
+                    if (hasContainerErrors)
+                    {
+                        errorMessages.Add("Aantal coli moet voor alle dagen groter zijn dan nul.");
+                    }
                 }
 
                 TempData["ToastMessage"] = string.Join(" ", errorMessages);
