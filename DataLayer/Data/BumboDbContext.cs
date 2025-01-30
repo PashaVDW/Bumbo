@@ -15,7 +15,7 @@ namespace bumbo.Data
         {
         }
 
-        
+
         public DbSet<Availability> Availability { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<BranchHasEmployee> BranchHasEmployees { get; set; }
@@ -1047,15 +1047,15 @@ namespace bumbo.Data
             modelBuilder.Entity<Employee>().HasData(john, jane, darlon, pasha, sarah, david, anthony, douwe);
 
             modelBuilder.Entity<EmployeeHasDepartment>().HasData(
-                
-                new EmployeeHasDepartment() 
-                { 
+
+                new EmployeeHasDepartment()
+                {
                     DepartmentName = "Vakkenvullen",
                     EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd"
                 },
                 new EmployeeHasDepartment()
                 {
-                    DepartmentName = "Kassa", 
+                    DepartmentName = "Kassa",
                     EmployeeId = "c4d4e5f6-78g9-0a12-d3e4-f5g6h7i8j9k0"
                 },
                 new EmployeeHasDepartment()
@@ -1472,7 +1472,7 @@ namespace bumbo.Data
                     DepartmentName = "Vers",
                     IsFinal = true,
                     IsSick = false
-                }, 
+                },
                 new Schedule
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
@@ -1483,7 +1483,7 @@ namespace bumbo.Data
                     DepartmentName = "Vers",
                     IsFinal = true,
                     IsSick = false
-                }, 
+                },
                 new Schedule
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
@@ -1494,7 +1494,7 @@ namespace bumbo.Data
                     DepartmentName = "Vers",
                     IsFinal = true,
                     IsSick = false
-                }, 
+                },
                 new Schedule
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane Smith
@@ -1663,119 +1663,119 @@ namespace bumbo.Data
 
 
 
-modelBuilder.Entity<Schedule>().HasData(
-    new Schedule
-    {
-        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 6), // Maandag
-        StartTime = new TimeOnly(9, 0),
-        EndTime = new TimeOnly(17, 0),
-        DepartmentName = "Vakkenvullen",
-        IsFinal = true,
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 7), // Dinsdag
-        StartTime = new TimeOnly(9, 0),
-        EndTime = new TimeOnly(17, 0),
-        DepartmentName = "Vakkenvullen",
-        IsFinal = true,
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 8), // Woensdag
-        StartTime = new TimeOnly(9, 0),
-        EndTime = new TimeOnly(17, 0),
-        DepartmentName = "Kassa",
-        IsFinal = true,
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 9), // Donderdag
-        StartTime = new TimeOnly(10, 0),
-        EndTime = new TimeOnly(16, 0),
-        DepartmentName = "Vakkenvullen",
-        IsFinal = true,
-        IsSick = true
-    },
-    new Schedule
-    {
-        EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 10), // Vrijdag
-        StartTime = new TimeOnly(9, 30),
-        EndTime = new TimeOnly(17, 30),
-        DepartmentName = "Kassa",
-        IsFinal = true,
-        IsSick = false
-    },
+            modelBuilder.Entity<Schedule>().HasData(
+                new Schedule
+                {
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 6), // Maandag
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 7), // Dinsdag
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 8), // Woensdag
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 9), // Donderdag
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(16, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = true
+                },
+                new Schedule
+                {
+                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", // Anthony
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 10), // Vrijdag
+                    StartTime = new TimeOnly(9, 30),
+                    EndTime = new TimeOnly(17, 30),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
 
-    new Schedule
-    {
-        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 13), // Maandag
-        StartTime = new TimeOnly(8, 0),
-        EndTime = new TimeOnly(14, 0),
-        DepartmentName = "Vers",
-        IsFinal = true,
-        IsSick = true
-    },
-    new Schedule
-    {
-        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 14), // Dinsdag
-        StartTime = new TimeOnly(8, 0),
-        EndTime = new TimeOnly(14, 0),
-        DepartmentName = "Vers",
-        IsFinal = true,
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 15), // Woensdag
-        StartTime = new TimeOnly(8, 30),
-        EndTime = new TimeOnly(15, 0),
-        DepartmentName = "Vakkenvullen",
-        IsFinal = true,
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 16), // Donderdag
-        StartTime = new TimeOnly(9, 0),
-        EndTime = new TimeOnly(17, 0),
-        DepartmentName = "Kassa",
-        IsFinal = true,
-        IsSick = false
-    },
-    new Schedule
-    {
-        EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
-        BranchId = 1,
-        Date = new DateOnly(2025, 1, 17), // Vrijdag
-        StartTime = new TimeOnly(10, 0),
-        EndTime = new TimeOnly(14, 0),
-        DepartmentName = "Vers",
-        IsFinal = true,
-        IsSick = false
-    }
-);
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 13), // Maandag
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = true
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 14), // Dinsdag
+                    StartTime = new TimeOnly(8, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 15), // Woensdag
+                    StartTime = new TimeOnly(8, 30),
+                    EndTime = new TimeOnly(15, 0),
+                    DepartmentName = "Vakkenvullen",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 16), // Donderdag
+                    StartTime = new TimeOnly(9, 0),
+                    EndTime = new TimeOnly(17, 0),
+                    DepartmentName = "Kassa",
+                    IsFinal = true,
+                    IsSick = false
+                },
+                new Schedule
+                {
+                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2", // Jane
+                    BranchId = 1,
+                    Date = new DateOnly(2025, 1, 17), // Vrijdag
+                    StartTime = new TimeOnly(10, 0),
+                    EndTime = new TimeOnly(14, 0),
+                    DepartmentName = "Vers",
+                    IsFinal = true,
+                    IsSick = false
+                }
+            );
 
 
             modelBuilder.Entity<RegisteredHours>().HasData(
@@ -1955,7 +1955,7 @@ modelBuilder.Entity<Schedule>().HasData(
                   NumHoursWorkedBeforeBreak = 4,
                   MinutesOfBreak = 30,
                   SickPayPercentage = 70m,
-                  OvertimePayPercentage = 150m,
+                  OvertimePayPercentage = 100m,
                   MinRestHoursBetweenShifts = 11,
                   MaxShiftDuration = 12,
                   MaxOvertimeHoursPerWeek = 20
@@ -2446,7 +2446,7 @@ modelBuilder.Entity<Schedule>().HasData(
             modelBuilder.Entity<PrognosisHasDaysHasDepartment>()
                 .HasOne(phdhd => phdhd.PrognosisHasDays)
                 .WithMany(phd => phd.PrognosisHasDaysHasDepartment)
-                .HasForeignKey(phdhd => new { phdhd.DaysName, phdhd.PrognosisId } );
+                .HasForeignKey(phdhd => new { phdhd.DaysName, phdhd.PrognosisId });
 
             modelBuilder.Entity<LabourRules>()
                 .HasKey(l => new { l.CountryName, l.AgeGroup });
