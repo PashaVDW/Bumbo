@@ -81,9 +81,20 @@ namespace DataLayer.Repositories
         {
             return _context.RegisteredHours
                 .Where(r => r.StartTime.Month == month
-                && r.EndTime.Value.Month == month)
+                && r.EndTime.Value.Month == month
+                && r.EmployeeId == employeeId)
                 .OrderByDescending(r => r.EndTime)
                 .ToList();
+        }
+
+        public List<RegisteredHours> GetRegisteredHoursFromEmployeeInMonthAndYear(string employeeId, int month, int year)
+        {
+            return _context.RegisteredHours.Where(r => r.EmployeeId.Equals(employeeId)
+                                                       && r.EndTime != null
+                                                       && r.StartTime.Month == month
+                                                       && r.EndTime.Value.Month == month
+                                                       && r.StartTime.Year == year
+                                                       && r.EndTime.Value.Year == year).ToList();
         }
     }
 }

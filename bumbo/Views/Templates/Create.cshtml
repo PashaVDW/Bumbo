@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<div class="max-w-2xl mx-auto mt-10 p-6 rounded relative">
+<div class="mt-10 p-6 relative mx-auto max-w-2xl rounded">
     <div class="mb-6 flex">
         <a href="/standaard-templates" style="margin-right: 25px">
             <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,7 +17,8 @@
         <form asp-action="Create" method="post" id="createForm">
             <div class="mb-10">
                 <label for="Name">Naam:</label><br />
-                <input asp-for="Name" required class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
+                <input asp-for="Name" required maxlength="64" type="text"
+                class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" /><br />
             </div>
             <div class="py-2 border-b">
                 <div class="gap-4 grid grid-cols-3">
@@ -32,7 +33,7 @@
                     <div class="gap-4 grid grid-cols-3">
                         <label><b>@day.DayName</b></label>
                         <input type="number" min="1" max="50000" name="customerData[@day.DayName]" value="@day.CustomerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
-                        <input type="number" min="1" max="1000" name="containerData[@day.DayName]" value="@day.ContainerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
+                        <input type="number" min="0" max="1000" name="containerData[@day.DayName]" value="@day.ContainerAmount" class="bg-gray-200 border-gray-400 py-2 px-3 text-gray-700 w-full appearance-none rounded border leading-tight" />
                     </div>
                 </div>
             }
