@@ -1,75 +1,35 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using bumbo.Data;
-using bumbo.Models;
+using bumbo.Data;  // Ensure the namespace matches your BumboDBContext file
+using bumbo.Models;  // Ensure the namespace matches your Employee model
+using DataLayer;
 using DataLayer.Interfaces;
 using DataLayer.Repositories;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
-using Microsoft.AspNetCore.Mvc.Razor;
-using bumbo.Services;
-using bumbo.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddDbContext<BumboDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("anthony")));
 
-builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
-builder.Services.AddScoped<ISwapShiftRequestRepository, SwapShiftRequestRepositorySql>();
-builder.Services.AddScoped<ITemplateHasDaysRepository, TemplateHasDaysRepositorySql>();
-builder.Services.AddScoped<IPrognosisHasDaysHasDepartments, PrognosisHasDaysHasDepartmentsSql>();
-builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepositorySql>();
+
 builder.Services.AddScoped<IPrognosisRepository, PrognosisRepositorySql>();
-builder.Services.AddScoped<ISchoolScheduleRepository, SchoolScheduleRepositorySql>();
 builder.Services.AddScoped<IPrognosisHasDaysRepository, PrognosisHasDaysRepositorySql>();
 builder.Services.AddScoped<INormsRepository, NormsRepositorySql>();
 builder.Services.AddScoped<IFunctionRepository, FunctionRepositorySql>();
 builder.Services.AddScoped<IBranchHasEmployeeRepository, BranchHasEmployeeRepositorySql>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositorySql>();
-builder.Services.AddScoped<IBranchesRepository, BranchesRepositorySql>();
-builder.Services.AddScoped<IBranchRequestsEmployeeRepository, BranchRequestsEmployeeRepositorySql>();
-builder.Services.AddScoped<IScheduleRepository, ScheduleRepositorySql>();
-builder.Services.AddScoped<ILabourRulesRepository, LabourRulesRepositorySql>();
-builder.Services.AddScoped<ICountryRepository, CountryRepositorySql>();
-builder.Services.AddScoped<IDaysRepositorySQL, DaysRepositorySQL>();
-builder.Services.AddScoped<IDepartmentsRepository, DepartmentsRepositorySql>();
-builder.Services.AddScoped<IRegisteredHoursRepository, RegisteredHoursRepositorySQL>();
 
-builder.Services.AddTransient<IPrognosisCalculator, PrognosisCalculator>();
 
 builder.Services.AddIdentity<Employee, IdentityRole>()
     .AddEntityFrameworkStores<BumboDBContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-builder.Services.AddControllersWithViews()
-    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-    .AddDataAnnotationsLocalization();
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCultures = new[]
-    {
-        new CultureInfo("en-US"),
-        new CultureInfo("nl-NL"),
-    };
-
-    options.DefaultRequestCulture = new RequestCulture("nl-NL");
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
-
-    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
-});
-
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-app.UseMiddleware<bumbo.Middleware.LocalizationMiddleware>();
-
-app.UseRequestLocalization();
-
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -78,37 +38,32 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Routing for the default pages
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Custom routes for specific pages
 app.MapControllerRoute(
-    name: "prognosis",
+    name: "test",
+    pattern: "{controller=Test}/{action=LoginAsJohnDoe}");
+
+app.MapControllerRoute(
+    name: "prognoses",
     pattern: "prognoses",
-    defaults: new { controller = "Prognosis", action = "Index" });
+    defaults: new { controller = "Forecasts", action = "Index" });
 
 app.MapControllerRoute(
-    name: "scheduleManager",
-    pattern: "roosterManager",
-    defaults: new { controller = "ScheduleManager", action = "Index" });
-
-app.MapControllerRoute(
-    name: "schoolSchedule",
-    pattern: "schoolrooster",
-    defaults: new { controller = "SchoolSchedule", action = "Index" });
-
-app.MapControllerRoute(
-    name: "norms",
+    name: "normeringen",
     pattern: "normeringen",
     defaults: new { controller = "Norms", action = "Index" });
 
 app.MapControllerRoute(
-    name: "employees",
+    name: "medewerkers",
     pattern: "medewerkers",
     defaults: new { controller = "Employees", action = "Index" });
 
@@ -128,40 +83,19 @@ app.MapControllerRoute(
     defaults: new { controller = "Templates", action = "Index" });
 
 app.MapControllerRoute(
-    name: "reviews",
+    name: "terugblikken",
     pattern: "terugblikken",
     defaults: new { controller = "Reviews", action = "Index" });
 
 app.MapControllerRoute(
-    name: "requests",
-    pattern: "verzoeken",
-    defaults: new { controller = "Requests", action = "Index" });
-
-app.MapControllerRoute(
-    name: "branches",
+    name: "filialen",
     pattern: "filialen",
     defaults: new { controller = "Branches", action = "BranchesView" });
 
+// Route for logging out
 app.MapControllerRoute(
     name: "logout",
     pattern: "uitloggen",
-    defaults: new { controller = "Account", action = "Logout" });
-
-app.MapControllerRoute(
-    name: "login",
-    pattern: "inloggen",
-    defaults: new { controller = "Account", action = "Login" });
-
-app.MapControllerRoute(
-    name: "availability",
-    pattern: "beschikbaarheid",
-    defaults: new { controller = "Availability", action = "Index" });
-
-app.MapControllerRoute(
-    name: "RegisteredHoursManager",
-    pattern: "uren-registratie",
-    defaults: new { controller = "RegisteredHoursManager", action = "Index" });
+    defaults: new { controller = "Logout", action = "Logout" });
 
 app.Run();
-
-// test for push

@@ -27,97 +27,76 @@
                                    "<div class='flex justify-between items-center mb-4'>" +
                                    "<h2 class='mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900'>" + title + "</h2>" +
                                    "<form method='get' class='flex items-center space-x-4'>" +
-                                   "<input id='searchInput' type='text' name='searchTerm' value='" + searchTerm + "' placeholder='Zoek naar " + title.ToLower() + "' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />");
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                htmlBuilder.AppendLine("<button onclick =\"document.getElementById('searchInput').value = ''\" type='submit' class='bg-gray-100 text-gray-500 py-2 px-6 rounded-full hover:bg-gray-300'><i class=\"fa-sharp fa-regular fa-x\"></i></button>");
-                htmlBuilder.AppendLine("<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>");
-            }
-            else
-            {
-                htmlBuilder.AppendLine("<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>"
-                                                   );
-            }
-            htmlBuilder.AppendLine("</form><button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>");
-            htmlBuilder.AppendLine("</div><div class='w-full p-6'>");
+                                   "<input type='text' name='searchTerm' value='" + searchTerm + "' placeholder='Zoek naar " + title.ToLower() + "' class='w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-yellow-400' />" +
+                                   "<button type='submit' class='bg-gray-200 text-gray-700 py-2 px-6 rounded-full hover:bg-gray-300'>Zoeken</button>" +
+                                   "</form>" +
+                                   "<button onclick = \"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl '>Nieuwe " + title.ToLower() + " </button>" +
+                                   "</div>"
+                                   );
+            htmlBuilder.AppendLine("<div class='w-full p-6'>");
             htmlBuilder.AppendLine("<div class='overflow-x-auto w-full'>");
-            if (items.Any())
+            htmlBuilder.AppendLine("<table class='min-w-full table-auto border-collapse'>");
+
+            htmlBuilder.AppendLine(
+                "<thead>" +
+                "<tr class='text-left text-gray-600 font-bold'>"
+            );
+            foreach (var header in headers)
             {
-                htmlBuilder.AppendLine("<table class='min-w-full table-auto border-collapse'>");
-                htmlBuilder.AppendLine(
-                    "<thead>" +
-                    "<tr class='text-left text-gray-600 font-bold'>"
-                );
-                foreach (var header in headers)
-                {
-                    htmlBuilder.AppendLine($"<th class='py-2 px-4'>{header}</th>");
-                }
-                htmlBuilder.AppendLine(
-                    "</tr>" +
-                    "</thead>"
-                );
-                htmlBuilder.AppendLine("<tbody>");
-                foreach (var item in pagedItems)
-                {
-                    htmlBuilder.AppendLine("<tr class='border-b hover:bg-gray-50'>");
-                    htmlBuilder.AppendLine(rowTemplate(item));
-                    htmlBuilder.AppendLine("</tr>");
-                }
-                htmlBuilder.AppendLine("</tbody>");
-                htmlBuilder.AppendLine("</table>");
-                htmlBuilder.AppendLine("</div>");
-                if (!(items.Count < pageSize + 1))
-                {
-                    htmlBuilder.AppendLine("<div class='flex justify-center items-center mt-4 space-x-2'>");
+                htmlBuilder.AppendLine($"<th class='py-2 px-4'>{header}</th>");
+            }
+            htmlBuilder.AppendLine(
+                "</tr>" +
+                "</thead>"
+            );
+            htmlBuilder.AppendLine("<tbody>");
+            foreach (var item in pagedItems)
+            {
+                htmlBuilder.AppendLine("<tr class='border-b hover:bg-gray-50'>");
+                htmlBuilder.AppendLine(rowTemplate(item));
+                htmlBuilder.AppendLine("</tr>");
+            }
+            htmlBuilder.AppendLine("</tbody>");
+            htmlBuilder.AppendLine("</table>");
+            htmlBuilder.AppendLine("</div>");
 
-                    if (currentPage > 1)
-                    {
-                        htmlBuilder.AppendLine($"<a href='?page={currentPage - 1}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300'>Vorige</a>");
-                    }
-                    else
-                    {
-                        htmlBuilder.AppendLine("<span class='py-2 px-4 bg-gray-100 text-gray-400 rounded-lg'>Vorige</span>");
-                    }
+            htmlBuilder.AppendLine("<div class='flex justify-center items-center mt-4 space-x-2'>");
 
-                    for (int i = 1; i <= totalPages; i++)
-                    {
-                        if (i == currentPage)
-                        {
-                            htmlBuilder.AppendLine($"<span class='py-2 px-4 bg-yellow-400 text-white rounded-lg'>{i}</span>");
-                        }
-                        else
-                        {
-                            htmlBuilder.AppendLine($"<a href='?page={i}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300'>{i}</a>");
-                        }
-                    }
-                    if (currentPage < totalPages)
-                    {
-                        htmlBuilder.AppendLine($"<a href='?page={currentPage + 1}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300'>Volgende</a>");
-                    }
-                    else
-                    {
-                        htmlBuilder.AppendLine("<span class='py-2 px-4 bg-gray-100 text-gray-400 rounded-lg'>Volgende</span>");
-                    }
-                    htmlBuilder.AppendLine("</div>");
-                }
-            } 
+            if (currentPage > 1)
+            {
+                htmlBuilder.AppendLine($"<a href='?page={currentPage - 1}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300'>Vorige</a>");
+            }
             else
             {
-                htmlBuilder.AppendLine("<div class='flex flex-col items-center'>");
-                if (!string.IsNullOrWhiteSpace(searchTerm))
+                htmlBuilder.AppendLine("<span class='py-2 px-4 bg-gray-100 text-gray-400 rounded-lg'>Vorige</span>");
+            }
+
+            for (int i = 1; i <= totalPages; i++)
+            {
+                if (i == currentPage)
                 {
-                    htmlBuilder.AppendLine("<h2 class='mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900'>Er zijn nog geen " + title.ToLower() + " met de zoekterm: " + searchTerm + ".</h2>");
-                } else
-                {
-                    htmlBuilder.AppendLine("<h2 class='mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900'>Er zijn nog geen " + title.ToLower() + ".</h2>");
-                    htmlBuilder.AppendLine("<button onclick=\"window.location.href='" + addPageLink + "';\" class='bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-xl'>Nieuwe " + title.ToLower() + "</button>");
+                    htmlBuilder.AppendLine($"<span class='py-2 px-4 bg-yellow-400 text-white rounded-lg'>{i}</span>");
                 }
-                htmlBuilder.AppendLine("</div>");
+                else
+                {
+                    htmlBuilder.AppendLine($"<a href='?page={i}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300'>{i}</a>");
+                }
+            }
+            if (currentPage < totalPages)
+            {
+                htmlBuilder.AppendLine($"<a href='?page={currentPage + 1}&searchTerm={searchTerm}' class='py-2 px-4 bg-gray-200 rounded-lg hover:bg-gray-300'>Volgende</a>");
+            }
+            else
+            {
+                htmlBuilder.AppendLine("<span class='py-2 px-4 bg-gray-100 text-gray-400 rounded-lg'>Volgende</span>");
             }
             htmlBuilder.AppendLine("</div>");
+
             htmlBuilder.AppendLine("</div>");
 
             return htmlBuilder.ToString();
         }
+
+
     }
 }

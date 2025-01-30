@@ -24,6 +24,6 @@ namespace bumbo.Models
 
         public ICollection<Branch> Branches { get; set; }
 
-        public ICollection<PrognosisHasDays> PrognosisHasDays{ get; set; }
+        public ICollection<Prognosis_has_days> Prognosis_Has_Days{ get; set; }
     }
 }

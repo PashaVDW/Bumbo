@@ -22,7 +22,8 @@ namespace bumbo.Components
             {
                 "success" => "bg-green-500 text-white",
                 "error" => "bg-red-500 text-white",
-                _ => "bg-green-500 text-white"
+                "info" => "bg-blue-500 text-white",
+                _ => "bg-blue-500 text-white"
             };
 
             output.Attributes.SetAttribute("id", ToastId);

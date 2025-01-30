@@ -6,13 +6,9 @@
 @model ReadBranchViewModel
 
 <div class="ml-32 mt-16">
-    <div class="mb-6 flex">
-        <a href="/filialen" style="margin-right: 25px">
-            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </a>
-        <h1 class="text-3xl font-semibold">@Model.Name</h1>
+    <div>
+        <h1 class="text-4xl"><strong><a asp-area="" asp-controller="Branches" asp-action="BranchesView"> < </a>@Model.Name</strong></h1>
+        <p class="ml-12">Bumbo > @Model.Name</p>
     </div>
 
     <div class="h-72 mb-4 flex justify-between">
@@ -24,10 +20,6 @@
             <div class="mt-4 flex flex-row justify-between">
                 <p class="font-bold">Aantal medewerkers:</p>
                 <p class="font-bold">@Model.Employees.Count</p>
-            </div>
-            <div class="mt-4 flex flex-row justify-between">
-                <p class="font-bold">Openingstijd:</p>
-                <p class="font-bold">@Model.OpeningTime - @Model.ClosingTime</p>
             </div>
             <div class="mt-4 flex flex-row justify-between">
                 <p class="font-bold">Postcode:</p>
@@ -47,7 +39,7 @@
             <figure>
                <iframe class="w-96 h-96 rounded-3xl" width="600" height="450"
                         style="border:0" loading="lazy" allowfullscreen
-                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD7VOvSNl7UiioL23rjXVatk7SeLfC4pHg&q=@Model.Street+@Model.HouseNumber">
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD7VOvSNl7UiioL23rjXVatk7SeLfC4pHg&q=@Model.Street+@Model.HouseNumber+Jumbo">
                 </iframe>
             </figure>
         </div>
@@ -67,27 +59,33 @@
         {
             <div class="flex flex-row">
                 <div class="mr-3 border-slate-100 w-44 h-40 flex flex-col items-center justify-center rounded-3xl border-2">
-                    <p class="relative text-center font-bold">@employee.FirstName @employee.MiddleName @employee.LastName</p>
+                    <figure class="w-16 h-16 border-slate-200 border-2">
+                        <img src="https://imageplaceholder.net/64x64/" alt="" class="w-16 h-16" />
+                    </figure>
+                    <p class="top-3 relative text-center font-bold">@employee.FirstName @employee.LastName</p>
                 </div>
 
-                <custom-modal modal-id="deletebranchmanager{@employee.Id}" body-text="Weet je zeker dat je @employee.FirstName @employee.MiddleName @employee.LastName wilt verwijderen?">
+                <custom-modal modal-id="deletebranchmanager" body-text="Weet je zeker dat je deze filiaalmanager wilt verwijderen?">
                     <a asp-action="DeleteBranchManager" asp-controller="Branches"
                        asp-route-branchId="@Model.BranchId" asp-route-employeeId="@employee.Id"
                        class="bg-red-600 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-500">Verwijderen</a>
-                    <default-button button-text="Annuleren" button-type="secondary" on-click="document.getElementById('deletebranchmanager{@employee.Id}').classList.add('hidden')"></default-button>
+                    <default-button button-text="Annuleren" button-type="secondary" on-click="document.getElementById('deletebranchmanager').classList.add('hidden')"></default-button>
                 </custom-modal>
+
                 <button class="w-6 h-6 bg-gray-200 right-7 bottom-1 relative rotate-45 content-center rounded-3xl"
-                        onclick="document.getElementById('deletebranchmanager{@employee.Id}').classList.remove('hidden')">
+                        onclick="document.getElementById('deletebranchmanager').classList.remove('hidden')">
                     <div class="w-2 bg-black h-px m-auto rotate-90"></div>
                     <div class="w-2 bottom-px bg-black h-px relative m-auto"></div>
                 </button>
             </div>
         }
-        <a asp-action="CreateBranchManagerView" asp-controller="Branches" asp-route-branchId="@Model.BranchId" 
-            class="border-slate-100 mr-3 mt-3 w-40 h-36 content-center rounded-3xl border-2">
-            <div class="bg-gray-200 top-4 w-8 h-1 relative m-auto rounded"></div>
-            <div class="bg-gray-200 w-1 h-8 bottom-0.5 relative m-auto rounded"></div>
-        </a>
+        <form method="post" asp-action="CreateBranchManagerView" asp-controller="Branches">
+            <input type="hidden" name="branchId" value="@Model.BranchId" />
+            <button type="submit" class="border-slate-100 mr-3 mt-3 w-40 h-36 content-center rounded-3xl border-2">
+                <div class="bg-gray-200 top-4 w-8 h-1 relative m-auto rounded"></div>
+                <div class="bg-gray-200 w-1 h-8 bottom-0.5 relative m-auto rounded"></div>
+            </button>
+        </form>
     </div>
 </div>
 

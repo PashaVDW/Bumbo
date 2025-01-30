@@ -1,0 +1,12 @@
+Stap 1: Ga naar Jira en pak de KENMERK (ID) van jouw TICKET (bijv: GCB-26)
+Stap 2: maak een nieuwe branch (VANAF DEVELOPMENT BRANCH) en vernoem hem naar deze ticket (via terminal : git switch development, git pull origin development, git checkout -B TICKETID)
+Stap 3: coderen.
+
+voor toevoegen:
+git add .
+git commit -m "DUIDELIJKE BESCHRIJVING VAN TAAK"
+git push -u origin {ticketId}
+
+NIET MERGEN NAAR DEV
+NIET MERGEN NAAR MASTER
+KIJK ALTIJD OP WELKE BRANCH JE ZIT VOORDAT JE VERANDERINGEN DOET (git branch)

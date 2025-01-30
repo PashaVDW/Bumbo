@@ -35,12 +35,20 @@ namespace bumbo.Controllers
 
             if (!weekNumber.HasValue || !year.HasValue)
             {
-                DateTime today = DateTime.Now;
-                GregorianCalendar gc = new GregorianCalendar();
-                weekNumber = gc.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-                year = today.Year;
+                prognosis = _prognosisRepository.GetLatestPrognosis();
 
-                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value, user.ManagerOfBranchId.Value);
+                if (prognosis != null)
+                {
+                    weekNumber = prognosis.WeekNr;
+                    year = prognosis.Year;
+                }
+                else
+                {
+                    DateTime today = DateTime.Now;
+                    GregorianCalendar gc = new GregorianCalendar();
+                    weekNumber = gc.GetWeekOfYear(today, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                    year = today.Year;
+                }
             }
             else
             {
@@ -50,7 +58,7 @@ namespace bumbo.Controllers
 
                     DateTime jan1;
 
-                    if (weekNumber.Value >= 53)
+                    if (weekNumber.Value == 53)
                     {
                         jan1 = new DateTime(year.Value + 1, 1, 1);
                     }
@@ -72,7 +80,7 @@ namespace bumbo.Controllers
                     if (weekNumber.Value == 53)
                     {
                         lastDayOfWeek = LastDateOfWeek(year.Value, weekNumber.Value);
-                        if (lastDayOfWeek.CompareTo(firstWeekStart) >= 0)
+                        if (lastDayOfWeek.CompareTo(firstWeekStart) >= 0) 
                         {
                             weekNumber = 1;
                             year = (year ?? DateTime.Now.Year) + 1;
@@ -94,7 +102,9 @@ namespace bumbo.Controllers
                         year = (year ?? DateTime.Now.Year) - 1;
                     }
                 }
-                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value, user.ManagerOfBranchId.Value);
+
+
+                prognosis = _prognosisRepository.GetPrognosisByWeekAndYear(weekNumber.Value, year.Value);
             }
 
             // Bereken de eerste en laatste dag van de week
@@ -116,8 +126,8 @@ namespace bumbo.Controllers
             var days = new List<DayOverviewViewModel>();
             if (prognosis != null)
             {
-                days = prognosis.PrognosisHasDays
-                    .OrderBy(d => d.DayName switch
+                days = prognosis.Prognosis_Has_Days
+                    .OrderBy(d => d.Days_name switch
                     {
                         "Maandag" => 1,
                         "Dinsdag" => 2,
@@ -128,12 +138,11 @@ namespace bumbo.Controllers
                         "Zondag" => 7,
                         _ => 8
                     })
-                    .Select((day, index) => new DayOverviewViewModel
+                    .Select(day => new DayOverviewViewModel
                     {
-                        DayName = day.DayName,
+                        DayName = day.Days_name,
                         CustomerAmount = day.CustomerAmount,
-                        PackagesAmount = day.PackagesAmount,
-                        Date = firstDayOfWeek.AddDays(index)
+                        PackagesAmount = day.PackagesAmount
                     }).ToList();
             }
 

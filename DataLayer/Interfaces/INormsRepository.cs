@@ -12,6 +12,5 @@ namespace DataLayer.Interfaces
         Task UpdateMany(List<Norm> norms);
         Task<Norm> GetNorm(int selectedNormId);
         Task<List<Norm>> GetSelectedNorms(int? branchId, int year, int week);
-        Task<List<Norm>> GetLatestNorm();
     }
 }

@@ -6,13 +6,8 @@
 @model CreateBranchManagerViewModel
 
 <div class="mx-40 mt-12">
-    <div class="mb-6 flex">
-        <a asp-area="" asp-controller="Branches" asp-action="ReadBranchView" asp-route-branchId="@Model.BranchId" style="margin-right: 25px">
-            <svg width="19" height="38" viewBox="0 0 19 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.2502 35.5L3.66687 21.9167C2.0627 20.3125 2.0627 17.6875 3.66687 16.0833L17.2502 2.5" stroke="black" stroke-width="3.125" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </a>
-        <h1 class="text-3xl font-semibold">Filiaalmanager toevoegen</h1>
+    <div><h1 class="text-4xl"><strong><a asp-area="" asp-controller="Branches"
+                asp-action="ReadBranchView" asp-route-branchId="@Model.BranchId"> < </a>Filiaalmanager toevoegen</strong></h1>
     </div>
     <div class="mt-8">
         @Html.Raw(ViewBag.HtmlTable)
@@ -22,3 +17,4 @@
         <p class="text-center font-bold">Geen Medewerkers in dit Filaal</p>
     }
 </div>
+

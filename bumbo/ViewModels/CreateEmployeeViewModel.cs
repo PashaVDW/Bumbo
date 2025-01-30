@@ -29,8 +29,7 @@ namespace bumbo.ViewModels
         public string PostalCode { get; set; }
 
         [Required(ErrorMessage = "Huisnummer is verplicht.")]
-        [StringLength(55, ErrorMessage = "Huisnummer mag niet langer zijn dan 55 tekens.")]
-        public string HouseNumber { get; set; }
+        public int HouseNumber { get; set; }
 
         [Required(ErrorMessage = "Startdatum is verplicht.")]
         [DataType(DataType.Date)]
@@ -45,13 +44,11 @@ namespace bumbo.ViewModels
         public int? ManagerOfBranchId { get; set; } = null;
 
         public bool IsSystemManager { get; set; } = false;
-        public bool LogedInAsSystemManager { get; set; } = false;
 
         public string? SelectedFunction { get; set; }
 
         public List<SelectListItem>? Functions { get; set; }
 
         public DateTime AssignedDate { get; set; } = DateTime.Now;
-        public string? Password { get; set; }
     }
 }

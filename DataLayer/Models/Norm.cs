@@ -21,6 +21,5 @@ namespace bumbo.Models
         
         [Required]
         public int normInSeconds { get; set; }
-        public Branch Branch { get; set; }
     }
 }
