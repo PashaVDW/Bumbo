@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace bumbo.Controllers
 {
@@ -114,7 +115,9 @@ namespace bumbo.Controllers
                         Date = s.Date,
                         StartTime = s.StartTime,
                         EndTime = s.EndTime,
-                        DepartmentName = s.DepartmentName
+                        DepartmentName = s.DepartmentName,
+                        HasAvailableEmployees = _employeeRepository.GetAvailableEmployees(s.Date,
+                            s.StartTime, s.EndTime, s.BranchId, s.DepartmentName).Any()
                     }).ToList();
 
                 if (schedules == null || !schedules.Any())
@@ -128,7 +131,7 @@ namespace bumbo.Controllers
                 {
                     EmployeeId = employeeId,
                     BranchId = branchId,
-                    Schedules = schedules
+                    Schedules = schedules,
                 };
 
                 return View(viewModel);
@@ -172,7 +175,7 @@ namespace bumbo.Controllers
                     schedule.EndTime,
                     schedule.BranchId,
                     schedule.DepartmentName
-                );
+                ).Where(e => e.Id != user.Id).ToList();
 
                 if (availableEmployees == null || !availableEmployees.Any())
                 {
@@ -477,13 +480,13 @@ namespace bumbo.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var availableEmployees = _employeeRepository.GetAvailableEmployees(
+                List<Employee> availableEmployees = _employeeRepository.GetAvailableEmployees(
                     selectedSchedule.Date,
                     selectedSchedule.StartTime,
                     selectedSchedule.EndTime,
                     model.SelectedUitgaandeDienstRuil.BranchId,
                     selectedSchedule.DepartmentName
-                );
+                ).Where(e => e.Id != user.Id).ToList();
 
                 if (availableEmployees == null || !availableEmployees.Any())
                 {

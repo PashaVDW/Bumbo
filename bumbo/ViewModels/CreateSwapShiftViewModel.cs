@@ -15,5 +15,6 @@ namespace bumbo.ViewModels
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public string DepartmentName { get; set; }
+        public bool HasAvailableEmployees { get; set; }
     }
 }
