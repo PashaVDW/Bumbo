@@ -93,7 +93,7 @@
         <form method="post" asp-action="HoursOverview" target="_blank" asp-controller="RegisteredHours"
               asp-route-activeCountry="Netherlands" asp-route-month="@Model.DisplayMonth" 
               asp-route-year="@Model.DisplayYear" class="flex items-end">
-            <default-button button-text="Downloaden" button-type="primary" typeof="submit"></default-button>
+            <a class="primary_bg_color text-white py-2 px-6 rounded-xl font-semibold hover:bg-yellow-400" href="/RegisteredHours/DownloadFile" download>Download PDF</a>
         </form>
     </div>
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using PublicHoliday;
 using System.Data;
 using System.Globalization;
+using Path = System.IO.Path;
 
 
 namespace bumbo.Controllers
@@ -39,16 +40,21 @@ namespace bumbo.Controllers
 
             _weeksEmployeeOverworkedIn = new List<int>();
         }
-        public IActionResult ButtonView()
+
+        public IActionResult DownloadFile()
         {
-            return View();
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "PDF", "EmployeesHoursOverview.pdf");
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            string fileName = "EmployeesHoursOverview.pdf";
+
+            return File(fileBytes, "application/pdf", fileName);
         }
 
         [HttpGet("RegisteredHoursPDF")]
         public IActionResult RegisteredHoursPDF()
         {
             string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Views", "PDF", "EmployeesHoursOverview.pdf");
-            var contentType = "application/pdf";
+            string contentType = "application/pdf";
 
             return PhysicalFile(filePath, contentType);
         }
@@ -107,7 +113,9 @@ namespace bumbo.Controllers
 
             AddText(page, registeredHours, employees, document, month, year);
 
-            document.Draw(@"Views/PDF/EmployeesHoursOverview.pdf");
+            string filePath = Path.Combine(Path.GetTempPath(), "EmployeesHoursOverview.pdf");
+            document.Draw(filePath);
+            //document.Draw(@"Views/PDF/EmployeesHoursOverview.pdf");
         }
 
         private void AddText(Page page, List<RegisteredHours> registeredHours, List<Employee> employees, Document document, int month, int year)
@@ -125,10 +133,6 @@ namespace bumbo.Controllers
 
             foreach (Employee employee in employees) 
             {
-                if (_registeredHoursRepository.GetRegisteredHoursFromEmployeeInMonthAndYear(employee.Id, month, year).Count == 0)
-                {
-                    continue;
-                }
                 string text = $"{employee.FirstName} {employee.MiddleName} {employee.LastName} ({employee.Email}): ";
                 Label employeeName = new Label(text, x, y * multiplier, width, height, Font.Helvetica, fontSize, TextAlign.Left);
                 page.Elements.Add(employeeName);
