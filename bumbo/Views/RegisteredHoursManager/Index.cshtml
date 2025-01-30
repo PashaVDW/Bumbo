@@ -5,11 +5,9 @@
 }
 
 @{
-    // Stel dat je huidige maand/jaar in je model zit:
     int currentMonth = Model.DisplayMonth;
     int currentYear = Model.DisplayYear;
 
-    // Vorige maand berekenen
     int prevMonth = currentMonth - 1;
     int prevYear = currentYear;
     if (prevMonth < 1)
@@ -18,7 +16,6 @@
         prevYear--;
     }
 
-    // Volgende maand berekenen
     int nextMonth = currentMonth + 1;
     int nextYear = currentYear;
     if (nextMonth > 12)
@@ -184,9 +181,11 @@
                                             <td class="py-1 px-2">@d.Notes</td>
                                             <td class="py-1 px-2">@d.BonusHours.ToString("F1")</td>
                                             <td class="py-1 px-2">
-                                                <button class="text-orange-600 hover:text-orange-800">
-                                                    ✏️
-                                                </button>
+                                                <!-- Knop om naar de update-pagina te navigeren -->
+                                            <a href="@Url.Action("Update", "RegisteredHoursManager", new { employeeBID = @row.EmployeeBID, date = d.Date.ToString("yyyy-MM-dd") })"
+                                               class="text-orange-600 hover:text-orange-800">
+                                                ✏️
+                                            </a>
                                             </td>
                                         </tr>
                                     }

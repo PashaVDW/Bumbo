@@ -21,7 +21,7 @@ namespace DataLayer.Repositories
         public List<RegisteredHours> GetRegisteredHoursFromEmployee(string employeeId)
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
-            return _context.RegisteredHours.Where(r => r.EmployeeId.Equals(employeeId) 
+            return _context.RegisteredHours.Where(r => r.EmployeeId.Equals(employeeId)
                                                         && r.EndTime != null
                                                         && r.StartTime.Month == today.Month
                                                         && r.EndTime.Value.Month == today.Month).ToList();
@@ -85,6 +85,31 @@ namespace DataLayer.Repositories
                 && r.EmployeeId == employeeId)
                 .OrderByDescending(r => r.EndTime)
                 .ToList();
+        }
+
+        public RegisteredHours GetRegisteredHoursDayFromBID(string employeeBID, DateTime date)
+        {
+            DateOnly targetDate = DateOnly.FromDateTime(date);
+
+            return _context.RegisteredHours
+                .FirstOrDefault(rh => rh.EmployeeBID == employeeBID &&
+                                      DateOnly.FromDateTime(rh.StartTime) == targetDate);
+        }
+
+        public void UpdateRegisteredHours(RegisteredHours updatedHours)
+        {
+            var existingHours = _context.RegisteredHours.FirstOrDefault(rh =>
+                rh.EmployeeBID == updatedHours.EmployeeBID &&
+                rh.StartTime.Date == updatedHours.StartTime.Date);
+
+            if (existingHours != null)
+            {
+                existingHours.StartTime = updatedHours.StartTime;
+                existingHours.EndTime = updatedHours.EndTime;
+                existingHours.IsDefenitive = updatedHours.IsDefenitive;
+
+                _context.SaveChanges();
+            }
         }
 
         public List<RegisteredHours> GetRegisteredHoursFromEmployeeInMonthAndYear(string employeeId, int month, int year)

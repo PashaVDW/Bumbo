@@ -27,6 +27,7 @@ namespace DataLayer.Interfaces
         List<Schedule> GetSchedulesForEmployee(string employeeId);
         Schedule GetScheduleByEmployeeBranchDate(string employeeId, int branchId, DateOnly date);
         void UpdateSchedule(Schedule schedule);
+        void UpdateSicknessSchedule(Schedule schedule);
         void RemoveSchedule(Schedule schedule);
         void AddSchedule(Schedule updatedSchedule);
         void AddHelpEmployeeToDay(Schedule schedule);

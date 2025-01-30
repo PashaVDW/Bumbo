@@ -5,6 +5,8 @@ using bumbo.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using DataLayer.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace bumbo.Controllers
 {
@@ -13,18 +15,21 @@ namespace bumbo.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IRegisteredHoursRepository _registeredHoursRepository;
         private readonly BumboDBContext _dbContext;
 
         public RegisteredHoursManagerController(
             UserManager<Employee> userManager,
             IEmployeeRepository employeeRepository,
             IScheduleRepository scheduleRepository,
+            IRegisteredHoursRepository registeredHoursRepository,
             BumboDBContext dbContext
         )
         {
             _userManager = userManager;
             _employeeRepository = employeeRepository;
             _scheduleRepository = scheduleRepository;
+            _registeredHoursRepository = registeredHoursRepository;
             _dbContext = dbContext;
         }
 
@@ -188,12 +193,11 @@ namespace bumbo.Controllers
                 {
                     EmployeeId = employee.Id,
                     FullName = $"{employee.FirstName} {employee.MiddleName} {employee.LastName}".Trim(),
+                    EmployeeBID = employee.BID,
                     TotalScheduledHours = totalScheduledHours,
                     TotalWorkedHours = totalWorkedHours,
                     Difference = difference,
-                    // In de hoofdrij “BonusHours” is dus de som van alle dag-bonussen
                     BonusHours = sumOfDailyBonuses,
-                    // De sub-rows
                     RegisteredHours = detailRows
                 };
 
@@ -210,5 +214,126 @@ namespace bumbo.Controllers
 
             return View(overview);
         }
+
+        [HttpGet]
+        public IActionResult Update(string employeeBID, DateTime date)
+        {
+            // Haal de ingelogde gebruiker op
+            Employee user = _userManager.GetUserAsync(User).Result;
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            // Haal geregistreerde uren op
+            RegisteredHours registeredHours = _registeredHoursRepository.GetRegisteredHoursDayFromBID(employeeBID, date);
+            if (registeredHours == null || registeredHours.BranchId != user.ManagerOfBranchId)
+            {
+                return NotFound("Geregistreerde uren niet gevonden of u heeft geen toegang.");
+            }
+
+            // Haal de planning (schedule) op
+            Schedule schedule = _scheduleRepository.GetScheduleByEmployeeBranchDate(
+                registeredHours.EmployeeId,
+                registeredHours.BranchId,
+                DateOnly.FromDateTime(date)
+            );
+
+            // Controleer of de planning bestaat
+            if (schedule == null)
+            {
+                return NotFound("Planning (Schedule) niet gevonden.");
+            }
+
+            // Vul het ViewModel
+            UpdateRegisteredHoursViewModel model = new UpdateRegisteredHoursViewModel
+            {
+                EmployeeBID = registeredHours.EmployeeBID,
+                EmployeeName = $"{registeredHours.Employee.FirstName} {registeredHours.Employee.LastName}".Trim(),
+                Date = registeredHours.StartTime.Date,
+                WorkedStartTime = registeredHours.StartTime,
+                WorkedEndTime = registeredHours.EndTime,
+                Notes = registeredHours.IsDefenitive ? "Definitief" : "",
+                IsSick = schedule.IsSick,
+
+                // Geplande gegevens
+                ScheduledDepartment = schedule.DepartmentName,
+                ScheduledStartTime = DateTime.Parse($"{date:yyyy-MM-dd} {schedule.StartTime:HH\\:mm}"),
+                ScheduledEndTime = DateTime.Parse($"{date:yyyy-MM-dd} {schedule.EndTime:HH\\:mm}")
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult Update(UpdateRegisteredHoursViewModel model)
+        {
+            TempData["ToastId"] = "UpdateRegisteredHours";
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 5000;
+
+            Employee user = _userManager.GetUserAsync(User).Result;
+            if (user == null || user.ManagerOfBranchId == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["ToastMessage"] = "Er zijn fouten in het formulier. Controleer de invoer.";
+                TempData["ToastType"] = "error";
+                return View(model);
+            }
+
+            RegisteredHours existingHours = _registeredHoursRepository.GetRegisteredHoursDayFromBID(model.EmployeeBID, model.Date);
+            if (existingHours == null || existingHours.BranchId != user.ManagerOfBranchId)
+            {
+                TempData["ToastMessage"] = "Geregistreerde uren niet gevonden of u heeft geen toegang.";
+                TempData["ToastType"] = "error";
+                return View(model);
+            }
+
+            Schedule schedule = _scheduleRepository.GetScheduleByEmployeeBranchDate(
+                existingHours.EmployeeId,
+                existingHours.BranchId,
+                DateOnly.FromDateTime(model.Date)
+            );
+
+            if (schedule == null)
+            {
+                TempData["ToastMessage"] = "Planning (Schedule) niet gevonden.";
+                TempData["ToastType"] = "error";
+                return View(model);
+            }
+
+            // Update RegisteredHours
+            existingHours.StartTime = new DateTime(model.Date.Year, model.Date.Month, model.Date.Day, model.WorkedStartTime.Hour, model.WorkedStartTime.Minute, 0);
+            existingHours.EndTime = model.WorkedEndTime.HasValue
+                ? new DateTime(model.Date.Year, model.Date.Month, model.Date.Day, model.WorkedEndTime.Value.Hour, model.WorkedEndTime.Value.Minute, 0)
+                : null;
+            existingHours.IsDefenitive = model.Notes?.ToLower().Contains("definitief") ?? false;
+
+            // Update Schedule
+            schedule.IsSick = model.IsSick;
+
+            try
+            {
+                _registeredHoursRepository.UpdateRegisteredHours(existingHours);
+                _scheduleRepository.UpdateSicknessSchedule(schedule);
+
+                TempData["ToastMessage"] = "Uren en planning zijn succesvol aangepast.";
+                TempData["ToastType"] = "success";
+                return RedirectToAction("Index", "RegisteredHoursManager");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating: {ex.Message}");
+                TempData["ToastMessage"] = "Er is een fout opgetreden tijdens het bijwerken van de uren en planning.";
+                TempData["ToastType"] = "error";
+                return View(model);
+            }
+        }
+
     }
 }
