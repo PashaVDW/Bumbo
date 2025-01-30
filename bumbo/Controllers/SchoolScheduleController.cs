@@ -126,6 +126,7 @@ namespace bumbo.Controllers
             }
 
             DateTime startDate = FirstDateOfWeek(yearNumber, weekNumber);
+            DateTime endDate = LastDateOfWeek(yearNumber, weekNumber);
 
             var viewModel = new AddSchoolScheduleViewModel
             {
@@ -135,14 +136,21 @@ namespace bumbo.Controllers
                 EndYear = yearNumber
             };
 
+            List<SchoolSchedule> schoolSchedules = _schoolScheduleRepository.getSchedulesBetweenDates(startDate, endDate, user.Id);
+
             for (int i = 0; i < 7; i++)
             {
                 DateTime currentDate = startDate.AddDays(i);
+
+                var schoolSchedule = schoolSchedules.FirstOrDefault(a => a.Date == DateOnly.FromDateTime(currentDate));
+
                 viewModel.Days.Add(new DaySchoolScheduleViewModel
                 {
                     DayName = currentDate.ToString("dddd", new CultureInfo("nl-NL")),
                     Date = currentDate,
-                    DayNumber = i
+                    DayNumber = i,
+                    StartTime = schoolSchedule != null ? schoolSchedule.StartTime : null,
+                    EndTime = schoolSchedule != null ? schoolSchedule.EndTime : null
                 });
             }
 
