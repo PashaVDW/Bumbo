@@ -13,6 +13,7 @@
     {
         public string EmployeeId { get; set; }
         public string FullName { get; set; }
+        public string EmployeeBID { get; set; }
 
         public double TotalScheduledHours { get; set; }
         public double TotalWorkedHours { get; set; }

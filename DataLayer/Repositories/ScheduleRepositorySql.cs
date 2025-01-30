@@ -205,6 +205,18 @@ namespace DataLayer.Repositories
             _context.SaveChanges();
         }
 
+        public void UpdateSicknessSchedule(Schedule schedule)
+        {
+            // Koppel de entiteit expliciet aan de context
+            _context.Attach(schedule);
+
+            // Geef aan welke velden moeten worden bijgewerkt
+            _context.Entry(schedule).Property(s => s.IsSick).IsModified = true;
+
+            // Sla wijzigingen op
+            _context.SaveChanges();
+        }
+
         public void RemoveSchedule(Schedule schedule)
         {
             _context.Schedule.Remove(schedule);
