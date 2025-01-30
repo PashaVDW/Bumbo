@@ -225,9 +225,9 @@ namespace bumbo.Controllers
 
             for (int i = 0; i < 7; i++)
             {
-                if (model.Days[i].StartTime.HasValue && model.Days[i].EndTime.HasValue && model.Days[i].EndTime <= model.Days[i].StartTime)
+                if (model.Days[i].StartTime.HasValue && model.Days[i].EndTime.HasValue && model.Days[i].EndTime < model.Days[i].StartTime.Value.AddHours(1))
                 {
-                    ModelState.AddModelError("", $"De eindtijd moet later zijn dan de starttijd voor {model.Days[i].DayName}.");
+                    ModelState.AddModelError("", $"De eindtijd moet minimaal een uur later zijn dan de starttijd voor {model.Days[i].DayName}.");
                 }
             }
 
@@ -293,6 +293,19 @@ namespace bumbo.Controllers
                            .ToList();
 
                 ViewBag.Errors = errors;
+
+                if (model.StartWeek == model.EndWeek && model.StartYear == model.EndYear)
+                {
+                    DateTime startDate = FirstDateOfWeek(model.StartYear, model.StartWeek);
+                    DateTime endDate = LastDateOfWeek(model.StartYear, model.StartWeek);
+
+                    List<Availability> availabilities = _availabilityRepository.GetAvailabilitiesBetweenDates(startDate, endDate, employeeId);
+
+                    if (availabilities.Count > 0)
+                    {
+                        return View("Update", model);
+                    }
+                }
 
                 return View(model);
             }
