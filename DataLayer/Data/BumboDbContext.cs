@@ -1777,105 +1777,6 @@ namespace bumbo.Data
                 }
             );
 
-
-            modelBuilder.Entity<RegisteredHours>().HasData(
-                // == Anthony (BID = "B012") ==
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 6, 9, 5, 0),
-                    EndTime = new DateTime(2025, 1, 6, 16, 55, 0),
-                    EmployeeBID = "B012",
-                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 7, 9, 15, 0),
-                    EndTime = new DateTime(2025, 1, 7, 17, 5, 0),
-                    EmployeeBID = "B012",
-                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 8, 9, 0, 0),
-                    EndTime = new DateTime(2025, 1, 8, 17, 10, 0),
-                    EmployeeBID = "B012",
-                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 9, 10, 5, 0),
-                    EndTime = new DateTime(2025, 1, 9, 15, 58, 0),
-                    EmployeeBID = "B012",
-                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 10, 9, 35, 0),
-                    EndTime = new DateTime(2025, 1, 10, 17, 25, 0),
-                    EmployeeBID = "B012",
-                    EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-
-                // == Jane (BID = "B002") ==
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 13, 8, 5, 0),
-                    EndTime = new DateTime(2025, 1, 13, 13, 50, 0),
-                    EmployeeBID = "B002",
-                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 14, 8, 10, 0),
-                    EndTime = new DateTime(2025, 1, 14, 14, 5, 0),
-                    EmployeeBID = "B002",
-                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 15, 8, 35, 0),
-                    EndTime = new DateTime(2025, 1, 15, 14, 55, 0),
-                    EmployeeBID = "B002",
-                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 16, 9, 5, 0),
-                    EndTime = new DateTime(2025, 1, 16, 17, 2, 0),
-                    EmployeeBID = "B002",
-                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                    BranchId = 1,
-                    IsDefenitive = true
-                },
-                new RegisteredHours
-                {
-                    StartTime = new DateTime(2025, 1, 17, 10, 2, 0),
-                    EndTime = new DateTime(2025, 1, 17, 14, 1, 0),
-                    EmployeeBID = "B002",
-                    EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
-                    BranchId = 1,
-                    IsDefenitive = true
-                }
-            );
-
-
-
             modelBuilder.Entity<PrognosisHasDaysHasDepartment>().HasData(
                 new PrognosisHasDaysHasDepartment { DepartmentName = "Vakkenvullen", DaysName = "Maandag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 4, HoursOfWorkNeeded = 28 },
                 new PrognosisHasDaysHasDepartment { DepartmentName = "Kassa", DaysName = "Maandag", PrognosisId = "prognosis_week_47_2024", AmountOfWorkersNeeded = 5, HoursOfWorkNeeded = 32 },
@@ -2099,10 +2000,6 @@ namespace bumbo.Data
                 new Availability { EmployeeId = "b2c2d2e2-2222-3333-4444-5555abcdefab", Date = new DateOnly(2024, 12, 1), StartTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
 
                 new Availability { EmployeeId = "a1b1c1d1-1111-2222-3333-4444abcdabcd", Date = new DateOnly(2024, 12, 5), StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(21, 0) }
-
-
-
-
             );
 
             modelBuilder.Entity<SchoolSchedule>().HasData(
@@ -2252,8 +2149,6 @@ namespace bumbo.Data
                     BranchId = 1,
                     IsDefenitive = true,
                 },
-
-
                 new RegisteredHours()
                 {
                     EmployeeId = "e6f6g7h8-90i1-2b34-f5g6-h7i8j9k0l1m2",
@@ -2506,9 +2401,6 @@ namespace bumbo.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<RegisteredHours>()
-                .HasKey(rh => new { rh.EmployeeBID, rh.StartTime });
-
-            modelBuilder.Entity<RegisteredHours>()
                 .HasOne(rh => rh.Employee)
                 .WithMany(e => e.RegisteredHours)
                 .HasForeignKey(rh => rh.EmployeeBID)
@@ -2518,8 +2410,6 @@ namespace bumbo.Data
             modelBuilder.Entity<Employee>()
                 .HasIndex(e => e.BID)
                 .IsUnique(); // BID moet uniek zijn
-
-
         }
     }
 }

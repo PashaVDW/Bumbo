@@ -110,6 +110,8 @@ namespace DataLayer.Repositories
 
                 _context.SaveChanges();
             }
+        }
+
         public List<RegisteredHours> GetRegisteredHoursFromEmployeeInMonthAndYear(string employeeId, int month, int year)
         {
             return _context.RegisteredHours.Where(r => r.EmployeeId.Equals(employeeId)
