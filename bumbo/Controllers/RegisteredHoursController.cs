@@ -40,9 +40,14 @@ namespace bumbo.Controllers
 
             _weeksEmployeeOverworkedIn = new List<int>();
         }
-        public IActionResult ButtonView()
+
+        public IActionResult DownloadFile()
         {
-            return View();
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "PDF", "EmployeesHoursOverview.pdf");
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            string fileName = "EmployeesHoursOverview.pdf";
+
+            return File(fileBytes, "application/pdf", fileName);
         }
 
         [HttpGet("RegisteredHoursPDF")]
