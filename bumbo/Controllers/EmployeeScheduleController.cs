@@ -310,7 +310,8 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            DateTime time = DateTime.Now;
+            TimeZoneInfo nlTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+            DateTime time = TimeZoneInfo.ConvertTime(DateTime.Now, nlTimeZone);
 
             List<BranchHasEmployee> branches = _branchHasEmployeeRepository.GetBranchesForEmployee(currentUser.Id);
 
@@ -339,7 +340,8 @@ namespace bumbo.Controllers
 
             string employeeId = currentUser.Id;
 
-            DateTime time = DateTime.Now;
+            TimeZoneInfo nlTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
+            DateTime time = TimeZoneInfo.ConvertTime(DateTime.Now, nlTimeZone);
 
             _registeredHoursRepository.ClockOut(employeeId, time);
 
