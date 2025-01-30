@@ -13,7 +13,7 @@ using bumbo.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<BumboDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("bumbo")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("bumboDb")));
 
 builder.Services.AddScoped<ITemplatesRepository, TemplatesRepositorySql>();
 builder.Services.AddScoped<ISwapShiftRequestRepository, SwapShiftRequestRepositorySql>();
