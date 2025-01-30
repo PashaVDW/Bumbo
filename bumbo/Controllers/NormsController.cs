@@ -317,10 +317,13 @@ public class NormsController : Controller
 
                 return RedirectToAction("Create");
             }
-            else if (norms[0].normInSeconds < 0 || norms[1].normInSeconds < 0 || norms[2].normInSeconds < 0
-                    || norms[3].normInSeconds < 0 || norms[4].normInSeconds < 0)
+            else if (norms[0].normInSeconds < 0 || norms[0].normInSeconds > 999999
+                    || norms[1].normInSeconds < 0 || norms[1].normInSeconds > 999999
+                    || norms[2].normInSeconds < 0 || norms[2].normInSeconds > 999999
+                    || norms[3].normInSeconds < 0 || norms[3].normInSeconds > 999999
+                    || norms[4].normInSeconds < 0 || norms[4].normInSeconds > 999999)
             {
-                TempData["ToastMessage"] = "Normering toevoegen mislukt. Er kunnen geen negatieve getallen worden toegevoegd.";
+                TempData["ToastMessage"] = "Normering toevoegen mislukt. Er kunnen geen negatieve getallen of getallen boven de 999999 worden toegevoegd.";
                 TempData["ToastType"] = "error";
 
                 TempData["ToastId"] = "insertNormToast";
@@ -360,10 +363,13 @@ public class NormsController : Controller
 
         try
         {
-            if (viewModel.UnloadColis < 0 || viewModel.FillShelves < 0 || viewModel.Cashier < 0
-                    || viewModel.Fresh < 0 || viewModel.Fronting < 0)
+            if (viewModel.UnloadColis < 0 || viewModel.UnloadColis > 999999
+                || viewModel.FillShelves < 0 || viewModel.FillShelves > 999999
+                || viewModel.Cashier < 0 || viewModel.Cashier > 999999
+                || viewModel.Fresh < 0 || viewModel.Fresh > 999999
+                || viewModel.Fronting < 0 || viewModel.Fronting > 999999)
             {
-                TempData["ToastMessage"] = "Normering updaten mislukt. Een waarde kan niet worden aangepast naar een negatieve waarde.";
+                TempData["ToastMessage"] = "Normering updaten mislukt. Een waarde kan niet worden aangepast naar een negatieve waarde of waarde boven de 999999.";
                 TempData["ToastType"] = "error";
 
                 TempData["ToastId"] = "updateNormToast";
