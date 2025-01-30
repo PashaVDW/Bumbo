@@ -16,7 +16,7 @@ namespace bumbo.ViewModels
         public List<Schedule> RegisteredHoursPlanned { get; set; }
         public List<RegisteredHours> RegisteredHoursSchedule { get; set; }
 
-
+        public bool HasClocked { get; set; }
 
         public List<RegisteredHours> ClockedHours { get; set; }
     }

@@ -96,5 +96,13 @@ namespace DataLayer.Repositories
                                                        && r.StartTime.Year == year
                                                        && r.EndTime.Value.Year == year).ToList();
         }
+
+        public bool HasCompleteClockedHours(DateTime date, string employeeId)
+        {
+            return _context.RegisteredHours
+                .Any(rh => rh.EmployeeId == employeeId &&
+                           rh.StartTime.Date == date.Date &&
+                           rh.EndTime.HasValue);
+        }
     }
 }
