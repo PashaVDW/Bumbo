@@ -27,7 +27,7 @@
         @if (ViewBag.Message != null)
         {
             <div class="text-red-500">@ViewBag.Message</div>
-            @if (ViewBag.IsFutureWeek)
+            @if (ViewBag.IsCurrentWeek || ViewBag.IsFutureWeek)
             {
                 <a asp-action="Create" asp-route-weekNumber=@Model.WeekNr asp-route-yearNumber="@Model.Year">
                     <default-button button-text="Maak prognose" button-type="primary"></default-button>
