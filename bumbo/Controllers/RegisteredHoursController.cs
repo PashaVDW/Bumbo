@@ -21,6 +21,7 @@ namespace bumbo.Controllers
         private readonly IScheduleRepository _scheduleRulesRepository;
         private readonly ISchoolScheduleRepository _schoolScheduleRulesRepository;
         private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
+        private readonly IWebHostEnvironment _env;
 
         private readonly UserManager<Employee> _userManager;
 
@@ -28,7 +29,7 @@ namespace bumbo.Controllers
 
         public RegisteredHoursController(IRegisteredHoursRepository registeredHoursRepository, IEmployeeRepository employeeRepository, 
             UserManager<Employee> userManager, ILabourRulesRepository labourRulesRepository, IScheduleRepository scheduleRulesRepository
-            , ISchoolScheduleRepository schoolScheduleRulesRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository)
+            , ISchoolScheduleRepository schoolScheduleRulesRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, IWebHostEnvironment env)
         {
             _registeredHoursRepository = registeredHoursRepository;
             _employeeRepository = employeeRepository;
@@ -39,14 +40,21 @@ namespace bumbo.Controllers
             _branchHasEmployeeRepository = branchHasEmployeeRepository;
 
             _weeksEmployeeOverworkedIn = new List<int>();
+            _env = env;
         }
 
         public IActionResult DownloadFile()
         {
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Views", "PDF", "EmployeesHoursOverview.pdf");
+            // Bouw het pad op in de wwwroot/PDF map
+            string filePath = Path.Combine(_env.WebRootPath, "PDF", "EmployeesHoursOverview.pdf");
+
+            if (!System.IO.File.Exists(filePath))
+                return NotFound("PDF-bestand niet gevonden.");
+
             byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
             string fileName = "EmployeesHoursOverview.pdf";
 
+            // Download bestand als "EmployeesHoursOverview.pdf"
             return File(fileBytes, "application/pdf", fileName);
         }
 
@@ -111,11 +119,16 @@ namespace bumbo.Controllers
             Page page = new Page(PageSize.A4, PageOrientation.Portrait, 54.0f);
             document.Pages.Add(page);
 
+            // <-- Hier komt jouw eigen logic om tekst/content toe te voegen -->
             AddText(page, registeredHours, employees, document, month, year);
 
-            string filePath = Path.Combine(Path.GetTempPath(), "EmployeesHoursOverview.pdf");
+            // Sla de PDF op in wwwroot/PDF in plaats van in de Views-map
+            string filePath = Path.Combine(_env.WebRootPath, "PDF", "EmployeesHoursOverview.pdf");
+
+            // Maak de map aan als deze nog niet bestaat (optioneel)
+            // Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
             document.Draw(filePath);
-            //document.Draw(@"Views/PDF/EmployeesHoursOverview.pdf");
         }
 
         private void AddText(Page page, List<RegisteredHours> registeredHours, List<Employee> employees, Document document, int month, int year)
