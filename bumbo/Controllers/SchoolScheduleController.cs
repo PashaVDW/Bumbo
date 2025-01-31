@@ -85,7 +85,7 @@ namespace bumbo.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddSchoolSchedule()
+        public async Task<IActionResult> AddSchoolSchedule(int weekNumber, int yearNumber)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -93,18 +93,14 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            var today = DateTime.Now;
-            var currentWeek = GetCurrentWeek();
-            var currentYear = today.Year;
-
-            DateTime startDate = FirstDateOfWeek(currentYear, currentWeek);
+            DateTime startDate = FirstDateOfWeek(yearNumber, weekNumber);
 
             var viewModel = new AddSchoolScheduleViewModel
             {
-                StartWeek = currentWeek,
-                StartYear = currentYear,
-                EndWeek = currentWeek,
-                EndYear = currentYear
+                StartWeek = weekNumber,
+                StartYear = yearNumber,
+                EndWeek = weekNumber,
+                EndYear = yearNumber
             };
 
             for (int i = 0; i < 7; i++)
@@ -115,6 +111,46 @@ namespace bumbo.Controllers
                     DayName = currentDate.ToString("dddd", new CultureInfo("nl-NL")),
                     Date = currentDate,
                     DayNumber = i
+                });
+            }
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> UpdateSchoolSchedule(int weekNumber, int yearNumber)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            DateTime startDate = FirstDateOfWeek(yearNumber, weekNumber);
+            DateTime endDate = LastDateOfWeek(yearNumber, weekNumber);
+
+            var viewModel = new AddSchoolScheduleViewModel
+            {
+                StartWeek = weekNumber,
+                StartYear = yearNumber,
+                EndWeek = weekNumber,
+                EndYear = yearNumber
+            };
+
+            List<SchoolSchedule> schoolSchedules = _schoolScheduleRepository.getSchedulesBetweenDates(startDate, endDate, user.Id);
+
+            for (int i = 0; i < 7; i++)
+            {
+                DateTime currentDate = startDate.AddDays(i);
+
+                var schoolSchedule = schoolSchedules.FirstOrDefault(a => a.Date == DateOnly.FromDateTime(currentDate));
+
+                viewModel.Days.Add(new DaySchoolScheduleViewModel
+                {
+                    DayName = currentDate.ToString("dddd", new CultureInfo("nl-NL")),
+                    Date = currentDate,
+                    DayNumber = i,
+                    StartTime = schoolSchedule != null ? schoolSchedule.StartTime : null,
+                    EndTime = schoolSchedule != null ? schoolSchedule.EndTime : null
                 });
             }
 
@@ -209,13 +245,6 @@ namespace bumbo.Controllers
             }
 
             return firstMonday.AddDays(week * 7);
-        }
-
-        private int GetCurrentWeek()
-        {
-            var currentDate = DateTime.Now;
-            var culture = CultureInfo.CurrentCulture;
-            return culture.Calendar.GetWeekOfYear(currentDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
 
         private void SetTempDataForSchoolScheduleToast(string toastId)

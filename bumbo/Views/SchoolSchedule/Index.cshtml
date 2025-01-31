@@ -30,10 +30,20 @@
             </button>
         </form>
 
-        <button onclick="window.location.href='@Url.Action("AddSchoolSchedule", new { weekNumber = Model.Week, yearNumber = Model.Year })';"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap">
-            Schoolrooster toevoegen / overschrijven
-        </button>
+        @if (Model.Edit)
+        {
+            <button onclick="window.location.href='@Url.Action("UpdateSchoolSchedule", new { weekNumber = Model.Week, yearNumber = Model.Year })';"
+                    class="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap">
+                Schoolrooster updaten
+            </button>
+        }
+        else
+        {
+            <button onclick="window.location.href='@Url.Action("AddSchoolSchedule", new { weekNumber = Model.Week, yearNumber = Model.Year })';"
+                    class="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap">
+                Schoolrooster toevoegen
+            </button>
+        }
     </div>
 
     <!-- Navigatie -->
