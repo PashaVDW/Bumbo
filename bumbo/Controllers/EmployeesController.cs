@@ -13,15 +13,17 @@ namespace bumbo.Controllers
         private readonly UserManager<Employee> _userManager;
         private readonly IFunctionRepository _functionRepository;
         private readonly IBranchHasEmployeeRepository _branchHasEmployeeRepository;
+        private readonly IBranchesRepository _branchRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private static Random random = new Random();
 
-        public EmployeesController(UserManager<Employee> userManager, IFunctionRepository functionRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, IEmployeeRepository employeeRepository)
+        public EmployeesController(UserManager<Employee> userManager, IFunctionRepository functionRepository, IBranchHasEmployeeRepository branchHasEmployeeRepository, IEmployeeRepository employeeRepository, IBranchesRepository branchRepository)
         {
             _userManager = userManager;
             _functionRepository = functionRepository;
             _branchHasEmployeeRepository = branchHasEmployeeRepository;
             _employeeRepository = employeeRepository;
+            _branchRepository = branchRepository;
         }
 
         public async Task<IActionResult> Index(string searchTerm, int page = 1, int pageSize = 25)
@@ -33,15 +35,24 @@ namespace bumbo.Controllers
                 return RedirectToAction("AccessDenied", "Home");
             }
 
-            var headers = new List<string> { "Naam", "Achternaam", "Email", "Telefoonnummer", };
+            var headers = new List<string> { "Naam", "Achternaam", "Email", "Telefoonnummer", "Filiaal", };
             var tableBuilder = new TableHtmlBuilder<Employee>();
             var htmlTable = tableBuilder.GenerateTable("Medewerkers", headers, _employeeRepository.GetAllEmployees(), "/medewerkers/aanmaken", item =>
             {
+                string branchName = "Geen filiaal";
+
+                var branchLink = _branchHasEmployeeRepository.GetBranchNameByEmployee(item.Id);
+                if (branchLink != null)
+                {
+                    branchName = _branchRepository.GetBranch(branchLink.BranchId).Name;
+                }
+
                 return $@"
                     <td class='py-2 px-4'>{item.FirstName}</td>
                     <td class='py-2 px-4'>{item.LastName}</td>
                     <td class='py-2 px-4'>{item.Email}</td>
                     <td class='py-2 px-4'>{item.PhoneNumber}</td>
+                    <td class='py-2 px-4'>{branchName}</td>
                     <td class='py-2 px-4 text-right'>
                     <button onclick = ""window.location.href='/medewerkers/bewerken?medewerkerId={item.Id}'"">✏️</button>
   
